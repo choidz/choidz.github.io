@@ -1,5 +1,5 @@
 ---
-title: "React"
+title: "Alrorithm"
 layout: archive
 permalink: categories/algorithm
 author_profile: true
