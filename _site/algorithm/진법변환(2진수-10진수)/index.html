@@ -1,0 +1,840 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Algorithm] 진법변환(2진수 -&gt; 10진수) | choi’s Blog</title>
+<meta name="description" content="크기가 8인 배열 T(8)에 저장된 2진수를 10진수로 변환하여 출력하는 순서도이다. 다음의 을 참조하여 의 괄호 안에 가장 적 합한 항목을  에서 선택하시오.선택하시오.">
+
+
+  <meta name="author" content="choi">
+  
+  <meta property="article:author" content="choi">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="choi's Blog">
+<meta property="og:title" content="[Algorithm] 진법변환(2진수 -&gt; 10진수)">
+<meta property="og:url" content="http://localhost:4000/algorithm/%EC%A7%84%EB%B2%95%EB%B3%80%ED%99%98(2%EC%A7%84%EC%88%98-10%EC%A7%84%EC%88%98)/">
+
+
+  <meta property="og:description" content="크기가 8인 배열 T(8)에 저장된 2진수를 10진수로 변환하여 출력하는 순서도이다. 다음의 을 참조하여 의 괄호 안에 가장 적 합한 항목을  에서 선택하시오.선택하시오.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-10-28T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/algorithm/%EC%A7%84%EB%B2%95%EB%B3%80%ED%99%98(2%EC%A7%84%EC%88%98-10%EC%A7%84%EC%88%98)/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "choi's",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="choi's Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link href="https://fonts.googleapis.com/css?family=Nanum+Serif+KR" rel="stylesheet" type="text/css">
+
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          choi's Blog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://choidz.github.io">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#algorithm" itemprop="item"><span itemprop="name">Algorithm</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">[Algorithm] 진법변환(2진수 -> 10진수)</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">choi</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>We agree to disagree😄</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Republic of Korea, Hwaseong</span>
+        </li>
+      
+
+      
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:tjdgusxx@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="tjdgusxx@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">이메일</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">토글 메뉴</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">CS</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/categories/conversion">Algorithm</a></li>
+          
+            <li><a href="/categories/">정렬</a></li>
+          
+            <li><a href="/categories/array">배열</a></li>
+          
+            <li><a href="/categories/natural">자연수</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">PROGRAMMING</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/categories/JavaScript">JavaScript</a></li>
+          
+            <li><a href="/categories/React">React</a></li>
+          
+            <li><a href="/html/">HTML</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">ETC</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/categories/#git">GIT</a></li>
+          
+            <li><a href="/categories/array">Blog</a></li>
+          
+            <li><a href="/categories/natural">Making GitBlog</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" style="padding-right:0;"   itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Algorithm] 진법변환(2진수 -&gt; 10진수)">
+    <meta itemprop="description" content="크기가 8인 배열 T(8)에 저장된 2진수를 10진수로 변환하여 출력하는 순서도이다.다음의 을 참조하여 의 괄호 안에 가장 적 합한 항목을 에서 선택하시오.선택하시오.">
+    <meta itemprop="datePublished" content="2021-10-28T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/algorithm/%EC%A7%84%EB%B2%95%EB%B3%80%ED%99%98(2%EC%A7%84%EC%88%98-10%EC%A7%84%EC%88%98)/" class="u-url" itemprop="url">[Algorithm] 진법변환(2진수 -&gt; 10진수)
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-10-28T00:00:00+09:00">October 28, 2021</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> MYSELF</h4></header>
+              <ul class="toc__menu"><li><a href="#처리조건">처리조건</a><ul><li><a href="#최상위-비트부호-비트가-1이면-음수">❖최상위 비트(부호 비트)가 1이면 음수</a></li><li><a href="#2진수의-값을-10진수로-변환하는-방법">❖2진수의 값을 10진수로 변환하는 방법</a></li><li><a href="#-2의-보수-구하기-1의-보수--1">❖ 2의 보수 구하기 (1의 보수 + 1)</a></li><li><a href="#-10진수로-변환하기">❖ 10진수로 변환하기</a></li><li><a href="#-원래부호계산">❖ 원래부호계산</a></li></ul></li><li><a href="#코드">코드</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>크기가 8인 배열 T(8)에 저장된 2진수를 10진수로 변환하여 출력하는 순서도이다.
+<br />다음의 <처리조건>을 참조하여 <그림>의 괄호 안에 가장 적 합한 항목을 
+<br /><답항보기>에서 선택하시오.선택하시오.
+<br /></답항보기></그림></처리조건></p>
+
+<h2 id="처리조건">처리조건</h2>
+
+<p><br /></p>
+<ol>
+  <li>8비트 2진수 값의 최상위 비트는 부호 비트이며, 최상위 비트의 값이 0인 경우 양<br />
+수이고 1인 경우 음수이다(단, 음수의 경우 2의 보수로 표현된 값이다).<br /><br /></li>
+  <li>8비트 2진수의 값은 크기가 8인 배열 T에 T(1)부터 T(8)까지 순차적으로 저장되<br />
+어 있다.(즉, T(1)에 부호 비트가 저장되어 있음).<br /><br /></li>
+  <li>배열T의 값의 범위는 10진수 -127 ~ 127에 해당하는 2진수 값이라고 가정.<br /><br /></li>
+  <li>“ABS()”는 절대값을 구하는 함수. 예를 들면 ABS(-5)의 값은 5가 된다.<br /><br /></li>
+  <li>함수“POW(a, b)”는 누승값(a의 b승)을 구하는 함수로 정의되어 있다. 예를 들 면 POW<br />(2, 3)의 값은 2의 3승이 된다. 즉 값 8이 된다(a는 zero가 아니다.).<br /><br /></li>
+  <li>“&amp;”는 마름모내의 조건을 모두 만족하는 경우 YES, 만족하지 않을 경우는 NO로 정의한다.<br /><br /></li>
+  <li>알고리즘에 사용된 변수들은 다음과 같다.<br /></li>
+</ol>
+
+<ul>
+  <li>T(8) : 2진수 데이터 배열</li>
+  <li>S : 진법변환 십진수 저장 변수</li>
+  <li>Sign : 부호 지정 변수</li>
+  <li>H(8) : 보수계산을 위한 데이터 배열</li>
+  <li>K : 각 자리의 자리값</li>
+  <li>B : 자리내림수</li>
+  <li>i : 인덱스 변수</li>
+</ul>
+
+<p><br /><br /></p>
+
+<p><img src="/images/algorithm/binarytodecimal.png" width="600" height="700" /><br /><br /></p>
+
+<p><br /></p>
+
+<h3 id="최상위-비트부호-비트가-1이면-음수">❖최상위 비트(부호 비트)가 1이면 음수</h3>
+<p>◼ 음수는 2의 보수로 표현<br />
+◼ 정확한 값을 알아보기 위해 2의 보수를 다시 취해 <br />
+양의 값을 구한 후 10진수로 변환하고 음의 부호를 붙여주면 된다.<br /><br /></p>
+<h3 id="2진수의-값을-10진수로-변환하는-방법">❖2진수의 값을 10진수로 변환하는 방법</h3>
+<p>◼ 각 자리의 수에 자리값(28-위치)을 곱해 모두 더한다.</p>
+
+<p><br /></p>
+
+<h3 id="-2의-보수-구하기-1의-보수--1">❖ 2의 보수 구하기 (1의 보수 + 1)</h3>
+<p>◼ 1의 보수를 구한 후 1을 더해서 구하게 된다.<br />
+◼ 음수의 경우 보수를 취해 양의값을 만든 후 1을 더하는 것은 <br />
+반대로 1을 뺀 후 보수를 취 하는 것과 동일한 결과를 얻을 수 있다.<br />
+◼ T(i)=0 &amp; B=1<br />
+◼ 참(0-1의경우):앞단에서 자리 내림 발생<br /></p>
+
+<p>◼ T(1)이 1이면 -10 1110110 자리내림으로 <br />
+<strong>1 : H(i)= T(i)-B</strong><br />
+◼ 앞단에서도 1을 빼주도록 B에 1을 대입<br />
+◼ 거짓(1-1의경우):더 뺄 필요가 없음<br />
+◼ B에 0을 대입<br />
+◼ 뺄셈 결과가 음수일 수 있어 절대값을 취한다 <br />
+<strong>2 : H(i)=ABS(H(i))</strong><br />
+◼ 각 자리마다 1에서 빼줘야되므로<br />
+<strong>3 : T(i)=1-H(i)</strong><br /><br /></p>
+<h3 id="-10진수로-변환하기">❖ 10진수로 변환하기</h3>
+<p>◼ 2진수의 각 자리에 자리값을 곱한 결과를 차례로 누적<br />
+<strong>4 : K = T(i)*POW(2,8-i)</strong> <br /></p>
+
+<h3 id="-원래부호계산">❖ 원래부호계산</h3>
+<p>◼ Sign값을 곱해 원래 부호를 붙여 완성된 결과를 출력 
+<br /><strong>5 : S=S*Sign</strong></p>
+
+<h2 id="코드">코드</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt; 
+#include &lt;math.h&gt;
+
+void main(){
+int T[8], H[8]; int S=0, K=0; int Sign, B, i;
+
+/* 2진수 데이터를 비트 단위로 읽는다 */ 
+for (i=0; i&lt;8; i++)
+scanf("%d", &amp;T[i]);
+
+if (T[0]!=0) { /* 음수라면 */
+  Sign=-1;
+  B=1; /* 뺄 값 */
+
+/* 원래 데이터에서 B(1)을 뺀다 */ 
+for (i=7; i&gt;=0; i--) {
+
+  H[i]=T[i]-B;
+  if (T[i]==0 &amp;&amp; B==1) /* 0-1인 경우 */
+    B=1; /* 위단에서 빌려오게 된다 */ 
+  else
+    B=0; /* 위단에서 빌려오지 않는다 */
+    H[i]=abs(H[i]); /* 절대값 */ 
+  }
+
+/* 1의 보수 : 각 자리마다 1에서 빼준다 */ 
+  for (i=0; i&lt;8; i++)
+    T[i]=1-H[i]; 
+  }else 
+  Sign=1;
+
+/* 10진수로 변환 : 자리값을 곱해 누적 */ 
+for (i=7; i&gt;=0; i--) {
+  K=T[i]*pow(2, 7-i); 
+  S=S+K;
+}
+S=S*Sign; /* 원래 데이터의 부호 고려 */
+printf("%d\n", S);
+
+}
+
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#10%EC%A7%84%EC%88%98" class="page__taxonomy-item p-category" rel="tag">10진수</a><span class="sep">, </span>
+    
+      <a href="/tags/#2%EC%A7%84%EC%88%98" class="page__taxonomy-item p-category" rel="tag">2진수</a><span class="sep">, </span>
+    
+      <a href="/tags/#flowchart" class="page__taxonomy-item p-category" rel="tag">flowchart</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EC%88%9C%EC%84%9C%EB%8F%84" class="page__taxonomy-item p-category" rel="tag">순서도</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EC%A7%84%EB%B2%95%EB%B3%80%ED%99%98" class="page__taxonomy-item p-category" rel="tag">진법변환</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time class="dt-published" datetime="2021-10-28T00:00:00+09:00">October 28, 2021</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BAlgorithm%5D+%EC%A7%84%EB%B2%95%EB%B3%80%ED%99%98%282%EC%A7%84%EC%88%98+-%3E+10%EC%A7%84%EC%88%98%29%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2F%25EC%25A7%2584%25EB%25B2%2595%25EB%25B3%2580%25ED%2599%2598%282%25EC%25A7%2584%25EC%2588%2598-10%25EC%25A7%2584%25EC%2588%2598%29%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2F%25EC%25A7%2584%25EB%25B2%2595%25EB%25B3%2580%25ED%2599%2598%282%25EC%25A7%2584%25EC%2588%2598-10%25EC%25A7%2584%25EC%2588%2598%29%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2F%25EC%25A7%2584%25EB%25B2%2595%25EB%25B3%2580%25ED%2599%2598%282%25EC%25A7%2584%25EC%2588%2598-10%25EC%25A7%2584%25EC%2588%2598%29%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/algorithm/%ED%94%BC%EB%B3%B4%EB%82%98%EC%B9%98-%EC%88%98%EC%97%B4%EC%9D%98-%ED%95%A9(2)/" class="pagination--pager" title="[Algorithm] 피보나치 수열의 합(2)
+">이전</a>
+    
+    
+      <a href="/algorithm/%EB%B0%B0%EC%88%98%EA%B5%AC%ED%95%98%EA%B8%B0/" class="pagination--pager" title="[Algorithm] 배수구하기
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">참고</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-4/" rel="permalink">[React] 리액트 기초 배우기 #4 props
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-16T00:00:00+09:00">January 16, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-3/" rel="permalink">[React] 리액트 기초 배우기 #3 JSX
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-2/" rel="permalink">[React] 리액트 기초 배우기 #2 첫번째 컴포넌트
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-1/" rel="permalink">[React] 리액트 기초 배우기 #1 Hello React! 리액트 프로젝트 생성과 빌드
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서  작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 choi's. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/algorithm/%EC%A7%84%EB%B2%95%EB%B3%80%ED%99%98(2%EC%A7%84%EC%88%98-10%EC%A7%84%EC%88%98)/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/algorithm/진법변환(2진수->10진수)"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://choidz-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

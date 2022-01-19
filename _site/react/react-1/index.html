@@ -1,0 +1,805 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[React] 리액트 기초 배우기 #1 Hello React! 리액트 프로젝트 생성과 빌드 | choi’s Blog</title>
+<meta name="description" content="💡 해당 글은 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서  작성한 글입니다.  💡 원문 : https://ko.reactjs.org/docs/getting-started.html">
+
+
+  <meta name="author" content="choi">
+  
+  <meta property="article:author" content="choi">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="choi's Blog">
+<meta property="og:title" content="[React] 리액트 기초 배우기 #1 Hello React! 리액트 프로젝트 생성과 빌드">
+<meta property="og:url" content="http://localhost:4000/react/react-1/">
+
+
+  <meta property="og:description" content="💡 해당 글은 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서  작성한 글입니다.  💡 원문 : https://ko.reactjs.org/docs/getting-started.html">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-14T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/react/react-1/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "choi's",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="choi's Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link href="https://fonts.googleapis.com/css?family=Nanum+Serif+KR" rel="stylesheet" type="text/css">
+
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          choi's Blog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://choidz.github.io">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#react" itemprop="item"><span itemprop="name">React</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">[React] 리액트 기초 배우기 #1 Hello React! 리액트 프로젝트 생성과 빌드</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">choi</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>We agree to disagree😄</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Republic of Korea, Hwaseong</span>
+        </li>
+      
+
+      
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:tjdgusxx@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="tjdgusxx@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">이메일</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">토글 메뉴</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title">CS</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/categories/conversion">Algorithm</a></li>
+          
+            <li><a href="/categories/">정렬</a></li>
+          
+            <li><a href="/categories/array">배열</a></li>
+          
+            <li><a href="/categories/natural">자연수</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">PROGRAMMING</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/categories/JavaScript">JavaScript</a></li>
+          
+            <li><a href="/categories/React">React</a></li>
+          
+            <li><a href="/html/">HTML</a></li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">ETC</span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/categories/#git">GIT</a></li>
+          
+            <li><a href="/categories/array">Blog</a></li>
+          
+            <li><a href="/categories/natural">Making GitBlog</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <article class="page h-entry" style="padding-right:0;"   itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[React] 리액트 기초 배우기 #1 Hello React! 리액트 프로젝트 생성과 빌드">
+    <meta itemprop="description" content="  💡 해당 글은 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서  작성한 글입니다. 💡 원문 : https://ko.reactjs.org/docs/getting-started.html ">
+    <meta itemprop="datePublished" content="2022-01-14T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/react/react-1/" class="u-url" itemprop="url">[React] 리액트 기초 배우기 #1 Hello React! 리액트 프로젝트 생성과 빌드
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> MYSELF</h4></header>
+              <ul class="toc__menu"><li><a href="#create-react-app">create-react-app</a></li><li><a href="#실행화면">실행화면</a></li><li><a href="#srcappjs-코드">src/App.js 코드</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <blockquote>
+  <p>💡 해당 글은 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서  작성한 글입니다. <br />
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br /></p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="create-react-app">create-react-app</h2>
+
+<p><br />
+리액트 프로젝트를 만들기 위해선 creact-react-app을 이용합니다.
+<br /></p>
+
+<div class="language-react highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">npx</span> <span class="nx">create</span><span class="o">-</span><span class="nx">react</span><span class="o">-</span><span class="nx">app</span> <span class="nx">프로젝트이름</span>
+</code></pre></div></div>
+<p>저는 프로젝트이름을 react-tutorial으로 생성하였습니다.</p>
+
+<p><br /></p>
+
+<div class="language-react highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">cd</span> <span class="nx">react</span><span class="o">-</span><span class="nx">tutorial</span>
+<span class="nx">npm</span> <span class="nx">start</span>
+</code></pre></div></div>
+
+<p>해당 폴더로 접근한 뒤 npm start로 실행할 수 있습니다.
+<br />
+명령어로 실행시키면 브라우저를 통해 자동으로 react가 로드됩니다.
+<br /></p>
+
+<blockquote>
+  <p>💡 npx 명령어로 프로젝트를 생성했으면 에디터를 통해 폴더를 불러올 수 있습니다. <br />
+💡 저는 Visual Studio Code를 사용중이며 해당 에디터 터미널에서 <br />npm start 명령어로 똑같이 실행시킬 수 있습니다.</p>
+</blockquote>
+
+<h2 id="실행화면">실행화면</h2>
+
+<p><img src="/images/react/react1_2.png" style="width:960px; height:565px;" /></p>
+
+<p><br />
+<br /></p>
+
+<h2 id="srcappjs-코드">src/App.js 코드</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nx">logo</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./logo.svg</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">./App.css</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">App</span><span class="dl">"</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">header</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">App-header</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">logo</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">App-logo</span><span class="dl">"</span> <span class="nx">alt</span><span class="o">=</span><span class="dl">"</span><span class="s2">logo</span><span class="dl">"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+          <span class="nx">Edit</span> <span class="o">&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">src</span><span class="o">/</span><span class="nx">App</span><span class="p">.</span><span class="nx">js</span><span class="o">&lt;</span><span class="sr">/code&gt; and save to reload</span><span class="err">.
+</span>        <span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">a</span>
+          <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">App-link</span><span class="dl">"</span>
+          <span class="nx">href</span><span class="o">=</span><span class="dl">"</span><span class="s2">https://reactjs.org</span><span class="dl">"</span>
+          <span class="nx">target</span><span class="o">=</span><span class="dl">"</span><span class="s2">_blank</span><span class="dl">"</span>
+          <span class="nx">rel</span><span class="o">=</span><span class="dl">"</span><span class="s2">noopener noreferrer</span><span class="dl">"</span>
+        <span class="o">&gt;</span>
+          <span class="nx">Learn</span> <span class="nx">React</span>
+        <span class="o">&lt;</span><span class="sr">/a</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/header</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">&lt;p&gt;</code> 태그 안에 있는 내용을 Hello! React!!로 변경해보겠습니다
+<br /></p>
+
+<p><img src="/images/react/react1_1.png" style="width:960px; height:565px;" /></p>
+
+<p><br />
+파일내용을 변경 후 저장을 하게되면 자동으로 웹페이지가 로드됩니다.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#jsx" class="page__taxonomy-item p-category" rel="tag">JSX</a><span class="sep">, </span>
+    
+      <a href="/tags/#react" class="page__taxonomy-item p-category" rel="tag">react</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EB%A6%AC%EC%95%A1%ED%8A%B8" class="page__taxonomy-item p-category" rel="tag">리액트</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EA%B0%95%EC%9D%98" class="page__taxonomy-item p-category" rel="tag">리액트 강의</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EA%B8%B0%EC%B4%88" class="page__taxonomy-item p-category" rel="tag">리액트 기초</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0" class="page__taxonomy-item p-category" rel="tag">리액트 만들기</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%83%9D%EC%84%B1" class="page__taxonomy-item p-category" rel="tag">리액트 생성</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#react" class="page__taxonomy-item p-category" rel="tag">React</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time class="dt-published" datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BReact%5D+%EB%A6%AC%EC%95%A1%ED%8A%B8+%EA%B8%B0%EC%B4%88+%EB%B0%B0%EC%9A%B0%EA%B8%B0+%231+Hello+React%21+%EB%A6%AC%EC%95%A1%ED%8A%B8+%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8+%EC%83%9D%EC%84%B1%EA%B3%BC+%EB%B9%8C%EB%93%9C%20http%3A%2F%2Flocalhost%3A4000%2Freact%2Freact-1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Freact%2Freact-1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Freact%2Freact-1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/algorithm/10%EC%A7%84%EC%88%98-2%EC%A7%84%EC%88%98-%EB%B3%80%ED%99%98/" class="pagination--pager" title="[Algorithm] 진수변환 (10진수-&gt;2진수)
+">이전</a>
+    
+    
+      <a href="/react/react-2/" class="pagination--pager" title="[React] 리액트 기초 배우기 #2 첫번째 컴포넌트
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">참고</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-4/" rel="permalink">[React] 리액트 기초 배우기 #4 props
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-16T00:00:00+09:00">January 16, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-3/" rel="permalink">[React] 리액트 기초 배우기 #3 JSX
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-2/" rel="permalink">[React] 리액트 기초 배우기 #2 첫번째 컴포넌트
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/10%EC%A7%84%EC%88%98-2%EC%A7%84%EC%88%98-%EB%B3%80%ED%99%98/" rel="permalink">[Algorithm] 진수변환 (10진수-&gt;2진수)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-12-21T00:00:00+09:00">December 21, 2021</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">다음 순서도는 0에서 999 사이의 임의의 10진 정수를 입 력받아 2진수로 변환하는알고리즘이다. 제시된 을 참조하여 의 괄호 안 내용에 가장 적합한 항목을 에서 선택하시오.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 choi's. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/react/react-1/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/react/react #1"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://choidz-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,37 @@
+# main links
+main:
+  - title: "Home"
+    url: https://choidz.github.io
+  - title: "Categories"
+    url: /categories/
+  
+
+docs:
+  - title: CS
+    children:
+      - title: "Algorithm"
+        url: /categories/conversion
+      - title: "정렬"
+        url: /categories/
+      - title: "배열"
+        url: /categories/array
+      - title: "자연수"
+        url: /categories/natural  
+
+  - title: PROGRAMMING
+    children:
+      - title: "JavaScript"
+        url: /categories/JavaScript
+      - title: "React"
+        url: /categories/React
+      - title: "HTML"
+        url: /html/
+
+  - title: ETC
+    children:
+      - title: "GIT"
+        url: /categories/#git
+      - title: "Blog"
+        url: /categories/array
+      - title: "Making GitBlog"
+        url: /categories/natural  
