@@ -23,6 +23,7 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+
             <ul>
                 <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/html 주소의 글로 링크 연결-->
                 <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
@@ -32,6 +33,7 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "javascript" %}
@@ -39,6 +41,7 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+
         <span class="nav__sub-title">CS</span>
             <ul>
                 {% for category in site.categories %}
@@ -47,11 +50,20 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+
             <span class="nav__sub-title">ETC</span>
             <ul>
                 {% for category in site.categories %}
                     {% if category[0] == "git" %}
                         <li><a href="/categories/git" class="">GIT ({{category[1].size}})</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            <ul>
+                {% for category in site.categories %}
+                    {% if category[0] == "blog" %}
+                        <li><a href="/categories/blog" class="">BLOG ({{category[1].size}})</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>
