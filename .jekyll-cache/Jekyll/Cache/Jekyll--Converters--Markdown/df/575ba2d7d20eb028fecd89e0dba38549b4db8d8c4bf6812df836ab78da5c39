@@ -1,0 +1,64 @@
+I"7<p>제시된 <그림>은 서로 다른 두 자연수 A, B를 입력하였을 때
+<br /> A와 B 사이 자연수들의 합계를 구하는 알고리즘이다. 
+<br />
+제시된 <처리조건>을 고려하여 아래 순서도의 괄호 안 내용에
+<br />
+가장 적합한 번호를 <답항보기>에서 선택하시오.
+<br />
+<br /></답항보기></처리조건></그림></p>
+
+<h2 id="처리조건">처리조건</h2>
+
+<p><br /></p>
+<ol>
+  <li>입력되는 두 자연수의 경우 동일한 값은 입력되지 않는다.</li>
+  <li>합계는 작은 수에서 큰 수로 1씩 증가 시키며 구한다.</li>
+  <li>알고리즘에 사용된 변수는 아래와 같다.
+    <ul>
+      <li>A, B : 정수입력 변수</li>
+      <li>N : 반복처리 변수</li>
+      <li>SUM : 합계 변수</li>
+    </ul>
+  </li>
+</ol>
+
+<p><br /><br /></p>
+
+<p><img src="/images/algorithm/sum1.png" width="600" height="700" /><br /><br /></p>
+
+<p><br />
+SUM을 0으로 초기화<br /></p>
+
+<p><strong>1 : SUM=0</strong></p>
+
+<p>A와 B를 비교했을때 <br />
+<strong>4 : A:B</strong><br /></p>
+
+<p>A가 B보다 큰 경우<br />
+◼ N을 B에서 A까지 1씩 증가시키며 반복<br />
+◼ SUM에 N을 누적 <br /></p>
+
+<p><strong>2 : N=B,A,1</strong> <br />
+<strong>5 : SUM=SUM+N</strong></p>
+
+<p>❖B가 A보다 큰 경우<br />
+◼ N을 A에서 B까지 1씩 증가시키며 반복 <br />
+◼ SUM에 N을 누적</p>
+
+<p><strong>3 : N=A,B,1</strong> <br />
+<strong>6 : SUM=SUM+N</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt; void main(){
+int A,B,N;
+int SUM;
+SUM=0; /* 누적 합계변수의 초기화 */
+scanf("%d %d", &amp;A, &amp;B); /* 자료의 입력 */
+    if (A&gt;B) { /* A가 B보다 크면 */
+        for (N=B; N&lt;=A; N++) /* B부터 A까지 반복 */
+            SUM=SUM+N; /* 누적 */ 
+    }else { /* B가 A보다 크면 */
+        for (N=A; N&lt;=B; N++) /* A부터 B까지 반복 */
+            SUM=SUM+N; /* 누적 */ 
+    }printf("%d\n", SUM); /* 누적된 결과 출력 */ }
+</code></pre></div></div>
+:ET

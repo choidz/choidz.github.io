@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>[React] 리액트 기초 배우기 #4 props  | choi’s Blog</title>
-<meta name="description" content="💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다.  💡 원문 : https://ko.reactjs.org/docs/getting-started.html  💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html">
+<meta name="description" content="props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)   여러개의 props는 비구조화 할당으로 간결하게 작성   defaultProps 로 기본값 설정가능   컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children">
 
 
   <meta name="author" content="choi">
@@ -26,7 +26,7 @@
 <meta property="og:url" content="http://localhost:4000/react/react-4/">
 
 
-  <meta property="og:description" content="💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다.  💡 원문 : https://ko.reactjs.org/docs/getting-started.html  💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html">
+  <meta property="og:description" content="props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)   여러개의 props는 비구조화 할당으로 간결하게 작성   defaultProps 로 기본값 설정가능   컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children">
 
 
 
@@ -284,89 +284,122 @@
   </div>
 </div>
   
-    
-      
-      
-      
-      
-    
-    
-      
+
+  
+  <!--전체 글 수를 세기 위한 연산. sum 변수에 전체 글 수 저장-->
+
+
 
 <nav class="nav__list">
-  
   <input id="ac-toc" name="accordion-toc" type="checkbox" />
   <label for="ac-toc">토글 메뉴</label>
-  <ul class="nav__items">
-    
+  <ul class="nav__items" id="category_tag_menu">
+      <!--전체 글 수-->
       <li>
-        
-          <span class="nav__sub-title">CS</span>
-        
-
-        
-        <ul>
-          
-            <li><a href="/categories/conversion">Algorithm</a></li>
-          
-            <li><a href="/categories/">정렬</a></li>
-          
-            <li><a href="/categories/array">배열</a></li>
-          
-            <li><a href="/categories/natural">자연수</a></li>
-          
-        </ul>
-        
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">25</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
       </li>
-    
       <li>
-        
-          <span class="nav__sub-title">PROGRAMMING</span>
-        
+        <!--span 태그로 카테고리들을 크게 분류 ex) PROGRAMMING-->
+        <span class="nav__sub-title">PROGRAMMING</span>
+            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/react 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/react" class="">React (8)</a></li>
+                    
+                
+            </ul>
 
-        
-        <ul>
-          
-            <li><a href="/categories/JavaScript">JavaScript</a></li>
-          
-            <li><a href="/categories/React">React</a></li>
-          
-            <li><a href="/html/">HTML</a></li>
-          
-        </ul>
-        
-      </li>
-    
-      <li>
-        
-          <span class="nav__sub-title">ETC</span>
-        
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/html 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                
+                    
+                
+                    
+                        <li><a href="/categories/html" class="">HTML (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
 
-        
-        <ul>
-          
-            <li><a href="/categories/#git">GIT</a></li>
-          
-            <li><a href="/categories/array">Blog</a></li>
-          
-            <li><a href="/categories/natural">Making GitBlog</a></li>
-          
-        </ul>
-        
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 (14)</a></li>
+                    
+                
+                    
+                
+            </ul>
+
+            <span class="nav__sub-title">ETC</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/git" class="">GIT (1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
       </li>
-    
   </ul>
 </nav>
 
-    
-  
+
+
   </div>
 
 
 
   <article class="page h-entry" style="padding-right:0;"   itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="[React] 리액트 기초 배우기 #4 props">
-    <meta itemprop="description" content="  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 💡 원문 : https://ko.reactjs.org/docs/getting-started.html 💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html">
+    <meta itemprop="description" content="  props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)  여러개의 props는 비구조화 할당으로 간결하게 작성  defaultProps 로 기본값 설정가능  컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children">
     <meta itemprop="datePublished" content="2022-01-16T00:00:00+09:00">
     
 
@@ -403,18 +436,37 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> MYSELF</h4></header>
-              <ul class="toc__menu"><li><a href="#props의-사용">props의 사용</a><ul><li><a href="#appjs">App.js</a></li><li><a href="#hellojs">Hello.js</a></li></ul></li><li><a href="#여러개의-props-비구조화-할당">여러개의 props, 비구조화 할당</a><ul><li><a href="#appjs-1">App.js</a></li><li><a href="#hellojs---color값-전달">Hello.js - color값 전달</a></li><li><a href="#hellojs---비구조화-할당">Hello.js - 비구조화 할당</a></li></ul></li><li><a href="#defaultprops-로-기본값-설정">defaultProps 로 기본값 설정</a><ul><li><a href="#hellojs-1">Hello.js</a></li><li><a href="#appjs-2">App.js</a></li></ul></li><li><a href="#propschildren">props.children</a><ul><li><a href="#wrapprjs---새로운-컴포넌트">Wrappr.js - 새로운 컴포넌트</a></li><li><a href="#appjs---wrapper컴포넌트-사용">App.js - Wrapper컴포넌트 사용</a></li><li><a href="#wrapperjs---propschildren">Wrapper.js - props.children</a></li></ul></li><li><a href="#fragments">Fragments</a><ul><li><a href="#fragments---예시1-유효">Fragments - 예시1 유효</a></li><li><a href="#fragments---예시2-유효하지않음">Fragments - 예시2 유효하지않음</a></li><li><a href="#fragments-사용법">Fragments 사용법</a></li><li><a href="#단축-문법">단축 문법</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#props는-읽기-전용이다">props는 읽기 전용이다.</a></li><li><a href="#props의-사용">props의 사용</a><ul><li><a href="#appjs">App.js</a></li><li><a href="#hellojs">Hello.js</a></li></ul></li><li><a href="#여러개의-props-비구조화-할당">여러개의 props, 비구조화 할당</a><ul><li><a href="#appjs-1">App.js</a></li><li><a href="#hellojs---color값-전달">Hello.js - color값 전달</a></li><li><a href="#hellojs---비구조화-할당">Hello.js - 비구조화 할당</a></li></ul></li><li><a href="#defaultprops-로-기본값-설정">defaultProps 로 기본값 설정</a><ul><li><a href="#hellojs-1">Hello.js</a></li><li><a href="#appjs-2">App.js</a></li></ul></li><li><a href="#propschildren">props.children</a><ul><li><a href="#wrapprjs---새로운-컴포넌트">Wrappr.js - 새로운 컴포넌트</a></li><li><a href="#appjs---wrapper컴포넌트-사용">App.js - Wrapper컴포넌트 사용</a></li><li><a href="#wrapperjs---propschildren">Wrapper.js - props.children</a></li></ul></li><li><a href="#fragments">Fragments</a><ul><li><a href="#fragments---예시1-유효">Fragments - 예시1 유효</a></li><li><a href="#fragments---예시2-유효하지않음">Fragments - 예시2 유효하지않음</a></li><li><a href="#fragments-사용법">Fragments 사용법</a></li><li><a href="#단축-문법">단축 문법</a></li></ul></li></ul>
 
             </nav>
           </aside>
         
-        <blockquote>
-  <p>💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. <br />
-💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br />
-💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html</p>
-</blockquote>
+        <ul>
+  <li>props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)</li>
+  <li>여러개의 props는 비구조화 할당으로 간결하게 작성</li>
+  <li>defaultProps 로 기본값 설정가능</li>
+  <li>컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children</li>
+</ul>
 
 <p><br /></p>
+
+<h2 id="props는-읽기-전용이다">props는 읽기 전용이다.</h2>
+
+<p>함수 컴포넌트나 클래스 컴포넌트 모두 컴포넌트의 자체 props를 수정하면 안됩니다, 예를들면<br /></p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>같은 경우에는 순수함수라고 호칭합니다. 입력값을 바꾸려 하지 않고 항상 동일한 입력값에 대해 동일한 결과를 반환하기 때문입니다.</p>
+
+<p>반면에 다음 함수는 자신의 입력값을 변경하기 때문에 순수 함수가 아닙니다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">withdraw</span><span class="p">(</span><span class="nx">account</span><span class="p">,</span> <span class="nx">amount</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">account</span><span class="p">.</span><span class="nx">total</span> <span class="o">-=</span> <span class="nx">amount</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>React는 매우 유연하지만 한 가지 엄격한 규칙이 있습니다.</p>
+
+<p><strong>모든 React 컴포넌트는 자신의 props를 다룰 때 반드시 순수 함수처럼 동작해야 합니다.</strong></p>
 
 <h2 id="props의-사용">props의 사용</h2>
 
@@ -484,7 +536,7 @@
 
 <span class="kd">function</span> <span class="nx">Hello</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> 
-  <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=&gt;</span>
+  <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span> <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="nx">props</span><span class="p">.</span><span class="nx">color</span><span class="p">}</span> <span class="p">}</span><span class="o">&gt;</span>
   <span class="nx">여기는</span> <span class="nx">Hello</span><span class="p">.</span><span class="nx">js</span> 
   <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span> 
   <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span>
@@ -651,7 +703,6 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
   <li>props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)</li>
   <li>여러개의 props는 비구조화 할당으로 간결하게 작성</li>
   <li>defaultProps 로 기본값 설정가능</li>
-  <li>props.children</li>
   <li>컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children</li>
 </ul>
 
@@ -724,8 +775,10 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
 <p>단축문법은 마치 빈 태그와 같습니다.</p>
 
 <blockquote>
-  <p>💡 이 글은 react공식홈페이지에 기재된 내용을 일부 수정하여 작성하였습니다.
-💡 https://ko.reactjs.org/docs/fragments.html#short-syntax</p>
+  <p>💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. <br />
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br />
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html
+💡 fragments : https://ko.reactjs.org/docs/fragments.html#short-syntax</p>
 </blockquote>
 
 <p>오늘 내용들이 어려운 내용이기도 하나 아직 한참 남았다는 것..!</p>
@@ -748,7 +801,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
     
       <a href="/tags/#componets" class="page__taxonomy-item p-category" rel="tag">componets</a><span class="sep">, </span>
     
-      <a href="/tags/#framents" class="page__taxonomy-item p-category" rel="tag">framents</a><span class="sep">, </span>
+      <a href="/tags/#fragments" class="page__taxonomy-item p-category" rel="tag">fragments</a><span class="sep">, </span>
     
       <a href="/tags/#properties" class="page__taxonomy-item p-category" rel="tag">properties</a><span class="sep">, </span>
     
@@ -773,7 +826,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#react" class="page__taxonomy-item p-category" rel="tag">React</a>
+      <a href="/categories/#react" class="page__taxonomy-item p-category" rel="tag">react</a>
     
     </span>
   </p>
@@ -805,7 +858,8 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/react/react-5/" class="pagination--pager" title="[React] 리액트 기초 배우기 #5 조건부 렌더링
+">다음</a>
     
   </nav>
 
@@ -829,7 +883,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/react/react-3/" rel="permalink">[React] 리액트 기초 배우기 #3 JSX
+        <a href="/react/react-8/" rel="permalink">[React] 리액트 기초 배우기 #8 State와 생명주기를 이용하여 시계 만들기
 </a>
       
     </h2>
@@ -841,7 +895,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+        <time datetime="2022-01-25T00:00:00+09:00">January 25, 2022</time>
       </span>
     
 
@@ -851,10 +905,8 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">
-  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
-💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
-💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+    <p class="archive__item-excerpt" itemprop="description">이번 8장에서는 React의 State와 생명 주기의 응용으로 1초 단위로 숫자가 바뀌는 시계를 만들겠습니다.
+</p>
   </article>
 </div>
 
@@ -868,7 +920,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/react/react-2/" rel="permalink">[React] 리액트 기초 배우기 #2 첫번째 컴포넌트
+        <a href="/react/react-7/" rel="permalink">[React] 리액트 기초 배우기 #7 생명주기
 </a>
       
     </h2>
@@ -880,7 +932,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+        <time datetime="2022-01-23T00:00:00+09:00">January 23, 2022</time>
       </span>
     
 
@@ -890,10 +942,9 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">
-  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
-💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
-💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+    <p class="archive__item-excerpt" itemprop="description">React의 생명 주기에 대해서 알아보겠습니다. 
+React 컴포넌트는 생명 주기가 있습니다. 생애 주기 또는 라이프사이클(Life cycle)이라고도 많이 표현합니다. 컴포넌트가 실행되거나 업데이트되거나 제거될 때, 특정한 이벤트들이 발생합니다.
+</p>
   </article>
 </div>
 
@@ -907,7 +958,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/react/react-1/" rel="permalink">[React] 리액트 기초 배우기 #1 Hello React! 리액트 프로젝트 생성과 빌드
+        <a href="/react/react-6/" rel="permalink">[React] 리액트 기초 배우기 #6 state
 </a>
       
     </h2>
@@ -919,7 +970,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
+        <time datetime="2022-01-21T00:00:00+09:00">January 21, 2022</time>
       </span>
     
 
@@ -929,9 +980,8 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">
-  💡 해당 글은 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서  작성한 글입니다. 
-💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+    <p class="archive__item-excerpt" itemprop="description">state는 어떤 컴포넌트에만 한정하여 사용되는 데이터를 포함하며, 해당 데이터는 시간이 지남에 따라 변경될 수 있습니다.
+state는 사용자가 자유롭게 정의할 수 있으며, 일반적인 자바스크립트 객체이어야 합니다.
 
 </p>
   </article>
@@ -947,7 +997,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/algorithm/10%EC%A7%84%EC%88%98-2%EC%A7%84%EC%88%98-%EB%B3%80%ED%99%98/" rel="permalink">[Algorithm] 진수변환 (10진수-&gt;2진수)
+        <a href="/react/react-5/" rel="permalink">[React] 리액트 기초 배우기 #5 조건부 렌더링
 </a>
       
     </h2>
@@ -959,7 +1009,7 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2021-12-21T00:00:00+09:00">December 21, 2021</time>
+        <time datetime="2022-01-17T00:00:00+09:00">January 17, 2022</time>
       </span>
     
 
@@ -969,8 +1019,10 @@ props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">다음 순서도는 0에서 999 사이의 임의의 10진 정수를 입 력받아 2진수로 변환하는알고리즘이다. 제시된 을 참조하여 의 괄호 안 내용에 가장 적합한 항목을 에서 선택하시오.
-</p>
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 벨로퍼트님 블로그와 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
   </article>
 </div>
 

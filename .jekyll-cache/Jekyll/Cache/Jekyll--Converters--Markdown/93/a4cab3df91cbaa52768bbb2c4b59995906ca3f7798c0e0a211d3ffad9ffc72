@@ -1,0 +1,7 @@
+I"_<ul>
+  <li>props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)</li>
+  <li>여러개의 props는 비구조화 할당으로 간결하게 작성</li>
+  <li>defaultProps 로 기본값 설정가능</li>
+  <li>컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children</li>
+</ul>
+:ET

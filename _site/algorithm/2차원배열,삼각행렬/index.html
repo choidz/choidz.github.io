@@ -360,6 +360,115 @@
 
     
   
+
+  
+  <!--전체 글 수를 세기 위한 연산. sum 변수에 전체 글 수 저장-->
+
+
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">토글 메뉴</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <!--전체 글 수-->
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">25</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <!--span 태그로 카테고리들을 크게 분류 ex) PROGRAMMING-->
+        <span class="nav__sub-title">PROGRAMMING</span>
+            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/react 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/react" class="">React (8)</a></li>
+                    
+                
+            </ul>
+
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/html 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                
+                    
+                
+                    
+                        <li><a href="/categories/html" class="">HTML (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 (14)</a></li>
+                    
+                
+                    
+                
+            </ul>
+
+            <span class="nav__sub-title">ETC</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/git" class="">GIT (1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+      </li>
+  </ul>
+</nav>
+
+
+
   </div>
 
 
@@ -514,7 +623,7 @@ void main()
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a>
+      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">algorithm</a>
     
     </span>
   </p>
@@ -571,7 +680,7 @@ void main()
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/react/react-4/" rel="permalink">[React] 리액트 기초 배우기 #4 props
+        <a href="/react/react-8/" rel="permalink">[React] 리액트 기초 배우기 #8 State와 생명주기를 이용하여 시계 만들기
 </a>
       
     </h2>
@@ -583,7 +692,7 @@ void main()
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-16T00:00:00+09:00">January 16, 2022</time>
+        <time datetime="2022-01-25T00:00:00+09:00">January 25, 2022</time>
       </span>
     
 
@@ -593,10 +702,8 @@ void main()
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">
-  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
-💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
-💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+    <p class="archive__item-excerpt" itemprop="description">이번 8장에서는 React의 State와 생명 주기의 응용으로 1초 단위로 숫자가 바뀌는 시계를 만들겠습니다.
+</p>
   </article>
 </div>
 
@@ -610,7 +717,7 @@ void main()
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/react/react-3/" rel="permalink">[React] 리액트 기초 배우기 #3 JSX
+        <a href="/react/react-7/" rel="permalink">[React] 리액트 기초 배우기 #7 생명주기
 </a>
       
     </h2>
@@ -622,7 +729,7 @@ void main()
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+        <time datetime="2022-01-23T00:00:00+09:00">January 23, 2022</time>
       </span>
     
 
@@ -632,10 +739,9 @@ void main()
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">
-  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
-💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
-💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
+    <p class="archive__item-excerpt" itemprop="description">React의 생명 주기에 대해서 알아보겠습니다. 
+React 컴포넌트는 생명 주기가 있습니다. 생애 주기 또는 라이프사이클(Life cycle)이라고도 많이 표현합니다. 컴포넌트가 실행되거나 업데이트되거나 제거될 때, 특정한 이벤트들이 발생합니다.
+</p>
   </article>
 </div>
 
@@ -649,7 +755,7 @@ void main()
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/react/react-2/" rel="permalink">[React] 리액트 기초 배우기 #2 첫번째 컴포넌트
+        <a href="/react/react-6/" rel="permalink">[React] 리액트 기초 배우기 #6 state
 </a>
       
     </h2>
@@ -661,7 +767,7 @@ void main()
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-01-15T00:00:00+09:00">January 15, 2022</time>
+        <time datetime="2022-01-21T00:00:00+09:00">January 21, 2022</time>
       </span>
     
 
@@ -671,50 +777,49 @@ void main()
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">
-  💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
-💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
-💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/react/react-1/" rel="permalink">[React] 리액트 기초 배우기 #1 Hello React! 리액트 프로젝트 생성과 빌드
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2022-01-14T00:00:00+09:00">January 14, 2022</time>
-      </span>
-    
-
-    
-
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">
-  💡 해당 글은 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서  작성한 글입니다. 
-💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+    <p class="archive__item-excerpt" itemprop="description">state는 어떤 컴포넌트에만 한정하여 사용되는 데이터를 포함하며, 해당 데이터는 시간이 지남에 따라 변경될 수 있습니다.
+state는 사용자가 자유롭게 정의할 수 있으며, 일반적인 자바스크립트 객체이어야 합니다.
 
 </p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-5/" rel="permalink">[React] 리액트 기초 배우기 #5 조건부 렌더링
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-17T00:00:00+09:00">January 17, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  💡 해당 글은 벨로퍼트님 블로그와 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html 
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt...</p>
   </article>
 </div>
 

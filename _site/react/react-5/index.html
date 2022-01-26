@@ -1,0 +1,944 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[React] 리액트 기초 배우기 #5 조건부 렌더링  | choi’s Blog</title>
+<meta name="description" content="💡 해당 글은 벨로퍼트님 블로그와 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다.  💡 원문 : https://ko.reactjs.org/docs/getting-started.html  💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html">
+
+
+  <meta name="author" content="choi">
+  
+  <meta property="article:author" content="choi">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="choi's Blog">
+<meta property="og:title" content="[React] 리액트 기초 배우기 #5 조건부 렌더링">
+<meta property="og:url" content="http://localhost:4000/react/react-5/">
+
+
+  <meta property="og:description" content="💡 해당 글은 벨로퍼트님 블로그와 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다.  💡 원문 : https://ko.reactjs.org/docs/getting-started.html  💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-17T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/react/react-5/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "choi's",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="choi's Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link href="https://fonts.googleapis.com/css?family=Nanum+Serif+KR" rel="stylesheet" type="text/css">
+
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          choi's Blog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://choidz.github.io">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#react" itemprop="item"><span itemprop="name">React</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">[React] 리액트 기초 배우기 #5 조건부 렌더링 </li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">choi</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>We agree to disagree😄</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Republic of Korea, Hwaseong</span>
+        </li>
+      
+
+      
+        
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:tjdgusxx@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="tjdgusxx@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">이메일</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+
+  
+  <!--전체 글 수를 세기 위한 연산. sum 변수에 전체 글 수 저장-->
+
+
+
+<nav class="nav__list">
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">토글 메뉴</label>
+  <ul class="nav__items" id="category_tag_menu">
+      <!--전체 글 수-->
+      <li>
+            📂 <span style="font-family:'Cafe24Oneprettynight';">전체 글 수</style> <span style="font-family:'Coming Soon';">25</style> <span style="font-family:'Cafe24Oneprettynight';">개</style> 
+      </li>
+      <li>
+        <!--span 태그로 카테고리들을 크게 분류 ex) PROGRAMMING-->
+        <span class="nav__sub-title">PROGRAMMING</span>
+            <!--ul 태그로 같은 카테고리들 모아둔 페이지들 나열-->
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/react 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/react" class="">React (8)</a></li>
+                    
+                
+            </ul>
+
+            <ul>
+                <!--Cpp 카테고리 글들을 모아둔 페이지인 /categories/html 주소의 글로 링크 연결-->
+                <!--category[1].size 로 해당 카테고리를 가진 글의 개수 표시--> 
+                
+                    
+                
+                    
+                        <li><a href="/categories/html" class="">HTML (2)</a></li>
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+        <span class="nav__sub-title">CS</span>
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                        <li><a href="/categories/algorithm" class="">알고리즘 (14)</a></li>
+                    
+                
+                    
+                
+            </ul>
+
+            <span class="nav__sub-title">ETC</span>
+            <ul>
+                
+                    
+                        <li><a href="/categories/git" class="">GIT (1)</a></li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+
+            <ul>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+      </li>
+  </ul>
+</nav>
+
+
+
+  </div>
+
+
+
+  <article class="page h-entry" style="padding-right:0;"   itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[React] 리액트 기초 배우기 #5 조건부 렌더링">
+    <meta itemprop="description" content="  💡 해당 글은 벨로퍼트님 블로그와 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. 💡 원문 : https://ko.reactjs.org/docs/getting-started.html 💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html">
+    <meta itemprop="datePublished" content="2022-01-17T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/react/react-5/" class="u-url" itemprop="url">[React] 리액트 기초 배우기 #5 조건부 렌더링
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-17T00:00:00+09:00">January 17, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> MYSELF</h4></header>
+              <ul class="toc__menu"><li><a href="#조건부-렌더링">조건부 렌더링</a><ul><li><a href="#appjs">App.js</a></li></ul></li><li><a href="#props의-값-설정을-생략하면-true">props의 값 설정을 생략하면 ={true}</a><ul><li><a href="#appjs---function-app부터">App.js - function App()부터</a></li></ul></li><li><a href="#인라인-구문으로-처리하기jsx-활용">인라인 구문으로 처리하기(JSX 활용)</a><ul><li><a href="#appjs-1">App.js</a></li><li><a href="#appjs---연산자">App.js - &amp;&amp;연산자</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <blockquote>
+  <p>💡 해당 글은 벨로퍼트님 블로그와 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. <br />
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br />
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html</p>
+</blockquote>
+
+<p><br /></p>
+
+<h1 id="조건부-렌더링">조건부 렌더링</h1>
+
+<p>우선 렌더링이란, HTML,CSS,Javascript 등 개발자가 작성한 문서가 브라우저에서 출력되는 과정을 말합니다.</p>
+
+<p>렌더링에 관한 자세한 내용은 추후 포스팅을 하도록 하겠습니다. 
+<br />
+개발자가 사이트를 제작할 때 어떠한 조건에 따라 다른 화면,컴포넌트를 보이게 제작해야할 때가 있습니다. 예를 들면 로그인, 회원가입 버튼입니다.
+로그인을 하지 않은 상태라면 회원가입 버튼과 로그인 버튼이<br />
+로그인을 한 상태라면 로그아웃 버튼이 렌더링 되어야 한다는 것입니다.</p>
+
+<p>자! 그러면 리액트에서는 조건부 렌더링을 어떻게 하는지 알아봅시다!<br />
+App.js에 함수 <code class="language-plaintext highlighter-rouge">로그인</code>, <code class="language-plaintext highlighter-rouge">로그아웃</code> 그리고 조건에 따라 리턴하는 버튼을 다르게 하는 함수까지 생성합니다.</p>
+
+<h2 id="appjs">App.js</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Wrapper</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Wrapper</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">./App.css</span><span class="dl">'</span><span class="p">;</span> 
+
+<span class="kd">function</span> <span class="nx">LoginBtn</span><span class="p">()</span> <span class="p">{</span>
+ 
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">LogBtn</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="nx">로그인</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">LogoutBtn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">LogBtn</span><span class="dl">"</span><span class="o">&gt;</span>
+          <span class="nx">로그아웃</span>
+      <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">LogBtn</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">Logbtn</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">LogoutBtn</span><span class="o">/&gt;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">LoginBtn</span><span class="o">/&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>
+    <span class="o">&lt;</span><span class="nx">LogBtn</span> <span class="nx">Logbtn</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span><span class="o">&gt;&lt;</span><span class="sr">/LogBtn</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>         
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>전체적인 코드의 모습입니다.
+<br />
+<br /></p>
+
+<p><img src="/images/react/react5_1.png" style="width:400px; height:360px;" /><br />
+현재 결과화면처럼 조건에 대한 값을 false를 두었기 때문에 로그인버튼이 렌더링 된것을 볼 수 있습니다.
+<br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>로그인 버튼은 너무 밋밋해보여서 크기랑 색을 지정 한거뿐입니다 ㅎㅎ
+</code></pre></div></div>
+
+<h1 id="props의-값-설정을-생략하면-true">props의 값 설정을 생략하면 ={true}</h1>
+
+<p>컴포넌트의 props 값을 설정하게 될 때 만약 props 이름만 작성하고 값 설정을 생략한다면, 이를 true 로 설정한 것으로 간주합니다.</p>
+
+<p>예를 들자면,</p>
+
+<h2 id="appjs---function-app부터">App.js - function App()부터</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;&gt;</span>
+    
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>
+    <span class="o">&lt;</span><span class="nx">LogBtn</span> <span class="nx">Logbtn</span><span class="o">&gt;&lt;</span><span class="sr">/LogBtn</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>         
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><img src="/images/react/react5_2.png" style="width:400px; height:360px;" /><br /></p>
+
+<p>이처럼 값(프로퍼티)을 설정해 주지않고 <code class="language-plaintext highlighter-rouge">LogBtn</code> 만 넣어준다면 <code class="language-plaintext highlighter-rouge">LogBtn={true}</code>와 같은 의미입니다.
+<br />
+<br />
+<br /></p>
+
+<h1 id="인라인-구문으로-처리하기jsx-활용">인라인 구문으로 처리하기(JSX 활용)</h1>
+
+<p>위의 방법도 있지만, 짧고 간단하게 JSX로 인라인로 처리할 수 있습니다.<br />
+JSX안에서 중괄호를 사용하면 논리연산자 표현식을 사용할 수 있습니다.<br />
+<code class="language-plaintext highlighter-rouge">조건 ? true : false</code> 인 삼항연산자를 이용하면 조건부 렌더링을 할 수 있습니다.</p>
+
+<h2 id="appjs-1">App.js</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Wrapper</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Wrapper</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">./App.css</span><span class="dl">'</span><span class="p">;</span> 
+
+<span class="kd">function</span> <span class="nx">LoginBtn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">LogBtn</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="nx">로그인</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">LogoutBtn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">LogBtn</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="nx">로그아웃</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">LogBtn</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>   <span class="p">{</span> <span class="nx">LogBtn</span> <span class="p">?</span> <span class="o">&lt;</span><span class="nx">LoginBtn</span><span class="o">/&gt;</span> <span class="p">:</span> <span class="o">&lt;</span><span class="nx">LogoutBtn</span><span class="o">/&gt;</span> <span class="p">}</span> 
+    <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+<p>LogBtn을 변수로 만들어도돼고 아까처럼 함수로 만들어도 결과는 같지만<br /></p>
+
+<p>삼항연산자를 썼을 경우에는 <code class="language-plaintext highlighter-rouge">true</code> 와 <code class="language-plaintext highlighter-rouge">false</code>의 위치가 정해져있기 때문에<br /></p>
+
+<p>변수에 값을 지정해주는 것이 짧고 간단한 코딩을 할 수 있습니다. <br /></p>
+
+<p>따라서 <code class="language-plaintext highlighter-rouge">LogBtn</code>이 <code class="language-plaintext highlighter-rouge">true</code>로 되어있기에 로그인버튼이 렌더링된걸 볼 수 있습니다.<br /><br /></p>
+
+<p>보통 삼항연산자를 사용한 조건부 렌더링을 주로 특정 조건에 따라 보여줘야 하는 내용이 다를 때 사용합니다.</p>
+
+<p>지금은 내용이 달라지는게 아니라, 단순히 특정 조건이 true 이면 보여주고, 그렇지 않다면 숨겨주고 있는데요, 이러한 상황에서는 &amp;&amp; 연산자를 사용해서 처리하는 것이 더 간편합니다.</p>
+
+<h2 id="appjs---연산자">App.js - &amp;&amp;연산자</h2>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">LogBtn</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>   <span class="p">{</span> <span class="nx">LogBtn</span> <span class="o">&amp;&amp;</span> <span class="o">&lt;</span><span class="nx">LogoutBtn</span><span class="o">/&gt;</span> <span class="p">}</span> 
+    <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">LogBtn &amp;&amp; &lt;LogoutBtn/&gt;</code>의 결과는 <code class="language-plaintext highlighter-rouge">LogBtn</code>이 <code class="language-plaintext highlighter-rouge">true</code>일땐 <code class="language-plaintext highlighter-rouge">true</code>이므로  <code class="language-plaintext highlighter-rouge">LogoutBtn</code>이 <br /> 렌더링 되며 <code class="language-plaintext highlighter-rouge">false</code>면 반대로 <code class="language-plaintext highlighter-rouge">LoginBtn</code>이 렌더링됩니다.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#componets" class="page__taxonomy-item p-category" rel="tag">componets</a><span class="sep">, </span>
+    
+      <a href="/tags/#react" class="page__taxonomy-item p-category" rel="tag">react</a><span class="sep">, </span>
+    
+      <a href="/tags/#react-props" class="page__taxonomy-item p-category" rel="tag">react props</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EB%A0%8C%EB%8D%94%EB%A7%81" class="page__taxonomy-item p-category" rel="tag">렌더링</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%A0%8C%EB%8D%94%EB%A7%81" class="page__taxonomy-item p-category" rel="tag">리액트 렌더링</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EC%A1%B0%EA%B1%B4%EB%B6%80-%EB%A0%8C%EB%8D%94%EB%A7%81" class="page__taxonomy-item p-category" rel="tag">조건부 렌더링</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#react" class="page__taxonomy-item p-category" rel="tag">react</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time class="dt-published" datetime="2022-01-17T00:00:00+09:00">January 17, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BReact%5D+%EB%A6%AC%EC%95%A1%ED%8A%B8+%EA%B8%B0%EC%B4%88+%EB%B0%B0%EC%9A%B0%EA%B8%B0+%235+%EC%A1%B0%EA%B1%B4%EB%B6%80+%EB%A0%8C%EB%8D%94%EB%A7%81+%20http%3A%2F%2Flocalhost%3A4000%2Freact%2Freact-5%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Freact%2Freact-5%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Freact%2Freact-5%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/react/react-4/" class="pagination--pager" title="[React] 리액트 기초 배우기 #4 props
+">이전</a>
+    
+    
+      <a href="/react/react-6/" class="pagination--pager" title="[React] 리액트 기초 배우기 #6 state
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">참고</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-8/" rel="permalink">[React] 리액트 기초 배우기 #8 State와 생명주기를 이용하여 시계 만들기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-25T00:00:00+09:00">January 25, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">이번 8장에서는 React의 State와 생명 주기의 응용으로 1초 단위로 숫자가 바뀌는 시계를 만들겠습니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-7/" rel="permalink">[React] 리액트 기초 배우기 #7 생명주기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-23T00:00:00+09:00">January 23, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">React의 생명 주기에 대해서 알아보겠습니다. 
+React 컴포넌트는 생명 주기가 있습니다. 생애 주기 또는 라이프사이클(Life cycle)이라고도 많이 표현합니다. 컴포넌트가 실행되거나 업데이트되거나 제거될 때, 특정한 이벤트들이 발생합니다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-6/" rel="permalink">[React] 리액트 기초 배우기 #6 state
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-21T00:00:00+09:00">January 21, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">state는 어떤 컴포넌트에만 한정하여 사용되는 데이터를 포함하며, 해당 데이터는 시간이 지남에 따라 변경될 수 있습니다.
+state는 사용자가 자유롭게 정의할 수 있으며, 일반적인 자바스크립트 객체이어야 합니다.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/react/react-4/" rel="permalink">[React] 리액트 기초 배우기 #4 props
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-16T00:00:00+09:00">January 16, 2022</time>
+      </span>
+    
+
+    
+
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)
+  여러개의 props는 비구조화 할당으로 간결하게 작성
+  defaultProps 로 기본값 설정가능
+  컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.child...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 choi's. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/react/react-5/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/react/react #5"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://choidz-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

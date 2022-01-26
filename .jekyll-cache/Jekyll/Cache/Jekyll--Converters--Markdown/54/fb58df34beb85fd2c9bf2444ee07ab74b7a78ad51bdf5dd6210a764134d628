@@ -1,0 +1,343 @@
+I"�f<ul>
+  <li>props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)</li>
+  <li>여러개의 props는 비구조화 할당으로 간결하게 작성</li>
+  <li>defaultProps 로 기본값 설정가능</li>
+  <li>컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="props는-읽기-전용이다">props는 읽기 전용이다.</h2>
+
+<p>함수 컴포넌트나 클래스 컴포넌트 모두 컴포넌트의 자체 props를 수정하면 안됩니다, 예를들면<br /></p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>같은 경우에는 순수함수라고 호칭합니다. 입력값을 바꾸려 하지 않고 항상 동일한 입력값에 대해 동일한 결과를 반환하기 때문입니다.</p>
+
+<p>반면에 다음 함수는 자신의 입력값을 변경하기 때문에 순수 함수가 아닙니다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">withdraw</span><span class="p">(</span><span class="nx">account</span><span class="p">,</span> <span class="nx">amount</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">account</span><span class="p">.</span><span class="nx">total</span> <span class="o">-=</span> <span class="nx">amount</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>React는 매우 유연하지만 한 가지 엄격한 규칙이 있습니다.</p>
+
+<p><strong>모든 React 컴포넌트는 자신의 props를 다룰 때 반드시 순수 함수처럼 동작해야 합니다.</strong></p>
+
+<h2 id="props의-사용">props의 사용</h2>
+
+<p>예를 들어서, App 컴포넌트에서 Hello 컴포넌트를 사용 할 때 name 이라는 값을 전달해주고 싶다고 가정해봅시다.<br /> 그러면, 이렇게 코드를 작성하면 됩니다.
+ <br />
+<br />
+<br /></p>
+
+<h3 id="appjs">App.js</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">여기는 App.js</span><span class="dl">"</span> <span class="o">/&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+<p>이제, Hello 컴포넌트에서 name 값을 사용 하고 싶을 땐 어떻게 하면 되는지 알아볼까요?
+<br />
+<br />
+<br /></p>
+
+<h3 id="hellojs">Hello.js</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Hello</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">여기는</span> <span class="nx">Hello</span><span class="p">.</span><span class="nx">js</span> <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span> <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
+</span><span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Hello</span><span class="p">;</span>
+</code></pre></div></div>
+<p>이렇게 props를 인자로 주고, props.name으로 작성합니다.
+<br />
+<br />
+<br /></p>
+
+<h2 id="여러개의-props-비구조화-할당">여러개의 props, 비구조화 할당</h2>
+
+<p>Hello 컴포넌트에 또 다른 props 를 전달해봅시다. color 라는 값을 설정해보세요.</p>
+
+<h3 id="appjs-1">App.js</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">여기는 App.js</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+<p><br />
+그 다음에는, Hello 컴포넌트에서 color 값을 조회해서 폰트의 색상으로 설정을 해보겠습니다.
+<br /></p>
+
+<h3 id="hellojs---color값-전달">Hello.js - color값 전달</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Hello</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> 
+  <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span> <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="nx">props</span><span class="p">.</span><span class="nx">color</span><span class="p">}</span> <span class="p">}</span><span class="o">&gt;</span>
+  <span class="nx">여기는</span> <span class="nx">Hello</span><span class="p">.</span><span class="nx">js</span> 
+  <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span> 
+  <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span>
+  <span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
+</span><span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Hello</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<p>props 내부의 값을 조회 할 때마다 props. 를 입력하고 있는데요, 함수의 파라미터에서 비구조화 할당 (혹은 구조 분해라고도 불립니다) 문법을 사용하면 조금 더 코드를 간결하게 작성 할 수 있습니다.
+<br />
+<br />
+<br /></p>
+
+<h3 id="hellojs---비구조화-할당">Hello.js - 비구조화 할당</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Hello</span><span class="p">({</span> <span class="nx">color</span><span class="p">,</span> <span class="nx">name</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=&gt;</span><span class="nx">여기는</span> <span class="nx">Hello</span><span class="p">.</span><span class="nx">js</span> <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
+</span><span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Hello</span><span class="p">;</span>
+</code></pre></div></div>
+<p><br />
+<img src="/images/react/react4_1.png" style="width:500px; height:300px;" />
+<br />
+<br /></p>
+
+<h2 id="defaultprops-로-기본값-설정">defaultProps 로 기본값 설정</h2>
+
+<p>컴포넌트에 props 를 지정하지 않았을 때 기본적으로 사용 할 값을 설정하고 싶다면 컴포넌트에 defaultProps 라는 값을 설정하면 됩니다.</p>
+
+<p><br />
+<br />
+<br /></p>
+
+<h3 id="hellojs-1">Hello.js</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+  <span class="o">&lt;&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">여기는 App.js</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>여기서 빈 태그는 Fragments라는 것입니다. (Fragments는 밑에서 설명하겠습니다)
+<br />
+<br /></p>
+
+<h3 id="appjs-2">App.js</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+  <span class="o">&lt;&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">여기는 App.js</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+<p><img src="/images/react/react4_2.png" style="width:500px; height:300px;" /></p>
+
+<p><br />
+<br />
+<br /></p>
+
+<h2 id="propschildren">props.children</h2>
+
+<p>컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children 을 조회하면 됩니다.<br />
+이번에, props.children 을 사용하는 새로운 컴포넌트를 만들어보겠습니다.<br />
+Wrapper.js 를 src 디렉터리에 만들어보세요.
+<br />
+<br />
+<br /></p>
+
+<h3 id="wrapprjs---새로운-컴포넌트">Wrappr.js - 새로운 컴포넌트</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Wrapper</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">border</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2px solid black</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">padding</span><span class="p">:</span> <span class="dl">'</span><span class="s1">16px</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">width</span><span class="p">:</span> <span class="dl">'</span><span class="s1">300px</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">};</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">style</span><span class="p">}</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Wrapper</span><span class="p">;</span>
+</code></pre></div></div>
+<p>지금 작성한 Wrapper컴포넌트를 App.js에 사용합니다.
+<br />
+<br />
+<br /></p>
+
+<h3 id="appjs---wrapper컴포넌트-사용">App.js - Wrapper컴포넌트 사용</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Wrapper</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Wrapper</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+<p>이렇게 Wrapper 태그 내부에 Hello 컴포넌트 두개를 넣었는데요, 브라우저를 확인하면 다음과 같이 Hello 컴포넌트들은 보여지지 않을 것입니다.</p>
+
+<p>내부의 내용이 보여지게 하기 위해서는 Wrapper 에서 props.children 을 렌더링해주어야 합니다.</p>
+
+<h3 id="wrapperjs---propschildren">Wrapper.js - props.children</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">Wrapper</span><span class="p">({</span><span class="nx">children</span><span class="p">})</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">border</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2px solid black</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">padding</span><span class="p">:</span> <span class="dl">'</span><span class="s1">16px</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">width</span><span class="p">:</span> <span class="dl">'</span><span class="s1">300px</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">};</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">style</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="nx">children</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Wrapper</span><span class="p">;</span>
+</code></pre></div></div>
+<p><img src="/images/react/react4_3.png" style="width:500px; height:390px;" />
+<br />
+<br />
+<br />
+props의 기본사용법과 응용하여 사용하는 것에 대해 알아봤습니다. 요약하자면<br /><br /></p>
+
+<p>쓰이는 곳(App.js)에서 값을 정한다 = props(부모)<br />
+쓰임 당하는 곳(Hello.js나 Wrapper.js)에서 값을 정한다 = children
+<br />
+<br /></p>
+
+<ul>
+  <li>props 는 properties 의 줄임말 (어떠한 값을 컴포넌트에게 전달해줘야 할 때 사용)</li>
+  <li>여러개의 props는 비구조화 할당으로 간결하게 작성</li>
+  <li>defaultProps 로 기본값 설정가능</li>
+  <li>컴포넌트 태그 사이에 넣은 값을 조회하고 싶을 땐, props.children</li>
+</ul>
+
+<p><br />
+<br /></p>
+
+<p>이제 위에서 나왔던 빈 태그 Fragments에 알아보겠습니다.</p>
+
+<h2 id="fragments">Fragments</h2>
+
+<h3 id="fragments---예시1-유효">Fragments - 예시1 유효</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Table</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">table</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">Columns</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="sr">/tr</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/table</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>이렇게 <code class="language-plaintext highlighter-rouge">table</code>태그를 사용했을 때는 렌더링 된 HTML이 유효합니다.<br />
+하지만 <code class="language-plaintext highlighter-rouge">render()</code> 안에 <code class="language-plaintext highlighter-rouge">table</code>태그 대신 <code class="language-plaintext highlighter-rouge">div</code>로 자식들을 감싼다면 유효하지않습니다.
+<br />
+<br /></p>
+
+<h3 id="fragments---예시2-유효하지않음">Fragments - 예시2 유효하지않음</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Columns</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">World</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Fragments는 이러한 문제들을 해결해줍니다.
+<br /><br /></p>
+
+<h3 id="fragments-사용법">Fragments 사용법</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Columns</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">React</span><span class="p">.</span><span class="nx">Fragment</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">World</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/React.Fragment</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="단축-문법">단축 문법</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Columns</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;&gt;</span>
+        <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">World</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>단축문법은 마치 빈 태그와 같습니다.</p>
+
+<blockquote>
+  <p>💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. <br />
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br />
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html
+💡 fragments : https://ko.reactjs.org/docs/fragments.html#short-syntax</p>
+</blockquote>
+
+<p>오늘 내용들이 어려운 내용이기도 하나 아직 한참 남았다는 것..!</p>
+
+:ET

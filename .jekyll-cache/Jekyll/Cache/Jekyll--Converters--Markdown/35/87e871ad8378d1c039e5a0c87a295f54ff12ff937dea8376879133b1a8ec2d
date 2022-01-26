@@ -1,0 +1,187 @@
+I">><blockquote>
+  <p>💡 해당 글은 벨로퍼트님 블로그와 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. <br />
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br />
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html</p>
+</blockquote>
+
+<p><br /></p>
+
+<h1 id="조건부-렌더링">조건부 렌더링</h1>
+
+<p>우선 렌더링이란, HTML,CSS,Javascript 등 개발자가 작성한 문서가 브라우저에서 출력되는 과정을 말합니다.</p>
+
+<p>렌더링에 관한 자세한 내용은 추후 포스팅을 하도록 하겠습니다. 
+<br />
+개발자가 사이트를 제작할 때 어떠한 조건에 따라 다른 화면,컴포넌트를 보이게 제작해야할 때가 있습니다. 예를 들면 로그인, 회원가입 버튼입니다.
+로그인을 하지 않은 상태라면 회원가입 버튼과 로그인 버튼이<br />
+로그인을 한 상태라면 로그아웃 버튼이 렌더링 되어야 한다는 것입니다.</p>
+
+<p>자! 그러면 리액트에서는 조건부 렌더링을 어떻게 하는지 알아봅시다!<br />
+App.js에 함수 <code class="language-plaintext highlighter-rouge">로그인</code>, <code class="language-plaintext highlighter-rouge">로그아웃</code> 그리고 조건에 따라 리턴하는 버튼을 다르게 하는 함수까지 생성합니다.</p>
+
+<h2 id="appjs">App.js</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Wrapper</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Wrapper</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">./App.css</span><span class="dl">'</span><span class="p">;</span> 
+
+<span class="kd">function</span> <span class="nx">LoginBtn</span><span class="p">()</span> <span class="p">{</span>
+ 
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">LogBtn</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="nx">로그인</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">LogoutBtn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">LogBtn</span><span class="dl">"</span><span class="o">&gt;</span>
+          <span class="nx">로그아웃</span>
+      <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">LogBtn</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">Logbtn</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">LogoutBtn</span><span class="o">/&gt;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">LoginBtn</span><span class="o">/&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>
+    <span class="o">&lt;</span><span class="nx">LogBtn</span> <span class="nx">Logbtn</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span><span class="o">&gt;&lt;</span><span class="sr">/LogBtn</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>         
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>전체적인 코드의 모습입니다.
+<br />
+<br /></p>
+
+<p><img src="/images/react/react5_1.png" style="width:400px; height:360px;" /><br />
+현재 결과화면처럼 조건에 대한 값을 false를 두었기 때문에 로그인버튼이 렌더링 된것을 볼 수 있습니다.
+<br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>로그인 버튼은 너무 밋밋해보여서 크기랑 색을 지정 한거뿐입니다 ㅎㅎ
+</code></pre></div></div>
+
+<h1 id="props의-값-설정을-생략하면-true">props의 값 설정을 생략하면 ={true}</h1>
+
+<p>컴포넌트의 props 값을 설정하게 될 때 만약 props 이름만 작성하고 값 설정을 생략한다면, 이를 true 로 설정한 것으로 간주합니다.</p>
+
+<p>예를 들자면,</p>
+
+<h2 id="appjs---function-app부터">App.js - function App()부터</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;&gt;</span>
+    
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>
+    <span class="o">&lt;</span><span class="nx">LogBtn</span> <span class="nx">Logbtn</span><span class="o">&gt;&lt;</span><span class="sr">/LogBtn</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>         
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><img src="/images/react/react5_2.png" style="width:400px; height:360px;" /><br /></p>
+
+<p>이처럼 값(프로퍼티)을 설정해 주지않고 <code class="language-plaintext highlighter-rouge">LogBtn</code> 만 넣어준다면 <code class="language-plaintext highlighter-rouge">LogBtn={true}</code>와 같은 의미입니다.
+<br />
+<br />
+<br /></p>
+
+<h1 id="인라인-구문으로-처리하기jsx-활용">인라인 구문으로 처리하기(JSX 활용)</h1>
+
+<p>위의 방법도 있지만, 짧고 간단하게 JSX로 인라인로 처리할 수 있습니다.<br />
+JSX안에서 중괄호를 사용하면 논리연산자 표현식을 사용할 수 있습니다.<br />
+<code class="language-plaintext highlighter-rouge">조건 ? true : false</code> 인 삼항연산자를 이용하면 조건부 렌더링을 할 수 있습니다.</p>
+
+<h2 id="appjs-1">App.js</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Wrapper</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Wrapper</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">./App.css</span><span class="dl">'</span><span class="p">;</span> 
+
+<span class="kd">function</span> <span class="nx">LoginBtn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">LogBtn</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="nx">로그인</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">LogoutBtn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">LogBtn</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="nx">로그아웃</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">LogBtn</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>   <span class="p">{</span> <span class="nx">LogBtn</span> <span class="p">?</span> <span class="o">&lt;</span><span class="nx">LoginBtn</span><span class="o">/&gt;</span> <span class="p">:</span> <span class="o">&lt;</span><span class="nx">LogoutBtn</span><span class="o">/&gt;</span> <span class="p">}</span> 
+    <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+<p>LogBtn을 변수로 만들어도돼고 아까처럼 함수로 만들어도 결과는 같지만<br /></p>
+
+<p>삼항연산자를 썼을 경우에는 <code class="language-plaintext highlighter-rouge">true</code> 와 <code class="language-plaintext highlighter-rouge">false</code>의 위치가 정해져있기 때문에<br /></p>
+
+<p>변수에 값을 지정해주는 것이 짧고 간단한 코딩을 할 수 있습니다. <br /></p>
+
+<p>따라서 <code class="language-plaintext highlighter-rouge">LogBtn</code>이 <code class="language-plaintext highlighter-rouge">true</code>로 되어있기에 로그인버튼이 렌더링된걸 볼 수 있습니다.<br /><br /></p>
+
+<p>보통 삼항연산자를 사용한 조건부 렌더링을 주로 특정 조건에 따라 보여줘야 하는 내용이 다를 때 사용합니다.</p>
+
+<p>지금은 내용이 달라지는게 아니라, 단순히 특정 조건이 true 이면 보여주고, 그렇지 않다면 숨겨주고 있는데요, 이러한 상황에서는 &amp;&amp; 연산자를 사용해서 처리하는 것이 더 간편합니다.</p>
+
+<h2 id="appjs---연산자">App.js - &amp;&amp;연산자</h2>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">LogBtn</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Wrapper</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">name</span><span class="o">=</span><span class="dl">"</span><span class="s2">react</span><span class="dl">"</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="nx">color</span><span class="o">=</span><span class="dl">"</span><span class="s2">pink</span><span class="dl">"</span><span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/Wrapper</span><span class="err">&gt;
+</span>   <span class="p">{</span> <span class="nx">LogBtn</span> <span class="o">&amp;&amp;</span> <span class="o">&lt;</span><span class="nx">LogoutBtn</span><span class="o">/&gt;</span> <span class="p">}</span> 
+    <span class="o">&lt;</span><span class="sr">/</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">LogBtn &amp;&amp; &lt;LogoutBtn/&gt;</code>의 결과는 <code class="language-plaintext highlighter-rouge">LogBtn</code>이 <code class="language-plaintext highlighter-rouge">true</code>일땐 <code class="language-plaintext highlighter-rouge">true</code>이므로  <code class="language-plaintext highlighter-rouge">LogoutBtn</code>이 <br /> 렌더링 되며 <code class="language-plaintext highlighter-rouge">false</code>면 반대로 <code class="language-plaintext highlighter-rouge">LoginBtn</code>이 렌더링됩니다.</p>
+
+:ET

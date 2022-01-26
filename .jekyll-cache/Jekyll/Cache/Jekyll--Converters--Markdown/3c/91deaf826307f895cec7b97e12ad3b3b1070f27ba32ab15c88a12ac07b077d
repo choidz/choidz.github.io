@@ -1,0 +1,167 @@
+I"�6<p>저번 react #2 컴포넌트 마지막 부분에 이어서 JSX문법을 더 익혀보도록 하겠습니다.<br />
+JSX 내부에 자바스크립트 변수를 보여줘야 할 때에는 {} 으로 감싸서 보여줍니다.<br /></p>
+
+<p><br /></p>
+
+<h2 id="jsx-안에-자바스크립트-값-사용하기">JSX 안에 자바스크립트 값 사용하기</h2>
+
+<h3 id="appjs">App.js</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">This is JSX</span><span class="dl">'</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Hello</span> <span class="o">/&gt;</span>
+      <span class="p">{</span><span class="nx">element</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="style-과-classname">style 과 className</h2>
+
+<p>JSX 에서 태그에 style 과 CSS class 를 설정하는 방법은 HTML 에서 설정하는 방법과 다릅니다.<br /></p>
+
+<p>우선, 인라인 스타일은 객체 형태로 작성을 해야 하며, background-color 처럼 - 로 구분되어 있는 이름들은<br /> backgroundColor 처럼 camelCase 형태로 네이밍 해주어야 합니다.<br /></p>
+
+<h3 id="appjs-1">App.js</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">This is JSX</span><span class="dl">'</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">backgroundColor</span><span class="p">:</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">aqua</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">fontSize</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="c1">// 기본 단위 px</span>
+    <span class="na">padding</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1rem</span><span class="dl">'</span> <span class="c1">// 다른 단위 사용 시 문자열로 설정</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Hello</span> <span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">style</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p><img src="/images/react/react3_1.png" style="width:398px; height:237px;" /></p>
+
+<p><br /><br /></p>
+
+<p>그리고, CSS class 를 설정 할 때에는 class= 가 아닌 className= 으로 설정을 해주어야 합니다. <br />한번, App.css 파일을 열어서 전체 내용을 지운 뒤 다음과 같이 수정해주세요.
+<br />
+<br /></p>
+
+<h3 id="appcss">App.css</h3>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.gray-box</span> <span class="p">{</span>
+  <span class="nl">background</span><span class="p">:</span> <span class="no">gray</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">64px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="m">64px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>그 다음, App.js 를 다음과 같이 수정해보세요.
+<br />
+<br /></p>
+
+<h3 id="appjs---classname">App.js - className</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">./App.css</span><span class="dl">'</span><span class="p">;</span> <span class="c1">//추가</span>
+
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">This is JSX</span><span class="dl">'</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">backgroundColor</span><span class="p">:</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">aqua</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">fontSize</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="c1">// 기본 단위 px</span>
+    <span class="na">padding</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1rem</span><span class="dl">'</span> <span class="c1">// 다른 단위 사용 시 문자열로 설정</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Hello</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">style</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="p">{</span><span class="cm">/* 추가 */</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">gray-box</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="jsx의-응용">JSX의 응용</h2>
+
+<p>JSX는 표현식이기 때문에 if나 for문 안에서 사용될 수도 있습니다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">Hello</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Hello</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">./App.css</span><span class="dl">'</span><span class="p">;</span> <span class="c1">//추가</span>
+
+
+<span class="c1">//추가</span>
+<span class="kd">function</span> <span class="nx">hi</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">name</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">dd</span><span class="dl">'</span><span class="p">){</span>
+    <span class="k">return</span> <span class="dl">"</span><span class="s2">Hello! </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">"</span><span class="s2">Who are you?</span><span class="dl">"</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">This is JSX</span><span class="dl">'</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">backgroundColor</span><span class="p">:</span> <span class="dl">'</span><span class="s1">black</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">aqua</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">fontSize</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="c1">// 기본 단위 px</span>
+    <span class="na">padding</span><span class="p">:</span> <span class="dl">'</span><span class="s1">1rem</span><span class="dl">'</span> <span class="c1">// 다른 단위 사용 시 문자열로 설정</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Hello</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">style</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">gray-box</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="p">{</span><span class="cm">/* 추가 */</span> <span class="p">}</span>
+        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span> 
+          <span class="p">{</span><span class="nx">hi</span><span class="p">(</span><span class="dl">'</span><span class="s1">Choi</span><span class="dl">'</span><span class="p">)}</span>
+        <span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
+</span>      
+    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<p>위 코드처럼 hi함수에 if와 for문을 추가해 보았습니다.</p>
+
+<p><img src="/images/react/react3_2.png" style="width:398px; height:357px;" /></p>
+
+<blockquote>
+  <p>💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. <br />
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br />
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html</p>
+</blockquote>
+:ET

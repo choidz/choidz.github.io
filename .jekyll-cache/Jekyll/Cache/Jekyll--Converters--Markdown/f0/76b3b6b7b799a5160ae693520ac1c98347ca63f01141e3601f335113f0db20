@@ -1,0 +1,86 @@
+I""<p>4행 2열의 2차원 배열 A(4,5)에 <처리조건>과 같이 숫자를 기억시키고자 한다.<br />
+제시된 <그림>의 괄호에 가장 적합한 항목을 <답항보기>에서 선택하시오.<br /></답항보기></그림></처리조건></p>
+
+<p><br /></p>
+
+<h2 id="처리조건">처리조건</h2>
+
+<p><br /></p>
+<ol>
+  <li>
+    <p>배열 A(4,5)에 기억되는 내용은 다음과 같다.<br />
+<img src="/images/algorithm/array4,5.png" style="width:269px; height:100px;" /></p>
+  </li>
+  <li>
+    <p>알고리즘에 사용된 변수는 다음과 같다.</p>
+    <ul>
+      <li>A(4,5) : 데이터 저장 배열</li>
+      <li>R : 채워지는 값</li>
+      <li>K : 진행방향 지정</li>
+      <li>M, N : 열의 위치 지정 변수</li>
+      <li>S, J : 인덱스 변수</li>
+      <li>CH : 임시 변수</li>
+    </ul>
+  </li>
+</ol>
+
+<p><br /><br /></p>
+
+<h2 id="순서도">순서도</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><img src="/images/algorithm/zigzag.png" style="width:305px; height:400px;" /></td>
+      <td>❖반복 제어변수<br />◼ S 변수 : 행의 위치를 지정<br /> ◼ J 변수 : 열의 위치를 지정<br />❖안쪽 반복 구조<br />◼ 배열의 각 요소에 저장되는 값은 2 씩 증가하므로 R의 값은 2씩 증가 하도록 구성<br /><strong>1 : R=R+2</strong><br />◼ 그 R 값을 S와 로 지정되는 배열의<br />현재 위치에 저장 <br /><strong>2 : A(S,J)=R</strong><br />◼ M 변수 : 각 행에서 값을 채울 때 시작되는 열의 위치<br />◼ N 변수 : 끝나는 열의 위치<br />◼ K 변수 : 진행방향(열의 증감)<br /> <img src="/images/algorithm/zigzag2.png" style="width:441px; height:145px;" /> <br />❖지그재그 형태<br />◼ 각 행마다 열의 시작 위치(M)와 끝<br />위치(N)를 교환<br />◼ 임시 변수 CH에 M의 값을 저장 <br /><strong>3 : CH=M</strong><br />◼ M에 N의 값을 저장<br /><strong>4 : M=N</strong><br />◼ N에 임시 변수 CH의 값을 저장<br />◼ M과 N의 값이 교환된 후 K 변수에<br />-1을 곱해 열의 증감 조건을 변경 <br /><strong>5 : K=K*(-1)</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h2 id="코드">코드</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;stdio.h&gt; 
+void main() {
+    int A[4][5]={0,}; /* 값을 저장하는 배열 */ 
+    int M=0, N=5; /* 열의 시작 위치와 끝 위치 */
+    int CH=0; /* 임시 변수 */
+    int K=1; /* 열의 증감 조건 지정 */
+    int R=0; /* 채우는 값 */
+    int S, J; 
+    for (S=0; S&lt;4; S++) {
+        for (J=M; J!=N; J=J+K) { 
+            R=R+2;  /* 채우는 값은 2씩 증가 */
+            A[S][J]=R;  /* 배열의 해당 위치에 값을 저장 */
+        } 
+        CH=M;
+        M=N;
+        N=CH;
+        K=K*(-1); /* 열 위치의 증감 조건을 변경 */
+        /* 증감 조건 변경에 따라 위치값을 보정 */ 
+        if (M&gt;N) { 
+            M=M-1; N=N-1;
+        } 
+        else{
+            M=M+1; 
+            N=N+1;
+        }
+    }
+
+    /* 결과 출력 */
+    for (S=0; S&lt;4; S++) { 
+        for (J=0; J&lt;5; J++)
+            printf("%2d ", A[S][J]); 
+        printf("\n"); 
+    } 
+}
+
+</code></pre></div></div>
+:ET

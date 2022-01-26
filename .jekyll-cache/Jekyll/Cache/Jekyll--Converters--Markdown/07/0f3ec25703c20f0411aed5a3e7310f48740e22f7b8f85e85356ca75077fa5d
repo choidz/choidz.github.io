@@ -1,0 +1,80 @@
+I"u<blockquote>
+  <p>💡 해당 글은 리액트에서 제공하는 자습서에 내용을 덧붙이고 풀어서  작성한 글입니다. <br />
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br /></p>
+</blockquote>
+
+<p><br /></p>
+
+<h2 id="create-react-app">create-react-app</h2>
+
+<p><br />
+리액트 프로젝트를 만들기 위해선 creact-react-app을 이용합니다.
+<br /></p>
+
+<div class="language-react highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">npx</span> <span class="nx">create</span><span class="o">-</span><span class="nx">react</span><span class="o">-</span><span class="nx">app</span> <span class="nx">프로젝트이름</span>
+</code></pre></div></div>
+<p>저는 프로젝트이름을 react-tutorial으로 생성하였습니다.</p>
+
+<p><br /></p>
+
+<div class="language-react highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">cd</span> <span class="nx">react</span><span class="o">-</span><span class="nx">tutorial</span>
+<span class="nx">npm</span> <span class="nx">start</span>
+</code></pre></div></div>
+
+<p>해당 폴더로 접근한 뒤 npm start로 실행할 수 있습니다.
+<br />
+명령어로 실행시키면 브라우저를 통해 자동으로 react가 로드됩니다.
+<br /></p>
+
+<blockquote>
+  <p>npx 명령어로 프로젝트를 생성했으면 에디터를 통해 폴더를 불러올 수 있습니다. <br />
+저는 Visual Studio Code를 사용중이며 해당 에디터 터미널에서 <br />
+npm start 명령어로 똑같이 실행시킬 수 있습니다.</p>
+</blockquote>
+
+<h2 id="실행화면">실행화면</h2>
+
+<p><img src="/images/react/react1_2.png" style="width:960px; height:565px;" /></p>
+
+<p><br />
+<br /></p>
+
+<h2 id="srcappjs-코드">src/App.js 코드</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nx">logo</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./logo.svg</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">./App.css</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">App</span><span class="dl">"</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">header</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">App-header</span><span class="dl">"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">logo</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">App-logo</span><span class="dl">"</span> <span class="nx">alt</span><span class="o">=</span><span class="dl">"</span><span class="s2">logo</span><span class="dl">"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+          <span class="nx">Edit</span> <span class="o">&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">src</span><span class="o">/</span><span class="nx">App</span><span class="p">.</span><span class="nx">js</span><span class="o">&lt;</span><span class="sr">/code&gt; and save to reload</span><span class="err">.
+</span>        <span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">a</span>
+          <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">App-link</span><span class="dl">"</span>
+          <span class="nx">href</span><span class="o">=</span><span class="dl">"</span><span class="s2">https://reactjs.org</span><span class="dl">"</span>
+          <span class="nx">target</span><span class="o">=</span><span class="dl">"</span><span class="s2">_blank</span><span class="dl">"</span>
+          <span class="nx">rel</span><span class="o">=</span><span class="dl">"</span><span class="s2">noopener noreferrer</span><span class="dl">"</span>
+        <span class="o">&gt;</span>
+          <span class="nx">Learn</span> <span class="nx">React</span>
+        <span class="o">&lt;</span><span class="sr">/a</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/header</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">&lt;p&gt;</code> 태그 안에 있는 내용을 Hello! React!!로 변경해보겠습니다
+<br /></p>
+
+<p><img src="/images/react/react1_1.png" style="width:960px; height:565px;" /></p>
+
+<p><br />
+파일내용을 변경 후 저장을 하게되면 자동으로 웹페이지가 로드됩니다.</p>
+
+:ET
