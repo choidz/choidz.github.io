@@ -1,0 +1,126 @@
+I" "<p>이번 8장에서는 React의 State와 생명 주기의 응용으로 1초 단위로 숫자가 바뀌는 시계를 만들겠습니다.<br /></p>
+
+<p>📔 React 컴포넌트는 생명 주기가 있습니다. <br />
+📔 생애 주기 또는 라이프사이클(Life cycle)이라고도 많이 표현합니다. <br />
+📔 컴포넌트가 실행되거나 업데이트되거나 제거될 때, 특정한 이벤트들이 발생합니다. <br /></p>
+
+<p><br /><br /></p>
+
+<h1 id="1초-단위의-디지털-시계-만들기">1초 단위의 디지털 시계 만들기</h1>
+
+<h2 id="clockjs---create-clock-component">Clock.js - Create Clock component</h2>
+
+<p>src폴더 안에 Clock.js를 생성 해줍니다.<br />
+클래스로 컴포넌트를 만듭니다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nx">Clock</span> <span class="kd">extends</span> <span class="nx">Component</span><span class="p">{</span>
+
+    <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+                <span class="nx">Clock</span> <span class="nx">Component</span>
+            <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Clock</span><span class="p">;</span>
+</code></pre></div></div>
+<p>처음으로 하는 문제(?) 예제다 보니 코드 설명을 하겠습니다.</p>
+<ol>
+  <li>React를 import한 뒤</li>
+  <li>class를 선언하고 Component를 상속시켜줍니다.</li>
+  <li>클래스 내부에 render함수의 return값이 해당 컴포넌트에 렌더링 되는 요소들입니다.</li>
+  <li>마지막 줄에 export를 해주어야 외부 파일에서 컴포넌트를 불러서 사용할 수 있습니다.</li>
+</ol>
+
+<h2 id="clockjs---state-사용">Clock.js - State 사용</h2>
+
+<p>state를 사용하기 위해선 constructor를 이용해서 초기 state를 지정해주어야 합니다.
+방금 작성한 Clock.js파일의 render함수 위에 constructor를 작성해줍니다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nx">Clock</span> <span class="kd">extends</span> <span class="nx">Component</span><span class="p">{</span>
+
+<span class="c1">//추가</span>
+    <span class="kd">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="na">date</span> <span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+    
+    
+    <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+                <span class="nx">Clock</span> <span class="nx">Component</span>
+            <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Clock</span><span class="p">;</span>
+</code></pre></div></div>
+<p>생성자에서 state를 정의해주었습니다. date라는 state를 만들었고, 초기값은 생성된 당시의 시간을 담고있는 date객체입니다.
+이제 this.state.date로 date에 접근할 수 있습니다.
+이제 render내부의 내용을 바꿔보겠습니다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nx">Clock</span> <span class="kd">extends</span> <span class="nx">Component</span><span class="p">{</span>
+
+<span class="c1">//추가</span>
+    <span class="kd">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="na">date</span> <span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+    
+    
+    <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">(</span>
+        <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+            <span class="p">{</span><span class="cm">/*수정*/</span><span class="p">}</span>
+            <span class="o">&lt;</span><span class="nx">h2</span><span class="o">&gt;</span> <span class="nx">현재</span> <span class="nx">시간은</span> <span class="p">??</span> <span class="o">&lt;</span><span class="sr">/h2</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">date</span><span class="p">.</span><span class="nx">toLocaleTimeString</span><span class="p">()</span> <span class="p">}</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Clock</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<p>이때 date에는 date객체가 들어가 있기 때문에 date객체 내장 함수인 toLocaleTimeString을 불러 현재 시간을 가져올 수 있습니다.</p>
+
+<p><img src="/images/react/react6_1.png" style="width:400px; height:210px;" /></p>
+
+<p>정상적으로 현재 시간이 출력되는 것을 볼 수 있습니다.
+이제 생명주기를 이용해서 매초 업데이트 되게 만들어 보겠습니다.</p>
+
+<h2 id="counterjs---생명주기-이용-매초-업데이트">Counter.js - 생명주기 이용, 매초 업데이트</h2>
+
+<p>Clock컴포넌트가 DOM에 렌더링 될 때, 타이머를 작동시키고, DOM이 삭제 될 때 타이머를 해제 하려고 합니다.
+DOM에 렌더링 되는 것을 마운트라고 합니다.
+이를 구현하기 위해선 두가지 생명주기 메서드를 이용합니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>componentDidMount() 
+//마운트 될 때 수행되는 것
+
+componentWillunmount() 
+//언마운트 될 때 수행되는 것
+</code></pre></div></div>
+
+<blockquote>
+  <p>💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다. <br />
+💡 원문 : https://ko.reactjs.org/docs/getting-started.html <br />
+💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html</p>
+</blockquote>
+
+:ET
