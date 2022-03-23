@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://choidz.github.io/sitemap.xml
+Sitemap: https://swift-man.github.io/sitemap.xml
