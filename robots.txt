@@ -1,3 +1,8 @@
- User-agent: *
- Allow: /
- Sitemap: {{ '/sitemap.xml' | relative_url | prepend: site.url }}
+
+---
+layout: null
+permalink: /robots.txt
+---
+User-agent: *
+Allow: /
+Sitemap: {{ '/sitemap.xml' | relative_url | prepend: site.url }}
