@@ -148,4 +148,16 @@ var store = [{
         "tags": ["react","componets","react state","state","리액트 생명주기","constructor","componentDidMount"],
         "url": "/react/react-8/",
         "teaser": null
+      },{
+        "title": "[Javascript] JavaScript 수(Number)",
+        "excerpt":"   💡 해당 글은 리액트와 벨로퍼트님 블로그에서 제공하는 자습서에 내용을 덧붙이고 풀어서 작성한 글입니다.   💡 원문 : https://ko.reactjs.org/docs/getting-started.html   💡 벨로퍼트와 함께하는 모던 리액트 https://react.vlpt.us/basic/03-first-component.html    ","categories": ["javascript"],
+        "tags": ["js","javascript","number","js number"],
+        "url": "/javascript/javascript-tutorial-1/",
+        "teaser": null
+      },{
+        "title": "[CSS] FLEX 디스플레이를 알아보자 ",
+        "excerpt":"이번 8장에서는 React의 State와 생명 주기의 응용으로 1초 단위로 숫자가 바뀌는 시계를 만들겠습니다. 📔 React 컴포넌트는 생명 주기가 있습니다. 📔 생애 주기 또는 라이프사이클(Life cycle)이라고도 많이 표현합니다. 📔 컴포넌트가 실행되거나 업데이트되거나 제거될 때, 특정한 이벤트들이 발생합니다. 1초 단위의 디지털 시계 만들기 Clock.js - Create Clock component src폴더 안에 Clock.js를 생성...","categories": ["css"],
+        "tags": ["react","componets","react state","state","리액트 생명주기","constructor","componentDidMount"],
+        "url": "/css/flex-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4/",
+        "teaser": null
       }]
