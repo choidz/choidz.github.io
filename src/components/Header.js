@@ -27,7 +27,7 @@ const HEADER_LINKS = [
 
 export default function Header() {
   return (
-    <div className="bg-white h-16 p-4 px-14 flex justify-start items-center border-b border-gray-200">
+    <div className="bg-white h-16 p-4 px-14 flex justify-start items-center ">
       <div className="flex items-center gap-2 px-1 py-3">
         <div
           className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
