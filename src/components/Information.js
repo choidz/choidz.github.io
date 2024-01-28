@@ -1,5 +1,6 @@
 import React from "react";
 
+
 // const INTRO = [
 //   {
 //     label: "GitHub",
@@ -18,30 +19,33 @@ import React from "react";
 function Information() {
   return (
     <div className="flex flex-col gap-4 w-full mb-16 items-center">
-       <div className="flex items-center gap-2 px-1 py-3">
-          <div
-            className="h-16 w-16 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
-            style={{
-              backgroundImage:
-                'url("profile.jpeg")',
-            }}
-          >
-          <img class="rounded-full " src="/images/profile.jpeg" alt="description" />
+      <div className="flex flex-row gap-x-40 items-center justify-items-center">
+        <div className="flex flex-col max-w-3xl">
+          <h1 className="mb-4 text-4xl font-extrabold leading-none text-gray-900 md:text-3xl lg:text-6xl dark:text-white"  >
+            Front-End React
+            <br />
+            Developer 👋🏻
+          </h1>
+          <span className="text-PRIMARY text-base text-gray-500 max-w-lg">
+            Hi, I'm SeongHyeon Choi. A passionate Front-end React Developer
+            based in Gyeongi, Hwaseong.
+           
+          </span>
 
+          <div className="flex flex-row gap-4 items-center justify-items-center">
+            <a className="" href="github.com/choidz" target="_black">
+              {<img src="images/github.svg" alt="github" />}
+            </a>
           </div>
-
         </div>
-      <div className="flex flex-1 flex-col">
-        <h1 className="mb-4 text-4xl font-extrabold leading-none text-gray-900 md:text-3xl lg:text-6xl dark:text-white">
-          Hi I'm
-          <br /> frontend developer
-          <br />
-          <span className="text-PRIMARY font-semibold">SeongHyeon choi</span>
-        </h1>
-      </div>
 
-      <div className="flex flex-1 flex-col">
-       
+        <div className="flex flex-col max-w-xl">
+          <img
+            className="rounded-full w-80"
+            src="/images/profile.jpeg"
+            alt="description"
+          />
+        </div>
       </div>
     </div>
   );

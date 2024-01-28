@@ -10,7 +10,7 @@ export default function Layout() {
     <div className="bg-white-100 h-screen overflow-auto flex flex-row">
       <div className="flex flex-col flex-1">
         <Header />
-        <div className="md:container md:mx-auto md:none">
+        <div className="md:container-lg md:mx-auto md:none mt-24">
           <Information />
           <Skills />
           <Project />
