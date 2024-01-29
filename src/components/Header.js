@@ -28,18 +28,7 @@ const HEADER_LINKS = [
 export default function Header() {
   return (
     <div className="bg-white h-16 p-4 px-14 flex justify-start items-center ">
-      <div className="flex items-center gap-2 px-1 py-3">
-        <div
-          className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
-          style={{
-            backgroundImage:
-            'url("https://source.unsplash.com/80x80?face")',
-          }}
-        >
-          <span className="sr-only">logo</span>
-        </div>
-        <span className="text-slate-700 text-lg">Choi SeongHyeon</span>
-      </div>
+     
 
       <div className="flex flex-1 item-center justify-end gap-2">
         {HEADER_LINKS.map((item) => (

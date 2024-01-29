@@ -20,21 +20,21 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer class="bg-white rounded-lg shadow dark:bg-gray-800">
+    <footer class="bg-[#2d2e32] px-16 py-4 w-full shadow dark:bg-gray-800">
       <div class="w-full max-w-screen-xl p-4 ">
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <span class="text-sm text-white sm:text-center ">
           Choi seong hyeon
         </span>
         <br />
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <span class="text-sm text-white sm:text-center ">
           U1 Univ.
         </span>
         <br />
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <span class="text-sm text-white sm:text-center ">
           Hwaseong, Gyeong-gi, Republic of Korea
         </span>
        
-        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white  sm:mt-0">
           <li>About</li>
           <li>Privacy Policy</li>
         </ul>

@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import Information from "../components/Information";
 import Skills from "../components/Skills";
 import Footer from "../components/Footer";
@@ -9,14 +9,14 @@ export default function Layout() {
   return (
     <div className="bg-white-100 h-screen overflow-auto flex flex-row">
       <div className="flex flex-col flex-1">
-        <Header />
+        {/* <Header /> */}
         <div className="md:container-lg md:mx-auto md:none mt-24">
           <Information />
           <Skills />
           <Project />
-          <div className="flex flex-row gap-4 w-full ">
-            <Footer />
-          </div>
+        </div>
+        <div className=" gap-4 w-full ">
+          <Footer />
         </div>
       </div>
     </div>
