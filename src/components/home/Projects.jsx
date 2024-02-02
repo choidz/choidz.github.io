@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import Card from "./Card/Card";
+import Card from "../Card/Card";
 
 function Projects() {
   const [projects, updateProjects] = useState([

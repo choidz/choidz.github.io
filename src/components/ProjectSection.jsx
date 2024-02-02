@@ -36,48 +36,49 @@ const PROJECTS = [
 
 export default function ProjectSection() {
   return (
-    <div className="flex flex-col max-w-3xl">
+    <div className="flex flex-col ">
       {PROJECTS.map((project) => (
-        <div className="flex flex-row gap-6">
-          <div className="w-full h-full flex items-center justify-center">
-            <img
-              className="rounded-xl"
-              src={`images/projects/${project.image}`}
-              alt=""
-            />
-          </div>
-          <div className="flex flex-col items-center">
-            <p className="text-md text-bold"> {project.title}</p>
-            <p> {project.date}</p>
-            <p className=""> {project.tags}</p>
-
-            <div className="flex flex-row gap-3 mt-4">
-              <a href="https://notion.so">
-                <img
-                  className="hover:"
-                  src="/images/notion.svg"
-                  alt="notion"
-                  width={30}
-                  height={30}
-                />
-              </a>
-              <a href="https://github.com/choidz">
-                <img
-                  src="/images/github.svg"
-                  alt="github"
-                  width={30}
-                  height={30}
-                />
-              </a>
+        <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-3xl mb-16">
+          <div class="md:flex max-x-3xl">
+            <div class="md:shrink-0">
+              <img
+                class="p-8 h-48 w-full object-fit md:h-full md:w-96"
+                src={`images/projects/${project.image}`}
+                alt="projectImg"
+              />
             </div>
-
-            {/* {PROJECTS.map((link) => (
-              <div className="flex flex-row">
-                <a href={link.gitLink}>
-                  <img className="" src={`images/${project.gitIcon}`} alt="" />
+            <div class="p-8">
+              <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+                {project.title}
+              </div>
+              <a
+                href="#!"
+                class="block mt-1 text-lg leading-tight font-medium text-black"
+              >
+                {project.description}
+              </a>
+              <p class="mt-2 text-slate-500">{project.date}</p>
+              <p class="mt-2 text-slate-500">{project.tags}</p>
+              <div className="flex flex-row gap-3 mt-4">
+                <a href="https://notion.so">
+                  <img
+                    className="hover:"
+                    src="/images/notion.svg"
+                    alt="notion"
+                    width={30}
+                    height={30}
+                  />
+                </a>
+                <a href="https://github.com/choidz">
+                  <img
+                    src="/images/github.svg"
+                    alt="github"
+                    width={30}
+                    height={30}
+                  />
                 </a>
               </div>
-            ))} */}
+            </div>
           </div>
         </div>
       ))}
