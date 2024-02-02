@@ -27,9 +27,7 @@ const HEADER_LINKS = [
 
 export default function Header() {
   return (
-    <div className="bg-white h-16 p-4 px-14 flex justify-start items-center ">
-     
-
+    <div className="bg-white h-16 p-8 px-14 flex justify-start items-center shadow-[0_0px_10px_rgba(0,0,0,.09)]">
       <div className="flex flex-1 item-center justify-end gap-2">
         {HEADER_LINKS.map((item) => (
           <HeaderLink key={item.key} item={item} />
@@ -41,7 +39,6 @@ export default function Header() {
 
 function HeaderLink({ item }) {
   const { pathname } = useLocation();
-
   return (
     <Link
       to={item.path}

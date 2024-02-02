@@ -1,9 +1,8 @@
 import React from "react";
-import infoLink from "./modules/infoLink";
 
-function Information() {
+export default function Information() {
   return (
-    <div className="flex flex-col gap-4 w-full mb-16 items-center">
+    <div className="flex flex-col gap-4 w-full mb-28 mt-4 items-center">
       <div className="flex flex-row gap-x-40 items-center justify-items-center">
         <div className="flex flex-col max-w-3xl">
           <h1 className="mb-4 text-4xl font-extrabold leading-none text-gray-900 md:text-3xl lg:text-6xl dark:text-white">
@@ -47,5 +46,3 @@ function Information() {
     </div>
   );
 }
-
-export default Information;

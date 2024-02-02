@@ -22,17 +22,15 @@ function Footer() {
   return (
     <footer class="bg-[#2d2e32] px-16 py-4 w-full shadow dark:bg-gray-800">
       <div class="w-full max-w-screen-xl p-4 ">
-        <span class="text-sm text-white sm:text-center ">
+        <p class="text-sm text-white">
           Choi seong hyeon
-        </span>
-        <br />
-        <span class="text-sm text-white sm:text-center ">
+        </p>
+        <p class="text-sm text-white">
           U1 Univ.
-        </span>
-        <br />
-        <span class="text-sm text-white sm:text-center ">
+        </p>
+        <p class="text-sm text-white">
           Hwaseong, Gyeong-gi, Republic of Korea
-        </span>
+        </p>
        
         <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-white  sm:mt-0">
           <li>About</li>
