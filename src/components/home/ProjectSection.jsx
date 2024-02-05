@@ -9,8 +9,8 @@ const PROJECTS = [
     tags: ["Android", "Java", "SQLite"],
     gitLink: "https://github.com/choidz/DOB",
     notionLink: "https://github.com/choidz/DOB",
-    gitIcon: "github.svg",
-    notionIcon: "notion.svg",
+    gitIcon: "images/github.svg",
+    notionIcon: "images/notion.svg",
   },
   {
     title: "SPLER",
@@ -20,8 +20,8 @@ const PROJECTS = [
     tags: ["Android", "Java", "SQLite"],
     gitLink: "https://github.com/choidz/SPLER",
     notionLink: "https://github.com/choidz/DOB",
-    gitIcon: "github.svg",
-    notionIcon: "notion.svg",
+    gitIcon: "images/github.svg",
+    notionIcon: "images/notion.svg",
   },
   {
     title: "FleaCulture",
@@ -30,7 +30,8 @@ const PROJECTS = [
     date: "2022/11/14 → 2022/12/01",
     tags: ["Android", "Java", "SQLite"],
     notionLink: "https://github.com/choidz/DOB",
-    notionIcon: "notion.svg",
+    notionIcon: "images/notion.svg",
+    gitIcon: "images/github.svg",
   },
 ];
 
@@ -60,18 +61,18 @@ export default function ProjectSection() {
               <p class="mt-2 text-slate-500">{project.date}</p>
               <p class="mt-2 text-slate-500">{project.tags}</p>
               <div className="flex flex-row gap-3 mt-4">
-                <a href="https://notion.so">
+                <a href={project.notionLink}>
                   <img
                     className="hover:"
-                    src="/images/notion.svg"
+                    src={project.notionIcon}
                     alt="notion"
                     width={30}
                     height={30}
                   />
                 </a>
-                <a href="https://github.com/choidz">
+                <a href={project.gitLink}>
                   <img
-                    src="/images/github.svg"
+                    src={project.gitIcon}
                     alt="github"
                     width={30}
                     height={30}
