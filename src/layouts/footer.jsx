@@ -1,23 +1,5 @@
 import React from "react";
 
-// const ICONS = [
-//     {
-//       href: 'https://github.com/choidz',
-//       src: '/images/icon/github-light.png',
-//       alt: 'github-icon',
-//     },
-//     {
-//       href: 'mailto:tjdgusxx@gmail.com',
-//       src: '/images/icon/email.svg',
-//       alt: 'mail-icon',
-//     },
-//     {
-//       href: '',
-//       src: '/images/icon/rss.svg',
-//       alt: 'rss-icon',
-//     },
-//   ];
-
 function Footer() {
   return (
     <footer class="bg-[#2d2e32] px-16 py-4 w-full shadow dark:bg-gray-800">
