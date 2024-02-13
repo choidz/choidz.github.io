@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function About() {
+export default function HomeAbout() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row gap-x-40 ">

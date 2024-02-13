@@ -8,9 +8,6 @@ const SKILLS = [
   ],
   [
     "react.png",
-    "next.png",
-  ],
-  [
     "tailwind.png",
     "sass.png",
   ],

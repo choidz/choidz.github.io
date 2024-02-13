@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Information() {
+export default function HomeHero() {
   return (
     <div className="flex flex-col gap-4 w-full mb-28 ">
       <div className="flex flex-row gap-x-40 items-center justify-items-center">

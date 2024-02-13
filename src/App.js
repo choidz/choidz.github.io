@@ -1,16 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Layout from "./components/home/Layout";
+import Router from "./routes/index";
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-        </Route>
-      </Routes>
-    </Router>
-  );
+  return <Router />;
 }
 
 export default App;
