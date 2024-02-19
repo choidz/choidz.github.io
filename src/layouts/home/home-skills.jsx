@@ -17,9 +17,8 @@ const SKILLS = [
   ],
 ];
 
-function Skills() {
+function HomeSkills() {
   return (
-    <div className="flex flex-col gap-4 ">
       <div className="flex flex-row gap-x-16">
         <span className="text-xl text-gray-900 dark:text-white border-r-2 border-neutral-700 pr-4	leading-5	">
           Skills & Ability
@@ -38,8 +37,7 @@ function Skills() {
           ))}
         </div>
       </div>
-    </div>
   );
 }
 
-export default Skills;
+export default HomeSkills;

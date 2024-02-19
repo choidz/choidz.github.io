@@ -1,8 +1,8 @@
 import React from "react";
 
+
 export default function HomeAbout() {
   return (
-    <div className="flex flex-col">
       <div className="flex flex-row gap-x-40 ">
         <div className="flex flex-col max-w-xl">
           <img
@@ -24,6 +24,5 @@ export default function HomeAbout() {
           </p>
         </div>
       </div>
-    </div>
   );
 }

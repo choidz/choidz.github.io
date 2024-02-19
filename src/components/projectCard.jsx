@@ -37,18 +37,18 @@ const PROJECTS = [
 
 export default function ProjectSection() {
   return (
-    <div className="flex flex-col ">
+    <>
       {PROJECTS.map((project) => (
-        <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-3xl mb-16">
+        <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl mb-16">
           <div class="md:flex max-x-3xl">
             <div class="md:shrink-0">
               <img
-                class="p-8 h-48 w-full object-fit md:h-full md:w-96"
+                class="p-4 h-48 w-full object-fit md:h-full md:w-96"
                 src={`images/projects/${project.image}`}
                 alt="projectImg"
               />
             </div>
-            <div class="p-8">
+            <div class="p-12">
               <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
                 {project.title}
               </div>
@@ -83,6 +83,6 @@ export default function ProjectSection() {
           </div>
         </div>
       ))}
-    </div>
+    </>
   );
 }
