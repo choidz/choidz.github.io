@@ -1,15 +1,17 @@
 import HomeHero from "./home/home-hero";
 import HomeSkills from "./home/home-skills";
 import HomeAbout from "./home/home-about";
-import ProjectSection from "../components/projectCard";
+import HomeProjects from "./home/home-projects";
 
 export default function layout() {
   return (
-      <div className="mx-auto max-w-screen-xl">
+    <div className="bg-[#ffffff] flex flex-col w-full">
+      <div className="mx-auto max-w-screen-lg ">
         <HomeHero />
         <HomeSkills />
         <HomeAbout />
-        <ProjectSection />
+        <HomeProjects />
       </div>
+    </div>
   );
 }

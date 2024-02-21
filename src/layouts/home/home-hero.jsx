@@ -2,7 +2,7 @@ import React from "react";
 
 export default function HomeHero() {
   return (
-      <div className="flex flex-row gap-x-40 items-center justify-items-center">
+      <div className="flex flex-row gap-x-40 items-center justify-items-center mt-28">
         <div className="flex flex-col ">
           <h1 className="mb-4 text-4xl font-extrabold leading-none text-gray-900 md:text-3xl lg:text-6xl dark:text-white">
             Front-End React
