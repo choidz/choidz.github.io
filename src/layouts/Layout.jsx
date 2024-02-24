@@ -5,7 +5,7 @@ import HomeProjects from "./home/home-projects";
 
 export default function layout() {
   return (
-    <div className="bg-[#ffffff] flex flex-col w-full">
+    <div className="bg-[#f9f9f9] flex flex-col w-full">
       <div className="mx-auto max-w-screen-lg ">
         <HomeHero />
         <HomeSkills />
