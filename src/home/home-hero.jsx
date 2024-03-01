@@ -15,7 +15,7 @@ export default function HomeHero() {
           </span>
 
           <div className="flex flex-row gap-3 mt-4">
-            <a href="https://notion.so">
+            <a href="https://choidz.notion.site/80ed5c2ce57e4124880ef02a3f5bf5e3?v=493c6dfca24745e39757ef580ef4e235&pvs=25">
               <img
                 src="/images/notion.svg"
                 alt="notion"
