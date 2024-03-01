@@ -1,7 +1,7 @@
-import HomeHero from "./home/home-hero";
-import HomeSkills from "./home/home-skills";
-import HomeAbout from "./home/home-about";
-import HomeProjects from "./home/home-projects";
+import HomeHero from "./section/home-hero";
+import HomeSkills from "./section/home-skills";
+import HomeAbout from "./section/home-about";
+import HomeProjects from "./section/home-projects";
 
 export default function layout() {
   return (

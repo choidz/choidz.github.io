@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
-import { page404 } from "../pages/Page404";
+import { page404 } from "./paths";
 
-const Home = lazy(() => import("../layouts/layout"));
+const Home = lazy(() => import("../home/layout"));
 
 export default function Router() {
   return useRoutes([
