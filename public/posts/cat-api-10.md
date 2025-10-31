@@ -119,9 +119,9 @@ id host ip node kD8HdksJ3T6hKD1jS9a es-master01 192.168.20.5 es-master01
     마스터 확인 | GET _cat/master?v
     스냅샷 목록 | GET _cat/repositories?v
     노드 역할 | GET _cat/nodes?h=name,ip,node.role
-    인덱스 용량 TOP | GET _cat/indices
-    문서 수 TOP | GET _cat/indices
-    Unassigned 확인 | GET _cat/shards
+    인덱스 용량 TOP | `GET _cat/indices
+    문서 수 TOP | `GET _cat/indices
+    Unassigned 확인 | `GET _cat/shards
 --- 
 > 💬 **Tip:**
 > CAT API는 Kibana보다 **빠르고 정확하게 장애 원인을 확인할 수 있는 1차 진단 도구** 입니다.
