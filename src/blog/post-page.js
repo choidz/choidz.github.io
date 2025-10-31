@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { blogPaths } from "../routes/paths";
-import posts from "./posts";
+import usePosts from "./usePosts";
 import {
   calculateReadingTime,
   formatDate,
@@ -112,12 +112,16 @@ function MarkdownTable({ table }) {
 
 export default function PostPage() {
   const { slug } = useParams();
-  const post = posts.find((item) => item.slug === slug);
+  const { posts, isLoading, error } = usePosts();
+  const post = useMemo(
+    () => posts.find((item) => item.slug === slug),
+    [posts, slug]
+  );
 
   const [segments, setSegments] = useState([]);
   const [readingTime, setReadingTime] = useState(post?.readingMinutes ?? 1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [contentError, setContentError] = useState(null);
+  const [contentLoading, setContentLoading] = useState(true);
 
   useEffect(() => {
     if (!post) {
@@ -128,7 +132,7 @@ export default function PostPage() {
 
     async function loadContent() {
       try {
-        setIsLoading(true);
+        setContentLoading(true);
         const response = await fetch(post.contentPath);
         if (!response.ok) {
           throw new Error(`콘텐츠를 불러오지 못했습니다 (status ${response.status})`);
@@ -139,11 +143,11 @@ export default function PostPage() {
         }
         setSegments(splitMarkdownContent(markdown));
         setReadingTime(calculateReadingTime(markdown));
-        setIsLoading(false);
+        setContentLoading(false);
       } catch (fetchError) {
         if (!cancelled) {
-          setError(fetchError.message);
-          setIsLoading(false);
+          setContentError(fetchError.message);
+          setContentLoading(false);
         }
       }
     }
@@ -154,6 +158,26 @@ export default function PostPage() {
       cancelled = true;
     };
   }, [post]);
+
+  if (isLoading) {
+    return (
+      <div className='min-h-screen bg-slate-100'>
+        <div className='mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-12'>
+          <p className='text-sm text-slate-500'>게시글 정보를 불러오는 중입니다…</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='min-h-screen bg-slate-100'>
+        <div className='mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-12'>
+          <p className='rounded-lg bg-rose-50 p-4 text-sm text-rose-600'>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!post) {
     return <Navigate to={blogPaths.home} replace />;
@@ -203,13 +227,15 @@ export default function PostPage() {
             </div>
           </header>
           <section className='mt-10 space-y-8'>
-            {isLoading && !segments.length ? (
+            {contentLoading && !segments.length ? (
               <p className='text-sm text-slate-500'>콘텐츠를 불러오는 중입니다...</p>
             ) : null}
-            {error ? (
-              <p className='rounded-lg bg-rose-50 p-4 text-sm text-rose-600'>{error}</p>
+            {contentError ? (
+              <p className='rounded-lg bg-rose-50 p-4 text-sm text-rose-600'>
+                {contentError}
+              </p>
             ) : null}
-            {!error &&
+            {!contentError &&
               segments.map((segment, index) => {
                 if (segment.type === "table") {
                   const table = parseMarkdownTable(segment.value);

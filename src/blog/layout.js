@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { blogPaths, portfolioPath } from "../routes/paths";
 import PostList from "./post-list";
-import posts from "./posts";
+import usePosts from "./usePosts";
 import { formatDate } from "./utils";
 
 const primaryLinks = [
@@ -237,9 +237,10 @@ function CommunityCard() {
 }
 
 export default function BlogLayout() {
+  const { posts, isLoading, error } = usePosts();
   const sortedPosts = useMemo(
     () => [...posts].sort((a, b) => new Date(b.date) - new Date(a.date)),
-    []
+    [posts]
   );
 
   const [activeTag, setActiveTag] = useState(null);
@@ -251,8 +252,8 @@ export default function BlogLayout() {
     return sortedPosts.filter((post) => post.tags?.includes(activeTag));
   }, [sortedPosts, activeTag]);
 
-  const featuredPost = filteredPosts[0];
-  const listPosts = filteredPosts.slice(1);
+  const featuredPost = filteredPosts[0] ?? null;
+  const listPosts = filteredPosts.slice(featuredPost ? 1 : 0);
   const trendingPosts = filteredPosts.slice(0, 4);
   const uniqueTags = useMemo(
     () => Array.from(new Set(sortedPosts.flatMap((post) => post.tags ?? []))),
@@ -267,36 +268,48 @@ export default function BlogLayout() {
     <div className='min-h-screen bg-slate-100 text-slate-900'>
       <SiteHeader />
       <main className='mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10'>
-        <div className='grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]'>
-          <div className='space-y-6'>
-            <FeaturedPost
-              post={featuredPost}
-              activeTag={activeTag}
-              onTagClick={handleTagClick}
-            />
-            <PostList
-              posts={listPosts}
-              title={
-                activeTag
-                  ? `${activeTag} 태그 글`
-                  : featuredPost
-                  ? "최신 글"
-                  : "모든 글"
-              }
-              activeTag={activeTag}
-              onTagClick={handleTagClick}
-            />
+        {isLoading ? (
+          <p className='text-sm text-slate-500'>게시글을 불러오는 중입니다…</p>
+        ) : error ? (
+          <p className='rounded-lg bg-rose-50 p-4 text-sm text-rose-600'>
+            {error}
+          </p>
+        ) : !filteredPosts.length ? (
+          <div className='rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500'>
+            게시글이 없습니다. 새로운 글을 작성해 주세요.
           </div>
-          <aside className='space-y-6'>
-            <LatestStack items={trendingPosts} />
-            <TagSuggestions
-              tags={uniqueTags}
-              activeTag={activeTag}
-              onTagClick={handleTagClick}
-            />
-            <CommunityCard />
-          </aside>
-        </div>
+        ) : (
+          <div className='grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]'>
+            <div className='space-y-6'>
+              <FeaturedPost
+                post={featuredPost}
+                activeTag={activeTag}
+                onTagClick={handleTagClick}
+              />
+              <PostList
+                posts={listPosts}
+                title={
+                  activeTag
+                    ? `${activeTag} 태그 글`
+                    : featuredPost
+                    ? "최신 글"
+                    : "모든 글"
+                }
+                activeTag={activeTag}
+                onTagClick={handleTagClick}
+              />
+            </div>
+            <aside className='space-y-6'>
+              <LatestStack items={trendingPosts} />
+              <TagSuggestions
+                tags={uniqueTags}
+                activeTag={activeTag}
+                onTagClick={handleTagClick}
+              />
+              <CommunityCard />
+            </aside>
+          </div>
+        )}
       </main>
     </div>
   );

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { blogPaths } from "../routes/paths";
-import postsData from "./posts";
 import { formatDate } from "./utils";
 
 function EmptyState({ activeTag }) {
@@ -14,7 +13,7 @@ function EmptyState({ activeTag }) {
 }
 
 export default function PostList({
-  posts: providedPosts,
+  posts: providedPosts = [],
   title,
   activeTag,
   onTagClick,
@@ -27,8 +26,7 @@ export default function PostList({
     }
   };
 
-  const sourcePosts = providedPosts ?? postsData;
-  const sortedPosts = [...sourcePosts].sort(
+  const sortedPosts = [...providedPosts].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
 
