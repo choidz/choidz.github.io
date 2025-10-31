@@ -1,14 +1,17 @@
 import os
+from dotenv import load_dotenv
 import feedparser
 import html2text
 from datetime import datetime
 import subprocess
 
 # ==============================
-NAVER_RSS_URL = "https://blog.rss.naver.com/chltjdkkk.xml"
+load_dotenv()
+
+NAVER_RSS_URL = os.getenv("NAVER_RSS_URL")
 POSTS_DIR = "./src/posts"
-GIT_USER_NAME = "choidz"
-GIT_USER_EMAIL = "choidzxx@gmail.com"
+GIT_USER_NAME = os.getenv("GIT_USER_NAME")
+GIT_USER_EMAIL = os.getenv("GIT_USER_EMAIL")
 # ==============================
 
 def html_to_markdown(html_content: str) -> str:
