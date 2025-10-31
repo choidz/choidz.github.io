@@ -9,7 +9,7 @@ import subprocess
 load_dotenv()
 
 NAVER_RSS_URL = os.getenv("NAVER_RSS_URL")
-POSTS_DIR = "./src/posts"
+POSTS_DIR = "./public/posts"
 GIT_USER_NAME = os.getenv("GIT_USER_NAME")
 GIT_USER_EMAIL = os.getenv("GIT_USER_EMAIL")
 # ==============================
