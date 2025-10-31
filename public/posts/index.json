@@ -1,17 +1,15 @@
 [
   {
-    "slug": "elasticsearch-core-guide",
-    "title": "Elasticsearch 핵심 개념 정리",
-    "description": "클러스터, 샤드, 매핑부터 모니터링 지표까지 Elasticsearch 구조와 운영 개념을 정리했습니다.",
+    "slug": "cat-api-10",
+    "title": "CAT API 예제 10선",
+    "description": "Elasticsearch CAT API 실전 예제 10선 Elasticsearch 운영 중이라면 반드시 알아야 하는 명령어!",
     "date": "2025-10-31",
     "tags": [
-      "#Elasticsearch",
-      "#검색",
-      "#운영"
+      "#ElasticSearch"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
-    "contentPath": "/posts/elasticsearch-core-guide.md"
+    "contentPath": "/posts/cat-api-10.md"
   },
   {
     "slug": "zabbix",
@@ -24,17 +22,5 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
     "contentPath": "/posts/zabbix.md"
-  },
-  {
-    "slug": "cat-api-10",
-    "title": "CAT API 예제 10선",
-    "description": "Elasticsearch CAT API 실전 예제 10선 Elasticsearch 운영 중이라면 반드시 알아야 하는 명령어!",
-    "date": "2025-10-31",
-    "tags": [
-      "#ElasticSearch"
-    ],
-    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 3,
-    "contentPath": "/posts/cat-api-10.md"
   }
 ]
