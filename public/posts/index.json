@@ -2,10 +2,10 @@
   {
     "slug": "zabbix",
     "title": "운영자가 꼭 알아야 할 Zabbix 핵심",
-    "description": "Zabbix 정리 (개념 → 설치 → 템플릿/알림 실무) 오픈소스 통합 모니터링 솔루션 Zabbix. 이 글에서는 모니터링 목적 → Zabbix 구성/설치 → 템플릿/알림 실무까지 핵심만 담았습니다. 1. 서버 모니터링의 목적 장애 예방: 지속 관찰로 잠재 이슈 조기 발견 → 가용성 향상 성능 최적화: 추적/분석으로 병목 식별 및 개선 자원 관리: CPU/메모리/디스크 사용량 관제 보안 감시: 비정상 행위·침입 시도 탐지 용량 계획: 추세 기반 증설/정리로 장애 예방 2. Zabbix란? 정의: IT 인프라 전반을 실시간 모니터링/알림/시각화하는 오픈소스 솔루션 구성 요소 Zabbix 서버: 수집·판단의 핵심 Zabbix 에이전트: 대상 서버에서 메트릭 전송 DB: 메트릭.......",
+    "description": "Zabbix 정리 (개념 → 설치 → 템플릿/알림 실무) 오픈소스 통합 모니터링 솔루션 Zabbix. 이 글에서는 모니터링 목적 → Zabbix 구성/설치 → 템플릿/알림 실무까지 핵심만 담았습니다. 1. 서버 모니터링의 목적 장애 예방: 지속 관찰로 잠재 이슈 조기 발견 → 가용성 향상 성능 최적화: 추적/분석으로 병목",
     "date": "2025-10-31",
     "tags": [
-      "일상"
+      "#일상"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 1,
@@ -14,10 +14,10 @@
   {
     "slug": "cat-api-10",
     "title": "CAT API 예제 10선",
-    "description": "Elasticsearch CAT API 실전 예제 10선 Elasticsearch 운영 중이라면 반드시 알아야 하는 명령어! CAT API는 클러스터의 상태를 CLI에서 빠르고 간단하게 확인할 수 있는 강력한 도구입니다   명령어 형식 GET _cat/<대상>?옵션 예: GET _cat/nodes?v Kibana 콘솔, cURL, 또는 Dev Tools에서 실행 가능합니다. ✅ 1️⃣ 클러스터 상태 확인 GET _cat/health?v 출력 예시 epoch timestamp cluster status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent 1728493920 12:12:01 my-cluster green 3 3 45 22 0 0 0 0 - 100.0% 설명 클러스터 전체의 상태를 확인하는 기본.......",
+    "description": "Elasticsearch CAT API 실전 예제 10선 Elasticsearch 운영 중이라면 반드시 알아야 하는 명령어! CAT API는 클러스터의 상태를 CLI에서 빠르고 간단하게 확인할 수 있는 강력한 도구입니다 명령어 형식 GET _cat/<대상>?옵션 예: GET _cat/nodes?v Kibana 콘솔, cU",
     "date": "2025-10-31",
     "tags": [
-      "ElasticSearch"
+      "#ElasticSearch"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 1,
