@@ -151,7 +151,7 @@ chmod 400 mykey.pem ssh -i mykey.pem ec2-user@<EC2_PUBLIC_IP> sudo dnf update -y
 
 --- 
 **✅ 한눈 요약**
-§§TABLE0§§ 
+영역 | 핵심 포인트 --- | --- 목적 | 장애 예방·성능 최적화·보안·용량계획 구조 | 서버·에이전트·DB·프론트엔드 포트 | Server=10051 , Agent=10050 , Web=80/443(또는 8080) 설치 | DB·서버 conf 튜닝(캐시/폴러) 실무 | 템플릿→아이템→트리거→액션→오퍼레이션 알림 | 미디어 타입·사용자별 매핑, 커스텀 메시지 팁 | 사용자 파라미터로 커버리지 확장(메모리 등) 
 **​**
 
 [원문 보기](https://blog.naver.com/choidz_/224059752172?fromRss=true&trackingCode=rss)
