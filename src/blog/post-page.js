@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import { Link, Navigate, useParams } from "react-router-dom";
+import remarkGfm from "remark-gfm";
 import { blogPaths } from "../routes/paths";
 import usePosts from "./usePosts";
 import {
@@ -12,27 +13,29 @@ import {
 
 const markdownComponents = {
   h2: ({ node, children, ...props }) => (
-    <h2 className='mt-12 text-2xl font-semibold text-slate-900 first:mt-0' {...props}>
+    <h2
+      className='mt-12 text-2xl font-semibold text-brand-foreground first:mt-0'
+      {...props}>
       {children}
     </h2>
   ),
   h3: ({ node, children, ...props }) => (
-    <h3 className='mt-8 text-xl font-semibold text-slate-900' {...props}>
+    <h3 className='mt-8 text-xl font-semibold text-brand-foreground' {...props}>
       {children}
     </h3>
   ),
   p: ({ node, children, ...props }) => (
-    <p className='mt-4 leading-relaxed text-slate-700' {...props}>
+    <p className='mt-4 leading-relaxed text-brand-muted' {...props}>
       {children}
     </p>
   ),
   ul: ({ node, children, ...props }) => (
-    <ul className='mt-4 list-disc space-y-2 pl-6 text-slate-700' {...props}>
+    <ul className='mt-4 list-disc space-y-2 pl-6 text-brand-muted' {...props}>
       {children}
     </ul>
   ),
   ol: ({ node, children, ...props }) => (
-    <ol className='mt-4 list-decimal space-y-2 pl-6 text-slate-700' {...props}>
+    <ol className='mt-4 list-decimal space-y-2 pl-6 text-brand-muted' {...props}>
       {children}
     </ol>
   ),
@@ -43,7 +46,7 @@ const markdownComponents = {
   ),
   blockquote: ({ node, children, ...props }) => (
     <blockquote
-      className='mt-6 border-l-4 border-indigo-200 bg-indigo-50/60 p-4 italic text-indigo-900'
+      className='mt-6 border-l-4 border-brand-border-strong bg-brand-accent-soft/60 p-4 italic text-brand-foreground'
       {...props}>
       {children}
     </blockquote>
@@ -52,14 +55,14 @@ const markdownComponents = {
     if (inline) {
       return (
         <code
-          className='rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm text-slate-800'
+          className='rounded bg-brand-accent-soft px-1.5 py-0.5 font-mono text-sm text-brand-foreground'
           {...props}>
           {children}
         </code>
       );
     }
     return (
-      <pre className='mt-6 overflow-x-auto rounded-xl bg-slate-900 p-4 text-sm text-slate-100'>
+      <pre className='mt-6 overflow-x-auto rounded-xl bg-brand-foreground p-4 text-sm text-brand-background'>
         <code {...props}>{children}</code>
       </pre>
     );
@@ -72,32 +75,36 @@ const tableMarkdownComponents = {
 };
 
 function MarkdownTable({ table }) {
-  if (!table.headers.length) {
-    return null;
-  }
+  if (!table.headers.length) return null;
 
   return (
-    <div className='mt-8 overflow-x-auto rounded-2xl border border-slate-200 bg-slate-50'>
-      <table className='min-w-full divide-y divide-slate-200 text-left text-sm'>
-        <thead className='bg-white'>
+    <div className='mt-8 overflow-x-auto rounded-2xl border border-brand-border bg-brand-background'>
+      <table className='min-w-full divide-y divide-brand-border text-left text-sm'>
+        <thead className='bg-brand-surface'>
           <tr>
             {table.headers.map((header, index) => (
               <th
                 key={index}
-                className='px-4 py-3 font-semibold uppercase tracking-wide text-slate-500'>
-                <ReactMarkdown components={tableMarkdownComponents}>
+                className='px-4 py-3 font-semibold uppercase tracking-wide text-brand-muted'>
+                <ReactMarkdown
+                  components={tableMarkdownComponents}
+                  remarkPlugins={[remarkGfm]}>
                   {header}
                 </ReactMarkdown>
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className='divide-y divide-slate-200 bg-white'>
+        <tbody className='divide-y divide-brand-border bg-brand-surface'>
           {table.rows.map((row, rowIndex) => (
-            <tr key={rowIndex} className='hover:bg-slate-50'>
+            <tr key={rowIndex} className='hover:bg-brand-accent-soft/40'>
               {row.map((cell, cellIndex) => (
-                <td key={cellIndex} className='px-4 py-3 align-top text-slate-600'>
-                  <ReactMarkdown components={tableMarkdownComponents}>
+                <td
+                  key={cellIndex}
+                  className='px-4 py-3 align-top text-brand-muted'>
+                  <ReactMarkdown
+                    components={tableMarkdownComponents}
+                    remarkPlugins={[remarkGfm]}>
                     {cell || ""}
                   </ReactMarkdown>
                 </td>
@@ -124,9 +131,7 @@ export default function PostPage() {
   const [contentLoading, setContentLoading] = useState(true);
 
   useEffect(() => {
-    if (!post) {
-      return;
-    }
+    if (!post) return;
 
     let cancelled = false;
 
@@ -135,12 +140,13 @@ export default function PostPage() {
         setContentLoading(true);
         const response = await fetch(post.contentPath);
         if (!response.ok) {
-          throw new Error(`콘텐츠를 불러오지 못했습니다 (status ${response.status})`);
+          throw new Error(
+            `콘텐츠를 불러오지 못했습니다 (status ${response.status})`
+          );
         }
         const markdown = await response.text();
-        if (cancelled) {
-          return;
-        }
+        if (cancelled) return;
+
         setSegments(splitMarkdownContent(markdown));
         setReadingTime(calculateReadingTime(markdown));
         setContentLoading(false);
@@ -153,7 +159,6 @@ export default function PostPage() {
     }
 
     loadContent();
-
     return () => {
       cancelled = true;
     };
@@ -161,9 +166,11 @@ export default function PostPage() {
 
   if (isLoading) {
     return (
-      <div className='min-h-screen bg-slate-100'>
+      <div className='min-h-screen bg-brand-background'>
         <div className='mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-12'>
-          <p className='text-sm text-slate-500'>게시글 정보를 불러오는 중입니다…</p>
+          <p className='text-sm text-brand-muted'>
+            게시글 정보를 불러오는 중입니다…
+          </p>
         </div>
       </div>
     );
@@ -171,9 +178,11 @@ export default function PostPage() {
 
   if (error) {
     return (
-      <div className='min-h-screen bg-slate-100'>
+      <div className='min-h-screen bg-brand-background'>
         <div className='mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-12'>
-          <p className='rounded-lg bg-rose-50 p-4 text-sm text-rose-600'>{error}</p>
+          <p className='rounded-lg bg-rose-50 p-4 text-sm text-rose-600'>
+            {error}
+          </p>
         </div>
       </div>
     );
@@ -183,58 +192,59 @@ export default function PostPage() {
     return <Navigate to={blogPaths.home} replace />;
   }
 
-  const gradient = post.coverGradient ?? "from-indigo-500 to-blue-500";
-
   return (
-    <div className='min-h-screen bg-slate-100'>
-      <div className='border-b border-slate-200 bg-white'>
+    <div className='min-h-screen bg-brand-background'>
+      <div className='border-b border-brand-border bg-brand-surface'>
         <div className='mx-auto flex w-full max-w-4xl items-center justify-between px-4 py-4 sm:px-6'>
           <Link
             to={blogPaths.home}
-            className='text-sm font-medium text-indigo-600 transition hover:text-indigo-700'>
+            className='text-sm font-medium text-brand-accent transition hover:text-brand-accent-hover'>
             ← 글 목록으로 돌아가기
           </Link>
         </div>
       </div>
+
       <div className='mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-12'>
-        <div
-          aria-hidden='true'
-          className={`mb-8 h-48 w-full rounded-3xl bg-gradient-to-br ${gradient}`}
-        />
-        <article className='rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10'>
+        <article className='rounded-3xl border border-brand-border bg-brand-surface p-6 shadow-sm sm:p-10'>
           <header className='flex flex-col gap-6'>
-            <div className='flex flex-wrap items-center gap-3 text-xs text-slate-500 sm:text-sm'>
+            <div className='flex flex-wrap items-center gap-3 text-xs text-brand-muted sm:text-sm'>
               <time dateTime={post.date}>{formatDate(post.date)}</time>
-              <span className='hidden text-slate-300 sm:inline'>•</span>
+              <span className='hidden text-brand-border-strong sm:inline'>•</span>
               <span>{`${readingTime}분 분량`}</span>
             </div>
+
             <div className='space-y-4'>
-              <h1 className='text-3xl font-bold leading-tight text-slate-900 sm:text-4xl'>
+              <h1 className='text-3xl font-bold leading-tight text-brand-foreground sm:text-4xl'>
                 {post.title}
               </h1>
-              <p className='text-base leading-relaxed text-slate-600 sm:text-lg'>
+              <p className='text-base leading-relaxed text-brand-muted sm:text-lg'>
                 {post.description}
               </p>
               <div className='flex flex-wrap gap-2'>
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className='rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600'>
+                    className='rounded-full bg-brand-accent-soft px-3 py-1 text-xs font-medium text-brand-accent'>
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
           </header>
+
           <section className='mt-10 space-y-8'>
             {contentLoading && !segments.length ? (
-              <p className='text-sm text-slate-500'>콘텐츠를 불러오는 중입니다...</p>
+              <p className='text-sm text-brand-muted'>
+                콘텐츠를 불러오는 중입니다...
+              </p>
             ) : null}
+
             {contentError ? (
               <p className='rounded-lg bg-rose-50 p-4 text-sm text-rose-600'>
                 {contentError}
               </p>
             ) : null}
+
             {!contentError &&
               segments.map((segment, index) => {
                 if (segment.type === "table") {
@@ -245,7 +255,8 @@ export default function PostPage() {
                 return (
                   <ReactMarkdown
                     key={`md-${index}`}
-                    components={markdownComponents}>
+                    components={markdownComponents}
+                    remarkPlugins={[remarkGfm]}>
                     {segment.value.trim()}
                   </ReactMarkdown>
                 );
