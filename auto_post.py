@@ -7,7 +7,7 @@ import subprocess
 # ==============================
 # 설정
 NAVER_RSS_URL = "https://blog.rss.naver.com/chltjdkkk.xml"
-POSTS_DIR = "./src/posts"
+POSTS_DIR = "./public/posts"
 GIT_USER_NAME = "choidz"
 GIT_USER_EMAIL = "choidzxx@gmail.com"
 # ==============================
