@@ -99,10 +99,10 @@ id host ip node kD8HdksJ3T6hKD1jS9a es-master01 192.168.20.5 es-master01
 --- 
 **🧾 보너스 TIP**
 **📍 _cat 명령어에서 자주 쓰는 옵션**
-옵션 | 설명 --- | --- v | 컬럼 헤더 표시 h=<컬럼1,컬럼2> | 특정 컬럼만 출력 ?help | 사용 가능한 컬럼 목록 표시 s=<컬럼> | 컬럼 기준 정렬 bytes=b | 용량 단위 바이트로 출력 
+§§TABLE0§§ 
 --- 
 **✅ 마무리 요약**
-목적 | 명령어 --- | --- 클러스터 상태 | GET _cat/health?v 노드 상태 | GET _cat/nodes?v 인덱스 상태 | GET _cat/indices?v 샤드 상태 | GET _cat/shards?v 마스터 확인 | GET _cat/master?v 스냅샷 목록 | GET _cat/repositories?v 노드 역할 | GET _cat/nodes?h=name,ip,node.role 인덱스 용량 TOP | GET _cat/indices 문서 수 TOP | GET _cat/indices Unassigned 확인 | GET _cat/shards 
+§§TABLE1§§ 
 --- 
 > 💬 **Tip:**
 > CAT API는 Kibana보다 **빠르고 정확하게 장애 원인을 확인할 수 있는 1차 진단 도구** 입니다.
