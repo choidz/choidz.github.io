@@ -8,7 +8,7 @@
       "#일상"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 1,
+    "readingMinutes": 3,
     "contentPath": "/posts/zabbix.md"
   },
   {
@@ -20,7 +20,7 @@
       "#ElasticSearch"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 1,
+    "readingMinutes": 3,
     "contentPath": "/posts/cat-api-10.md"
   },
   {
