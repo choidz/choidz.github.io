@@ -252,8 +252,6 @@ export default function BlogLayout() {
     return sortedPosts.filter((post) => post.tags?.includes(activeTag));
   }, [sortedPosts, activeTag]);
 
-  const featuredPost = filteredPosts[0] ?? null;
-  const listPosts = filteredPosts.slice(featuredPost ? 1 : 0);
   const trendingPosts = filteredPosts.slice(0, 4);
   const uniqueTags = useMemo(
     () => Array.from(new Set(sortedPosts.flatMap((post) => post.tags ?? []))),
@@ -281,20 +279,9 @@ export default function BlogLayout() {
         ) : (
           <div className='grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]'>
             <div className='space-y-6'>
-              <FeaturedPost
-                post={featuredPost}
-                activeTag={activeTag}
-                onTagClick={handleTagClick}
-              />
               <PostList
-                posts={listPosts}
-                title={
-                  activeTag
-                    ? `${activeTag} 태그 글`
-                    : featuredPost
-                    ? "최신 글"
-                    : "모든 글"
-                }
+                posts={filteredPosts}
+                title={activeTag ? `${activeTag} 태그 글` : "모든 글"}
                 activeTag={activeTag}
                 onTagClick={handleTagClick}
               />

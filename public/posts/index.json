@@ -4,11 +4,7 @@
     "title": "Elasticsearch 핵심 개념 정리",
     "description": "클러스터, 샤드, 매핑부터 모니터링 지표까지 Elasticsearch 구조와 운영 개념을 정리했습니다.",
     "date": "2025-10-31",
-    "tags": [
-      "#Elasticsearch",
-      "#검색",
-      "#운영"
-    ],
+    "tags": ["#Elasticsearch", "#검색엔진", "#DevOps", "#운영"],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
     "contentPath": "/posts/elasticsearch-core-guide.md"
@@ -18,9 +14,7 @@
     "title": "운영자가 꼭 알아야 할 Zabbix 핵심",
     "description": "Zabbix 정리 (개념 → 설치 → 템플릿/알림 실무) 오픈소스 통합 모니터링 솔루션 Zabbix.",
     "date": "2025-10-31",
-    "tags": [
-      "#Zabbix"
-    ],
+    "tags": ["#Zabbix", "#모니터링", "#DevOps"],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 4,
     "contentPath": "/posts/zabbix.md"
@@ -30,9 +24,7 @@
     "title": "CAT API 예제 10선",
     "description": "Elasticsearch CAT API 실전 예제 10선 Elasticsearch 운영 중이라면 반드시 알아야 하는 명령어!",
     "date": "2025-10-31",
-    "tags": [
-      "#ElasticSearch"
-    ],
+    "tags": ["#Elasticsearch", "#API", "#DevOps", "#모니터링"],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
     "contentPath": "/posts/cat-api-10.md"
@@ -42,9 +34,7 @@
     "title": "Ansible 정리",
     "description": "Ansible 완벽 정리 (기초부터 핵심 개념까지) DevOps 환경에서 빠질 수 없는 자동화 도구, Ansible!",
     "date": "2025-10-31",
-    "tags": [
-      "#Ansible"
-    ],
+    "tags": ["#Ansible", "#자동화", "#DevOps", "#배포"],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
     "contentPath": "/posts/ansible.md"
