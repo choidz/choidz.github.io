@@ -1,0 +1,36 @@
+name: 🪄 Auto Post from Naver Blog
+
+on:
+  schedule:
+    - cron: "0 * * * *" # 매 시간 정각마다 실행 (UTC 기준)
+  workflow_dispatch: # 수동 실행 버튼도 활성화
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: 📦 Install dependencies
+        run: |
+          pip install feedparser html2text
+
+      - name: 🧠 Run auto_post.py
+        run: python auto_post.py
+
+      - name: 🔀 Commit & Push to auto-post branch
+        run: |
+          git config --global user.name "choidz"
+          git config --global user.email "your_email@example.com"
+          git fetch origin
+          git checkout -B auto-post
+          git add .
+          git commit -m "🤖 Auto post update $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          git push -u origin auto-post

@@ -21,3 +21,25 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# python
+venv/
+
+# ✅ PyInstaller나 빌드 임시파일 (혹시 나중에 빌드할 경우)
+build/
+dist/
+*.spec
+
+# ✅ Python 캐시 파일
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ✅ 로그나 실행 중 생성되는 파일 (있을 경우)
+*.log
+
+# ✅ 환경 변수 설정 파일 (보안정보 포함)
+.env
+.env.local
+.env.production
