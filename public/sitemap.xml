@@ -2,37 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://choidz.github.io/</loc>
-    <lastmod>2024-04-30</lastmod>
+    <lastmod>2024-05-02</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://choidz.github.io/portfolio</loc>
     <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/welcome-to-the-new-blog</loc>
-    <lastmod>2024-04-30</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/building-a-personal-dev-blog</loc>
-    <lastmod>2024-03-27</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/stack-decisions-for-2024</loc>
-    <lastmod>2024-02-18</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/shipping-side-project-fast</loc>
-    <lastmod>2024-01-22</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/devto-style-ui-breakdown</loc>
-    <lastmod>2023-12-08</lastmod>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://choidz.github.io/blog/elasticsearch-core-guide</loc>
