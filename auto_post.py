@@ -1,63 +1,136 @@
+import json
 import os
-from dotenv import load_dotenv
+import re
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
 import feedparser
 import html2text
-from datetime import datetime
-import subprocess
+from dotenv import load_dotenv
 
-# ==============================
+# --- 환경 변수 로드 (.env or GitHub Secrets) ---
 load_dotenv()
 
 NAVER_RSS_URL = os.getenv("NAVER_RSS_URL")
-POSTS_DIR = "./public/posts"
+POSTS_DIR = Path("public/posts")
+MANIFEST_PATH = POSTS_DIR / "index.json"
 GIT_USER_NAME = os.getenv("GIT_USER_NAME")
 GIT_USER_EMAIL = os.getenv("GIT_USER_EMAIL")
-# ==============================
 
-def html_to_markdown(html_content: str) -> str:
-    h = html2text.HTML2Text()
-    h.ignore_links = False
-    h.ignore_images = False
-    h.body_width = 0
-    h.single_line_break = True
-    h.protect_links = True
-    h.mark_code = True
-    h.unicode_snob = True
-    return h.handle(html_content)
+# --- Markdown 변환 설정 ---
+converter = html2text.HTML2Text()
+converter.ignore_links = False
+converter.ignore_images = False
+converter.body_width = 0
+converter.single_line_break = True
+converter.protect_links = True
+converter.mark_code = True
+converter.unicode_snob = True
 
-os.makedirs(POSTS_DIR, exist_ok=True)
+POSTS_DIR.mkdir(parents=True, exist_ok=True)
+
+# --- 기존 index.json 로드 ---
+if MANIFEST_PATH.exists():
+    try:
+        existing_manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        print("⚠️ index.json 손상 감지 → 초기화")
+        existing_manifest = []
+else:
+    existing_manifest = []
+
+posts_by_slug = {item["slug"]: item for item in existing_manifest if "slug" in item}
+
+# --- RSS 파싱 ---
+slug_pattern = re.compile(r"[^a-z0-9]+")
 feed = feedparser.parse(NAVER_RSS_URL)
+updated = False
 
 for entry in feed.entries:
-    title = entry.title
-    link = entry.link
-    html_body = entry.description
-    md_body = html_to_markdown(html_body)
-    date = datetime.now().strftime("%Y-%m-%d")
-    safe_title = "".join(c if c.isalnum() else "-" for c in title).strip("-")
-    filename = f"{POSTS_DIR}/{date}-{safe_title}.md"
+    title = entry.title.strip()
+    base_slug = slug_pattern.sub("-", title.lower()).strip("-")
+    slug = base_slug or datetime.now().strftime("post-%Y%m%d-%H%M%S")
+    content_path = POSTS_DIR / f"{slug}.md"
 
-    if os.path.exists(filename):
-        print(f"⏩ 이미 존재: {title}")
+    # 이미 존재하는 포스트면 skip
+    if content_path.exists():
         continue
 
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(f"# {title}\n\n---\n\n{md_body}\n\n[원문 보기]({link})\n")
-    print(f"✅ 새 글 생성 완료: {filename}")
+    html_body = entry.get("description", "")
+    markdown = converter.handle(html_body)
+    source_link = entry.get("link", "")
+    summary = entry.get("summary", "").strip()
+    description = summary or markdown.splitlines()[0][:140]
 
-# 🔀 Git auto-post 브랜치로 커밋 & 푸시
-subprocess.run(["git", "config", "user.name", GIT_USER_NAME])
-subprocess.run(["git", "config", "user.email", GIT_USER_EMAIL])
+    raw_tags = entry.get("tags", []) or []
+    tags = []
+    for tag in raw_tags:
+        if isinstance(tag, dict):
+            value = tag.get("term") or tag.get("label")
+            if value:
+                tags.append(value)
+        else:
+            tags.append(str(tag))
 
-# 현재 브랜치 확인
-result = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True)
-current_branch = result.stdout.strip()
+    try:
+        published = entry.get("published_parsed") or entry.get("updated_parsed")
+        date = datetime(*published[:6]).strftime("%Y-%m-%d") if published else datetime.now().strftime("%Y-%m-%d")
+    except Exception:
+        date = datetime.now().strftime("%Y-%m-%d")
 
-# auto-post 브랜치 생성/이동
-if current_branch != "auto-post":
-    subprocess.run(["git", "checkout", "-B", "auto-post"])
+    reading_minutes = max(1, len(markdown.split()) // 200)
 
-# 커밋 및 푸시
-subprocess.run(["git", "add", "."])
-subprocess.run(["git", "commit", "-m", f"Auto post update {datetime.now()}"])
-subprocess.run(["git", "push", "-u", "origin", "auto-post"])
+    # --- Markdown 파일 작성 ---
+    sections = [
+        f"# {title}",
+        "",
+        "---",
+        "",
+        markdown.strip(),
+        "",
+        f"[원문 보기]({source_link})" if source_link else "",
+    ]
+    content_path.write_text("\n".join(sections).strip() + "\n", encoding="utf-8")
+
+    # --- index.json용 데이터 구성 ---
+    posts_by_slug[slug] = {
+        "slug": slug,
+        "title": title,
+        "description": description,
+        "date": date,
+        "tags": tags,
+        "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+        "readingMinutes": reading_minutes,
+        "contentPath": f"/posts/{slug}.md",
+    }
+
+    print(f"✅ Added new post: {title}")
+    updated = True
+
+# --- index.json 갱신 ---
+if updated:
+    manifest = sorted(posts_by_slug.values(), key=lambda item: item["date"], reverse=True)
+    MANIFEST_PATH.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8"
+    )
+    print(f"📄 index.json 갱신 완료 ({len(manifest)} posts)")
+
+    # --- Git 자동 커밋/푸시 ---
+    if GIT_USER_NAME and GIT_USER_EMAIL:
+        subprocess.run(["git", "config", "user.name", GIT_USER_NAME])
+        subprocess.run(["git", "config", "user.email", GIT_USER_EMAIL])
+
+    current_branch = subprocess.check_output(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"], text=True
+    ).strip()
+
+    if current_branch != "auto-post":
+        subprocess.run(["git", "checkout", "-B", "auto-post"])
+
+    subprocess.run(["git", "add", str(POSTS_DIR)])
+    subprocess.run(["git", "commit", "-m", f"🤖 Auto post update {datetime.now():%Y-%m-%d %H:%M:%S}"])
+    subprocess.run(["git", "push", "-u", "origin", "auto-post", "--force"])
+else:
+    print("ℹ️ 새로운 포스트 없음 (index.json 변경되지 않음)")
