@@ -23,7 +23,7 @@ jobs:
 
       - name: 📦 Install dependencies
         run: |
-          pip install feedparser html2text python-dotenv requests
+          pip install feedparser html2text python-dotenv requests beautifulsoup4
 
       - name: 🧠 Run auto_post.py
         env:
