@@ -264,6 +264,15 @@ if updated:
     subprocess.run(["git", "add", str(POSTS_DIR)], check=True)
     commit_msg = f"Auto post update {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
     subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+
+    # 원격 브랜치 존재 확인 및 삭제
+    result = subprocess.run(
+        ["git", "ls-remote", "--heads", "origin", "auto-post"],
+        capture_output=True, text=True
+    )
+    if result.stdout.strip():
+        subprocess.run(["git", "push", "origin", "--delete", "auto-post"], check=False)
+
     subprocess.run(["git", "push", "-u", "origin", "auto-post"], check=True)
     print("🚀 Push 완료")
 else:
