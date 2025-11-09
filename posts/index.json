@@ -32,11 +32,11 @@
       "#DevOps"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 3,
+    "readingMinutes": 2,
     "contentPath": "/posts/apache-kafka.md"
   },
   {
-    "slug": "post-20251109-113715",
+    "slug": "post-20251109-114858",
     "title": "리눅스 명령어 정리  | 서버관리·개발자 필수 실무 명령어 가이드",
     "description": "리눅스 실무 필수 명령어 총정리 안녕하세요 이번 글에서는 리눅스(Linux) 환경에서 꼭 알아야 할 실무 명령어들을 한눈에 정리해봤습니다.",
     "date": "2025-11-05",
@@ -44,8 +44,8 @@
       "#Linux"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 4,
-    "contentPath": "/posts/post-20251109-113715.md"
+    "readingMinutes": 3,
+    "contentPath": "/posts/post-20251109-114858.md"
   },
   {
     "slug": "java",
@@ -68,7 +68,7 @@
       "#Zabbix"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 4,
+    "readingMinutes": 3,
     "contentPath": "/posts/zabbix.md"
   },
   {
@@ -80,7 +80,7 @@
       "#ElasticSearch"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 3,
+    "readingMinutes": 2,
     "contentPath": "/posts/cat-api-10.md"
   },
   {
@@ -92,7 +92,7 @@
       "#DevOps"
     ],
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 3,
+    "readingMinutes": 2,
     "contentPath": "/posts/ansible.md"
   }
 ]
