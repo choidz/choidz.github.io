@@ -120,9 +120,39 @@ def format_markdown_table(rows: list[list[str]]) -> str:
     return "\n".join([header, divider] + body)
 
 # ✅ HTML 정제 및 요약 추출
-def sanitize_html(html: str) -> tuple[str, str, list[str]]:
+def sanitize_html(html: str) -> tuple[str, str, list[str], list[str]]:
     soup = BeautifulSoup(html or "", "html.parser")
     tables = []
+    code_blocks = []
+
+    # ✅ 코드 블록 추출 (네이버 블로그 스타일)
+    # se-module-code를 먼저 찾아서 처리 (상위 컨테이너)
+    code_modules = soup.find_all("div", class_="se-module-code")
+    for code_module in code_modules:
+        # 내부의 실제 코드 소스 찾기
+        code_source = code_module.find("div", class_="se-code-source")
+        if code_source:
+            # __se_code_view 내부의 텍스트 추출
+            code_view = code_source.find("div", class_=lambda x: x and "__se_code_view" in " ".join(x) if isinstance(x, list) else x and "__se_code_view" in x)
+            code_text = code_view.get_text() if code_view else code_source.get_text()
+        else:
+            code_text = code_module.get_text()
+
+        # 빈 코드 블록은 제거
+        if not code_text.strip():
+            code_module.decompose()
+            continue
+
+        code_blocks.append(code_text.strip())
+        # 코드 블록을 플레이스홀더로 교체
+        code_module.replace_with(f"\n\n§§CODE{len(code_blocks)-1}§§\n\n")
+
+    # ✅ 일반 pre, code 태그도 처리 (중복 제거)
+    for pre_tag in soup.find_all("pre"):
+        code_text = pre_tag.get_text()
+        if code_text.strip():
+            code_blocks.append(code_text.strip())
+            pre_tag.replace_with(f"\n\n§§CODE{len(code_blocks)-1}§§\n\n")
 
     # ✅ 표 추출 (그대로 유지)
     for idx, table in enumerate(soup.find_all("table")):
@@ -152,11 +182,11 @@ def sanitize_html(html: str) -> tuple[str, str, list[str]]:
         br.replace_with("\n")
 
     text_preview = soup.get_text(separator=" ").strip()
-    return str(soup), text_preview, tables
+    return str(soup), text_preview, tables, code_blocks
 
 
 # ✅ HTML → Markdown 변환
-def html_to_markdown(html: str, tables: list[str]) -> str:
+def html_to_markdown(html: str, tables: list[str], code_blocks: list[str]) -> str:
     md_text = converter.handle(html)
 
     # ✅ hr 복원 (무조건 줄바꿈 포함)
@@ -165,6 +195,12 @@ def html_to_markdown(html: str, tables: list[str]) -> str:
     # ✅ 표 복원
     for idx, table_md in enumerate(tables):
         md_text = md_text.replace(f"§§TABLE{idx}§§", f"\n\n{table_md}\n\n")
+
+    # ✅ 코드 블록 복원 (마크다운 코드 블록 형식으로)
+    for idx, code_text in enumerate(code_blocks):
+        # 코드 블록을 ```로 감싸기
+        code_md = f"```\n{code_text.strip()}\n```"
+        md_text = md_text.replace(f"§§CODE{idx}§§", code_md)
 
     # ✅ 여분의 개행 정리
     md_text = re.sub(r"\n{3,}", "\n\n", md_text).strip()
@@ -184,8 +220,8 @@ for entry in feedparser.parse(NAVER_RSS_URL).entries:
 
     link = entry.get("link", "") or ""
     full_html, html_tags = fetch_full_naver_post(link)
-    sanitized_html, text_preview, tables = sanitize_html(full_html or entry.get("description", ""))
-    markdown = html_to_markdown(sanitized_html, tables)
+    sanitized_html, text_preview, tables, code_blocks = sanitize_html(full_html or entry.get("description", ""))
+    markdown = html_to_markdown(sanitized_html, tables, code_blocks)
 
     # ✅ 첫 문장 요약
     summary = entry.get("summary", "") or text_preview
