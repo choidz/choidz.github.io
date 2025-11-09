@@ -29,7 +29,61 @@ my-code-docs는 수백 개의 파일이 담긴 ZIP을 분석해
 **🧩 스토어 구조 설계**
 스토어 초기화는 src/store/analysisStore.ts에서 이루어집니다.
 핵심 구조는 다음과 같습니다.
-interface AnalysisState { isLoading: boolean; error: string | null; currentProjectId: string | null; progress: AnalysisProgress | null; extractedFiles: ExtractedFile[] | null; projectSummary: string | null; moduleReport: string | null; reactReport: string | null; functionReport: string | null; aiReportsResult: string | null; graphData: { nodes: Node[]; edges: Edge[] } | null; moduleGraphData: { nodes: Node[]; edges: Edge[] } | null; heatmapData: any | null; mermaidDiagram: string | null; startAnalysis(): void; setError(message: string | null): void; handleAnalysisResult(results: AnyAnalysisPayload[], target?: string): void; loadProjectResult(result: StoredAnalysisResult): void; clearAllResults(): void; setCurrentProjectId(id: string | null): void; setProgress(progress: AnalysisProgress): void; setExtractedFiles(files: ExtractedFile[]): void; }
+```
+interface AnalysisState {
+
+isLoading: boolean;
+
+error: string | null;
+
+currentProjectId: string | null;
+
+progress: AnalysisProgress | null;
+
+  
+
+extractedFiles: ExtractedFile[] | null;
+
+projectSummary: string | null;
+
+moduleReport: string | null;
+
+reactReport: string | null;
+
+functionReport: string | null;
+
+aiReportsResult: string | null;
+
+  
+
+graphData: { nodes: Node[]; edges: Edge[] } | null;
+
+moduleGraphData: { nodes: Node[]; edges: Edge[] } | null;
+
+heatmapData: any | null;
+
+mermaidDiagram: string | null;
+
+  
+
+startAnalysis(): void;
+
+setError(message: string | null): void;
+
+handleAnalysisResult(results: AnyAnalysisPayload[], target?: string): void;
+
+loadProjectResult(result: StoredAnalysisResult): void;
+
+clearAllResults(): void;
+
+setCurrentProjectId(id: string | null): void;
+
+setProgress(progress: AnalysisProgress): void;
+
+setExtractedFiles(files: ExtractedFile[]): void;
+
+}
+```
 
 ---
 
