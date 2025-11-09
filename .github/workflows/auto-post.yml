@@ -32,12 +32,20 @@ jobs:
           GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
         run: python auto_post.py
 
-      - name: Commit to master
+      - name: Sync posts into master
+        env:
+          GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+          GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
         run: |
-          git config --global user.name "${{ secrets.GIT_USER_NAME }}"
-          git config --global user.email "${{ secrets.GIT_USER_EMAIL }}"
-          git add .
-          git diff --staged --quiet || git commit -m "Auto post update $(date '+%Y-%m-%d %H:%M:%S')"
+          set -e
+          git fetch origin master
+          git checkout master
+          git config user.name "${GIT_USER_NAME}"
+          git config user.email "${GIT_USER_EMAIL}"
+          git checkout auto-post -- public/posts
+          git add public/posts
+          git diff --staged --quiet && exit 0
+          git commit -m "Sync posts from auto-post $(date '+%Y-%m-%d %H:%M:%S')"
           git push origin master
 
       - name: Set up Node.js
