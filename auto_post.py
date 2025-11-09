@@ -27,7 +27,7 @@ converter = html2text.HTML2Text()
 converter.ignore_links = False
 converter.ignore_images = False
 converter.body_width = 0
-converter.single_line_break = True
+converter.single_line_break = False
 converter.protect_links = True
 converter.mark_code = False
 converter.unicode_snob = True
@@ -125,6 +125,40 @@ def sanitize_html(html: str) -> tuple[str, str, list[str], list[str]]:
     tables = []
     code_blocks = []
 
+    def has_class_fragment(tag, keyword):
+        classes = tag.get("class") or []
+        return any(keyword in cls for cls in classes)
+
+    # ✅ 네이버 se-table 구조를 실제 table 태그로 변환
+    for se_table in soup.find_all(
+        lambda tag: tag.name == "div" and has_class_fragment(tag, "se-table")
+    ):
+        rows = []
+        row_divs = se_table.select("div.se-table-row")
+        for row_div in row_divs:
+            cols = []
+            for col_div in row_div.select("div.se-table-col"):
+                text = col_div.get_text(" ", strip=True)
+                text = text.replace("`", "")
+                text = escape_md_table_cell(text)
+                cols.append(text)
+            if cols:
+                rows.append(cols)
+
+        if rows:
+            table_tag = soup.new_tag("table")
+            for row_index, row_cols in enumerate(rows):
+                tr_tag = soup.new_tag("tr")
+                for col_text in row_cols:
+                    cell_tag = "th" if row_index == 0 else "td"
+                    cell = soup.new_tag(cell_tag)
+                    cell.string = col_text
+                    tr_tag.append(cell)
+                table_tag.append(tr_tag)
+            se_table.replace_with(table_tag)
+        else:
+            se_table.decompose()
+
     # ✅ 코드 블록 추출 (네이버 블로그 스타일)
     # se-module-code를 먼저 찾아서 처리 (상위 컨테이너)
     code_modules = soup.find_all("div", class_="se-module-code")
@@ -202,8 +236,8 @@ def html_to_markdown(html: str, tables: list[str], code_blocks: list[str]) -> st
         code_md = f"```\n{code_text.strip()}\n```"
         md_text = md_text.replace(f"§§CODE{idx}§§", code_md)
 
-    # ✅ 여분의 개행 정리
-    md_text = re.sub(r"\n{3,}", "\n\n", md_text).strip()
+    # ✅ 여분의 개행 정리 (4줄 이상만 압축)
+    md_text = re.sub(r"\n{4,}", "\n\n", md_text).strip()
     return md_text
 
 
