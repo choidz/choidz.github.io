@@ -1,5 +1,17 @@
 [
   {
+    "slug": "github-actions-rss",
+    "title": "GitHub Actions로 네이버 블로그 RSS 자동 동기화 시스템 만들기",
+    "description": "GitHub Actions로 네이버 블로그 자동 동기화 블로그 구축하기 네이버 블로그에 글을 올리면 자동으로 choidz.",
+    "date": "2025-11-09",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/github-actions-rss.md"
+  },
+  {
     "slug": "android-studio",
     "title": "Android Studio 설치 후 휴대폰(삼성) 인식 안 될 때 해결법",
     "description": "✅ 1️⃣ 증상 요약 Android Studio에서 내 폰이 안 보임 adb devices 실행해도 아무 기기도 표시되지 않음 “이 컴퓨터의 RSA 키 지문을 허용하시겠습니까?",
@@ -58,6 +70,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 4,
     "contentPath": "/posts/java.md"
+  },
+  {
+    "slug": "post-20251110-011752",
+    "title": "리눅스 명령어 정리  | 서버관리·개발자 필수 실무 명령어 가이드",
+    "description": "리눅스 실무 필수 명령어 총정리 안녕하세요 이번 글에서는 리눅스(Linux) 환경에서 꼭 알아야 할 실무 명령어들을 한눈에 정리해봤습니다.",
+    "date": "2025-11-05",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/post-20251110-011752.md"
   },
   {
     "slug": "zabbix",
