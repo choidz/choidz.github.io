@@ -1,5 +1,41 @@
 [
   {
+    "slug": "supabase-postgresql-baas",
+    "title": "Supabase 시작하기: PostgreSQL 기반 BaaS로 백엔드 구축하기",
+    "description": "Supabase는 Firebase의 오픈소스 대안으로, PostgreSQL 기반의 클라우드 백엔드 서비스입니다.",
+    "date": "2025-11-11",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/supabase-postgresql-baas.md"
+  },
+  {
+    "slug": "elasticsearch-jvm",
+    "title": "Elasticsearch 대용량 처리를 위한 JVM과 시스템 최적화",
+    "description": "Elasticsearch는 JVM 기반 애플리케이션으로, 힙 메모리를 32GB 이하로 설정하고 Compressed OOP를 활용해야 합니다.",
+    "date": "2025-11-11",
+    "tags": [
+      "#ElasticSearch"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/elasticsearch-jvm.md"
+  },
+  {
+    "slug": "jdbc-web-xml",
+    "title": "JDBC 커넥션풀과 web.xml 설정 완벽 가이드",
+    "description": "JSP/톰캣에서 JDBC 커넥션풀 설정하기: server.",
+    "date": "2025-11-11",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/jdbc-web-xml.md"
+  },
+  {
     "slug": "github-actions-rss",
     "title": "GitHub Actions로 네이버 블로그 RSS 자동 동기화 시스템 만들기",
     "description": "GitHub Actions로 네이버 블로그 자동 동기화 블로그 구축하기 네이버 블로그에 글을 올리면 자동으로 choidz.",
@@ -94,6 +130,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
     "contentPath": "/posts/post-20251111-011538.md"
+  },
+  {
+    "slug": "post-20251112-011509",
+    "title": "리눅스 명령어 정리  | 서버관리·개발자 필수 실무 명령어 가이드",
+    "description": "리눅스 실무 필수 명령어 총정리 안녕하세요 이번 글에서는 리눅스(Linux) 환경에서 꼭 알아야 할 실무 명령어들을 한눈에 정리해봤습니다.",
+    "date": "2025-11-05",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/post-20251112-011509.md"
   },
   {
     "slug": "zabbix",
