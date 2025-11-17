@@ -1,5 +1,41 @@
 [
   {
+    "slug": "windows-mysql-root-dbeaver",
+    "title": "Windows에서 MySQL root 비밀번호 초기화 + DBeaver 드라이버 오류 해결 총정리",
+    "description": "MySQL을 사용하다 보면 가장 흔하게 발생하는 두 가지 문제가 있습니다.",
+    "date": "2025-11-16",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 1,
+    "contentPath": "/posts/windows-mysql-root-dbeaver.md"
+  },
+  {
+    "slug": "linux",
+    "title": "구식 Linux 배포판 업그레이드 완벽 가이드",
+    "description": "리눅스 서버나 개발 환경을 장기간 운영하다 보면, 어느 순간 OS 버전이 너무 오래되어 더 이상 보안 업데이트나 패키지 지원이 이루어지지 않는 순간이 옵니다.",
+    "date": "2025-11-16",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/linux.md"
+  },
+  {
+    "slug": "linux-fhs",
+    "title": "[Linux] 리눅스 디렉토리 구조 완벽 정리: FHS(파일 시스템 계층구조) 표준과 주요 디렉토리 역할",
+    "description": "리눅스 디렉토리 구조 완벽 정리: FHS(파일 시스템 계층구조) 표준과 주요 디렉토리 역할 리눅스는 Unix의 파일 시스템 계층 구조(FHS: Filesystem Hierarchy Standard)를 기반으로 설계되었습니다.",
+    "date": "2025-11-16",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/linux-fhs.md"
+  },
+  {
     "slug": "supabase-postgresql-baas",
     "title": "Supabase 시작하기: PostgreSQL 기반 BaaS로 백엔드 구축하기",
     "description": "Supabase는 Firebase의 오픈소스 대안으로, PostgreSQL 기반의 클라우드 백엔드 서비스입니다.",
@@ -192,6 +228,18 @@
     "contentPath": "/posts/post-20251116-011955.md"
   },
   {
+    "slug": "post-20251117-011557",
+    "title": "리눅스 명령어 정리  | 서버관리·개발자 필수 실무 명령어 가이드",
+    "description": "리눅스 실무 필수 명령어 총정리 안녕하세요 이번 글에서는 리눅스(Linux) 환경에서 꼭 알아야 할 실무 명령어들을 한눈에 정리해봤습니다.",
+    "date": "2025-11-05",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/post-20251117-011557.md"
+  },
+  {
     "slug": "zabbix",
     "title": "운영자가 꼭 알아야 할 Zabbix 핵심",
     "description": "Zabbix 정리 (개념 → 설치 → 템플릿/알림 실무) 오픈소스 통합 모니터링 솔루션 Zabbix.",
@@ -226,5 +274,17 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 2,
     "contentPath": "/posts/ansible.md"
+  },
+  {
+    "slug": "elasticsearch-rdbms",
+    "title": "Elasticsearch 완벽 정리 (RDBMS 비교 + 핵심 개념 + 모니터링)",
+    "description": "Elasticsearch 완벽 정리 (RDBMS 비교 + 핵심 개념 + 모니터링) 데이터 검색과 로그 분석에서 빠질 수 없는 Elasticsearch(ES)!",
+    "date": "2025-10-31",
+    "tags": [
+      "#ElasticSearch"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/elasticsearch-rdbms.md"
   }
 ]
