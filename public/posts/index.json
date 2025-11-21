@@ -276,6 +276,18 @@
     "contentPath": "/posts/post-20251120-011336.md"
   },
   {
+    "slug": "post-20251121-011421",
+    "title": "리눅스 명령어 정리  | 서버관리·개발자 필수 실무 명령어 가이드",
+    "description": "리눅스 실무 필수 명령어 총정리 안녕하세요 이번 글에서는 리눅스(Linux) 환경에서 꼭 알아야 할 실무 명령어들을 한눈에 정리해봤습니다.",
+    "date": "2025-11-05",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/post-20251121-011421.md"
+  },
+  {
     "slug": "zabbix",
     "title": "운영자가 꼭 알아야 할 Zabbix 핵심",
     "description": "Zabbix 정리 (개념 → 설치 → 템플릿/알림 실무) 오픈소스 통합 모니터링 솔루션 Zabbix.",
