@@ -1,5 +1,53 @@
 [
   {
+    "slug": "elasticsearch-kibana",
+    "title": "Elasticsearch와 Kibana: 설치부터 데이터 조작까지",
+    "description": "목차 1.",
+    "date": "2025-11-22",
+    "tags": [
+      "#ElasticSearch"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 1,
+    "contentPath": "/posts/elasticsearch-kibana.md"
+  },
+  {
+    "slug": "post-20251123-012428",
+    "title": "도메인 지식: 개발자가 반드시 알아야 할 이유",
+    "description": "목차 도메인이란 무엇인가 도메인 지식이 없으면 벌어지는 문제들 실력 있는 개발자의 조건 도메인 지식을 높이는 방법 도메인이란 무엇인가 도메인(domain)은 우리가 만드는 소프트웨어가 해결하고자 하는 업무 영역 또는 현실 세계의 맥락을 의미합니다.",
+    "date": "2025-11-22",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/post-20251123-012428.md"
+  },
+  {
+    "slug": "lm-studio-pc-llm",
+    "title": "LM Studio로 로컬 PC에서 LLM 모델 실행하기",
+    "description": "LM Studio란 무엇인가 LM Studio는 사용자가 인터넷 연결 없이 자신의 컴퓨터에서 직접 대형 언어 모델(LLM)을 실행할 수 있도록 해주는 프로그램입니다.",
+    "date": "2025-11-22",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 4,
+    "contentPath": "/posts/lm-studio-pc-llm.md"
+  },
+  {
+    "slug": "git-pr",
+    "title": "Git 협업을 위한 커밋 메시지와 PR 작성 완벽 가이드",
+    "description": "커밋 메시지의 구조와 규칙 효율적인 협업을 위해서는 일관성 있는 커밋 메시지 작성이 필수입니다.",
+    "date": "2025-11-22",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 4,
+    "contentPath": "/posts/git-pr.md"
+  },
+  {
     "slug": "windows-mysql-root-dbeaver",
     "title": "Windows에서 MySQL root 비밀번호 초기화 + DBeaver 드라이버 오류 해결 총정리",
     "description": "MySQL을 사용하다 보면 가장 흔하게 발생하는 두 가지 문제가 있습니다.",
@@ -298,6 +346,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
     "contentPath": "/posts/post-20251122-011150.md"
+  },
+  {
+    "slug": "post-20251123-012429",
+    "title": "리눅스 명령어 정리  | 서버관리·개발자 필수 실무 명령어 가이드",
+    "description": "리눅스 실무 필수 명령어 총정리 안녕하세요 이번 글에서는 리눅스(Linux) 환경에서 꼭 알아야 할 실무 명령어들을 한눈에 정리해봤습니다.",
+    "date": "2025-11-05",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/post-20251123-012429.md"
   },
   {
     "slug": "zabbix",
