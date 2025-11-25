@@ -1,5 +1,17 @@
 [
   {
+    "slug": "zabbix-grafana",
+    "title": "Zabbix 데이터를 Grafana로 예쁘게 시각화하기 - 설치부터 연동까지",
+    "description": "서버 모니터링을 하다 보면 Zabbix의 기본 대시보드가 좀 아쉬울 때가 있어요.",
+    "date": "2025-11-24",
+    "tags": [
+      "#Grafana"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 4,
+    "contentPath": "/posts/zabbix-grafana.md"
+  },
+  {
     "slug": "kafka-vs-rabbitmq",
     "title": "Kafka vs RabbitMQ: 메시지 큐 선택의 모든 것",
     "description": "마이크로서비스 아키텍처가 일반화되면서 시스템 간 통신 방식이 점점 중요해지고 있어요.",
@@ -70,6 +82,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 2,
     "contentPath": "/posts/post-20251124-011948.md"
+  },
+  {
+    "slug": "post-20251125-011509",
+    "title": "도메인 지식: 개발자가 반드시 알아야 할 이유",
+    "description": "목차 도메인이란 무엇인가 도메인 지식이 없으면 벌어지는 문제들 실력 있는 개발자의 조건 도메인 지식을 높이는 방법 도메인이란 무엇인가 도메인(domain)은 우리가 만드는 소프트웨어가 해결하고자 하는 업무 영역 또는 현실 세계의 맥락을 의미합니다.",
+    "date": "2025-11-22",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/post-20251125-011509.md"
   },
   {
     "slug": "windows-mysql-root-dbeaver",
@@ -382,6 +406,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
     "contentPath": "/posts/post-20251123-012429.md"
+  },
+  {
+    "slug": "post-20251125-011510",
+    "title": "리눅스 명령어 정리  | 서버관리·개발자 필수 실무 명령어 가이드",
+    "description": "리눅스 실무 필수 명령어 총정리 안녕하세요 이번 글에서는 리눅스(Linux) 환경에서 꼭 알아야 할 실무 명령어들을 한눈에 정리해봤습니다.",
+    "date": "2025-11-05",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/post-20251125-011510.md"
   },
   {
     "slug": "zabbix",
