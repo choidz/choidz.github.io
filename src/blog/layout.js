@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { blogPaths, portfolioPath } from "../routes/paths";
 import PostList from "./post-list";
 import usePosts from "./usePosts";
+import { getPostViewsMap } from "./usePostViews";
 import { formatDate } from "./utils";
 
 const primaryLinks = [
@@ -151,6 +152,110 @@ function TagSuggestions({ tags, activeTag, onTagClick }) {
   );
 }
 
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  const maxVisiblePages = 5;
+  const halfVisible = Math.floor(maxVisiblePages / 2);
+
+  let startPage = Math.max(1, currentPage - halfVisible);
+  let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+  if (endPage - startPage + 1 < maxVisiblePages) {
+    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+  }
+
+  const pages = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, i) => startPage + i
+  );
+
+  return (
+    <nav className='flex items-center justify-center gap-2' aria-label='페이지네이션'>
+      <button
+        type='button'
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className='inline-flex h-10 w-10 items-center justify-center rounded-lg border border-brand-border bg-brand-surface text-brand-foreground transition hover:bg-brand-accent-soft hover:text-brand-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-brand-surface disabled:hover:text-brand-foreground'
+        aria-label='이전 페이지'>
+        <svg
+          className='h-5 w-5'
+          fill='none'
+          viewBox='0 0 24 24'
+          stroke='currentColor'>
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth={2}
+            d='M15 19l-7-7 7-7'
+          />
+        </svg>
+      </button>
+
+      {startPage > 1 && (
+        <>
+          <button
+            type='button'
+            onClick={() => onPageChange(1)}
+            className='inline-flex h-10 w-10 items-center justify-center rounded-lg border border-brand-border bg-brand-surface text-sm font-medium text-brand-foreground transition hover:bg-brand-accent-soft hover:text-brand-accent'>
+            1
+          </button>
+          {startPage > 2 && (
+            <span className='text-brand-muted'>...</span>
+          )}
+        </>
+      )}
+
+      {pages.map((page) => (
+        <button
+          key={page}
+          type='button'
+          onClick={() => onPageChange(page)}
+          className={`inline-flex h-10 w-10 items-center justify-center rounded-lg border text-sm font-medium transition ${
+            currentPage === page
+              ? 'border-brand-accent bg-brand-accent text-white'
+              : 'border-brand-border bg-brand-surface text-brand-foreground hover:bg-brand-accent-soft hover:text-brand-accent'
+          }`}
+          aria-current={currentPage === page ? 'page' : undefined}>
+          {page}
+        </button>
+      ))}
+
+      {endPage < totalPages && (
+        <>
+          {endPage < totalPages - 1 && (
+            <span className='text-brand-muted'>...</span>
+          )}
+          <button
+            type='button'
+            onClick={() => onPageChange(totalPages)}
+            className='inline-flex h-10 w-10 items-center justify-center rounded-lg border border-brand-border bg-brand-surface text-sm font-medium text-brand-foreground transition hover:bg-brand-accent-soft hover:text-brand-accent'>
+            {totalPages}
+          </button>
+        </>
+      )}
+
+      <button
+        type='button'
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className='inline-flex h-10 w-10 items-center justify-center rounded-lg border border-brand-border bg-brand-surface text-brand-foreground transition hover:bg-brand-accent-soft hover:text-brand-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-brand-surface disabled:hover:text-brand-foreground'
+        aria-label='다음 페이지'>
+        <svg
+          className='h-5 w-5'
+          fill='none'
+          viewBox='0 0 24 24'
+          stroke='currentColor'>
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth={2}
+            d='M9 5l7 7-7 7'
+          />
+        </svg>
+      </button>
+    </nav>
+  );
+}
+
 function CommunityCard() {
   return (
     <section className='rounded-2xl border border-brand-border-strong bg-brand-accent-soft/60 p-6 text-brand-foreground'>
@@ -185,6 +290,21 @@ export default function BlogLayout() {
   );
 
   const [activeTag, setActiveTag] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [viewsMap, setViewsMap] = useState({});
+  const postsPerPage = 10;
+
+  useEffect(() => {
+    if (posts.length === 0) return;
+
+    async function fetchViews() {
+      const slugs = posts.map((post) => post.slug);
+      const views = await getPostViewsMap(slugs);
+      setViewsMap(views);
+    }
+
+    fetchViews();
+  }, [posts]);
 
   const filteredPosts = useMemo(() => {
     if (!activeTag) {
@@ -192,6 +312,12 @@ export default function BlogLayout() {
     }
     return sortedPosts.filter((post) => post.tags?.includes(activeTag));
   }, [sortedPosts, activeTag]);
+
+  const totalPosts = filteredPosts.length;
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const endIndex = startIndex + postsPerPage;
+  const currentPosts = filteredPosts.slice(startIndex, endIndex);
 
   const trendingPosts = filteredPosts.slice(0, 4);
   const uniqueTags = useMemo(
@@ -201,6 +327,7 @@ export default function BlogLayout() {
 
   const handleTagClick = (tag) => {
     setActiveTag((current) => (current === tag ? null : tag));
+    setCurrentPage(1);
   };
 
   return (
@@ -221,11 +348,19 @@ export default function BlogLayout() {
           <div className='grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]'>
             <div className='space-y-6'>
               <PostList
-                posts={filteredPosts}
+                posts={currentPosts}
                 title={activeTag ? `${activeTag} 태그 글` : "모든 글"}
                 activeTag={activeTag}
                 onTagClick={handleTagClick}
+                viewsMap={viewsMap}
               />
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              )}
             </div>
             <aside className='space-y-6'>
               <LatestStack items={trendingPosts} />

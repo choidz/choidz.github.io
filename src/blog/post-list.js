@@ -17,6 +17,7 @@ export default function PostList({
   title,
   activeTag,
   onTagClick,
+  viewsMap = {},
 }) {
   const handleTagClick = (event, tag) => {
     event.preventDefault();
@@ -41,6 +42,7 @@ export default function PostList({
       ) : null}
       {sortedPosts.map((post) => {
         const readingTime = post.readingMinutes ?? 1;
+        const views = viewsMap[post.slug] || 0;
         return (
           <article
             key={post.slug}
@@ -52,6 +54,32 @@ export default function PostList({
                 <time dateTime={post.date}>{formatDate(post.date)}</time>
                 <span className='hidden text-brand-border-strong sm:inline'>•</span>
                 <span>{`${readingTime}분 분량`}</span>
+                {views > 0 && (
+                  <>
+                    <span className='hidden text-brand-border-strong sm:inline'>•</span>
+                    <span className='inline-flex items-center gap-1'>
+                      <svg
+                        className='h-3.5 w-3.5'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'>
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
+                        />
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z'
+                        />
+                      </svg>
+                      {views.toLocaleString()}
+                    </span>
+                  </>
+                )}
               </div>
               <div>
                 <h2 className='text-xl font-semibold text-brand-foreground transition group-hover:text-brand-accent sm:text-2xl'>
