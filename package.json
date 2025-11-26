@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@giscus/react": "^3.1.0",
     "@headlessui/react": "^1.7.18",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -19,6 +20,7 @@
     "react-notion-x": "^6.16.0",
     "react-router-dom": "^6.30.1",
     "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^16.1.0",
     "remark-gfm": "^4.0.1",
     "web-vitals": "^2.1.4"
   },

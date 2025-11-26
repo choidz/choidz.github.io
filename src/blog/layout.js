@@ -11,7 +11,7 @@ const primaryLinks = [
   { label: "포트폴리오", path: portfolioPath, isPrimary: false },
 ];
 
-function SiteHeader() {
+function SiteHeader({ searchQuery, onSearchChange }) {
   return (
     <header className='border-b border-brand-border bg-brand-surface'>
       <div className='mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6'>
@@ -27,6 +27,8 @@ function SiteHeader() {
               className='w-full rounded-full border border-brand-border bg-brand-background py-2 pl-10 pr-4 text-sm text-brand-foreground placeholder:text-brand-muted focus:border-brand-accent focus:outline-none focus:ring-2 focus:ring-brand-accent-soft'
               placeholder='키워드로 글을 검색해 보세요'
               type='search'
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
             />
             <svg
               aria-hidden='true'
@@ -292,6 +294,7 @@ export default function BlogLayout() {
   const [activeTag, setActiveTag] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [viewsMap, setViewsMap] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
   const postsPerPage = 10;
 
   useEffect(() => {
@@ -307,11 +310,26 @@ export default function BlogLayout() {
   }, [posts]);
 
   const filteredPosts = useMemo(() => {
-    if (!activeTag) {
-      return sortedPosts;
+    let result = sortedPosts;
+
+    // 태그 필터링
+    if (activeTag) {
+      result = result.filter((post) => post.tags?.includes(activeTag));
     }
-    return sortedPosts.filter((post) => post.tags?.includes(activeTag));
-  }, [sortedPosts, activeTag]);
+
+    // 검색어 필터링
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter((post) => {
+        const titleMatch = post.title?.toLowerCase().includes(query);
+        const descMatch = post.description?.toLowerCase().includes(query);
+        const tagMatch = post.tags?.some((tag) => tag.toLowerCase().includes(query));
+        return titleMatch || descMatch || tagMatch;
+      });
+    }
+
+    return result;
+  }, [sortedPosts, activeTag, searchQuery]);
 
   const totalPosts = filteredPosts.length;
   const totalPages = Math.ceil(totalPosts / postsPerPage);
@@ -330,9 +348,14 @@ export default function BlogLayout() {
     setCurrentPage(1);
   };
 
+  const handleSearchChange = (query) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
+  };
+
   return (
     <div className='min-h-screen bg-brand-background text-brand-foreground'>
-      <SiteHeader />
+      <SiteHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} />
       <main className='mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10'>
         {isLoading ? (
           <p className='text-sm text-brand-muted'>게시글을 불러오는 중입니다…</p>
@@ -342,14 +365,22 @@ export default function BlogLayout() {
           </p>
         ) : !filteredPosts.length ? (
           <div className='rounded-2xl border border-dashed border-brand-border bg-brand-surface p-10 text-center text-brand-muted'>
-            게시글이 없습니다. 새로운 글을 작성해 주세요.
+            {searchQuery.trim()
+              ? `"${searchQuery}" 검색 결과가 없습니다.`
+              : '게시글이 없습니다. 새로운 글을 작성해 주세요.'}
           </div>
         ) : (
           <div className='grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]'>
             <div className='space-y-6'>
               <PostList
                 posts={currentPosts}
-                title={activeTag ? `${activeTag} 태그 글` : "모든 글"}
+                title={
+                  searchQuery.trim()
+                    ? `"${searchQuery}" 검색 결과 (${totalPosts}건)`
+                    : activeTag
+                    ? `${activeTag} 태그 글`
+                    : '모든 글'
+                }
                 activeTag={activeTag}
                 onTagClick={handleTagClick}
                 viewsMap={viewsMap}

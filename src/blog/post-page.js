@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Link, Navigate, useParams } from "react-router-dom";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
+import Giscus from "../components/Giscus";
 import { blogPaths } from "../routes/paths";
 import usePosts from "./usePosts";
 import { usePostViews } from "./usePostViews";
@@ -53,6 +56,9 @@ const markdownComponents = {
     </blockquote>
   ),
   code({ node, inline, className, children, ...props }) {
+    const match = /language-(\w+)/.exec(className || "");
+    const language = match ? match[1] : "";
+
     if (inline) {
       return (
         <code
@@ -62,10 +68,22 @@ const markdownComponents = {
         </code>
       );
     }
+
     return (
-      <pre className='mt-6 overflow-x-auto rounded-xl bg-brand-foreground p-4 text-sm text-brand-background'>
-        <code {...props}>{children}</code>
-      </pre>
+      <div className='mt-6 overflow-hidden rounded-xl'>
+        <SyntaxHighlighter
+          style={vscDarkPlus}
+          language={language || "text"}
+          PreTag='div'
+          customStyle={{
+            margin: 0,
+            padding: "1rem",
+            fontSize: "0.875rem",
+            borderRadius: "0.75rem",
+          }}>
+          {String(children).replace(/\n$/, "")}
+        </SyntaxHighlighter>
+      </div>
     );
   },
 };
@@ -126,6 +144,24 @@ export default function PostPage() {
     [posts, slug]
   );
   const { views } = usePostViews(slug);
+
+  // 관련 포스트 추천 (같은 태그를 가진 글, 최대 3개)
+  const relatedPosts = useMemo(() => {
+    if (!post?.tags?.length) return [];
+
+    return posts
+      .filter((p) => {
+        if (p.slug === slug) return false;
+        return p.tags?.some((tag) => post.tags.includes(tag));
+      })
+      .sort((a, b) => {
+        // 태그 겹침 개수로 정렬
+        const aMatches = a.tags?.filter((tag) => post.tags.includes(tag)).length || 0;
+        const bMatches = b.tags?.filter((tag) => post.tags.includes(tag)).length || 0;
+        return bMatches - aMatches;
+      })
+      .slice(0, 3);
+  }, [posts, post, slug]);
 
   const [segments, setSegments] = useState([]);
   const [readingTime, setReadingTime] = useState(post?.readingMinutes ?? 1);
@@ -206,8 +242,11 @@ export default function PostPage() {
         </div>
       </div>
 
-      <div className='mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-12'>
-        <article className='rounded-3xl border border-brand-border bg-brand-surface p-6 shadow-sm sm:p-10'>
+      <div className='mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12'>
+        <div className='grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)]'>
+          {/* 메인 콘텐츠 */}
+          <div className='space-y-8'>
+            <article className='rounded-3xl border border-brand-border bg-brand-surface p-6 shadow-sm sm:p-10'>
           <header className='flex flex-col gap-6'>
             <div className='flex flex-wrap items-center gap-3 text-xs text-brand-muted sm:text-sm'>
               <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -291,6 +330,50 @@ export default function PostPage() {
               })}
           </section>
         </article>
+
+            {/* 댓글 섹션 */}
+            <section className='rounded-3xl border border-brand-border bg-brand-surface p-6 shadow-sm sm:p-10'>
+              <Giscus />
+            </section>
+          </div>
+
+          {/* 사이드바 - 관련 글 */}
+          <aside className='hidden lg:block'>
+            <div className='sticky top-8'>
+              {relatedPosts.length > 0 && (
+                <section className='rounded-2xl border border-brand-border bg-brand-surface p-5'>
+                  <h2 className='mb-4 text-sm font-semibold uppercase tracking-widest text-brand-muted'>
+                    관련 글
+                  </h2>
+                  <div className='space-y-4'>
+                    {relatedPosts.map((relatedPost) => (
+                      <Link
+                        key={relatedPost.slug}
+                        to={blogPaths.detailOf(relatedPost.slug)}
+                        className='group block rounded-xl border border-brand-border bg-brand-background p-4 transition hover:border-brand-accent hover:bg-brand-accent-soft/30'>
+                        <h3 className='line-clamp-2 text-sm font-semibold text-brand-foreground group-hover:text-brand-accent'>
+                          {relatedPost.title}
+                        </h3>
+                        <p className='mt-2 line-clamp-2 text-xs text-brand-muted'>
+                          {relatedPost.description}
+                        </p>
+                        <div className='mt-3 flex flex-wrap gap-1'>
+                          {relatedPost.tags?.slice(0, 2).map((tag) => (
+                            <span
+                              key={tag}
+                              className='rounded-full bg-brand-accent-soft px-2 py-0.5 text-[10px] font-medium text-brand-accent'>
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );
