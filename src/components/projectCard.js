@@ -1,98 +1,82 @@
 import React from "react";
-import { getTags } from "./tags";
+import { TagBadge } from "./tags";
 
-const PROJECTS = [
-  {
-    title: "SPLER",
-    description: `스터디 모임과 사이드 프로젝트 등을 함깨할 개발자들을 찾는 장소(커뮤니티)를 만들어 쉽게 인원을 구할 수 있도록 하는 웹 서비스`,
-    image: "SPLER.png",
-    date: "2022/11/10 → 2022/12/10",
-    tags: ["Java", "JSP", "JAVASCRIPT", "MySQL", "HTML", "CSS"],
-    gitLink: "https://github.com/choidz/SPLER",
-    notionLink:
-      "https://choidz.notion.site/Study-Project-Player-SPLER-a6a7ca0ed5af41c3a9f4ad7e25a01d07?pvs=74",
-    gitIcon: "images/github.svg",
-    notionIcon: "images/notion.svg",
-  },
-  {
-    title: "Do Our Best (DOB)",
-    description: `조별 과제 현황을 한 눈에 체크하고 기한을 기준으로 각 조원의 기여도를 체크할 수 있습니다.`,
-    image: "DOB2.png",
-    date: "2022/11/14 → 2022/12/01",
-    tags: ["Android", "Java", "SQLite"],
-    gitLink: "https://github.com/choidz/DOB",
-    notionLink:
-      "https://choidz.notion.site/Do-Our-Best-DOB-fc34f19ca18240edb2301f9f081159ce?pvs=74",
-    gitIcon: "images/github.svg",
-    notionIcon: "images/notion.svg",
-  },
-  {
-    title: "FleaCulture",
-    description: `Flea Market과 Culture의 합성어이며 자신이 정성 들여 만든 제품이나 자신의 재능을 나누는 것이 사람들에게 
-    가치 있는 것으로 생각되면서 지역 곳곳의 장소나 카페에서 플리마켓, 버스킹, 푸드트럭 등 많은 FLEA CULTURE들의 위치를 찾을 수 있는 서비스`,
-    image: "FLEA-CULTURE.png",
-    date: "2016/12/05 → 2016/12/23",
-    tags: ["Java", "JSP", "JAVASCRIPT", "Spring", "HTML", "CSS", "Mybatis"],
-    notionLink:
-      "https://choidz.notion.site/FLEA-CULTURE-1e029e3f3b0d43b9985ff93a98ec087b?pvs=74",
-    notionIcon: "images/notion.svg",
-    gitIcon: "images/github.svg",
-  },
-];
+export default function ProjectCard({ project }) {
+  const {
+    title,
+    description,
+    impact,
+    image,
+    period,
+    tags,
+    links = [],
+    context,
+  } = project;
 
-export default function ProjectCard() {
   return (
-    <>
-      {PROJECTS.map((project) => (
-        <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-4xl mb-16 ">
-          <div class="md:flex items-center max-x-3xl">
-            <div class="md:shrink-0 md:h-80">
-              <img
-                class="p-4 h-48 w-full object-cover md:h-full md:w-96"
-                src={`images/projects/${project.image}`}
-                alt="projectImg"
-              />
-            </div>
-            <div class="p-12">
-              <div class="uppercase tracking-wide text-sm text-[#00b05e] font-semibold">
-                {project.title}
-              </div>
-              <a
-                href="#!"
-                class="block mt-1 text-lg leading-tight font-medium text-black"
-              >
-                {project.description}
-              </a>
-              <p class="mt-2 text-slate-500">{project.date}</p>
-              <div className="flex flex-row gap-x-2">
-                {project.tags.map((tag) => (
-                  <p class="mt-2 text-slate-500 ">
-                    {getTags(tag)}
-                  </p>
-                ))}
-              </div>
-              <div className="flex flex-row gap-3 mt-4">
-                <a href={project.notionLink} target="_blink">
-                  <img
-                    src={project.notionIcon}
-                    alt="notion"
-                    width={30}
-                    height={30}
-                  />
-                </a>
-                <a href={project.gitLink} target="_blink">
-                  <img
-                    src={project.gitIcon}
-                    alt="github"
-                    width={30}
-                    height={30}
-                  />
-                </a>
-              </div>
-            </div>
+    <article className="group grid gap-6 rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl md:grid-cols-[300px,1fr]">
+      <div className="relative overflow-hidden rounded-2xl bg-slate-900/5">
+        <img
+          className="h-64 w-full object-cover transition duration-500 group-hover:scale-105"
+          src={image}
+          alt={`${title} 대표 이미지`}
+          loading="lazy"
+        />
+        <span className="absolute left-4 top-4 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm">
+          {period}
+        </span>
+      </div>
+      <div className="flex flex-col gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-500">
+              Featured Project
+            </p>
+            {context && (
+              <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+                {context}
+              </span>
+            )}
           </div>
+          <h3 className="mt-1 text-2xl font-bold text-slate-900">{title}</h3>
+          <p className="mt-3 text-base leading-relaxed text-slate-600">
+            {description}
+          </p>
+          {impact && (
+            <p className="mt-3 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
+              {impact}
+            </p>
+          )}
         </div>
-      ))}
-    </>
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <TagBadge key={`${project.slug}-${tag}`} label={tag} />
+          ))}
+        </div>
+        {links.length > 0 && (
+          <div className="flex flex-wrap gap-3">
+            {links.map((link) => (
+              <a
+                key={`${project.slug}-${link.label}`}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-emerald-200 hover:text-emerald-600"
+              >
+                {link.icon && (
+                  <img
+                    src={link.icon}
+                    alt={link.label}
+                    className="h-5 w-5"
+                    loading="lazy"
+                  />
+                )}
+                {link.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </article>
   );
 }

@@ -1,42 +1,52 @@
 import React from "react";
+import { SKILL_STACKS } from "../data/portfolio";
 
-const SKILLS = [
-  [
-    "html.png",
-    "css.png",
-    "js.png",
-  ],
-  [
-    "react.png",
-    "tailwind.png",
-    "sass.png",
-  ],
-  [
-    "photoshop.png",
-    "illustrator.png",
-  ],
-];
+const FALLBACK_ICON = "/images/skills/react.png";
 
 function HomeSkills() {
   return (
-      <div className="flex flex-row gap-x-16 mt-32 items-center">
-        <span className="text-xl text-gray-900 dark:text-white border-r-2 border-neutral-700 pr-4	leading-5	">
-          Skills & Ability
-        </span>
-        <div className="flex flex-row gap-x-8">
-          {SKILLS.map((skillRow) => (
-            <div className="flex flex-row-4 w-fit gap-x-2 items-center hover:-translate-y-1 hover:scale-110 duration-300">
-              {skillRow.map((skill) => (
-                <img
-                  className="w-auto h-12 rounded-md	"
-                  src={`/images/skills/${skill}`}
-                  alt="skills"
-                />
-              ))}
-            </div>
-          ))}
-        </div>
+    <section className="mt-24 space-y-8">
+      <div>
+        <p className="text-sm font-semibold uppercase tracking-widest text-emerald-500">
+          기술스택
+        </p>
+        <h2 className="mt-2 text-3xl font-bold text-slate-900">
+          제품 개발 전 과정을 커버하는 도구들
+        </h2>
+        <p className="mt-2 text-sm text-slate-500">
+          언어, 프레임워크, 데이터베이스부터 협업 도구까지 역할에 맞춰 선택합니다.
+        </p>
       </div>
+      <div className="grid gap-6 md:grid-cols-2">
+        {SKILL_STACKS.map((stack) => (
+          <div
+            key={stack.title}
+            className="rounded-2xl border border-slate-200 bg-white/90 p-6 shadow-sm"
+          >
+            <h3 className="text-lg font-semibold text-slate-900">{stack.title}</h3>
+            <ul className="mt-4 space-y-3">
+              {stack.skills.map((skill) => {
+                const icon = skill.icon || FALLBACK_ICON;
+                return (
+                  <li
+                    key={`${stack.title}-${skill.name}`}
+                    className="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2 text-sm text-slate-700"
+                  >
+                    <img
+                      src={icon}
+                      alt={skill.name}
+                      className="h-8 w-8 rounded-lg object-contain"
+                      loading="lazy"
+                    />
+                    <span>{skill.name}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
