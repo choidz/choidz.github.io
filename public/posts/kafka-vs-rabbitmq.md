@@ -18,7 +18,7 @@
 
 **먼저 메시지 큐(Message Queue, MQ)가 뭔지부터 이해해야 해요. MQ는 프로세스나 프로그램 인스턴스 간에 데이터를 교환하는 통신 방법입니다. 더 정확히는****메시지 지향 미들웨어(MOM)****를 구현한 시스템이죠.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTI2/MDAxNzYzOTI1Mzg3NDc5.2CUuP5GpMuo6ceTXx8SQQbosp4_k5JTVxBYyFpC_yi0g.-BRvetD6-hrEBOu8i75E9QnIt3IzxnFRbx-b1mBVW58g.PNG/img_001_2343aa20.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTI2/MDAxNzYzOTI1Mzg3NDc5.2CUuP5GpMuo6ceTXx8SQQbosp4_k5JTVxBYyFpC_yi0g.-BRvetD6-hrEBOu8i75E9QnIt3IzxnFRbx-b1mBVW58g.PNG/img_001_2343aa20.png) ](<#>)
 
 _**메시지 큐의 기본 구조: Producer가 메시지를 Queue에 넣고, Consumer가 꺼내 처리합니다.**_
 
@@ -32,7 +32,7 @@ _**메시지 큐의 기본 구조: Producer가 메시지를 Queue에 넣고, Con
 
 **Kafka는 LinkedIn에서 개발한****분산 메시징 시스템****입니다. 기존 메시지 큐와는 다르게, 대규모 데이터 스트림을 실시간으로 처리하도록 설계되었어요.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTI0/MDAxNzYzOTI1MzkzMjAy.Qeg-2zHvVEIFRkdALT7K8lmqHCJ-GTBsFkpArnWkleMg.2uyZ7_pF2BhKX6z_PHAqQwW534n1OYVpLqnh7QMoBNgg.PNG/img_002_5f3bd566.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTI0/MDAxNzYzOTI1MzkzMjAy.Qeg-2zHvVEIFRkdALT7K8lmqHCJ-GTBsFkpArnWkleMg.2uyZ7_pF2BhKX6z_PHAqQwW534n1OYVpLqnh7QMoBNgg.PNG/img_002_5f3bd566.png) ](<#>)
 
 _**Kafka의 Pub/Sub 모델: Publisher가 Topic으로 메시지를 분류하고, Subscriber가 구독합니다.**_
 
@@ -42,19 +42,19 @@ _**Kafka의 Pub/Sub 모델: Publisher가 Topic으로 메시지를 분류하고, 
 
 **Kafka의 가장 중요한 개념이****Topic****과****Partition****이에요. 하나의 Topic은 여러 개의 Partition으로 나뉘는데, 이게 병렬 처리의 핵심이거든요.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTY4/MDAxNzYzOTI1Mzk2Nzky.AhuN9m2p6i1w8WttZxb82NPqiCDlqoiVIeBLYM9KTMcg.M_JClna9Cj-WL1nNSuAT6k6TvJi7CcDTi35HcX2PaYUg.PNG/img_002_d09c9225.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTY4/MDAxNzYzOTI1Mzk2Nzky.AhuN9m2p6i1w8WttZxb82NPqiCDlqoiVIeBLYM9KTMcg.M_JClna9Cj-WL1nNSuAT6k6TvJi7CcDTi35HcX2PaYUg.PNG/img_002_d09c9225.png) ](<#>)
 
 _**Topic의 구조: 하나의 Topic이 여러 Partition으로 분산되어 병렬 처리를 가능하게 합니다.**_
 
 **각 Partition은 메시지를 저장하는****물리적 파일****이에요. 중요한 특징이 있는데, Partition은****Append-Only****방식이라는 거죠. 즉, 메시지는 맨 뒤에만 추가되고, 수정이나 삭제는 불가능해요. 마치 로그 파일처럼요.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTgw/MDAxNzYzOTI1NDAyNzYw.0nwN94pN9ThJSQYPjLBVEcPmBSkTA3uNMA1VVRbGvnsg.JFJOp_O2DdQc1RVYA43bNzQ1_Zlg9s-XZ0LKpDerWXcg.PNG/img_003_9d63052a.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTgw/MDAxNzYzOTI1NDAyNzYw.0nwN94pN9ThJSQYPjLBVEcPmBSkTA3uNMA1VVRbGvnsg.JFJOp_O2DdQc1RVYA43bNzQ1_Zlg9s-XZ0LKpDerWXcg.PNG/img_003_9d63052a.png) ](<#>)
 
 _**Partition의 Append-Only 구조: 메시지는 순서대로 저장되고, Offset으로 위치를 추적합니다.**_
 
 **각 메시지는****Offset****이라는 고유한 위치 정보를 가져요. Consumer는 이 Offset을 기준으로 메시지를 순서대로 읽어요. 그리고 여기가 중요한데,****Consumer가 메시지를 가져가도 Partition에는 메시지가 남아있어요****. 설정된 보관 기간 동안 계속 저장되죠.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMjk1/MDAxNzYzOTI1NDA4NTk0.DV3Q31e9ApikL2zTWBNE27KY1s-GAvXioA7uKf5sPbkg.Kmy3dRR1s9imEyk6VRYCUl0sLYs_5LI7Dsz6RDYOVm0g.PNG/img_004_246c77ce.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMjk1/MDAxNzYzOTI1NDA4NTk0.DV3Q31e9ApikL2zTWBNE27KY1s-GAvXioA7uKf5sPbkg.Kmy3dRR1s9imEyk6VRYCUl0sLYs_5LI7Dsz6RDYOVm0g.PNG/img_004_246c77ce.png) ](<#>)
 
 _**1개 Topic과 4개 Partition: 각 Partition이 독립적으로 메시지를 저장하고 처리합니다.**_
 
@@ -62,7 +62,7 @@ _**1개 Topic과 4개 Partition: 각 Partition이 독립적으로 메시지를 �
 
 **Kafka의 또 다른 특징은****Consumer Group****이라는 개념이에요. 같은 Topic을 소비하는 Consumer들을 그룹으로 묶을 수 있어요. 중요한 규칙이 있는데,****1개의 Partition은 같은 Consumer Group 내에서 최대 1개의 Consumer만 연결 가능****해요.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfNzcg/MDAxNzYzOTI1NDEyNTg4.7x-NJRzCJbpueUadNFwlBgHyTeZADkvyCtu2EFB4FHEg.S3vNwmStZqj0ZvIE9Jrz_ZDI5YxoemvdBVf2SCp6AWIg.PNG/img_005_903b8a9b.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfNzcg/MDAxNzYzOTI1NDEyNTg4.7x-NJRzCJbpueUadNFwlBgHyTeZADkvyCtu2EFB4FHEg.S3vNwmStZqj0ZvIE9Jrz_ZDI5YxoemvdBVf2SCp6AWIg.PNG/img_005_903b8a9b.png) ](<#>)
 
 _**Kafka Consumer 구조: 각 Partition이 Consumer Group 내의 하나의 Consumer와만 연결됩니다.**_
 
@@ -76,13 +76,13 @@ _**Kafka Consumer 구조: 각 Partition이 Consumer Group 내의 하나의 Consu
 
 **RabbitMQ는****AMQP(Advanced Message Queuing Protocol)****프로토콜을 구현한 메시지 브로커예요. Kafka와는 다르게, 전통적인 메시지 큐 방식을 기본으로 하면서 필요에 따라 Pub/Sub도 지원합니다.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMjk1/MDAxNzYzOTI1NDE4NDA5.066LW2xFqXGAyanxZzmPcuuKzZNo9ym0KqVHrxJeM2Ag.FQNFB_JG7g6ApdT0bwqkjW26WdFoH3nPNzZmCsJwWisg.PNG/img_003_6b5f60d8.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMjk1/MDAxNzYzOTI1NDE4NDA5.066LW2xFqXGAyanxZzmPcuuKzZNo9ym0KqVHrxJeM2Ag.FQNFB_JG7g6ApdT0bwqkjW26WdFoH3nPNzZmCsJwWisg.PNG/img_003_6b5f60d8.png) ](<#>)
 
 _**RabbitMQ의 구조: Producer → Exchange → Queue → Consumer의 흐름으로 메시지가 라우팅됩니다.**_
 
 **RabbitMQ의 특징은****Exchange****라는 개념이에요. Producer가 메시지를 보내면 먼저 Exchange에 도착해요. Exchange는 정해진 규칙(Binding Rules)에 따라 메시지를 적절한 Queue로 라우팅해요. 그 다음에 Consumer가 Queue에서 메시지를 꺼내 처리합니다.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTM0/MDAxNzYzOTI1NDIzNzYx.Y7hc8qbe8GjVc2YU60g9n6t-oO1gYAHCCiWOHExATiIg.i3rZSrvixxvmMTUgqQ3Vh99151CjiiyDgVPCTRCm7JMg.PNG/img_000_a67a0573.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjRfMTM0/MDAxNzYzOTI1NDIzNzYx.Y7hc8qbe8GjVc2YU60g9n6t-oO1gYAHCCiWOHExATiIg.i3rZSrvixxvmMTUgqQ3Vh99151CjiiyDgVPCTRCm7JMg.PNG/img_000_a67a0573.png) ](<#>)
 
 _**RabbitMQ의 Message Exchange: 여러 Producer의 메시지를 Exchange가 라우팅 규칙에 따라 분배합니다.**_
 

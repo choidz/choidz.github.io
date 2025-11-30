@@ -14,7 +14,7 @@
 
 **🔎 한눈에 보는 요약**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMTZfMiAg/MDAxNzYzMjgxMTQ3MjE4.ADWaXFEvgcr-xq-65_7NYYhkVvuQ1zeaMWQEINyTzEsg.Z08lNNOOcjSCnLgL_Lfl4GcPNkow6TDZBu2x6HgnL3Ug.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMTZfMiAg/MDAxNzYzMjgxMTQ3MjE4.ADWaXFEvgcr-xq-65_7NYYhkVvuQ1zeaMWQEINyTzEsg.Z08lNNOOcjSCnLgL_Lfl4GcPNkow6TDZBu2x6HgnL3Ug.PNG/image.png) ](<#>)
 
   * **/bin, /sbin****: 실행 파일 저장소 — bin은 일반 사용자 명령어, sbin은 시스템 관리자 명령어**
 
@@ -34,7 +34,7 @@
 
 **​**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMTZfMTIz/MDAxNzYzMjgwNTc3MDc4.HT9EG_mhtHD4QtgmeISwU-pOWoVB00mt8GGZPwbGIY8g.2QefxE4ksW0P475c7ztJ10Ig6MYx5a3aMMl7XnbnLJkg.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMTZfMTIz/MDAxNzYzMjgwNTc3MDc4.HT9EG_mhtHD4QtgmeISwU-pOWoVB00mt8GGZPwbGIY8g.2QefxE4ksW0P475c7ztJ10Ig6MYx5a3aMMl7XnbnLJkg.PNG/image.png) ](<#>)
 
 **​**
 

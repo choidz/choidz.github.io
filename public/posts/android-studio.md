@@ -74,7 +74,7 @@
 
   4. **Android Device ↳ Samsung Android ADB Interface**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMDhfMjc4/MDAxNzYyNjAzNjE3MDA0.baqrzBl21j6OLrPcCVy-WSIGDntZJOD2KjhCvhD148cg.xsRvITanNPi2A0A39falrN6piqB_sf51Ooi67ElSYggg.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMDhfMjc4/MDAxNzYyNjAzNjE3MDA0.baqrzBl21j6OLrPcCVy-WSIGDntZJOD2KjhCvhD148cg.xsRvITanNPi2A0A39falrN6piqB_sf51Ooi67ElSYggg.PNG/image.png) ](<#>)
 
 ---
 

@@ -119,11 +119,32 @@ def format_markdown_table(rows: list[list[str]]) -> str:
     body = [fmt_row(r) for r in rows[1:]]
     return "\n".join([header, divider] + body)
 
+# ✅ 네이버 이미지 URL 정규화 (썸네일 → 원본 크기)
+def normalize_naver_image_url(url: str) -> str:
+    """네이버 이미지 URL에서 type 파라미터를 제거하여 원본 크기로 변경"""
+    if not url:
+        return url
+    # type=w80_blur, type=w420 등의 파라미터를 제거
+    # 또는 더 큰 크기로 변경 (type=w966 정도가 적당)
+    url = re.sub(r'\?type=w\d+(_blur)?', '', url)
+    url = re.sub(r'&type=w\d+(_blur)?', '', url)
+    return url
+
+
 # ✅ HTML 정제 및 요약 추출
 def sanitize_html(html: str) -> tuple[str, str, list[str], list[str]]:
     soup = BeautifulSoup(html or "", "html.parser")
     tables = []
     code_blocks = []
+
+    # ✅ 이미지 URL 정규화 (썸네일 → 원본)
+    for img in soup.find_all("img"):
+        src = img.get("src") or img.get("data-src") or ""
+        if "pstatic.net" in src or "blogfiles.naver" in src:
+            img["src"] = normalize_naver_image_url(src)
+            # data-src도 정리
+            if img.get("data-src"):
+                img["data-src"] = normalize_naver_image_url(img["data-src"])
 
     def has_class_fragment(tag, keyword):
         classes = tag.get("class") or []

@@ -78,7 +78,7 @@
 
 **처음 로그인하면 비밀번호 변경을 요청받습니다. 보안을 위해 새로운 비밀번호로 변경해주세요. 이후 Grafana 대시보드에 접속하게 됩니다.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjg5/MDAxNzYzOTk4MDUzOTE5.YkI9yfVW2dcO4YZmzlbkjBXwTIKHNiaUBXSnS7z0ZDcg.-QyZ6E-l5pIDDBDE1ueF3KVA1xMg5z5bM_sOOuoZLH0g.PNG/img_000_b968a32d.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjg5/MDAxNzYzOTk4MDUzOTE5.YkI9yfVW2dcO4YZmzlbkjBXwTIKHNiaUBXSnS7z0ZDcg.-QyZ6E-l5pIDDBDE1ueF3KVA1xMg5z5bM_sOOuoZLH0g.PNG/img_000_b968a32d.png) ](<#>)
 
 ---
 
@@ -98,7 +98,7 @@
 
   4. **플러그인을 클릭하고****Enable****버튼을 눌러 활성화합니다.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjY4/MDAxNzYzOTk4MDU5NTk5.G-9csWJ1FZPrNx-wYGshYyRrfNYpBgAqO4T3_CkmEfYg.ivrdS2TL3orLQXjhBC3zt5p-v2qCRsy_qNDp8UqlOXcg.PNG/img_001_7c7e813d.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjY4/MDAxNzYzOTk4MDU5NTk5.G-9csWJ1FZPrNx-wYGshYyRrfNYpBgAqO4T3_CkmEfYg.ivrdS2TL3orLQXjhBC3zt5p-v2qCRsy_qNDp8UqlOXcg.PNG/img_001_7c7e813d.png) ](<#>)
 
 **Zabbix 플러그인 활성화 화면**
 
@@ -120,13 +120,13 @@
 
   4. **데이터 소스 목록에서 "zabbix"를 검색해서 선택합니다.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjA1/MDAxNzYzOTk4MDY0MTU4.8QilyvyHMHRIk86m1a8FXlHLFa4PoUYqSuFJZ25ip_4g.vHbzdnJ-id4Ja5bPRyVzRGkqq7-hXBlDKEOidBkkDOMg.PNG/img_002_f3e00d4c.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjA1/MDAxNzYzOTk4MDY0MTU4.8QilyvyHMHRIk86m1a8FXlHLFa4PoUYqSuFJZ25ip_4g.vHbzdnJ-id4Ja5bPRyVzRGkqq7-hXBlDKEOidBkkDOMg.PNG/img_002_f3e00d4c.png) ](<#>)
 
 **데이터 소스 추가 화면**
 
 **Zabbix 데이터 소스를 선택하면 설정 화면이 나타납니다. 여기서 Zabbix 서버의 정보를 입력해야 합니다.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjA1/MDAxNzYzOTk4MDY3NTY5.t29VYvGjd05vculrp0RfMF4pYxzCNrslCxnlv784W-cg.7UUODEmeRoI4tEUWGXP87Zl5S_wdO4sILWLo5oSxy6kg.PNG/img_003_0a473620.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjA1/MDAxNzYzOTk4MDY3NTY5.t29VYvGjd05vculrp0RfMF4pYxzCNrslCxnlv784W-cg.7UUODEmeRoI4tEUWGXP87Zl5S_wdO4sILWLo5oSxy6kg.PNG/img_003_0a473620.png) ](<#>)
 
 **Zabbix 데이터 소스 설정 화면**
 
@@ -140,7 +140,7 @@
 
 **모든 정보를 입력한 후****Save & test****버튼을 클릭합니다. 연결이 성공하면 "Data source is working" 메시지가 표시됩니다.**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfOTMg/MDAxNzYzOTk4MDczMzE1.a0LT3EZzSYbTlRhTbLIS3otXVtqKTRE_tRL8RW3l9p8g.S5nmVpkPu4aTlM6Z5Avz0foX2phabsg7lBQiEP89SvAg.PNG/img_004_19aef74d.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfOTMg/MDAxNzYzOTk4MDczMzE1.a0LT3EZzSYbTlRhTbLIS3otXVtqKTRE_tRL8RW3l9p8g.S5nmVpkPu4aTlM6Z5Avz0foX2phabsg7lBQiEP89SvAg.PNG/img_004_19aef74d.png) ](<#>)
 
 **Zabbix 데이터 소스 연결 확인**
 
@@ -168,7 +168,7 @@
 
   6. **데이터 소스를 선택하고****Import**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfNTcg/MDAxNzYzOTk4MDc3MTg4.ZwR2mmAGUHLG6XaD7RSP94zqknDTxx6XhTY6PPuAtWcg.c9pbenVuWcaBkz4n2rIcYHurDqpmKZI-zYj4lcN6s5wg.PNG/img_005_14fc00bd.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfNTcg/MDAxNzYzOTk4MDc3MTg4.ZwR2mmAGUHLG6XaD7RSP94zqknDTxx6XhTY6PPuAtWcg.c9pbenVuWcaBkz4n2rIcYHurDqpmKZI-zYj4lcN6s5wg.PNG/img_005_14fc00bd.png) ](<#>)
 
 **Grafana 커뮤니티 대시보드 템플릿**
 

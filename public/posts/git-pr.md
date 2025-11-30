@@ -2,7 +2,7 @@
 
 ---
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjgz/MDAxNzYzODI0ODg1MzUz.oxODOBuRJVB-EYjLFTWph7IuU4eUxGVX0MX97GSmQaIg.kY1Qx6PgptdxBzLk62xD-W7xsR6hSQfs9gADt0XvT5cg.PNG/img_000_d07cf59b.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjgz/MDAxNzYzODI0ODg1MzUz.oxODOBuRJVB-EYjLFTWph7IuU4eUxGVX0MX97GSmQaIg.kY1Qx6PgptdxBzLk62xD-W7xsR6hSQfs9gADt0XvT5cg.PNG/img_000_d07cf59b.png) ](<#>)
 
 **커밋 메시지의 구조와 규칙**
 
@@ -24,7 +24,7 @@
 
 브랜치 이름도 일관성 있게 관리해야 합니다. main 브랜치는 프로덕션 스냅샷으로 가장 최신의 배포된 버전을 유지합니다. dev 브랜치는 릴리즈 계획에 따라 기본 브랜치로 지정되며, feature 브랜치는 "feature/이슈번호-이름" 형식으로 dev에 병합됩니다. hotfix 브랜치는 "hotfix/이슈번호" 형식으로 main에 직접 병합됩니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfNTIg/MDAxNzYzODI0OTAxNzM3.8wPrNE9hFzfLOcCqgpWOTNAJHZvkCB2HAcQgFGWyGh4g.07phaq_zI6rt8TeXs1qgyix3QMw3N4HSC11VaFps-Ekg.PNG/img_001_5c85dfbe.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfNTIg/MDAxNzYzODI0OTAxNzM3.8wPrNE9hFzfLOcCqgpWOTNAJHZvkCB2HAcQgFGWyGh4g.07phaq_zI6rt8TeXs1qgyix3QMw3N4HSC11VaFps-Ekg.PNG/img_001_5c85dfbe.png) ](<#>)
 
 **Pull Request 작성의 중요성**
 
@@ -52,15 +52,15 @@ PR 본문은 템플릿을 활용하여 일관성 있게 작성합니다. PR 타�
 
 이슈를 생성하기 전에 ".gitignore 파일"이 포함된 협업 저장소가 준비되어 있고, 로컬 저장소와 원격 저장소가 연결되어 있는지 확인해야 합니다. New Issue를 클릭하면 이슈 템플릿을 선택할 수 있습니다. 버그 수정이면 버그 리포트 이슈를, 일반 기능 작업이면 기능 이슈를 선택합니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjIz/MDAxNzYzODI0NTMwMjMz.uFtSBkzrumxuO0JG_EudhQfpTw5MjjorCoIKxfCpyqEg.E_fLjQSpH1LZCCCoCBmSKGlXioTVrRuQ_RLsf-PzUzsg.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjIz/MDAxNzYzODI0NTMwMjMz.uFtSBkzrumxuO0JG_EudhQfpTw5MjjorCoIKxfCpyqEg.E_fLjQSpH1LZCCCoCBmSKGlXioTVrRuQ_RLsf-PzUzsg.PNG/image.png) ](<#>)
 
 ​
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjY0/MDAxNzYzODI0NjAzMDMw.I6cYE4W4XxsNF-UskI7QrdM5P5XEkOIjUBJFHnhGbSMg.uNASAONqlIbk9P3UdxUbWa4k3c6IfSd6KdTN3XXg4zEg.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjY0/MDAxNzYzODI0NjAzMDMw.I6cYE4W4XxsNF-UskI7QrdM5P5XEkOIjUBJFHnhGbSMg.uNASAONqlIbk9P3UdxUbWa4k3c6IfSd6KdTN3XXg4zEg.PNG/image.png) ](<#>)
 
 **​**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfNzgg/MDAxNzYzODI0NzU3NDI5.PqXCpeAo1Kt9O1vQtaHKdgnr9EnIOalOIsVhidXvm1wg.6xeZI9zAT3sznICwRjsc3_5I-YhigmFywLfqaLpED90g.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfNzgg/MDAxNzYzODI0NzU3NDI5.PqXCpeAo1Kt9O1vQtaHKdgnr9EnIOalOIsVhidXvm1wg.6xeZI9zAT3sznICwRjsc3_5I-YhigmFywLfqaLpED90g.PNG/image.png) ](<#>)
 
 **​**
 
@@ -80,13 +80,13 @@ Assignees에서 작업의 담당자를 설정합니다. 보통 이슈를 만든 
 
 ​
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjQ4/MDAxNzYzODI0ODA4OTk0.PhcXPSQSXwFMKqDtR3rlHqpIrNZ23G0GLbui3AbFevEg.aiSsfwd6IbgfkH1ZS03g38rMOCH8Ta0fDgg2Yu4AV_Ig.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjQ4/MDAxNzYzODI0ODA4OTk0.PhcXPSQSXwFMKqDtR3rlHqpIrNZ23G0GLbui3AbFevEg.aiSsfwd6IbgfkH1ZS03g38rMOCH8Ta0fDgg2Yu4AV_Ig.PNG/image.png) ](<#>)
 
 로컬에서 체크아웃하려면 먼저 원격 저장소의 변경 사항을 가져와야 합니다. "git fetch origin" 명령을 실행하면 원격 저장소의 최신 변경 사항을 로컬에서 확인할 수 있습니다. 이후 제공된 체크아웃 명령을 실행하면 새로운 브랜치로 전환됩니다. Xcode 같은 IDE에서도 브랜치가 변경되었는지 반드시 확인해야 합니다.
 
 ​
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjkz/MDAxNzYzODI0ODM2MzQy.YoL6TJq9TVp1TKLHtLVVmgFsxDG6rSQsaLH5taZRGT4g.12emshXk17tcF0MjJp6gXqTIYcZDzfJwbzfA5ldY5tkg.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjkz/MDAxNzYzODI0ODM2MzQy.YoL6TJq9TVp1TKLHtLVVmgFsxDG6rSQsaLH5taZRGT4g.12emshXk17tcF0MjJp6gXqTIYcZDzfJwbzfA5ldY5tkg.PNG/image.png) ](<#>)
 
 **​**
 
@@ -98,7 +98,7 @@ Assignees에서 작업의 담당자를 설정합니다. 보통 이슈를 만든 
 
 "Compare & pull request"를 클릭하면 PR 작성 화면으로 이동합니다. PR 제목은 전체 내용을 요약하도록 작성하고, 내용은 마크다운 문법을 활용하여 템플릿에 맞게 작성합니다. 이슈 번호를 입력하면 자동으로 브랜치와 이슈가 연결됩니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMTAy/MDAxNzYzODI0OTY4OTM2.enmwrmtsKNIYzwZSpXjyUOhKSqA7zDVMvAvDvAtUaz8g.5gM2YHyb212f5h89zoL32GXRh8lfnYh9iRlaGbsnrvMg.PNG/img_010_bad168bb.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMTAy/MDAxNzYzODI0OTY4OTM2.enmwrmtsKNIYzwZSpXjyUOhKSqA7zDVMvAvDvAtUaz8g.5gM2YHyb212f5h89zoL32GXRh8lfnYh9iRlaGbsnrvMg.PNG/img_010_bad168bb.png) ](<#>)
 
 Reviewer에서 리뷰를 요청할 팀원들을 선택합니다. 보통 팀원 모두를 선택하는 것을 권장합니다. Assignees에서는 작성자 본인을 설정하고, Labels에서는 작업 내용에 맞는 라벨을 선택합니다. 이슈를 만들 때 선택한 라벨과 동일하게 설정하는 것이 좋습니다.
 
