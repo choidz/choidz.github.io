@@ -15,6 +15,8 @@ load_dotenv()
 NAVER_RSS_URL = os.getenv("NAVER_RSS_URL")
 POSTS_DIR = Path("public/posts")
 MANIFEST_PATH = POSTS_DIR / "index.json"
+SITEMAP_PATH = Path("public/sitemap.xml")
+SITE_URL = "https://choidz.github.io"
 GIT_USER_NAME = os.getenv("GIT_USER_NAME")
 GIT_USER_EMAIL = os.getenv("GIT_USER_EMAIL")
 
@@ -36,6 +38,48 @@ converter.escape_snob = False  # 중요: --- 방지
 
 slug_pattern = re.compile(r"[^a-z0-9]+")
 whitespace_re = re.compile(r"\s+")
+
+
+# ✅ sitemap.xml 생성 함수
+def generate_sitemap(posts: list) -> str:
+    """posts 목록을 기반으로 sitemap.xml 생성"""
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    urls = []
+
+    # 홈페이지
+    urls.append(f"""  <url>
+    <loc>{SITE_URL}/</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>""")
+
+    # 포트폴리오
+    urls.append(f"""  <url>
+    <loc>{SITE_URL}/portfolio</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>""")
+
+    # 블로그 포스트들
+    for post in posts:
+        slug = post.get("slug", "")
+        date = post.get("date", today)
+        if slug:
+            urls.append(f"""  <url>
+    <loc>{SITE_URL}/blog/{slug}</loc>
+    <lastmod>{date}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>""")
+
+    sitemap_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{chr(10).join(urls)}
+</urlset>
+"""
+    return sitemap_content
 
 POSTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -342,6 +386,11 @@ if updated:
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
 
+    # ✅ sitemap.xml 생성
+    sitemap_content = generate_sitemap(manifest)
+    SITEMAP_PATH.write_text(sitemap_content, encoding="utf-8")
+    print(f"✅ sitemap.xml 생성 완료 ({len(manifest)}개 포스트 포함)")
+
     if GIT_USER_NAME and GIT_USER_EMAIL:
         subprocess.run(["git", "config", "user.name", GIT_USER_NAME], check=True)
         subprocess.run(["git", "config", "user.email", GIT_USER_EMAIL], check=True)
@@ -352,7 +401,7 @@ if updated:
     if current_branch != "auto-post":
         subprocess.run(["git", "checkout", "-B", "auto-post"], check=True)
 
-    subprocess.run(["git", "add", str(POSTS_DIR)], check=True)
+    subprocess.run(["git", "add", str(POSTS_DIR), str(SITEMAP_PATH)], check=True)
     commit_msg = f"Auto post update {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
     subprocess.run(["git", "commit", "-m", commit_msg], check=True)
 
