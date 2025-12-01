@@ -6,21 +6,21 @@
 
 LM Studio는 사용자가 인터넷 연결 없이 자신의 컴퓨터에서 직접 대형 언어 모델(LLM)을 실행할 수 있도록 해주는 프로그램입니다. Hugging Face에 공개된 오픈소스 AI 모델을 쉽게 다운로드하고, 구성하며, 활용할 수 있습니다. 개인정보 보호와 데이터 보안이 중요한 사용자들에게 특히 유용한 솔루션입니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjc3/MDAxNzYzODI2ODc1Mjg4.bdci-P9OelZhxr0tvc0cMqujaZ2YIW_ajNf-z_CRD34g.JVnD0H1ulEA1yh7Y69P9j12b485h2ime0sdnpXnYNK0g.PNG/img_000_0b75577d.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjc3/MDAxNzYzODI2ODc1Mjg4.bdci-P9OelZhxr0tvc0cMqujaZ2YIW_ajNf-z_CRD34g.JVnD0H1ulEA1yh7Y69P9j12b485h2ime0sdnpXnYNK0g.PNG/img_000_0b75577d.png) ](<#>)
 
 **LM Studio 설치 및 시스템 요구사항**
 
 LM Studio는 모든 주요 운영체제에서 구동 가능합니다. 공식 웹사이트(https://lmstudio.ai/)에 접속하면 Windows, macOS, Linux용 설치 파일을 다운로드할 수 있습니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjAy/MDAxNzYzODI2ODgzNzE5.QQMWp0JTHj5HoZv08LO-x0Pe-pTv6VwDFHS9NatjQvYg.bXvphNfLEmJrO4oU73CJcTXeVqjcnfFKRzgTTK_GGYcg.JPEG/img_001_dc3cf671.jpg?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjAy/MDAxNzYzODI2ODgzNzE5.QQMWp0JTHj5HoZv08LO-x0Pe-pTv6VwDFHS9NatjQvYg.bXvphNfLEmJrO4oU73CJcTXeVqjcnfFKRzgTTK_GGYcg.JPEG/img_001_dc3cf671.jpg) ](<#>)
 
 설치 전에 최소 사양을 확인해야 합니다. macOS의 경우 M1/M2/M3 칩을 탑재한 Apple Silicon Mac이 필요하며 macOS 13.6 이상이어야 합니다. Windows와 Linux PC는 AVX2를 지원하는 프로세서가 필요합니다. 모든 플랫폼에서 최소 16GB 이상의 RAM을 권장하며, PC의 경우 6GB 이상의 VRAM을 권장합니다. NVIDIA와 AMD GPU를 지원합니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjY5/MDAxNzYzODI2ODkwODQy.9rUaOt685i-tFbvfigeTSzdpvo64EHPuWLLMELtNB7Yg.HnNebQmBp1zHYYv2R-KjzhjYCM98fhMUs5RUPKovmBEg.JPEG/img_002_2503c426.jpg?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjY5/MDAxNzYzODI2ODkwODQy.9rUaOt685i-tFbvfigeTSzdpvo64EHPuWLLMELtNB7Yg.HnNebQmBp1zHYYv2R-KjzhjYCM98fhMUs5RUPKovmBEg.JPEG/img_002_2503c426.jpg) ](<#>)
 
 다운로드한 파일을 더블클릭하여 실행하면 설치 과정이 시작됩니다. 설치 완료 후 프로그램을 실행하면 현재 버전 정보를 표시하는 창이 나타나며, Discord 커뮤니티를 통해 사용자들로부터 도움을 받을 수 있습니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjk0/MDAxNzYzODI2OTA4MDI3.f5qFBwvRgwWoNYr21NaPpMW6Ns_hyLQU4PoSx8e6FOgg.3GK6B8PYLGUoPDWlXxOBB52xpXSGZhUSUDTJqIZvu24g.PNG/img_003_c5004ca8.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjk0/MDAxNzYzODI2OTA4MDI3.f5qFBwvRgwWoNYr21NaPpMW6Ns_hyLQU4PoSx8e6FOgg.3GK6B8PYLGUoPDWlXxOBB52xpXSGZhUSUDTJqIZvu24g.PNG/img_003_c5004ca8.png) ](<#>)
 
 **LM Studio의 주요 기능**
 
@@ -28,21 +28,21 @@ LM Studio는 모든 주요 운영체제에서 구동 가능합니다. 공식 웹
 
 LM Studio의 첫 화면에는 Google 검색 바처럼 긴 검색창이 있습니다. 이곳에서 원하는 오픈소스 LLM을 검색할 수 있습니다. 인기 있는 모델들이 추천으로 표시되며, 사용자는 Llama, Qwen 등 다양한 모델을 검색하고 다운로드할 수 있습니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMTE0/MDAxNzYzODI2OTIxMTg4.EXCzpWLCfcvuxZK4tP570ol10dIfdRj3wMGisUP6Q98g.tN_Tah95NMazQ_z7FFD830SnUrEyiXcccKSZ4qBGaSEg.JPEG/img_005_4ebfd858.jpg?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMTE0/MDAxNzYzODI2OTIxMTg4.EXCzpWLCfcvuxZK4tP570ol10dIfdRj3wMGisUP6Q98g.tN_Tah95NMazQ_z7FFD830SnUrEyiXcccKSZ4qBGaSEg.JPEG/img_005_4ebfd858.jpg) ](<#>)
 
 ​
 
 검색 결과는 좌측과 우측으로 깔끔하게 표시됩니다. 좌측에는 LLM 버전별로 업로드된 모델들이 나열되며, 각 모델의 이름, 업로드 날짜, 다운로드 수, 좋아요 개수를 확인할 수 있습니다. 날짜별, 다운로드 수 등으로 정렬 기능도 제공됩니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjM5/MDAxNzYzODI2OTM5NDM0.nlbTfiUk9yCwYK3MSV2P226XS4gWPvGYazhIE7dbV_gg.X7CrWvFwprLc7fR8pYI5jnEhXgNNe194g6EyEDVO2E0g.JPEG/img_006_3361d1ff.jpg?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjM5/MDAxNzYzODI2OTM5NDM0.nlbTfiUk9yCwYK3MSV2P226XS4gWPvGYazhIE7dbV_gg.X7CrWvFwprLc7fR8pYI5jnEhXgNNe194g6EyEDVO2E0g.JPEG/img_006_3361d1ff.jpg) ](<#>)
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfNDAg/MDAxNzYzODI2OTQzMTkw.nvAr4I6UGRZDdX-24uCDsnAZ-YQ1l8IWWsCF2FvnEgAg.7B1i-vC2qE4Uj8P06XXb_5VuCMYg-LNW3mFLekEnZaIg.JPEG/img_007_6a937c9a.jpg?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfNDAg/MDAxNzYzODI2OTQzMTkw.nvAr4I6UGRZDdX-24uCDsnAZ-YQ1l8IWWsCF2FvnEgAg.7B1i-vC2qE4Uj8P06XXb_5VuCMYg-LNW3mFLekEnZaIg.JPEG/img_007_6a937c9a.jpg) ](<#>)
 
 **양자화(Quantization) 레벨 이해하기**
 
 우측에 표시되는 다양한 모델 옵션들은 2~8비트 양자화 레벨별로 구분됩니다. 양자화는 모델의 크기를 줄이기 위해 가중치를 더 낮은 비트로 압축하는 기술입니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMTcg/MDAxNzYzODI2OTQ2MzE1.dMLxihfGJVy0R6UJezRNOt8zB_rixLv0asaJyUW86eMg.6oNzSHHFCUUqxWKKoXFNNG6anBoMq6TYQ9ePoMlQ8WIg.JPEG/img_008_571b3bbe.jpg?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMTcg/MDAxNzYzODI2OTQ2MzE1.dMLxihfGJVy0R6UJezRNOt8zB_rixLv0asaJyUW86eMg.6oNzSHHFCUUqxWKKoXFNNG6anBoMq6TYQ9ePoMlQ8WIg.JPEG/img_008_571b3bbe.jpg) ](<#>)
 
 **2~4비트 양자화(Q2_K, Q3_K, Q4_K)** 는 고도로 압축되어 더 작은 크기와 낮은 메모리 사용량을 특징으로 합니다. 제한된 RAM을 가진 시스템에 적합하지만 일부 정확도를 희생해야 합니다. Q4_0에서는 숫자 블록이 하나의 스케일링 인수로 표현되며, Q4_1에서는 스케일링 인수와 오프셋 인수를 모두 사용하여 정확도를 향상시킵니다.
 
@@ -50,7 +50,7 @@ LM Studio의 첫 화면에는 Google 검색 바처럼 긴 검색창이 있습니
 
 일반적으로 자신의 컴퓨터 사양에 맞게 선택하면 되는데, 다행히 LM Studio는 사용자의 사양을 자동으로 인식하고 다운로드 버튼 옆에 충분한 사양일 경우 초록색으로 'full cpu offload possible' 글자를 표시합니다.
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjk0/MDAxNzYzODI2OTUwNTIw.13KbkbPMn1IFo1V7QwVFbaAq6d53oqgt13u13ANY7cEg.Ja4ehMrfk_zMkQ79u3BqbbLRQlIgtvJ_NG3LDDS4WUMg.PNG/img_009_82aa55ee.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjNfMjk0/MDAxNzYzODI2OTUwNTIw.13KbkbPMn1IFo1V7QwVFbaAq6d53oqgt13u13ANY7cEg.Ja4ehMrfk_zMkQ79u3BqbbLRQlIgtvJ_NG3LDDS4WUMg.PNG/img_009_82aa55ee.png) ](<#>)
 
 **2\. 모델 관리 (My Models 화면)**
 

@@ -36,7 +36,7 @@
 
 **Kafka 도입 이전**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMDZfMiAg/MDAxNzYyMzYwMzk1Njk3.jPoilGnOjxUu1maPIFxiebTAsz2H0hBABsxlJLXFOe4g.leJm7pZe3d5jJlI8ZaVwWsPFpC04xx1nLtPu3wXJfZsg.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMDZfMiAg/MDAxNzYyMzYwMzk1Njk3.jPoilGnOjxUu1maPIFxiebTAsz2H0hBABsxlJLXFOe4g.leJm7pZe3d5jJlI8ZaVwWsPFpC04xx1nLtPu3wXJfZsg.PNG/image.png) ](<#>)
 
 Kafka 도입 전에는 각 서비스가 서로 직접 연결된 **end-to-end 통신 구조** 로 데이터를 주고받았습니다.
 
@@ -48,7 +48,7 @@ Kafka 도입 전에는 각 서비스가 서로 직접 연결된 **end-to-end 통
 
 **Kafka 도입 이후**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMDZfMTA1/MDAxNzYyMzYwNDA2MDE5.Hx6Ml4Q1_Br7Gm7J1baDCrAR6ZKfQz6UH5nMkqJPo0kg.NzkYvTchh5HrfPRWjpl_VySTaTx7BKFhST_PYF4w3EEg.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMDZfMTA1/MDAxNzYyMzYwNDA2MDE5.Hx6Ml4Q1_Br7Gm7J1baDCrAR6ZKfQz6UH5nMkqJPo0kg.NzkYvTchh5HrfPRWjpl_VySTaTx7BKFhST_PYF4w3EEg.PNG/image.png) ](<#>)
 
 Kafka를 도입하면서 데이터 흐름의 **중앙 집중 관리** 가 가능해졌습니다.
 
@@ -60,7 +60,7 @@ Kafka를 도입하면서 데이터 흐름의 **중앙 집중 관리** 가 가능
 
 **🎬 실제 사례: Netflix의 Kafka 기반 데이터 파이프라인**
 
-[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMDZfMjA1/MDAxNzYyMzYwNDEzMTE1.tt7kMLaqpAW-KfuV-2t520hMOqy7tfc5i3wxrWiDWIcg.1Uzu7Yk4Henh67eOxExrwTRMoThtmzJWhJzqqLwynukg.PNG/image.png?type=w80_blur) ](<#>)
+[ ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMDZfMjA1/MDAxNzYyMzYwNDEzMTE1.tt7kMLaqpAW-KfuV-2t520hMOqy7tfc5i3wxrWiDWIcg.1Uzu7Yk4Henh67eOxExrwTRMoThtmzJWhJzqqLwynukg.PNG/image.png) ](<#>)
 
 Netflix는 카프카를 활용해
 
