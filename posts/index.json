@@ -60,6 +60,18 @@
     "contentPath": "/posts/post-20251204-011656.md"
   },
   {
+    "slug": "post-20251205-011739",
+    "title": "️ 프로세스, 데몬, 서비스 완벽 구분하기 - 개발자가 알아야 할 핵심",
+    "description": "개발을 하다 보면 \"데몬이 뭐지?",
+    "date": "2025-11-30",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 6,
+    "contentPath": "/posts/post-20251205-011739.md"
+  },
+  {
     "slug": "linux-ansible-ip-hosts-path-proc",
     "title": "[Linux] Ansible은 어떻게 IP를 알까? 리눅스의 숨겨진 동작 원리 (hosts, PATH, proc)",
     "description": "Ansible로 Zabbix Agent를 배포하던 중 문득 아주 근본적인 의문이 하나 생겼습니다.",

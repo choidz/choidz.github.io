@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /privacy-policy/
 
 Sitemap: https://choidz.github.io/sitemap.xml
