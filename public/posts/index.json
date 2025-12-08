@@ -1,5 +1,29 @@
 [
   {
+    "slug": "jenkins-os",
+    "title": "[리눅스] Jenkins 서버 OS 업그레이드 대비 이관 작업 완벽 정리",
+    "description": "기업 환경에서 리눅스 서버 OS 업그레이드를 진행할 때, 기존에 운영 중인 Jenkins 서비스를 새로운 서버로 안전하게 이전하는 절차를 정리했습니다.",
+    "date": "2025-12-07",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/jenkins-os.md"
+  },
+  {
+    "slug": "chmod-chown-chgrp",
+    "title": "리눅스 권한 완벽 가이드: chmod, chown, chgrp로 파일 접근 제어하기",
+    "description": "리눅스 권한, 왜 배워야 할까?",
+    "date": "2025-12-07",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 4,
+    "contentPath": "/posts/chmod-chown-chgrp.md"
+  },
+  {
     "slug": "daemon-vs-agentless-ansible",
     "title": "데몬(daemon) vs Agentless: 왜 Ansible 은 서버에 데몬이 필요 없을까?",
     "description": "서버 운영자나 DevOps 입문자라면 한 번쯤 궁금해질 수 있는 질문입니다.",
@@ -94,6 +118,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 6,
     "contentPath": "/posts/post-20251207-012405.md"
+  },
+  {
+    "slug": "post-20251208-011740",
+    "title": "️ 프로세스, 데몬, 서비스 완벽 구분하기 - 개발자가 알아야 할 핵심",
+    "description": "개발을 하다 보면 \"데몬이 뭐지?",
+    "date": "2025-11-30",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 6,
+    "contentPath": "/posts/post-20251208-011740.md"
   },
   {
     "slug": "linux-ansible-ip-hosts-path-proc",
@@ -346,6 +382,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 2,
     "contentPath": "/posts/post-20251207-012407.md"
+  },
+  {
+    "slug": "post-20251208-011741",
+    "title": "도메인 지식: 개발자가 반드시 알아야 할 이유",
+    "description": "목차 도메인이란 무엇인가 도메인 지식이 없으면 벌어지는 문제들 실력 있는 개발자의 조건 도메인 지식을 높이는 방법 도메인이란 무엇인가 도메인(domain)은 우리가 만드는 소프트웨어가 해결하고자 하는 업무 영역 또는 현실 세계의 맥락을 의미합니다.",
+    "date": "2025-11-22",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/post-20251208-011741.md"
   },
   {
     "slug": "windows-mysql-root-dbeaver",
