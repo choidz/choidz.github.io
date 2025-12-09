@@ -1,5 +1,17 @@
 [
   {
+    "slug": "mysql",
+    "title": "MySQL 에러 완벽 정리 가이드: 자주 만나는 에러부터 해결법까지",
+    "description": "MySQL을 다루다 보면 정말 많은 에러를 만나게 돼요.",
+    "date": "2025-12-08",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 6,
+    "contentPath": "/posts/mysql.md"
+  },
+  {
     "slug": "jenkins-os",
     "title": "[리눅스] Jenkins 서버 OS 업그레이드 대비 이관 작업 완벽 정리",
     "description": "기업 환경에서 리눅스 서버 OS 업그레이드를 진행할 때, 기존에 운영 중인 Jenkins 서비스를 새로운 서버로 안전하게 이전하는 절차를 정리했습니다.",
@@ -130,6 +142,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 6,
     "contentPath": "/posts/post-20251208-011740.md"
+  },
+  {
+    "slug": "post-20251209-011707",
+    "title": "️ 프로세스, 데몬, 서비스 완벽 구분하기 - 개발자가 알아야 할 핵심",
+    "description": "개발을 하다 보면 \"데몬이 뭐지?",
+    "date": "2025-11-30",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 6,
+    "contentPath": "/posts/post-20251209-011707.md"
   },
   {
     "slug": "linux-ansible-ip-hosts-path-proc",
