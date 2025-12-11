@@ -168,6 +168,18 @@
     "contentPath": "/posts/post-20251210-011847.md"
   },
   {
+    "slug": "post-20251211-011935",
+    "title": "️ 프로세스, 데몬, 서비스 완벽 구분하기 - 개발자가 알아야 할 핵심",
+    "description": "개발을 하다 보면 \"데몬이 뭐지?",
+    "date": "2025-11-30",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 6,
+    "contentPath": "/posts/post-20251211-011935.md"
+  },
+  {
     "slug": "linux-ansible-ip-hosts-path-proc",
     "title": "[Linux] Ansible은 어떻게 IP를 알까? 리눅스의 숨겨진 동작 원리 (hosts, PATH, proc)",
     "description": "Ansible로 Zabbix Agent를 배포하던 중 문득 아주 근본적인 의문이 하나 생겼습니다.",
@@ -442,6 +454,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 2,
     "contentPath": "/posts/post-20251210-011848.md"
+  },
+  {
+    "slug": "post-20251211-011936",
+    "title": "도메인 지식: 개발자가 반드시 알아야 할 이유",
+    "description": "목차 도메인이란 무엇인가 도메인 지식이 없으면 벌어지는 문제들 실력 있는 개발자의 조건 도메인 지식을 높이는 방법 도메인이란 무엇인가 도메인(domain)은 우리가 만드는 소프트웨어가 해결하고자 하는 업무 영역 또는 현실 세계의 맥락을 의미합니다.",
+    "date": "2025-11-22",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/post-20251211-011936.md"
   },
   {
     "slug": "windows-mysql-root-dbeaver",
@@ -814,6 +838,18 @@
     "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
     "readingMinutes": 3,
     "contentPath": "/posts/post-20251203-011709.md"
+  },
+  {
+    "slug": "post-20251211-011937",
+    "title": "리눅스 명령어 정리  | 서버관리·개발자 필수 실무 명령어 가이드",
+    "description": "리눅스 실무 필수 명령어 총정리 안녕하세요 이번 글에서는 리눅스(Linux) 환경에서 꼭 알아야 할 실무 명령어들을 한눈에 정리해봤습니다.",
+    "date": "2025-11-05",
+    "tags": [
+      "#Linux"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/post-20251211-011937.md"
   },
   {
     "slug": "zabbix",
