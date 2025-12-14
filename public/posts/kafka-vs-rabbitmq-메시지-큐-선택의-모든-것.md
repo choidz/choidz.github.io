@@ -42,13 +42,13 @@ _**Kafka의 Pub/Sub 모델: Publisher가 Topic으로 메시지를 분류하고, 
 
 **Kafka의 가장 중요한 개념이****Topic****과****Partition****이에요. 하나의 Topic은 여러 개의 Partition으로 나뉘는데, 이게 병렬 처리의 핵심이거든요.**
 
-![](/images/posts/kafka-vs-rabbitmq-메시지-큐-선택의-모든-것-02-9bc8af9b.png)
+![](/images/posts/kafka-vs-rabbitmq-메시지-큐-선택의-모든-것-02-06a8d02a.png)
 
 _**Topic의 구조: 하나의 Topic이 여러 Partition으로 분산되어 병렬 처리를 가능하게 합니다.**_
 
 **각 Partition은 메시지를 저장하는****물리적 파일****이에요. 중요한 특징이 있는데, Partition은****Append-Only****방식이라는 거죠. 즉, 메시지는 맨 뒤에만 추가되고, 수정이나 삭제는 불가능해요. 마치 로그 파일처럼요.**
 
-![](/images/posts/kafka-vs-rabbitmq-메시지-큐-선택의-모든-것-03-85ea52ec.png)
+![](/images/posts/kafka-vs-rabbitmq-메시지-큐-선택의-모든-것-03-5083234a.png)
 
 _**Partition의 Append-Only 구조: 메시지는 순서대로 저장되고, Offset으로 위치를 추적합니다.**_
 
