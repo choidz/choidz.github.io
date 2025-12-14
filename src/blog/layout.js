@@ -8,7 +8,7 @@ import { formatDate } from "./utils";
 
 const primaryLinks = [
   { label: "블로그", path: blogPaths.home, isPrimary: true },
-  { label: "포트폴리오", path: portfolioPath, isPrimary: false },
+  // { label: "포트폴리오", path: portfolioPath, isPrimary: false }, // 포트폴리오 수정 중 - 임시 숨김
 ];
 
 function SiteHeader({ searchQuery, onSearchChange }) {
@@ -265,7 +265,7 @@ function CommunityCard() {
         개발자로서의 여정을 기록하고 있어요
       </h2>
       <p className='mt-3 text-sm leading-relaxed text-brand-muted'>
-        최신 글은 블로그에서, 프로젝트 히스토리는 포트폴리오에서 확인해 주세요.
+        최신 글은 블로그에서 확인해 주세요.
         꾸준히 업데이트하며 성장 과정을 공유합니다.
       </p>
       <div className='mt-4 flex flex-wrap gap-3'>
@@ -274,11 +274,13 @@ function CommunityCard() {
           className='inline-flex items-center rounded-full bg-brand-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-accent-hover'>
           블로그 최신 글 보기
         </Link>
+        {/* 포트폴리오 수정 중 - 임시 숨김
         <Link
           to={portfolioPath}
           className='inline-flex items-center rounded-full bg-brand-surface px-4 py-2 text-sm font-medium text-brand-accent shadow-sm transition hover:bg-brand-accent-soft'>
           포트폴리오 열람
         </Link>
+        */}
       </div>
     </section>
   );

@@ -2,6 +2,9 @@ import json
 import os
 import re
 import subprocess
+import hashlib
+import base64
+import time
 from datetime import datetime
 from pathlib import Path
 import requests
@@ -9,11 +12,18 @@ import feedparser
 import html2text
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 load_dotenv()
 
 NAVER_RSS_URL = os.getenv("NAVER_RSS_URL")
 POSTS_DIR = Path("public/posts")
+IMAGES_DIR = Path("public/images/posts")
 MANIFEST_PATH = POSTS_DIR / "index.json"
 SITEMAP_PATH = Path("public/sitemap.xml")
 SITE_URL = "https://choidz.github.io"
@@ -21,7 +31,7 @@ GIT_USER_NAME = os.getenv("GIT_USER_NAME")
 GIT_USER_EMAIL = os.getenv("GIT_USER_EMAIL")
 
 if not NAVER_RSS_URL:
-    print("❌ NAVER_RSS_URL 환경 변수가 없습니다.")
+    print("[ERROR] NAVER_RSS_URL 환경 변수가 없습니다.")
     exit(1)
 
 # ✅ html2text 기본 설정
@@ -36,8 +46,30 @@ converter.unicode_snob = True
 converter.skip_internal_links = False
 converter.escape_snob = False  # 중요: --- 방지
 
-slug_pattern = re.compile(r"[^a-z0-9]+")
+slug_pattern = re.compile(r"[^a-z0-9가-힣]+")
 whitespace_re = re.compile(r"\s+")
+
+# ✅ Selenium WebDriver 초기화
+_driver = None
+
+def get_driver():
+    global _driver
+    if _driver is None:
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--window-size=1920,1080")
+        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+        _driver = webdriver.Chrome(options=chrome_options)
+    return _driver
+
+def close_driver():
+    global _driver
+    if _driver:
+        _driver.quit()
+        _driver = None
 
 
 # ✅ sitemap.xml 생성 함수
@@ -82,6 +114,7 @@ def generate_sitemap(posts: list) -> str:
     return sitemap_content
 
 POSTS_DIR.mkdir(parents=True, exist_ok=True)
+IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
 existing_manifest = []
 if MANIFEST_PATH.exists():
@@ -94,47 +127,110 @@ posts_by_slug = {item["slug"]: item for item in existing_manifest if "slug" in i
 updated = False
 
 
-def fetch_full_naver_post(link: str):
+def fetch_full_naver_post(link: str, slug: str = ""):
+    """Selenium으로 네이버 블로그 페이지를 로드하고 본문과 이미지를 추출"""
     # 블로그 ID, 글번호 추출
     m = re.search(r"blog.naver.com/([^/]+)/(\d+)", link)
     if not m:
-        print(f"❌ 링크 파싱 실패: {link}")
-        return "", []
+        print(f"[ERROR] link parse failed: {link}")
+        return "", [], {}
     blog_id, log_no = m.groups()
 
     mobile_url = f"https://m.blog.naver.com/{blog_id}/{log_no}"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    res = requests.get(mobile_url, headers=headers, timeout=10)
-    res.raise_for_status()
-    soup = BeautifulSoup(res.text, "html.parser")
+    driver = get_driver()
 
-    # ✅ 본문 추출
-    container = soup.select_one("div.se-main-container") or soup.select_one("div.se_component_wrap")
+    try:
+        driver.get(mobile_url)
+        # 페이지 로드 대기
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "div.se-main-container, div.se_component_wrap"))
+        )
+        time.sleep(2)  # 이미지 로드 대기
 
-    # ✅ __NEXT_DATA__ 내부 JSON에서 태그 추출
-    script_tag = soup.find("script", id="__NEXT_DATA__")
-    tags = []
-    if script_tag and script_tag.string:
-        try:
-            data = json.loads(script_tag.string)
-            # 구조: props.pageProps.postInfo.tags (2025년 현재)
-            tags_data = (
-                data.get("props", {})
-                    .get("pageProps", {})
-                    .get("postInfo", {})
-                    .get("tags", [])
-            )
-            for tag_item in tags_data:
-                tag_text = tag_item.get("tagName") or tag_item.get("name") or ""
-                if tag_text:
-                    if not tag_text.startswith("#"):
-                        tag_text = f"#{tag_text}"
-                    tags.append(tag_text)
-        except Exception as e:
-            print(f"⚠️ JSON 파싱 실패: {e}")
+        # HTML 가져오기
+        page_source = driver.page_source
+        soup = BeautifulSoup(page_source, "html.parser")
 
-    print(f"✅ {mobile_url} → 태그: {tags}")
-    return (str(container) if container else ""), tags
+        # 본문 추출
+        container = soup.select_one("div.se-main-container") or soup.select_one("div.se_component_wrap")
+
+        # 태그 추출
+        script_tag = soup.find("script", id="__NEXT_DATA__")
+        tags = []
+        if script_tag and script_tag.string:
+            try:
+                data = json.loads(script_tag.string)
+                tags_data = (
+                    data.get("props", {})
+                        .get("pageProps", {})
+                        .get("postInfo", {})
+                        .get("tags", [])
+                )
+                for tag_item in tags_data:
+                    tag_text = tag_item.get("tagName") or tag_item.get("name") or ""
+                    if tag_text:
+                        if not tag_text.startswith("#"):
+                            tag_text = f"#{tag_text}"
+                        tags.append(tag_text)
+            except Exception as e:
+                print(f"[WARN] JSON parse failed: {e}")
+
+        # 이미지 다운로드 (Selenium 쿠키 + requests)
+        image_map = {}  # original_url -> local_path
+        if slug:
+            # 본문 컨테이너 내의 이미지만 찾기
+            content_imgs = driver.find_elements(By.CSS_SELECTOR, ".se-main-container img, .se_component_wrap img")
+
+            # Selenium 쿠키를 requests 세션에 복사
+            session = requests.Session()
+            for cookie in driver.get_cookies():
+                session.cookies.set(cookie['name'], cookie['value'])
+
+            img_index = 0
+            for img in content_imgs:
+                try:
+                    src = img.get_attribute("src") or ""
+                    # 네이버 블로그 이미지만 처리 (blogthumb 포함된 것)
+                    if not src or "pstatic.net" not in src:
+                        continue
+                    if "blogthumb" not in src and "blogfiles" not in src:
+                        continue
+
+                    # 이미 처리한 URL은 스킵
+                    if src in image_map:
+                        continue
+
+                    # 파일 확장자 추출
+                    ext_match = re.search(r'\.(png|jpg|jpeg|gif|webp)', src.lower())
+                    ext = ext_match.group(1) if ext_match else 'png'
+
+                    # 파일명 생성
+                    url_hash = hashlib.md5(src.encode()).hexdigest()[:8]
+                    filename = f"{slug}-{img_index:02d}-{url_hash}.{ext}"
+                    local_path = IMAGES_DIR / filename
+
+                    if not local_path.exists():
+                        # 쿠키와 Referer로 이미지 다운로드
+                        headers = {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                            "Referer": mobile_url,
+                        }
+                        resp = session.get(src, headers=headers, timeout=10)
+                        resp.raise_for_status()
+                        local_path.write_bytes(resp.content)
+                        print(f"  [IMG] saved: {filename}")
+
+                    image_map[src] = f"/images/posts/{filename}"
+                    img_index += 1
+                except Exception as e:
+                    pass  # 이미지 다운로드 실패는 무시
+
+        print(f"[OK] {mobile_url} -> tags: {tags}, images: {len(image_map)}")
+        return (str(container) if container else ""), tags, image_map
+
+    except Exception as e:
+        print(f"[ERROR] Selenium failed: {e}")
+        return "", [], {}
 
 
 # ✅ 표 셀 이스케이프
@@ -175,20 +271,64 @@ def normalize_naver_image_url(url: str) -> str:
     return url
 
 
+# ✅ 이미지 다운로드 및 로컬 저장
+def download_image(url: str, slug: str, index: int) -> str | None:
+    """네이버 이미지를 다운로드하고 로컬 경로를 반환"""
+    if not url:
+        return None
+
+    try:
+        # URL 정규화
+        url = normalize_naver_image_url(url)
+
+        # 파일 확장자 추출
+        ext_match = re.search(r'\.(png|jpg|jpeg|gif|webp)', url.lower())
+        ext = ext_match.group(1) if ext_match else 'png'
+
+        # 파일명 생성 (slug + index + 해시)
+        url_hash = hashlib.md5(url.encode()).hexdigest()[:8]
+        filename = f"{slug}-{index:02d}-{url_hash}.{ext}"
+        local_path = IMAGES_DIR / filename
+
+        # 이미 존재하면 스킵
+        if local_path.exists():
+            return f"/images/posts/{filename}"
+
+        # 이미지 다운로드 (네이버 referer 설정)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            "Referer": "https://m.blog.naver.com/",
+        }
+        res = requests.get(url, headers=headers, timeout=10)
+        res.raise_for_status()
+
+        # 파일 저장
+        local_path.write_bytes(res.content)
+        print(f"  [IMG] saved: {filename}")
+
+        return f"/images/posts/{filename}"
+    except Exception as e:
+        print(f"  [WARN] image download failed: {url[:50]}... ({e})")
+        return None
+
+
 # ✅ HTML 정제 및 요약 추출
-def sanitize_html(html: str) -> tuple[str, str, list[str], list[str]]:
+def sanitize_html(html: str, image_map: dict = None) -> tuple[str, str, list[str], list[str]]:
     soup = BeautifulSoup(html or "", "html.parser")
     tables = []
     code_blocks = []
+    image_map = image_map or {}
 
-    # ✅ 이미지 URL 정규화 (썸네일 → 원본)
+    # ✅ 이미지 URL을 로컬 경로로 변경
     for img in soup.find_all("img"):
         src = img.get("src") or img.get("data-src") or ""
-        if "pstatic.net" in src or "blogfiles.naver" in src:
+        if src in image_map:
+            img["src"] = image_map[src]
+        elif "pstatic.net" in src or "blogfiles.naver" in src:
             img["src"] = normalize_naver_image_url(src)
-            # data-src도 정리
-            if img.get("data-src"):
-                img["data-src"] = normalize_naver_image_url(img["data-src"])
+        # data-src 제거
+        if img.get("data-src"):
+            del img["data-src"]
 
     def has_class_fragment(tag, keyword):
         classes = tag.get("class") or []
@@ -318,8 +458,8 @@ for entry in feedparser.parse(NAVER_RSS_URL).entries:
         continue
 
     link = entry.get("link", "") or ""
-    full_html, html_tags = fetch_full_naver_post(link)
-    sanitized_html, text_preview, tables, code_blocks = sanitize_html(full_html or entry.get("description", ""))
+    full_html, html_tags, image_map = fetch_full_naver_post(link, slug)
+    sanitized_html, text_preview, tables, code_blocks = sanitize_html(full_html or entry.get("description", ""), image_map)
     markdown = html_to_markdown(sanitized_html, tables, code_blocks)
 
     # ✅ 첫 문장 요약
@@ -389,7 +529,7 @@ if updated:
     # ✅ sitemap.xml 생성
     sitemap_content = generate_sitemap(manifest)
     SITEMAP_PATH.write_text(sitemap_content, encoding="utf-8")
-    print(f"✅ sitemap.xml 생성 완료 ({len(manifest)}개 포스트 포함)")
+    print(f"[OK] sitemap.xml generated ({len(manifest)} posts)")
 
     if GIT_USER_NAME and GIT_USER_EMAIL:
         subprocess.run(["git", "config", "user.name", GIT_USER_NAME], check=True)
@@ -401,7 +541,7 @@ if updated:
     if current_branch != "auto-post":
         subprocess.run(["git", "checkout", "-B", "auto-post"], check=True)
 
-    subprocess.run(["git", "add", str(POSTS_DIR), str(SITEMAP_PATH)], check=True)
+    subprocess.run(["git", "add", str(POSTS_DIR), str(IMAGES_DIR), str(SITEMAP_PATH)], check=True)
     commit_msg = f"Auto post update {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
     subprocess.run(["git", "commit", "-m", commit_msg], check=True)
 
@@ -414,6 +554,9 @@ if updated:
         subprocess.run(["git", "push", "origin", "--delete", "auto-post"], check=False)
 
     subprocess.run(["git", "push", "-u", "origin", "auto-post"], check=True)
-    print("🚀 Push 완료")
+    print("[OK] Push completed")
 else:
-    print("ℹ️ 새로운 포스트 없음")
+    print("[INFO] No new posts")
+
+# ✅ WebDriver 종료
+close_driver()

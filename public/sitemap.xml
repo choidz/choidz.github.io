@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://choidz.github.io/</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,295 +12,193 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/linux-ansible-ip-hosts-path-proc</loc>
+    <loc>https://choidz.github.io/blog/리눅스-시스템-보안-로그-관리부터-시작하자</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/리눅스-서버에서-로그를-찾고-분석하는-실전-가이드</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/vim-편집기-완벽-가이드-초보자도-쉽게-배우는-필수-단축키</loc>
+    <lastmod>2025-12-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/mysql-에러-완벽-정리-가이드-자주-만나는-에러부터-해결법까지</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/리눅스-jenkins-서버-os-업그레이드-대비-이관-작업-완벽-정리</loc>
+    <lastmod>2025-12-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/리눅스-권한-완벽-가이드-chmod-chown-chgrp로-파일-접근-제어하기</loc>
+    <lastmod>2025-12-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/데몬-daemon-vs-agentless-왜-ansible-은-서버에-데몬이-필요-없을까</loc>
+    <lastmod>2025-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/프로세스-데몬-서비스-완벽-구분하기-개발자가-알아야-할-핵심</loc>
+    <lastmod>2025-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/linux-ansible은-어떻게-ip를-알까-리눅스의-숨겨진-동작-원리-hosts-path-proc</loc>
     <lastmod>2025-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/vim</loc>
+    <loc>https://choidz.github.io/blog/vim-편집기에서-파일-전체-삭제하는-방법-정리</loc>
     <lastmod>2025-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/zabbix-grafana</loc>
+    <loc>https://choidz.github.io/blog/zabbix-데이터를-grafana로-예쁘게-시각화하기-설치부터-연동까지</loc>
     <lastmod>2025-11-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/kafka-vs-rabbitmq</loc>
+    <loc>https://choidz.github.io/blog/kafka-vs-rabbitmq-메시지-큐-선택의-모든-것</loc>
     <lastmod>2025-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/elasticsearch-kibana</loc>
+    <loc>https://choidz.github.io/blog/elasticsearch와-kibana-설치부터-데이터-조작까지</loc>
     <lastmod>2025-11-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/post-20251123-012428</loc>
+    <loc>https://choidz.github.io/blog/도메인-지식-개발자가-반드시-알아야-할-이유</loc>
     <lastmod>2025-11-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/lm-studio-pc-llm</loc>
+    <loc>https://choidz.github.io/blog/lm-studio로-로컬-pc에서-llm-모델-실행하기</loc>
     <lastmod>2025-11-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/git-pr</loc>
+    <loc>https://choidz.github.io/blog/git-협업을-위한-커밋-메시지와-pr-작성-완벽-가이드</loc>
     <lastmod>2025-11-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/post-20251124-011948</loc>
-    <lastmod>2025-11-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251125-011509</loc>
-    <lastmod>2025-11-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251126-011527</loc>
-    <lastmod>2025-11-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251127-011417</loc>
-    <lastmod>2025-11-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251128-011320</loc>
-    <lastmod>2025-11-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251129-011339</loc>
-    <lastmod>2025-11-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251130-012402</loc>
-    <lastmod>2025-11-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/windows-mysql-root-dbeaver</loc>
+    <loc>https://choidz.github.io/blog/windows에서-mysql-root-비밀번호-초기화-dbeaver-드라이버-오류-해결-총정리</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/linux</loc>
+    <loc>https://choidz.github.io/blog/구식-linux-배포판-업그레이드-완벽-가이드</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/linux-fhs</loc>
+    <loc>https://choidz.github.io/blog/linux-리눅스-디렉토리-구조-완벽-정리-fhs-파일-시스템-계층구조-표준과-주요-디렉토리-역할</loc>
     <lastmod>2025-11-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/supabase-postgresql-baas</loc>
+    <loc>https://choidz.github.io/blog/supabase-시작하기-postgresql-기반-baas로-백엔드-구축하기</loc>
     <lastmod>2025-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/elasticsearch-jvm</loc>
+    <loc>https://choidz.github.io/blog/elasticsearch-대용량-처리를-위한-jvm과-시스템-최적화</loc>
     <lastmod>2025-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/jdbc-web-xml</loc>
+    <loc>https://choidz.github.io/blog/jdbc-커넥션풀과-web-xml-설정-완벽-가이드</loc>
     <lastmod>2025-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/github-actions-rss</loc>
+    <loc>https://choidz.github.io/blog/github-actions로-네이버-블로그-rss-자동-동기화-시스템-만들기</loc>
     <lastmod>2025-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/android-studio</loc>
+    <loc>https://choidz.github.io/blog/android-studio-설치-후-휴대폰-삼성-인식-안-될-때-해결법</loc>
     <lastmod>2025-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/zustand</loc>
+    <loc>https://choidz.github.io/blog/zustand로-데이터-상태-관리하기-코드-분석기-사례</loc>
     <lastmod>2025-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/apache-kafka</loc>
+    <loc>https://choidz.github.io/blog/apache-kafka-완벽-가이드-데이터-파이프라인부터-실무-활용까지</loc>
     <lastmod>2025-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/post-20251109-114858</loc>
+    <loc>https://choidz.github.io/blog/리눅스-명령어-정리-서버관리-개발자-필수-실무-명령어-가이드</loc>
     <lastmod>2025-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/java</loc>
+    <loc>https://choidz.github.io/blog/자바-java-에러-로그-정리</loc>
     <lastmod>2025-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/post-20251110-011752</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251111-011538</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251112-011509</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251113-011540</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251114-011451</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251115-011320</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251116-011955</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251117-011557</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251118-011457</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251119-011450</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251120-011336</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251121-011421</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251122-011150</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251123-012429</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251125-011510</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251126-011528</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251127-011418</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/post-20251130-012403</loc>
-    <lastmod>2025-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://choidz.github.io/blog/zabbix</loc>
+    <loc>https://choidz.github.io/blog/운영자가-꼭-알아야-할-zabbix-핵심</loc>
     <lastmod>2025-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/cat-api-10</loc>
+    <loc>https://choidz.github.io/blog/cat-api-예제-10선</loc>
     <lastmod>2025-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/ansible</loc>
+    <loc>https://choidz.github.io/blog/elasticsearch-완벽-정리-rdbms-비교-핵심-개념-모니터링</loc>
     <lastmod>2025-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://choidz.github.io/blog/elasticsearch-rdbms</loc>
+    <loc>https://choidz.github.io/blog/ansible-정리</loc>
     <lastmod>2025-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

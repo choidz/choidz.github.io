@@ -21,9 +21,14 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
       - name: Install Python dependencies
         run: |
-          pip install feedparser html2text python-dotenv requests beautifulsoup4
+          pip install feedparser html2text python-dotenv requests beautifulsoup4 selenium webdriver-manager
 
       - name: Run auto_post.py
         env:
@@ -42,8 +47,8 @@ jobs:
           git checkout master
           git config user.name "${GIT_USER_NAME}"
           git config user.email "${GIT_USER_EMAIL}"
-          git checkout auto-post -- public/posts
-          git add public/posts
+          git checkout auto-post -- public/posts public/images/posts
+          git add public/posts public/images/posts
           git diff --staged --quiet && exit 0
           git commit -m "Sync posts from auto-post $(date '+%Y-%m-%d %H:%M:%S')"
           git push origin master
