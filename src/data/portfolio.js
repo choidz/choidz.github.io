@@ -109,6 +109,7 @@ export const PROJECTS = [
     slug: "spler",
     title: "SPLER",
     context: "대학교 개인 프로젝트",
+    color: "sky", // 하늘색
     description:
       "스터디·사이드 프로젝트 팀원을 빠르게 매칭하는 커뮤니티 웹 서비스. 모집글 템플릿과 지원 현황을 한 화면에서 관리합니다.",
     impact:
@@ -133,6 +134,7 @@ export const PROJECTS = [
     slug: "dob",
     title: "Do Our Best (DOB)",
     context: "대학교 팀 프로젝트",
+    color: "amber", // 노란색
     description:
       "조별 과제 진행 상황과 구성원 기여도를 투명하게 관리하는 모바일 앱. 일정·기여도·피드백을 하나의 보드에서 확인합니다.",
     impact:
@@ -157,6 +159,7 @@ export const PROJECTS = [
     slug: "fleaculture",
     title: "FleaCulture",
     context: "국비지원 과정 팀 프로젝트",
+    color: "emerald", // 초록색
     description:
       "플리마켓·버스킹·푸드트럭 등 지역 문화 이벤트를 한눈에 찾고 예약할 수 있는 서비스.",
     impact:
@@ -175,11 +178,10 @@ export const PROJECTS = [
 ];
 
 export const CONTACT_INFO = {
-  email: "choidz.dev@gmail.com",
+  email: "choidev98@gmail.com",
   message:
     "프로덕트 중심의 협업, 대시보드/플랫폼 구축 프로젝트에 합류할 준비가 되어 있습니다. 자유롭게 연락 주세요!",
-  availability: "2월 이후 신규 협업 가능",
-  location: "경기 화성 · Remote / Hybrid",
+  location: "경기 화성시 동탄",
   socials: [
     { label: "GitHub", href: "https://github.com/choidz" },
     { label: "Notion", href: "https://choidz.notion.site" },

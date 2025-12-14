@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { SKILL_STACKS } from "../data/portfolio";
+import { getDeviconSlug, buildDeviconUrl, FALLBACK_VARIANTS } from "../lib/devicon";
 
-const FALLBACK_ICON = "/images/skills/react.png";
+function SkillIcon({ name }) {
+  const [variantIndex, setVariantIndex] = useState(0);
+  const slug = getDeviconSlug(name);
+
+  if (!slug) {
+    return (
+      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-200 text-xs font-bold text-slate-500">
+        {name.charAt(0).toUpperCase()}
+      </div>
+    );
+  }
+
+  const handleError = () => {
+    if (variantIndex < FALLBACK_VARIANTS.length - 1) {
+      setVariantIndex((prev) => prev + 1);
+    }
+  };
+
+  return (
+    <img
+      src={buildDeviconUrl(slug, FALLBACK_VARIANTS[variantIndex])}
+      alt={name}
+      className="h-8 w-8 rounded-lg object-contain"
+      loading="lazy"
+      onError={handleError}
+    />
+  );
+}
 
 function HomeSkills() {
   return (
@@ -25,23 +53,15 @@ function HomeSkills() {
           >
             <h3 className="text-lg font-semibold text-slate-900">{stack.title}</h3>
             <ul className="mt-4 space-y-3">
-              {stack.skills.map((skill) => {
-                const icon = skill.icon || FALLBACK_ICON;
-                return (
-                  <li
-                    key={`${stack.title}-${skill.name}`}
-                    className="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2 text-sm text-slate-700"
-                  >
-                    <img
-                      src={icon}
-                      alt={skill.name}
-                      className="h-8 w-8 rounded-lg object-contain"
-                      loading="lazy"
-                    />
-                    <span>{skill.name}</span>
-                  </li>
-                );
-              })}
+              {stack.skills.map((skill) => (
+                <li
+                  key={`${stack.title}-${skill.name}`}
+                  className="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2 text-sm text-slate-700"
+                >
+                  <SkillIcon name={skill.name} />
+                  <span>{skill.name}</span>
+                </li>
+              ))}
             </ul>
           </div>
         ))}

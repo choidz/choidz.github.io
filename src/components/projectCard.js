@@ -1,6 +1,21 @@
 import React from "react";
 import { TagBadge } from "./tags";
 
+const COLOR_STYLES = {
+  sky: {
+    label: "text-sky-600",
+    badge: "bg-sky-50 text-sky-700",
+  },
+  amber: {
+    label: "text-amber-600",
+    badge: "bg-amber-50 text-amber-700",
+  },
+  emerald: {
+    label: "text-emerald-600",
+    badge: "bg-emerald-50 text-emerald-700",
+  },
+};
+
 export default function ProjectCard({ project }) {
   const {
     title,
@@ -11,7 +26,10 @@ export default function ProjectCard({ project }) {
     tags,
     links = [],
     context,
+    color = "emerald",
   } = project;
+
+  const colorStyle = COLOR_STYLES[color] || COLOR_STYLES.emerald;
 
   return (
     <article className="group grid gap-6 rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl md:grid-cols-[300px,1fr]">
@@ -29,11 +47,11 @@ export default function ProjectCard({ project }) {
       <div className="flex flex-col gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-500">
+            <p className={`text-sm font-semibold uppercase tracking-wide ${colorStyle.label}`}>
               Featured Project
             </p>
             {context && (
-              <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+              <span className={`rounded-full px-3 py-1 text-xs font-medium ${colorStyle.badge}`}>
                 {context}
               </span>
             )}

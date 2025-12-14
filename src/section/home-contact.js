@@ -2,7 +2,7 @@ import React from "react";
 import { CONTACT_INFO } from "../data/portfolio";
 
 export default function HomeContact() {
-  const { email, message, availability, location, socials } = CONTACT_INFO;
+  const { email, message, location, socials } = CONTACT_INFO;
 
   return (
     <section className="my-24 rounded-[32px] bg-slate-900 p-10 text-white">
@@ -18,9 +18,6 @@ export default function HomeContact() {
           <div className="mt-8 space-y-3 text-sm text-slate-200">
             <p>
               <span className="font-semibold text-white">Email.</span> {email}
-            </p>
-            <p>
-              <span className="font-semibold text-white">Availability.</span> {availability}
             </p>
             <p>
               <span className="font-semibold text-white">Location.</span> {location}
