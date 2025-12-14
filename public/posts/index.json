@@ -1,5 +1,29 @@
 [
   {
+    "slug": "post-20251214-012426",
+    "title": "리눅스 시스템 보안, 로그 관리부터 시작하자",
+    "description": "시스템 보안이라고 하면 복잡한 방화벽 설정이나 암호화 기술만 떠올리기 쉬워요.",
+    "date": "2025-12-13",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 5,
+    "contentPath": "/posts/post-20251214-012426.md"
+  },
+  {
+    "slug": "post-20251214-012428",
+    "title": "리눅스 서버에서 로그를 찾고 분석하는 실전 가이드",
+    "description": "리눅스 서버를 운영하다 보면 문제가 생겼을 때 가장 먼저 해야 할 일이 뭘까요?",
+    "date": "2025-12-13",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 5,
+    "contentPath": "/posts/post-20251214-012428.md"
+  },
+  {
     "slug": "mysql",
     "title": "MySQL 에러 완벽 정리 가이드: 자주 만나는 에러부터 해결법까지",
     "description": "MySQL을 다루다 보면 정말 많은 에러를 만나게 돼요.",
