@@ -47,11 +47,17 @@ jobs:
           git checkout master
           git config user.name "${GIT_USER_NAME}"
           git config user.email "${GIT_USER_EMAIL}"
-          git checkout auto-post -- public/posts public/images/posts
-          git add public/posts public/images/posts
-          git diff --staged --quiet && exit 0
-          git commit -m "Sync posts from auto-post $(date '+%Y-%m-%d %H:%M:%S')"
-          git push origin master
+
+          # auto-post 브랜치가 있을 때만 sync
+          if git rev-parse --verify origin/auto-post >/dev/null 2>&1; then
+            git checkout auto-post -- public/posts public/images/posts public/sitemap.xml
+            git add public/posts public/images/posts public/sitemap.xml
+            git diff --staged --quiet && exit 0
+            git commit -m "Sync posts from auto-post $(date '+%Y-%m-%d %H:%M:%S')"
+            git push origin master
+          else
+            echo "No auto-post branch found, skipping sync"
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

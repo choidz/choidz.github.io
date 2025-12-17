@@ -7,6 +7,7 @@ import base64
 import time
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote
 import requests
 import feedparser
 import html2text
@@ -99,8 +100,10 @@ def generate_sitemap(posts: list) -> str:
         slug = post.get("slug", "")
         date = post.get("date", today)
         if slug:
+            # 한글 slug를 URL 인코딩 (safe='-'로 하이픈은 인코딩하지 않음)
+            encoded_slug = quote(slug, safe='-')
             urls.append(f"""  <url>
-    <loc>{SITE_URL}/blog/{slug}</loc>
+    <loc>{SITE_URL}/blog/{encoded_slug}</loc>
     <lastmod>{date}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
