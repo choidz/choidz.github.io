@@ -7,6 +7,7 @@ sitemap.xml 생성 스크립트
 import json
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote
 
 POSTS_DIR = Path("public/posts")
 MANIFEST_PATH = POSTS_DIR / "index.json"
@@ -40,8 +41,10 @@ def generate_sitemap(posts: list) -> str:
         slug = post.get("slug", "")
         date = post.get("date", today)
         if slug:
+            # 한글 slug를 URL 인코딩 (safe='-'로 하이픈은 인코딩하지 않음)
+            encoded_slug = quote(slug, safe='-')
             urls.append(f"""  <url>
-    <loc>{SITE_URL}/blog/{slug}</loc>
+    <loc>{SITE_URL}/blog/{encoded_slug}</loc>
     <lastmod>{date}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

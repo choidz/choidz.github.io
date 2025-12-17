@@ -1,8 +1,23 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(git push:*)",
+      "Bash(python generate_sitemap.py:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(npm run deploy:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)",
+      "Bash(git checkout:*)",
+      "WebFetch(domain:choidz.github.io)",
+      "Bash(python:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "WebFetch(domain:mblogthumb-phinf.pstatic.net)",
+      "Bash(set:*)",
+      "Bash(pip install:*)"
     ],
     "deny": [],
     "ask": []
