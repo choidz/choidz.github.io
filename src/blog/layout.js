@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { blogPaths, portfolioPath } from "../routes/paths";
+import { blogPaths } from "../routes/paths";
 import PostList from "./post-list";
 import usePosts from "./usePosts";
 import { getPostViewsMap } from "./usePostViews";
