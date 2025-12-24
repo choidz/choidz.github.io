@@ -1,5 +1,29 @@
 [
   {
+    "slug": "rabbitmq-완벽-가이드-설치부터-메시지-보존-fair-dispatch까지",
+    "title": "RabbitMQ 완벽 가이드: 설치부터 메시지 보존, Fair Dispatch까지",
+    "description": "메시지 큐(Message Queue)는 현대적인 애플리케이션 아키텍처에서 빠질 수 없는 핵심 요소예요.",
+    "date": "2025-12-23",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 7,
+    "contentPath": "/posts/rabbitmq-완벽-가이드-설치부터-메시지-보존-fair-dispatch까지.md"
+  },
+  {
+    "slug": "rabbitmq-완벽-가이드-메시지-큐부터-실무-구현까지",
+    "title": "RabbitMQ 완벽 가이드: 메시지 큐부터 실무 구현까지",
+    "description": "마이크로서비스 아키텍처(MSA)가 대세인 요즘, 서비스 간 통신을 어떻게 효율적으로 처리할지는 개발자의 주요 고민입니다.",
+    "date": "2025-12-23",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 6,
+    "contentPath": "/posts/rabbitmq-완벽-가이드-메시지-큐부터-실무-구현까지.md"
+  },
+  {
     "slug": "리눅스-시스템-보안-로그-관리부터-시작하자",
     "title": "리눅스 시스템 보안, 로그 관리부터 시작하자",
     "description": "시스템 보안이라고 하면 복잡한 방화벽 설정이나 암호화 기술만 떠올리기 쉬워요.",
