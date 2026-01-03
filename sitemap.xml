@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://choidz.github.io/</loc>
-    <lastmod>2025-12-24</lastmod>
+    <lastmod>2026-01-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -10,6 +10,18 @@
     <loc>https://choidz.github.io/portfolio</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/2</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/obisidian-1-10</loc>
+    <lastmod>2026-01-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://choidz.github.io/blog/rabbitmq-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C-%EC%84%A4%EC%B9%98%EB%B6%80%ED%84%B0-%EB%A9%94%EC%8B%9C%EC%A7%80-%EB%B3%B4%EC%A1%B4-fair-dispatch%EA%B9%8C%EC%A7%80</loc>

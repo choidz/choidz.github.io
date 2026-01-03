@@ -1,5 +1,29 @@
 [
   {
+    "slug": "2",
+    "title": "2",
+    "description": "첨부파일 Obsidian－1.",
+    "date": "2026-01-02",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 1,
+    "contentPath": "/posts/2.md"
+  },
+  {
+    "slug": "obisidian-1-10",
+    "title": "obisidian 1.10",
+    "description": "첨부파일 Obsidian－1.",
+    "date": "2026-01-02",
+    "tags": [
+      "#Other"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 1,
+    "contentPath": "/posts/obisidian-1-10.md"
+  },
+  {
     "slug": "rabbitmq-완벽-가이드-설치부터-메시지-보존-fair-dispatch까지",
     "title": "RabbitMQ 완벽 가이드: 설치부터 메시지 보존, Fair Dispatch까지",
     "description": "메시지 큐(Message Queue)는 현대적인 애플리케이션 아키텍처에서 빠질 수 없는 핵심 요소예요.",
