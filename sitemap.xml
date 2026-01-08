@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://choidz.github.io/</loc>
-    <lastmod>2026-01-06</lastmod>
+    <lastmod>2026-01-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -10,6 +10,12 @@
     <loc>https://choidz.github.io/portfolio</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/rabbitmq-%ED%95%B5%EC%8B%AC-%EC%9A%A9%EC%96%B4-%EC%A0%95%EB%A6%AC</loc>
+    <lastmod>2026-01-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://choidz.github.io/blog/clarity-deck-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%A5%BC-%EC%9C%84%ED%95%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%9F%B0%EC%B2%98-%EC%99%84%EB%B2%BD-%EA%B0%80%EC%9D%B4%EB%93%9C</loc>
