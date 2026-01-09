@@ -12,6 +12,18 @@
     "contentPath": "/posts/rabbitmq-핵심-용어-정리.md"
   },
   {
+    "slug": "rabbitmq-consumer-장애-패턴-top-5",
+    "title": "RabbitMQ Consumer 장애 패턴 Top 5",
+    "description": "RabbitMQ 장애를 여러 번 겪다 보면 공통점이 보입니다.",
+    "date": "2026-01-08",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/rabbitmq-consumer-장애-패턴-top-5.md"
+  },
+  {
     "slug": "clarity-deck-개발자를-위한-프로젝트-런처-완벽-가이드",
     "title": "Clarity Deck: 개발자를 위한 프로젝트 런처 완벽 가이드",
     "description": "개발자라면 매일 반복하는 작업들이 있어요.",

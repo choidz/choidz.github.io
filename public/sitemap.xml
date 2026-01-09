@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://choidz.github.io/</loc>
-    <lastmod>2026-01-08</lastmod>
+    <lastmod>2026-01-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,6 +13,12 @@
   </url>
   <url>
     <loc>https://choidz.github.io/blog/rabbitmq-%ED%95%B5%EC%8B%AC-%EC%9A%A9%EC%96%B4-%EC%A0%95%EB%A6%AC</loc>
+    <lastmod>2026-01-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://choidz.github.io/blog/rabbitmq-consumer-%EC%9E%A5%EC%95%A0-%ED%8C%A8%ED%84%B4-top-5</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
