@@ -101,41 +101,6 @@ footer {
     font-size: 13px;
 }
 
-/* 언어 토글 */
-.lang-toggle {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-
-.lang-toggle a {
-    padding: 8px 16px;
-    border: 1px solid #e2e8f0;
-    text-decoration: none;
-    color: #4a5568;
-    font-size: 14px;
-    transition: all 0.2s;
-}
-
-.lang-toggle a:first-child {
-    border-radius: 6px 0 0 6px;
-    border-right: none;
-}
-
-.lang-toggle a:last-child {
-    border-radius: 0 6px 6px 0;
-}
-
-.lang-toggle a.active {
-    background-color: #4a5568;
-    color: white;
-    border-color: #4a5568;
-}
-
-.lang-toggle a:hover:not(.active) {
-    background-color: #f7fafc;
-}
-
 /* 모바일 대응 */
 @media (max-width: 600px) {
     body {
