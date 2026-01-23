@@ -1,5 +1,17 @@
 [
   {
+    "slug": "sortly-스마트-파일-정리-앱-완벽-가이드",
+    "title": "Sortly: 스마트 파일 정리 앱 완벽 가이드",
+    "description": "파일을 확장자별로 자동 분류하고, 중복 파일을 찾아주고, 실수로 이동한 파일을 되돌릴 수 있는 무료 데스크톱 앱입니다.",
+    "date": "2026-01-24",
+    "tags": [
+      "#DevTools"
+    ],
+    "coverGradient": "from-blue-500 via-cyan-500 to-teal-500",
+    "readingMinutes": 4,
+    "contentPath": "/posts/sortly-스마트-파일-정리-앱-완벽-가이드.md"
+  },
+  {
     "slug": "clarity-deck-개발자를-위한-프로젝트-런처-완벽-가이드",
     "title": "Clarity Deck: 개발자를 위한 프로젝트 런처 완벽 가이드",
     "description": "개발자라면 누구나 여러 프로젝트를 동시에 관리하면서 IDE를 열고, 터미널을 띄우고, 스크립트를 실행하는 반복 작업에 시간을 낭비해본 경험이 있을 겁니다.",
