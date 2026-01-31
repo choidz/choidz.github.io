@@ -1,5 +1,17 @@
 [
   {
+    "slug": "무중단-배포-완벽-가이드-rolling-blue-green-canary-배포-전략",
+    "title": "무중단 배포 완벽 가이드: Rolling, Blue/Green, Canary 배포 전략",
+    "description": "CI/CD 파이프라인을 구축해서 코드 변경을 빠르게 배포할 수 있게 되었는데, 정작 배포 후 서비스가 중단되거나 사용자들이 불편을 겪는 경험을 해본 적 있나요?",
+    "date": "2026-01-30",
+    "tags": [
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 8,
+    "contentPath": "/posts/무중단-배포-완벽-가이드-rolling-blue-green-canary-배포-전략.md"
+  },
+  {
     "slug": "sortly-스마트-파일-정리-앱-완벽-가이드",
     "title": "Sortly: 스마트 파일 정리 앱 완벽 가이드",
     "description": "파일을 확장자별로 자동 분류하고, 중복 파일을 찾아주고, 실수로 이동한 파일을 되돌릴 수 있는 무료 데스크톱 앱입니다.",
