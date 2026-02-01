@@ -55,9 +55,10 @@ const markdownComponents = {
       {children}
     </blockquote>
   ),
-  img: ({ node, ...props }) => (
+  img: ({ node, alt, ...props }) => (
     <img
       {...props}
+      alt={alt ?? ""}
       loading='lazy'
       className='mt-6 h-auto w-full rounded-2xl border border-brand-border bg-brand-background object-contain'
     />
