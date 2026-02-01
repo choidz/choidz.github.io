@@ -45,3 +45,8 @@ __pycache__/
 .env.production
 
 VIEWS_SETUP.md
+
+# local tooling / env
+.claude/
+package-lock.json
+docs/

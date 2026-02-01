@@ -333,6 +333,13 @@ def sanitize_html(html: str, image_map: dict = None) -> tuple[str, str, list[str
         if img.get("data-src"):
             del img["data-src"]
 
+    def normalize_img_url(url: str) -> str:
+        if not url:
+            return url
+        url = re.sub(r"([?&])type=w80_blur", r"\1type=w800", url)
+        url = re.sub(r"([?&])type=w80(\\b|&)", r"\1type=w800\2", url)
+        return url
+
     def has_class_fragment(tag, keyword):
         classes = tag.get("class") or []
         return any(keyword in cls for cls in classes)
@@ -395,6 +402,26 @@ def sanitize_html(html: str, image_map: dict = None) -> tuple[str, str, list[str
         if code_text.strip():
             code_blocks.append(code_text.strip())
             pre_tag.replace_with(f"\n\n§§CODE{len(code_blocks)-1}§§\n\n")
+
+    # ✅ 이미지 원본/고해상도 링크 사용 + 불필요한 래퍼 제거
+    for img in soup.find_all("img"):
+        for attr in ("data-src", "data-lazy-src", "data-original", "data-actualsrc", "data-image-src"):
+            candidate = img.get(attr)
+            if candidate:
+                img["src"] = candidate
+                break
+        if img.get("src"):
+            img["src"] = normalize_img_url(img["src"])
+        for attr in ("width", "height", "style"):
+            if attr in img.attrs:
+                del img[attr]
+
+    for a in soup.find_all("a"):
+        href = (a.get("href") or "").strip()
+        if href in ("", "#", "<#>"):
+            img = a.find("img")
+            if img and len(a.contents) == 1:
+                a.replace_with(img)
 
     # ✅ 표 추출 (그대로 유지)
     for idx, table in enumerate(soup.find_all("table")):
