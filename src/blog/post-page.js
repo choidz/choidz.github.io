@@ -55,6 +55,13 @@ const markdownComponents = {
       {children}
     </blockquote>
   ),
+  img: ({ node, ...props }) => (
+    <img
+      {...props}
+      loading='lazy'
+      className='mt-6 h-auto w-full rounded-2xl border border-brand-border bg-brand-background object-contain'
+    />
+  ),
   code({ node, inline, className, children, ...props }) {
     const match = /language-(\w+)/.exec(className || "");
     const language = match ? match[1] : "";
