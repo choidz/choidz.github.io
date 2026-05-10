@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Snapbill Privacy Policy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="lang-toggle">
+            <a href="snapbill.html">한국어</a>
+            <a href="snapbill-en.html" class="active">English</a>
+        </div>
+        <h1>Privacy Policy</h1>
+        <p class="app-name">Snapbill - AI Receipt Manager</p>
+        <p class="update-date">Last Updated: May 10, 2026</p>
+
+        <div class="highlight">
+            <strong>Snapbill</strong> values your privacy. All receipt data and images are stored on your PC only. Receipt photos are sent to a cloud OCR service strictly for text extraction and are never retained for training.
+        </div>
+
+        <h2>1. Information We Collect</h2>
+        <p>Snapbill does not require sign-up or login and <strong>does not directly collect any identifiable personal information.</strong></p>
+        <p>The data the app processes is listed below and is <strong>stored locally on your computer</strong> (location: <code>%APPDATA%\Snapbill\</code>):</p>
+        <ul>
+            <li><strong>Receipt data:</strong> merchant name, date, total, tax, line items, etc. (entered or imported by you)</li>
+            <li><strong>Receipt images:</strong> copies of the photo files you import</li>
+            <li><strong>Notes / tags:</strong> annotations you add</li>
+            <li><strong>Merchant auto-classification rules:</strong> learned merchant-to-category mappings</li>
+            <li><strong>App settings:</strong> theme, language, watch folder path, etc.</li>
+            <li><strong>Usage counter:</strong> monthly receipt count for free quota enforcement</li>
+        </ul>
+
+        <h2>2. Cloud AI Services</h2>
+        <p>To recognize and categorize receipts, the following data is transmitted temporarily to cloud services:</p>
+        <h3>2-1. Optical Character Recognition (OCR)</h3>
+        <ul>
+            <li><strong>Data sent:</strong> the receipt photo you imported (one image per request)</li>
+            <li><strong>Destination:</strong> Microsoft Azure Document Intelligence (over HTTPS, via our proxy backend)</li>
+            <li><strong>Purpose:</strong> extract merchant, amount, date, and line items from the photo</li>
+            <li><strong>Retention:</strong> per Azure's policy, your input is not used for model training and is not retained after processing.</li>
+        </ul>
+        <h3>2-2. Category Auto-Classification / Monthly Insights</h3>
+        <ul>
+            <li><strong>Data sent:</strong> merchant name + item names (for classification) or per-month aggregates and category totals (for insights). <strong>No images are sent.</strong></li>
+            <li><strong>Destination:</strong> OpenAI gpt-4o-mini (over HTTPS, via our proxy backend)</li>
+            <li><strong>Purpose:</strong> suggest expense categories and produce monthly summary insights</li>
+            <li><strong>Retention:</strong> per OpenAI's API policy, your input is not used for model training.</li>
+        </ul>
+        <h3>2-3. Fully Local Mode</h3>
+        <p>You may switch to local-only OCR in Settings, which uses Windows built-in OCR with no cloud transmission (accuracy on Korean receipts may be reduced).</p>
+
+        <h2>3. How We Use Information</h2>
+        <p>The data collected/processed is used solely for:</p>
+        <ul>
+            <li>Receipt text recognition and structured data extraction</li>
+            <li>Expense category auto-classification and monthly summary insights</li>
+            <li>Duplicate receipt detection</li>
+            <li>Maintaining your settings and enforcing free / Premium quotas</li>
+        </ul>
+
+        <h2>4. Data Storage and Security</h2>
+        <ul>
+            <li>All receipt data and images are stored locally on your PC only.</li>
+            <li>Cloud transmissions are encrypted with HTTPS and not retained externally after processing.</li>
+            <li>You can completely remove all local data by uninstalling the app or deleting the <code>%APPDATA%\Snapbill\</code> folder.</li>
+            <li>Settings → "Reset all data" wipes all in-app data with one click.</li>
+            <li>Please keep your operating system and security software up to date.</li>
+        </ul>
+
+        <h2>5. Payment Information</h2>
+        <p>Premium subscriptions are handled by Microsoft Store. Payment methods, billing details, and transaction history are <strong>processed entirely by Microsoft. Snapbill has no access to this information.</strong></p>
+        <p>You can manage and refund your subscription directly through your Microsoft Store account.</p>
+
+        <h2>6. Third-Party Services</h2>
+        <p>Snapbill relies on the following third-party services, each governed by their own privacy policy:</p>
+        <ul>
+            <li><strong>Microsoft Azure Document Intelligence</strong> — receipt OCR (image transmission)</li>
+            <li><strong>OpenAI</strong> — category classification and monthly insights (text metadata only)</li>
+            <li><strong>Cloudflare Workers</strong> — our own backend that proxies the two APIs above (data not stored)</li>
+            <li><strong>Microsoft Store</strong> — app distribution and payment processing</li>
+        </ul>
+        <p>Snapbill does not use any advertising networks, analytics tools (e.g., Google Analytics), or user-tracking SDKs.</p>
+
+        <h2>7. Your Rights</h2>
+        <ul>
+            <li>You can delete all local data at any time (uninstall or delete the data folder).</li>
+            <li>Settings → Export backup lets you save and transfer all your data as a JSON file.</li>
+            <li>Settings → Reset all data wipes the app's data in one action.</li>
+            <li>For privacy-related inquiries, contact us at the email below.</li>
+        </ul>
+
+        <h2>8. Children's Privacy</h2>
+        <p>Snapbill is not directed at children under 13, and does not collect identifiable personal information from any user.</p>
+
+        <h2>9. Changes to This Policy</h2>
+        <p>If this policy is updated, we will reflect the change via the "Last Updated" date on this page. For material changes, we may also notify you via the app.</p>
+
+        <div class="contact">
+            <h3>Contact Us</h3>
+            <p>If you have any questions regarding privacy, please reach out:</p>
+            <p><strong>Email:</strong> choidev98@gmail.com</p>
+        </div>
+
+        <footer>
+            &copy; 2026 Snapbill. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>
