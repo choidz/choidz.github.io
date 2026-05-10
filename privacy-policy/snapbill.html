@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Snapbill 개인정보 처리방침</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="lang-toggle">
+            <a href="snapbill.html" class="active">한국어</a>
+            <a href="snapbill-en.html">English</a>
+        </div>
+        <h1>개인정보 처리방침</h1>
+        <p class="app-name">Snapbill - AI 영수증 정리 앱</p>
+        <p class="update-date">최종 업데이트: 2026년 5월 10일</p>
+
+        <div class="highlight">
+            <strong>Snapbill</strong>는 사용자의 개인정보를 소중히 여깁니다. 영수증 데이터와 이미지는 모두 사용자의 PC에만 저장되며, 영수증 사진은 글자 인식을 위해서만 클라우드로 전송되고 학습용으로 보관되지 않습니다.
+        </div>
+
+        <h2>1. 수집하는 정보</h2>
+        <p>Snapbill는 회원 가입이나 로그인을 요구하지 않으며, <strong>식별 가능한 개인정보를 직접 수집하지 않습니다.</strong></p>
+        <p>앱이 처리하는 데이터는 다음과 같으며, <strong>모두 사용자 컴퓨터에 로컬로 저장</strong>됩니다 (저장 위치: <code>%APPDATA%\Snapbill\</code>):</p>
+        <ul>
+            <li><strong>영수증 데이터:</strong> 가게명, 거래일자, 금액, 부가세, 항목 등 (사용자가 직접 등록)</li>
+            <li><strong>영수증 이미지:</strong> 사용자가 등록한 사진 파일 사본</li>
+            <li><strong>비고 / 태그:</strong> 사용자가 추가한 메모</li>
+            <li><strong>거래처 자동 분류 규칙:</strong> 거래처별 비용 항목 매핑</li>
+            <li><strong>앱 설정:</strong> 테마, 언어, 자동 등록 폴더 경로 등</li>
+            <li><strong>사용량 카운터:</strong> 무료 한도 관리를 위한 월별 처리 건수</li>
+        </ul>
+
+        <h2>2. 클라우드 AI 서비스로의 전송</h2>
+        <p>영수증 인식과 자동 분류를 위해 다음 데이터가 일시적으로 클라우드로 전송됩니다:</p>
+        <h3>2-1. 글자 인식 (OCR)</h3>
+        <ul>
+            <li><strong>전송 데이터:</strong> 사용자가 등록한 영수증 사진 1장</li>
+            <li><strong>전송처:</strong> Microsoft Azure Document Intelligence (HTTPS, 자체 백엔드 프록시 경유)</li>
+            <li><strong>목적:</strong> 사진에서 가게명·금액·날짜·항목 등 텍스트 추출</li>
+            <li><strong>보관:</strong> Azure 측 정책에 따라 학습용으로 사용되지 않으며, 처리 후 보관되지 않습니다.</li>
+        </ul>
+        <h3>2-2. 비용 항목 자동 분류 / 월간 분석</h3>
+        <ul>
+            <li><strong>전송 데이터:</strong> 가게명 + 항목명 (자동 분류) 또는 월별 합계·항목별 합계 (월간 분석). <strong>사진은 전송되지 않습니다.</strong></li>
+            <li><strong>전송처:</strong> OpenAI gpt-4o-mini (HTTPS, 자체 백엔드 프록시 경유)</li>
+            <li><strong>목적:</strong> 비용 항목 자동 추천 및 월별 인사이트 제공</li>
+            <li><strong>보관:</strong> OpenAI API 정책에 따라 학습용으로 사용되지 않습니다.</li>
+        </ul>
+        <h3>2-3. 완전 로컬 모드</h3>
+        <p>설정에서 로컬 OCR 모드를 선택하면 클라우드 전송 없이 Windows 내장 OCR만 사용할 수 있습니다 (한국 영수증 인식 정확도는 다소 낮을 수 있습니다).</p>
+
+        <h2>3. 정보 이용 목적</h2>
+        <p>수집/처리되는 데이터는 오직 다음 목적으로만 사용됩니다:</p>
+        <ul>
+            <li>영수증 글자 인식 및 구조화 데이터 추출</li>
+            <li>비용 항목 자동 분류 및 월별 분석</li>
+            <li>중복 영수증 감지</li>
+            <li>사용자 설정 유지 및 무료/Premium 한도 관리</li>
+        </ul>
+
+        <h2>4. 정보 보관 및 보호</h2>
+        <ul>
+            <li>모든 영수증 데이터와 이미지는 사용자 PC에만 로컬로 저장됩니다.</li>
+            <li>클라우드 전송은 HTTPS로 암호화되며, 처리 후 외부에 보관되지 않습니다.</li>
+            <li>앱 삭제 또는 <code>%APPDATA%\Snapbill\</code> 폴더 삭제로 모든 로컬 데이터를 완전히 제거할 수 있습니다.</li>
+            <li>설정의 "모든 데이터 삭제" 버튼으로 앱 내에서도 일괄 삭제 가능합니다.</li>
+            <li>운영 체제와 보안 소프트웨어를 최신 상태로 유지하시기 바랍니다.</li>
+        </ul>
+
+        <h2>5. 결제 정보</h2>
+        <p>Premium 구독은 Microsoft Store를 통해 처리됩니다. 결제 수단, 청구 정보, 거래 이력 등 결제와 관련된 모든 정보는 <strong>Microsoft가 직접 처리하며, Snapbill는 이 정보에 접근하지 않습니다.</strong></p>
+        <p>구독 관리 및 환불은 Microsoft Store 계정에서 직접 진행하실 수 있습니다.</p>
+
+        <h2>6. 제3자 서비스</h2>
+        <p>Snapbill는 다음 제3자 서비스를 이용하며, 각 서비스의 개인정보 처리방침이 함께 적용됩니다:</p>
+        <ul>
+            <li><strong>Microsoft Azure Document Intelligence</strong> — 영수증 OCR (사진 전송)</li>
+            <li><strong>OpenAI</strong> — 비용 항목 분류 및 월간 분석 (텍스트 메타데이터만)</li>
+            <li><strong>Cloudflare Workers</strong> — 위 두 API 호출을 중계하는 자체 백엔드 (전송 데이터 비저장)</li>
+            <li><strong>Microsoft Store</strong> — 앱 배포 및 결제 처리</li>
+        </ul>
+        <p>Snapbill는 광고 네트워크, 분석 도구(Google Analytics 등), 사용자 추적 SDK를 일체 사용하지 않습니다.</p>
+
+        <h2>7. 사용자 권리</h2>
+        <ul>
+            <li>모든 로컬 데이터는 언제든 직접 삭제할 수 있습니다 (앱 삭제 또는 데이터 폴더 삭제).</li>
+            <li>설정 → 백업 내보내기로 본인의 모든 데이터를 JSON 파일로 보관/이전할 수 있습니다.</li>
+            <li>설정 → 모든 데이터 삭제로 앱 내 데이터를 일괄 초기화할 수 있습니다.</li>
+            <li>개인정보 관련 문의는 아래 이메일로 보내주세요.</li>
+        </ul>
+
+        <h2>8. 아동 개인정보</h2>
+        <p>Snapbill는 만 13세 미만 아동을 대상으로 하지 않으며, 모든 사용자로부터 식별 가능한 개인정보를 수집하지 않습니다.</p>
+
+        <h2>9. 개인정보 처리방침 변경</h2>
+        <p>본 방침이 변경될 경우, 본 페이지의 "최종 업데이트" 날짜를 통해 안내합니다. 중대한 변경 시에는 앱 내 알림으로도 고지할 수 있습니다.</p>
+
+        <div class="contact">
+            <h3>문의처</h3>
+            <p>개인정보 관련 문의사항이 있으시면 아래로 연락해 주세요.</p>
+            <p><strong>이메일:</strong> choidev98@gmail.com</p>
+        </div>
+
+        <footer>
+            &copy; 2026 Snapbill. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>
