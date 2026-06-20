@@ -51,42 +51,53 @@ const jsonLd = {
   type="article"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  <main class="article-shell">
-    <a class="back-link" href="/">글 목록으로 돌아가기</a>
+  <main class="article-page-shell">
+    <div class="article-topbar">
+      <a class="back-link" href="/">← 글 목록으로 돌아가기</a>
+    </div>
 
-    <article class="article">
-      <header class="article-header">
-        <div class="post-meta">
-          <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
-          <span>{post.frontmatter.readingMinutes}분</span>
-        </div>
-        <h1>{post.frontmatter.title}</h1>
-        <p>{post.frontmatter.description}</p>
-        <div class="post-tags">
-          {(post.frontmatter.tags ?? []).map((tag) => <span>{tag}</span>)}
-        </div>
-      </header>
+    <div class="article-layout-grid">
+      <div class="article-main">
+        <article class="article-card">
+          <header class="article-header">
+            <div class="post-meta">
+              <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
+              <span aria-hidden="true">•</span>
+              <span>{post.frontmatter.readingMinutes}분 분량</span>
+            </div>
+            <h1>{post.frontmatter.title}</h1>
+            <p>{post.frontmatter.description}</p>
+            <div class="post-tags">
+              {(post.frontmatter.tags ?? []).map((tag) => <span>{tag}</span>)}
+            </div>
+          </header>
 
-      <div class="prose">
-        <Content />
+          <div class="prose">
+            <Content />
+          </div>
+        </article>
       </div>
-    </article>
 
-    {relatedPosts.length > 0 && (
-      <aside class="related-posts" aria-labelledby="related-title">
-        <div class="section-heading">
-          <p class="eyebrow">Related</p>
-          <h2 id="related-title">관련 글</h2>
-        </div>
-        <div class="related-grid">
-          {relatedPosts.map((related) => (
-            <a href={getPostUrl(related.frontmatter.slug)}>
-              <span>{formatDate(related.frontmatter.date)}</span>
-              <strong>{related.frontmatter.title}</strong>
-            </a>
-          ))}
-        </div>
-      </aside>
-    )}
+      {relatedPosts.length > 0 && (
+        <aside class="article-sidebar">
+          <section class="sidebar-card sticky-card">
+            <div class="sidebar-card-header">
+              <h2>관련 글</h2>
+            </div>
+            <div class="related-list">
+              {relatedPosts.map((related) => (
+                <a href={getPostUrl(related.frontmatter.slug)}>
+                  <strong>{related.frontmatter.title}</strong>
+                  <p>{related.frontmatter.description}</p>
+                  <div class="post-tags">
+                    {(related.frontmatter.tags ?? []).slice(0, 2).map((tag) => <span>{tag}</span>)}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        </aside>
+      )}
+    </div>
   </main>
 </BaseLayout>

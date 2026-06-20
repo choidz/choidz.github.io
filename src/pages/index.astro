@@ -4,84 +4,133 @@ import { formatDate, getAllTags, getPostUrl, sortPosts } from "../lib/posts.js";
 
 const postModules = import.meta.glob("../content/blog/*.md", { eager: true });
 const posts = sortPosts(Object.values(postModules));
-const featured = posts[0];
-const remainingPosts = posts.slice(1);
 const tags = getAllTags(posts);
+const latestPosts = posts.slice(0, 4);
 ---
 
 <BaseLayout
   title="CHOI.DEV | 기술 블로그"
   description="개발, DevOps, 데이터, 운영 경험을 실무 관점으로 정리하는 최성현의 기술 블로그입니다."
+  showSearch={true}
 >
-  <main>
-    <section class="hero-section">
-      <div class="hero-copy">
-        <p class="eyebrow">Developer Notes</p>
-        <h1>실무에서 부딪힌 개발과 운영의 기록</h1>
-        <p class="hero-description">
-          배포, 메시지 큐, 리눅스, 데이터베이스, 도구 제작 경험을 문제 해결 흐름으로 정리합니다.
-          검색엔진과 사람 모두 읽기 좋은 정적 블로그로 다시 구성했습니다.
-        </p>
-        <div class="hero-actions">
-          <a class="button primary" href={featured ? getPostUrl(featured.frontmatter.slug) : "#latest"}>최신 글 읽기</a>
-          <a class="button secondary" href="/portfolio">포트폴리오</a>
+  <main class="page-shell">
+    <div class="layout-grid">
+      <section class="post-column" aria-labelledby="post-list-title">
+        <div class="post-list-heading">
+          <h1 id="post-list-title">모든 글</h1>
+          <p id="search-result" class="search-result" hidden></p>
         </div>
-      </div>
-      <figure class="hero-visual">
-        <img src="/images/profile.jpeg" alt="최성현 프로필" loading="eager" />
-        <figcaption>
-          <strong>{posts.length}</strong>
-          <span>published notes</span>
-        </figcaption>
-      </figure>
-    </section>
 
-    {featured && (
-      <section class="featured-section" aria-labelledby="featured-title">
-        <div class="section-heading">
-          <p class="eyebrow">Latest</p>
-          <h2 id="featured-title">최근 글</h2>
+        <div class="post-list">
+          {posts.map((post) => (
+            <article
+              class="post-card"
+              data-title={post.frontmatter.title.toLowerCase()}
+              data-description={post.frontmatter.description.toLowerCase()}
+              data-tags={(post.frontmatter.tags ?? []).join(" ").toLowerCase()}
+            >
+              <a href={getPostUrl(post.frontmatter.slug)}>
+                <div class="post-meta">
+                  <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
+                  <span aria-hidden="true">•</span>
+                  <span>{post.frontmatter.readingMinutes}분 분량</span>
+                </div>
+                <div>
+                  <h2>{post.frontmatter.title}</h2>
+                  <p>{post.frontmatter.description}</p>
+                </div>
+                <div class="post-tags">
+                  {(post.frontmatter.tags ?? []).map((tag) => <span>{tag}</span>)}
+                </div>
+                <div class="post-card-footer">
+                  <span>{post.frontmatter.readingMinutes}분 분량</span>
+                  <strong>계속 읽기 →</strong>
+                </div>
+              </a>
+            </article>
+          ))}
         </div>
-        <a class="featured-post" href={getPostUrl(featured.frontmatter.slug)}>
-          <div>
-            <div class="post-meta">
-              <time datetime={featured.frontmatter.date}>{formatDate(featured.frontmatter.date)}</time>
-              <span>{featured.frontmatter.readingMinutes}분</span>
-            </div>
-            <h3>{featured.frontmatter.title}</h3>
-            <p>{featured.frontmatter.description}</p>
-          </div>
-          <span class="read-more">읽기</span>
-        </a>
       </section>
-    )}
 
-    <section class="tag-strip" aria-label="주요 태그">
-      {tags.map((tag) => <span>{tag}</span>)}
-    </section>
+      <aside class="sidebar">
+        <section class="sidebar-card">
+          <div class="sidebar-card-header">
+            <h2>최신 등록 글</h2>
+          </div>
+          <ol class="latest-list">
+            {latestPosts.map((post, index) => (
+              <li>
+                <span class="latest-index">{index + 1}</span>
+                <div>
+                  <a href={getPostUrl(post.frontmatter.slug)}>{post.frontmatter.title}</a>
+                  <p>{formatDate(post.frontmatter.date)}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-    <section class="post-list-section" id="latest" aria-labelledby="all-posts-title">
-      <div class="section-heading">
-        <p class="eyebrow">Archive</p>
-        <h2 id="all-posts-title">전체 글</h2>
-      </div>
-      <div class="post-grid">
-        {remainingPosts.map((post) => (
-          <article class="post-card">
-            <a href={getPostUrl(post.frontmatter.slug)}>
-              <div class="post-meta">
-                <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
-                <span>{post.frontmatter.readingMinutes}분</span>
-              </div>
-              <h3>{post.frontmatter.title}</h3>
-              <p>{post.frontmatter.description}</p>
-              <div class="post-tags">
-                {(post.frontmatter.tags ?? []).map((tag) => <span>{tag}</span>)}
-              </div>
-            </a>
-          </article>
-        ))}
-      </div>
-    </section>
+        <section class="sidebar-card">
+          <div class="sidebar-card-header">
+            <h2>태그</h2>
+          </div>
+          <div class="tag-cloud">
+            <button type="button" data-tag-filter="">전체</button>
+            {tags.map((tag) => (
+              <button type="button" data-tag-filter={tag.toLowerCase()}>{tag}</button>
+            ))}
+          </div>
+        </section>
+
+        <section class="community-card">
+          <h2>개발자로서의 여정을 기록하고 있어요</h2>
+          <p>최신 글은 블로그에서 확인해 주세요. 꾸준히 업데이트하며 성장 과정을 공유합니다.</p>
+          <a href="/">블로그 최신 글 보기</a>
+        </section>
+      </aside>
+    </div>
   </main>
+
+  <script>
+    const searchInput = document.querySelector("#post-search");
+    const result = document.querySelector("#search-result");
+    const cards = Array.from(document.querySelectorAll(".post-card"));
+    const tagButtons = Array.from(document.querySelectorAll("[data-tag-filter]"));
+    let activeTag = "";
+
+    function applyFilters() {
+      const query = (searchInput?.value || "").trim().toLowerCase();
+      let visible = 0;
+
+      for (const card of cards) {
+        const haystack = [
+          card.dataset.title,
+          card.dataset.description,
+          card.dataset.tags,
+        ].join(" ");
+        const matchesQuery = !query || haystack.includes(query);
+        const matchesTag = !activeTag || (card.dataset.tags || "").includes(activeTag);
+        const shouldShow = matchesQuery && matchesTag;
+        card.hidden = !shouldShow;
+        if (shouldShow) visible += 1;
+      }
+
+      if (result) {
+        const hasFilter = query || activeTag;
+        result.hidden = !hasFilter;
+        result.textContent = hasFilter
+          ? `${query ? `"${query}" ` : ""}${activeTag ? `${activeTag} ` : ""}검색 결과 (${visible}건)`
+          : "";
+      }
+    }
+
+    searchInput?.addEventListener("input", applyFilters);
+    for (const button of tagButtons) {
+      button.addEventListener("click", () => {
+        activeTag = button.dataset.tagFilter || "";
+        for (const item of tagButtons) item.classList.toggle("active", item === button);
+        applyFilters();
+      });
+    }
+  </script>
 </BaseLayout>
