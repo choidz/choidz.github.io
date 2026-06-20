@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDate, getPostUrl, sortPosts } from "../../lib/posts.js";
+
+export async function getStaticPaths() {
+  const postModules = import.meta.glob("../../content/blog/*.md", { eager: true });
+  const posts = sortPosts(Object.values(postModules));
+
+  return posts.map((post) => ({
+    params: { slug: post.frontmatter.slug },
+    props: { post, posts },
+  }));
+}
+
+const { post, posts } = Astro.props;
+const { Content } = post;
+const relatedPosts = posts
+  .filter((item) => item.frontmatter.slug !== post.frontmatter.slug)
+  .filter((item) =>
+    (item.frontmatter.tags ?? []).some((tag) =>
+      (post.frontmatter.tags ?? []).includes(tag)
+    )
+  )
+  .slice(0, 3);
+
+const canonical = getPostUrl(post.frontmatter.slug);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.frontmatter.title,
+  description: post.frontmatter.description,
+  datePublished: post.frontmatter.date,
+  dateModified: post.frontmatter.date,
+  inLanguage: "ko",
+  url: `https://choidz.github.io${canonical}`,
+  author: {
+    "@type": "Person",
+    name: "Choi Seonghyeon",
+  },
+  publisher: {
+    "@type": "Person",
+    name: "Choi Seonghyeon",
+  },
+};
+---
+
+<BaseLayout
+  title={`${post.frontmatter.title} | CHOI.DEV`}
+  description={post.frontmatter.description}
+  canonical={canonical}
+  type="article"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <main class="article-shell">
+    <a class="back-link" href="/">글 목록으로 돌아가기</a>
+
+    <article class="article">
+      <header class="article-header">
+        <div class="post-meta">
+          <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
+          <span>{post.frontmatter.readingMinutes}분</span>
+        </div>
+        <h1>{post.frontmatter.title}</h1>
+        <p>{post.frontmatter.description}</p>
+        <div class="post-tags">
+          {(post.frontmatter.tags ?? []).map((tag) => <span>{tag}</span>)}
+        </div>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+
+    {relatedPosts.length > 0 && (
+      <aside class="related-posts" aria-labelledby="related-title">
+        <div class="section-heading">
+          <p class="eyebrow">Related</p>
+          <h2 id="related-title">관련 글</h2>
+        </div>
+        <div class="related-grid">
+          {relatedPosts.map((related) => (
+            <a href={getPostUrl(related.frontmatter.slug)}>
+              <span>{formatDate(related.frontmatter.date)}</span>
+              <strong>{related.frontmatter.title}</strong>
+            </a>
+          ))}
+        </div>
+      </aside>
+    )}
+  </main>
+</BaseLayout>

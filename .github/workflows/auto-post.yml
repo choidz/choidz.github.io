@@ -50,28 +50,11 @@ jobs:
 
           # auto-post 브랜치가 있을 때만 sync
           if git rev-parse --verify origin/auto-post >/dev/null 2>&1; then
-            git checkout auto-post -- public/posts public/images/posts public/sitemap.xml
-            git add public/posts public/images/posts public/sitemap.xml
+            git checkout auto-post -- public/posts public/images/posts
+            git add public/posts public/images/posts
             git diff --staged --quiet && exit 0
             git commit -m "Sync posts from auto-post $(date '+%Y-%m-%d %H:%M:%S')"
             git push origin master
           else
             echo "No auto-post branch found, skipping sync"
           fi
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Install npm dependencies
-        run: npm install
-
-      - name: Build and Deploy
-        run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
-          REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}

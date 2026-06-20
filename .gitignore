@@ -48,5 +48,6 @@ VIEWS_SETUP.md
 
 # local tooling / env
 .claude/
-package-lock.json
+.astro/
+src/content/blog/
 docs/

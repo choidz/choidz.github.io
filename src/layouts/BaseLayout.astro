@@ -1,0 +1,60 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "CHOI.DEV",
+  description = "개발과 운영 경험을 기록하는 최성현의 기술 블로그입니다.",
+  image = "/images/profile.jpeg",
+  canonical = Astro.url.pathname,
+  type = "website",
+} = Astro.props;
+
+const siteUrl = "https://choidz.github.io";
+const canonicalUrl = new URL(canonical, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="theme-color" content="#f6f3ed" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:locale" content="ko_KR" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <slot name="head" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="CHOI.DEV 홈">
+        <span class="brand-mark">C</span>
+        <span>CHOI.DEV</span>
+      </a>
+      <nav class="site-nav" aria-label="주요 메뉴">
+        <a href="/">Blog</a>
+        <a href="/portfolio">Portfolio</a>
+        <a href="https://github.com/choidz">GitHub</a>
+      </nav>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <p>CHOI.DEV</p>
+      <p>개발, 운영, 데이터 흐름을 기록합니다.</p>
+    </footer>
+  </body>
+</html>

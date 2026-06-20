@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { formatDate, getAllTags, getPostUrl, sortPosts } from "../lib/posts.js";
+
+const postModules = import.meta.glob("../content/blog/*.md", { eager: true });
+const posts = sortPosts(Object.values(postModules));
+const featured = posts[0];
+const remainingPosts = posts.slice(1);
+const tags = getAllTags(posts);
+---
+
+<BaseLayout
+  title="CHOI.DEV | 기술 블로그"
+  description="개발, DevOps, 데이터, 운영 경험을 실무 관점으로 정리하는 최성현의 기술 블로그입니다."
+>
+  <main>
+    <section class="hero-section">
+      <div class="hero-copy">
+        <p class="eyebrow">Developer Notes</p>
+        <h1>실무에서 부딪힌 개발과 운영의 기록</h1>
+        <p class="hero-description">
+          배포, 메시지 큐, 리눅스, 데이터베이스, 도구 제작 경험을 문제 해결 흐름으로 정리합니다.
+          검색엔진과 사람 모두 읽기 좋은 정적 블로그로 다시 구성했습니다.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href={featured ? getPostUrl(featured.frontmatter.slug) : "#latest"}>최신 글 읽기</a>
+          <a class="button secondary" href="/portfolio">포트폴리오</a>
+        </div>
+      </div>
+      <figure class="hero-visual">
+        <img src="/images/profile.jpeg" alt="최성현 프로필" loading="eager" />
+        <figcaption>
+          <strong>{posts.length}</strong>
+          <span>published notes</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    {featured && (
+      <section class="featured-section" aria-labelledby="featured-title">
+        <div class="section-heading">
+          <p class="eyebrow">Latest</p>
+          <h2 id="featured-title">최근 글</h2>
+        </div>
+        <a class="featured-post" href={getPostUrl(featured.frontmatter.slug)}>
+          <div>
+            <div class="post-meta">
+              <time datetime={featured.frontmatter.date}>{formatDate(featured.frontmatter.date)}</time>
+              <span>{featured.frontmatter.readingMinutes}분</span>
+            </div>
+            <h3>{featured.frontmatter.title}</h3>
+            <p>{featured.frontmatter.description}</p>
+          </div>
+          <span class="read-more">읽기</span>
+        </a>
+      </section>
+    )}
+
+    <section class="tag-strip" aria-label="주요 태그">
+      {tags.map((tag) => <span>{tag}</span>)}
+    </section>
+
+    <section class="post-list-section" id="latest" aria-labelledby="all-posts-title">
+      <div class="section-heading">
+        <p class="eyebrow">Archive</p>
+        <h2 id="all-posts-title">전체 글</h2>
+      </div>
+      <div class="post-grid">
+        {remainingPosts.map((post) => (
+          <article class="post-card">
+            <a href={getPostUrl(post.frontmatter.slug)}>
+              <div class="post-meta">
+                <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
+                <span>{post.frontmatter.readingMinutes}분</span>
+              </div>
+              <h3>{post.frontmatter.title}</h3>
+              <p>{post.frontmatter.description}</p>
+              <div class="post-tags">
+                {(post.frontmatter.tags ?? []).map((tag) => <span>{tag}</span>)}
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
