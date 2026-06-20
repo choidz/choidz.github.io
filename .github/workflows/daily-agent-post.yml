@@ -1,0 +1,91 @@
+name: Daily Agent Blog Post
+
+on:
+  schedule:
+    - cron: "10 15 * * *"
+  workflow_dispatch:
+    inputs:
+      category:
+        description: "Optional category tag, for example #DevOps"
+        required: false
+        type: string
+      topic:
+        description: "Optional exact topic"
+        required: false
+        type: string
+      dry_run:
+        description: "Plan/generate without committing"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily-agent-post
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate daily post
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ secrets.CLAUDE_MODEL }}
+          AGENT_CATEGORY: ${{ inputs.category }}
+          AGENT_TOPIC: ${{ inputs.topic }}
+          AGENT_DRY_RUN: ${{ inputs.dry_run }}
+        run: npm run agent:post
+
+      - name: Commit generated post
+        if: ${{ inputs.dry_run != 'true' }}
+        id: commit
+        run: |
+          git config user.name "github-actions-bot"
+          git config user.email "support+actions@github.com"
+          git add public/posts
+          if git diff --staged --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No generated post changes"
+          else
+            git commit -m "Add daily agent blog post"
+            git push origin master
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build site
+        if: ${{ steps.commit.outputs.changed == 'true' }}
+        run: npm run build
+
+      - name: Upload Pages artifact
+        if: ${{ steps.commit.outputs.changed == 'true' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        if: ${{ steps.commit.outputs.changed == 'true' }}
+        id: deployment
+        uses: actions/deploy-pages@v4

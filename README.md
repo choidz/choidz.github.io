@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# CHOI.DEV
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Astro 기반 GitHub Pages 기술 블로그입니다.
 
-## Available Scripts
+## Local Commands
 
-In the project directory, you can run:
+```bash
+npm install
+npm start
+npm run build
+```
 
-### `npm start`
+`npm run build` 전에 `public/posts/index.json`과 `public/posts/*.md`를 `src/content/blog`로 동기화합니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Automated Publishing
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Naver Blog Sync
 
-### `npm test`
+`.github/workflows/auto-post.yml`이 매일 네이버 블로그 RSS를 확인해 새 글을 `public/posts`에 동기화하고, 변경이 있으면 GitHub Pages까지 배포합니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+필요한 Secrets:
 
-### `npm run build`
+- `NAVER_RSS_URL`
+- `GIT_USER_NAME`
+- `GIT_USER_EMAIL`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Daily Agent Post
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`.github/workflows/daily-agent-post.yml`이 매일 00:10 KST에 기존 글 카테고리 분포를 기준으로 주제를 고르고, 관련 글을 크롤링한 뒤 Claude로 새 기술 글을 생성합니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+필요한 Secrets:
 
-### `npm run eject`
+- `ANTHROPIC_API_KEY`
+- `CLAUDE_MODEL` 선택 사항, 기본값은 `claude-sonnet-4-20250514`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+수동 실행할 때는 GitHub Actions의 **Daily Agent Blog Post** 워크플로에서 category/topic을 직접 넣을 수 있습니다.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+로컬 dry-run:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+npm run agent:post -- --dry-run
+```

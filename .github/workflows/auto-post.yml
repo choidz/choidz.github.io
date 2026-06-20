@@ -7,10 +7,19 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: auto-post
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout repository
@@ -38,6 +47,7 @@ jobs:
         run: python auto_post.py
 
       - name: Sync posts into master
+        id: sync
         env:
           GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
           GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
@@ -48,13 +58,44 @@ jobs:
           git config user.name "${GIT_USER_NAME}"
           git config user.email "${GIT_USER_EMAIL}"
 
-          # auto-post 브랜치가 있을 때만 sync
           if git rev-parse --verify origin/auto-post >/dev/null 2>&1; then
             git checkout auto-post -- public/posts public/images/posts
             git add public/posts public/images/posts
-            git diff --staged --quiet && exit 0
+            if git diff --staged --quiet; then
+              echo "changed=false" >> "$GITHUB_OUTPUT"
+              echo "No post changes to sync"
+              exit 0
+            fi
             git commit -m "Sync posts from auto-post $(date '+%Y-%m-%d %H:%M:%S')"
             git push origin master
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "No auto-post branch found, skipping sync"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Set up Node.js
+        if: ${{ steps.sync.outputs.changed == 'true' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install Node dependencies
+        if: ${{ steps.sync.outputs.changed == 'true' }}
+        run: npm ci
+
+      - name: Build site
+        if: ${{ steps.sync.outputs.changed == 'true' }}
+        run: npm run build
+
+      - name: Upload Pages artifact
+        if: ${{ steps.sync.outputs.changed == 'true' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        if: ${{ steps.sync.outputs.changed == 'true' }}
+        id: deployment
+        uses: actions/deploy-pages@v4
