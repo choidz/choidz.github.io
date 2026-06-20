@@ -1,4 +1,3 @@
-import Anthropic from "@anthropic-ai/sdk";
 import * as cheerio from "cheerio";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -7,6 +6,8 @@ import TurndownService from "turndown";
 const SITE_URL = "https://choidz.github.io";
 const POSTS_DIR = path.join(process.cwd(), "public", "posts");
 const MANIFEST_PATH = path.join(POSTS_DIR, "index.json");
+const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
@@ -297,68 +298,78 @@ function extractJson(text) {
     return JSON.parse(trimmed);
   } catch {
     const match = trimmed.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error("Claude response did not contain JSON");
+    if (!match) throw new Error("OpenAI response did not contain JSON");
     return JSON.parse(match[0]);
   }
 }
 
 async function synthesizePost({ topic, category, articles }) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error("ANTHROPIC_API_KEY is required");
+    throw new Error("OPENAI_API_KEY is required");
   }
 
-  const client = new Anthropic({ apiKey });
-  const model = process.env.CLAUDE_MODEL || "claude-sonnet-4-20250514";
-
-  const response = await client.messages.create({
-    model,
-    max_tokens: Number(process.env.LLM_MAX_TOKENS || 9000),
-    temperature: Number(process.env.LLM_TEMPERATURE || 0.45),
-    system: `너는 한국어 개발 블로그 글을 쓰는 기술 에디터다.
+  const system = `너는 한국어 개발 블로그 글을 쓰는 기술 에디터다.
 반드시 참고 자료를 직접 복사하지 말고, 내용을 종합해서 새로운 글로 작성한다.
-문체는 실무 개발자가 읽기 좋은 자연스러운 존댓말로 쓴다.
+문체는 실무 개발자가 읽기 좋은 자연스러운 존댓말로 한다.
 과장된 마케팅 문구는 피하고, 개념-상황-실무 체크포인트-마무리 흐름으로 정리한다.
-응답은 JSON만 반환한다.`,
-    messages: [
-      {
-        role: "user",
-        content: JSON.stringify(
-          {
-            task: "기존 GitHub 기술 블로그에 올릴 새 글 작성",
-            topic,
-            requiredCategoryTag: category,
-            outputSchema: {
-              title: "SEO에 적합한 한국어 제목",
-              description: "검색 결과에 들어갈 80~150자 요약",
-              tags: ["#DevOps 같은 해시태그 3~6개"],
-              markdownBody: "H1 제목 없이 Markdown 본문만 작성",
-            },
-            writingRules: [
-              "참고 글 문장을 길게 그대로 복사하지 말 것",
-              "본문은 1800자 이상",
-              "실무 예시, 체크리스트, 흔한 실수, 마무리 요약 포함",
-              "코드가 필요할 때만 fenced code block 사용",
-              "출처 링크 목록은 작성하지 말 것. 스크립트가 별도로 붙인다.",
-            ],
-            references: articles.map((article) => ({
-              title: article.title,
-              url: article.url,
-              excerpt: article.content_md,
-            })),
-          },
-          null,
-          2
-        ),
+응답은 JSON만 반환한다.`;
+
+  const user = JSON.stringify(
+    {
+      task: "기존 GitHub 기술 블로그에 올릴 새 글 작성",
+      topic,
+      requiredCategoryTag: category,
+      outputSchema: {
+        title: "SEO에 적합한 한국어 제목",
+        description: "검색 결과에 들어갈 80~150자 요약",
+        tags: ["#DevOps 같은 해시태그 3~6개"],
+        markdownBody: "H1 제목 없이 Markdown 본문만 작성",
       },
-    ],
+      writingRules: [
+        "참고 글 문장을 길게 그대로 복사하지 말 것",
+        "본문은 1800자 이상",
+        "실무 예시, 체크리스트, 흔한 실수, 마무리 요약 포함",
+        "코드가 필요할 때만 fenced code block 사용",
+        "출처 링크 목록은 작성하지 말 것. 스크립트가 별도로 붙인다.",
+      ],
+      references: articles.map((article) => ({
+        title: article.title,
+        url: article.url,
+        excerpt: article.content_md,
+      })),
+    },
+    null,
+    2
+  );
+
+  const response = await fetch(OPENAI_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: OPENAI_MODEL,
+      messages: [
+        { role: "system", content: system },
+        { role: "user", content: user },
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: Number(process.env.LLM_MAX_TOKENS || 6000),
+      temperature: Number(process.env.LLM_TEMPERATURE || 0.45),
+    }),
   });
 
-  const text = response.content
-    .filter((block) => block.type === "text")
-    .map((block) => block.text)
-    .join("\n");
-  return extractJson(text);
+  if (!response.ok) {
+    const details = await response.text().catch(() => "");
+    throw new Error(`OpenAI HTTP ${response.status}: ${details.slice(0, 500)}`);
+  }
+
+  const data = await response.json();
+  const content = data.choices?.[0]?.message?.content;
+  if (!content) throw new Error("OpenAI returned empty content");
+  return extractJson(content);
 }
 
 function makeDescription(markdown) {
@@ -380,8 +391,8 @@ async function main() {
   console.log(`[agent] topic=${topic}`);
   console.log(`[agent] keyword=${keyword}`);
 
-  if (dryRun && !process.env.ANTHROPIC_API_KEY) {
-    console.log("[agent] dry run without ANTHROPIC_API_KEY: plan only");
+  if (dryRun && !process.env.OPENAI_API_KEY) {
+    console.log("[agent] dry run without OPENAI_API_KEY: plan only");
     return;
   }
 

@@ -52,8 +52,8 @@ jobs:
 
       - name: Generate daily post
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          CLAUDE_MODEL: ${{ secrets.CLAUDE_MODEL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
           AGENT_CATEGORY: ${{ inputs.category }}
           AGENT_TOPIC: ${{ inputs.topic }}
           AGENT_DRY_RUN: ${{ inputs.dry_run }}
