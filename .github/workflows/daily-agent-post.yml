@@ -13,6 +13,11 @@ on:
         description: "Optional exact topic"
         required: false
         type: string
+      post_count:
+        description: "Number of posts to generate, max 5"
+        required: false
+        default: "5"
+        type: string
       dry_run:
         description: "Plan/generate without committing"
         required: false
@@ -56,6 +61,7 @@ jobs:
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
           AGENT_CATEGORY: ${{ inputs.category }}
           AGENT_TOPIC: ${{ inputs.topic }}
+          AGENT_POST_COUNT: ${{ inputs.post_count }}
           AGENT_DRY_RUN: ${{ inputs.dry_run }}
         run: npm run agent:post
 
@@ -65,7 +71,7 @@ jobs:
         run: |
           git config user.name "github-actions-bot"
           git config user.email "support+actions@github.com"
-          git add public/posts
+          git add public/posts public/images/posts
           if git diff --staged --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No generated post changes"

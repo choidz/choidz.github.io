@@ -26,14 +26,14 @@ npm run build
 
 ### Daily Agent Post
 
-`.github/workflows/daily-agent-post.yml`이 매일 00:10 KST에 기존 글 카테고리 분포를 기준으로 주제를 고르고, 관련 글을 크롤링한 뒤 OpenAI API로 새 기술 글을 생성합니다.
+`.github/workflows/daily-agent-post.yml`이 매일 00:10 KST에 기존 글 카테고리 분포를 기준으로 주제를 고르고, 관련 글과 이미지를 크롤링한 뒤 OpenAI API로 새 기술 글을 생성합니다. 기본값은 하루 5개이며, 안전상 한 번에 최대 5개까지만 생성합니다.
 
 필요한 Secrets:
 
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL` 선택 사항, 기본값은 `gpt-4o-mini`
 
-수동 실행할 때는 GitHub Actions의 **Daily Agent Blog Post** 워크플로에서 category/topic을 직접 넣을 수 있습니다.
+수동 실행할 때는 GitHub Actions의 **Daily Agent Blog Post** 워크플로에서 category/topic/post_count를 직접 넣을 수 있습니다.
 
 로컬 dry-run:
 

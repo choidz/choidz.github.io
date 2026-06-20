@@ -1,13 +1,18 @@
 import * as cheerio from "cheerio";
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import TurndownService from "turndown";
 
 const SITE_URL = "https://choidz.github.io";
 const POSTS_DIR = path.join(process.cwd(), "public", "posts");
+const IMAGES_DIR = path.join(process.cwd(), "public", "images", "posts");
 const MANIFEST_PATH = path.join(POSTS_DIR, "index.json");
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
+const DEFAULT_POST_COUNT = 5;
+const MAX_POST_COUNT = 5;
+const MAX_IMAGES_PER_POST = 2;
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
@@ -25,6 +30,11 @@ const TOPIC_BANK = {
     "Kafka Consumer Lag 모니터링",
     "Blue Green 배포 체크리스트",
     "무중단 배포 롤백 전략",
+    "GitHub Actions 배포 자동화",
+    "컨테이너 로그 수집 전략",
+    "운영 환경 장애 회고 작성법",
+    "서비스 헬스체크 설계",
+    "배포 전 체크리스트 자동화",
   ],
   "#Linux": [
     "Linux 로그 분석 명령어",
@@ -32,32 +42,54 @@ const TOPIC_BANK = {
     "systemd 서비스 운영",
     "서버 디스크 사용량 점검",
     "Linux 네트워크 문제 추적",
+    "Linux 프로세스 점검 방법",
+    "crontab 운영 실수 방지",
+    "SSH 접속 장애 해결",
+    "서버 부하 평균 해석",
+    "로그 로테이션 설정",
   ],
   "#ElasticSearch": [
     "Elasticsearch 인덱스 설계",
     "Elasticsearch JVM 메모리 튜닝",
     "Kibana 운영 대시보드",
     "Elasticsearch slow query 분석",
+    "Elasticsearch 샤드 운영",
+    "Elasticsearch 매핑 설계",
+    "Elasticsearch 클러스터 상태 점검",
+    "Kibana Discover 실무 활용",
   ],
   "#Grafana": [
     "Grafana 대시보드 설계",
     "Grafana 알림 규칙 운영",
     "Prometheus Grafana 연동",
+    "Grafana 변수 템플릿 활용",
+    "Grafana 패널 구성 원칙",
+    "운영 지표 시각화 기준",
   ],
   "#Zabbix": [
     "Zabbix 알림 튜닝",
     "Zabbix Agent 운영",
     "Zabbix 모니터링 항목 설계",
+    "Zabbix 템플릿 관리",
+    "Zabbix 장애 알림 피로도 줄이기",
+    "Zabbix와 Grafana 연동 운영",
   ],
   "#Frontend": [
     "React 상태 관리 패턴",
     "Next.js 정적 사이트 SEO",
     "프론트엔드 성능 최적화",
+    "Astro 블로그 SEO",
+    "Markdown 기반 콘텐츠 관리",
+    "웹 접근성 기본 점검",
   ],
   "#Other": [
     "개발자 문서화 습관",
     "Git 커밋 메시지 전략",
     "개발 생산성 도구 자동화",
+    "개발 블로그 글감 관리",
+    "기술 문서 리뷰 방법",
+    "개인 프로젝트 릴리즈 노트",
+    "작업 로그를 지식 자산으로 바꾸기",
   ],
 };
 
@@ -85,9 +117,10 @@ function dayOfYear() {
   return Math.floor((now - start) / 86400000);
 }
 
-function chooseCategory(posts) {
-  const requested = normalizeTag(process.env.AGENT_CATEGORY || "");
-  if (TOPIC_BANK[requested]) return requested;
+function chooseCategory(posts, index = 0) {
+  const requestedRaw = (process.env.AGENT_CATEGORY || "").trim();
+  const requested = requestedRaw ? normalizeTag(requestedRaw) : "";
+  if (requested && TOPIC_BANK[requested]) return requested;
 
   const counts = new Map();
   for (const post of posts) {
@@ -99,34 +132,30 @@ function chooseCategory(posts) {
     }
   }
 
-  const weighted = [];
-  for (const [tag, topics] of Object.entries(TOPIC_BANK)) {
-    const count = counts.get(tag) || 1;
-    for (let i = 0; i < Math.max(1, Math.min(count, 8)); i += 1) {
-      weighted.push(tag);
-    }
-    if (topics.length && !counts.has(tag)) weighted.push(tag);
-  }
+  const ranked = Object.keys(TOPIC_BANK)
+    .map((tag) => ({ tag, count: counts.get(tag) || 0 }))
+    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
+    .map((item) => item.tag);
 
-  return weighted[dayOfYear() % weighted.length] || "#DevOps";
+  return ranked[(dayOfYear() + index) % ranked.length] || "#DevOps";
 }
 
-function chooseTopic(category, posts) {
+function chooseTopic(category, posts, usedTopics = new Set(), index = 0) {
   const requested = (process.env.AGENT_TOPIC || "").trim();
-  if (requested) return requested;
+  if (requested && index === 0) return requested;
 
   const existingTitles = new Set(posts.map((post) => post.title));
   const topics = TOPIC_BANK[category] || TOPIC_BANK["#DevOps"];
-  const offset = dayOfYear() % topics.length;
+  const offset = (dayOfYear() + index) % topics.length;
 
   for (let i = 0; i < topics.length; i += 1) {
     const topic = topics[(offset + i) % topics.length];
-    if (![...existingTitles].some((title) => title.includes(topic))) {
+    if (!usedTopics.has(topic) && ![...existingTitles].some((title) => title.includes(topic))) {
       return topic;
     }
   }
 
-  return `${topics[offset]} 실무 정리`;
+  return `${topics[offset]} 실무 정리 ${todayIso()}-${index + 1}`;
 }
 
 async function httpGet(url) {
@@ -139,6 +168,181 @@ async function httpGet(url) {
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}: ${url}`);
   return response.text();
+}
+
+async function httpGetBytes(url) {
+  const response = await fetch(url, {
+    headers: {
+      "User-Agent": UA,
+      Accept: "image/avif,image/webp,image/png,image/jpeg,image/*,*/*;q=0.8",
+      "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+      Referer: SITE_URL,
+    },
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}: ${url}`);
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.startsWith("image/")) {
+    throw new Error(`Not an image: ${contentType || "unknown content type"}`);
+  }
+  const bytes = Buffer.from(await response.arrayBuffer());
+  if (bytes.length < 4096) throw new Error("Image is too small");
+  if (bytes.length > 8 * 1024 * 1024) throw new Error("Image is too large");
+  return { bytes, contentType };
+}
+
+function getPostCount() {
+  const raw = Number(process.env.AGENT_POST_COUNT || DEFAULT_POST_COUNT);
+  if (!Number.isFinite(raw) || raw < 1) return DEFAULT_POST_COUNT;
+  return Math.max(1, Math.min(Math.floor(raw), MAX_POST_COUNT));
+}
+
+function makeAbsoluteUrl(src, baseUrl) {
+  if (!src || src.startsWith("data:") || src.startsWith("blob:")) return "";
+  try {
+    return new URL(src, baseUrl).toString();
+  } catch {
+    return "";
+  }
+}
+
+function imageExtension(contentType, url) {
+  if (contentType.includes("png")) return "png";
+  if (contentType.includes("webp")) return "webp";
+  if (contentType.includes("gif")) return "gif";
+  if (contentType.includes("jpeg") || contentType.includes("jpg")) return "jpg";
+  const match = new URL(url).pathname.match(/\.(png|jpe?g|webp|gif)$/i);
+  return match ? match[1].replace("jpeg", "jpg").toLowerCase() : "jpg";
+}
+
+function collectImageUrls($, container, baseUrl, sourceUrl) {
+  const candidates = [];
+  const seen = new Set();
+
+  const add = (src, alt = "") => {
+    const absolute = makeAbsoluteUrl(src, baseUrl);
+    if (!absolute || seen.has(absolute)) return;
+    if (/\.(svg|ico)(?:$|\?)/i.test(absolute)) return;
+    if (/profile|avatar|emoji|icon|logo|banner|comment/i.test(absolute)) return;
+    seen.add(absolute);
+    candidates.push({ url: absolute, alt: alt.trim(), sourceUrl });
+  };
+
+  add($("meta[property='og:image']").attr("content") || "");
+  container.find("img").each((_, element) => {
+    const image = $(element);
+    add(
+      image.attr("data-lazy-src") ||
+        image.attr("data-src") ||
+        image.attr("data-original") ||
+        image.attr("src") ||
+        "",
+      image.attr("alt") || ""
+    );
+  });
+
+  return candidates.slice(0, 8);
+}
+
+function getImageCandidates(articles) {
+  return articles
+    .flatMap((article) =>
+      (article.images || []).map((image) => ({
+        ...image,
+        sourceTitle: article.title,
+      }))
+    )
+    .slice(0, MAX_IMAGES_PER_POST)
+    .map((image, index) => ({ ...image, index }));
+}
+
+async function downloadPostImages(articles, slug) {
+  const downloaded = [];
+  const candidates = getImageCandidates(articles);
+  const seen = new Set();
+
+  await mkdir(IMAGES_DIR, { recursive: true });
+
+  for (const image of candidates) {
+    if (downloaded.length >= MAX_IMAGES_PER_POST) break;
+    if (!image.url || seen.has(image.url)) continue;
+    seen.add(image.url);
+
+    try {
+      const { bytes, contentType } = await httpGetBytes(image.url);
+      const hash = createHash("sha1").update(bytes).digest("hex").slice(0, 8);
+      const ext = imageExtension(contentType, image.url);
+      const filename = `${slug}-${String(downloaded.length).padStart(2, "0")}-${hash}.${ext}`;
+      await writeFile(path.join(IMAGES_DIR, filename), bytes);
+      downloaded.push({
+        index: image.index,
+        alt: image.alt || "참고 이미지",
+        path: `/images/posts/${filename}`,
+        sourceUrl: image.sourceUrl,
+      });
+    } catch (error) {
+      console.warn(`[warn] image download failed: ${image.url} (${error.message})`);
+    }
+  }
+
+  return downloaded;
+}
+
+function imageMarkdown(image, index) {
+  const alt = image.alt.replace(/[[\]]/g, "").trim() || `참고 이미지 ${index + 1}`;
+  const source = image.sourceUrl ? `\n\n<small>이미지 출처: ${image.sourceUrl}</small>` : "";
+  return `![${alt}](${image.path})${source}`;
+}
+
+function placeImagesInBody(markdownBody, images) {
+  let body = markdownBody;
+  let used = 0;
+  const imageByIndex = new Map(images.map((image) => [image.index, image]));
+
+  for (let index = 0; index < MAX_IMAGES_PER_POST; index += 1) {
+    const placeholder = `{{IMAGE_${index}}}`;
+    const image = imageByIndex.get(index);
+    if (body.includes(placeholder) && image) {
+      body = body.replace(placeholder, imageMarkdown(image, index));
+      used += 1;
+    }
+  }
+
+  body = body.replace(/\{\{IMAGE_\d+\}\}/g, "").replace(/\n{3,}/g, "\n\n").trim();
+  if (used || !images.length) return body;
+
+  const blocks = body.split(/\n{2,}/);
+  const output = [];
+  let inserted = 0;
+
+  for (let i = 0; i < blocks.length; i += 1) {
+    output.push(blocks[i]);
+    const next = blocks[i + 1] || "";
+    const currentLooksUseful =
+      /^##\s+/.test(blocks[i]) ||
+      (!/^#/.test(blocks[i]) && blocks[i].length > 120 && !blocks[i].startsWith("```"));
+    const nextIsNotHeading = !/^##\s+/.test(next);
+
+    if (
+      inserted < images.length &&
+      i > 1 &&
+      currentLooksUseful &&
+      nextIsNotHeading &&
+      !blocks[i].includes("참고한 자료")
+    ) {
+      output.push(imageMarkdown(images[inserted], inserted));
+      inserted += 1;
+      i += 1;
+      if (i < blocks.length) output.push(blocks[i]);
+    }
+  }
+
+  while (inserted < images.length && output.length > 3) {
+    const insertAt = Math.max(2, output.length - 2);
+    output.splice(insertAt, 0, imageMarkdown(images[inserted], inserted));
+    inserted += 1;
+  }
+
+  return output.join("\n\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
 async function searchNaverBlog(keyword, maxResults = 6) {
@@ -262,6 +466,7 @@ async function fetchArticle(url) {
     "Untitled";
 
   container.find("script, style, iframe, noscript").remove();
+  const images = collectImageUrls($, container, targetUrl, url);
   const markdown = turndown.turndown(container.html() || "");
   const cleaned = markdown
     .replace(/\n{4,}/g, "\n\n")
@@ -272,6 +477,7 @@ async function fetchArticle(url) {
     title: title.replace(/\s*:\s*네이버 블로그\s*$/i, "").trim(),
     url,
     content_md: cleaned.slice(0, 5500),
+    images,
   };
 }
 
@@ -308,6 +514,7 @@ async function synthesizePost({ topic, category, articles }) {
   if (!apiKey) {
     throw new Error("OPENAI_API_KEY is required");
   }
+  const imageCandidates = getImageCandidates(articles);
 
   const system = `너는 한국어 개발 블로그 글을 쓰는 기술 에디터다.
 반드시 참고 자료를 직접 복사하지 말고, 내용을 종합해서 새로운 글로 작성한다.
@@ -324,13 +531,15 @@ async function synthesizePost({ topic, category, articles }) {
         title: "SEO에 적합한 한국어 제목",
         description: "검색 결과에 들어갈 80~150자 요약",
         tags: ["#DevOps 같은 해시태그 3~6개"],
-        markdownBody: "H1 제목 없이 Markdown 본문만 작성",
+        markdownBody: "H1 제목 없이 Markdown 본문만 작성. 이미지가 어울리는 단락 사이에 {{IMAGE_0}}, {{IMAGE_1}} 자리표시자를 선택적으로 배치",
       },
       writingRules: [
         "참고 글 문장을 길게 그대로 복사하지 말 것",
         "본문은 1800자 이상",
         "실무 예시, 체크리스트, 흔한 실수, 마무리 요약 포함",
         "코드가 필요할 때만 fenced code block 사용",
+        "이미지 자리표시자는 글의 흐름상 관련 있는 문단 뒤에만 넣고, 본문 맨 위에는 넣지 말 것",
+        "이미지가 내용과 직접 관련 없으면 자리표시자를 쓰지 말 것",
         "출처 링크 목록은 작성하지 말 것. 스크립트가 별도로 붙인다.",
       ],
       references: articles.map((article) => ({
@@ -338,6 +547,17 @@ async function synthesizePost({ topic, category, articles }) {
         url: article.url,
         excerpt: article.content_md,
       })),
+      imageCandidates: imageCandidates.map((image, index) => ({
+        placeholder: `{{IMAGE_${image.index}}}`,
+        alt: image.alt || "참고 이미지",
+        sourceTitle: image.sourceTitle,
+        sourceUrl: image.sourceUrl,
+      })),
+      imageRules: [
+        "{{IMAGE_0}} 또는 {{IMAGE_1}} 형식만 사용",
+        "이미지 설명 alt나 참고 글 제목과 맞는 문맥에만 배치",
+        "같은 자리표시자를 두 번 쓰지 말 것",
+      ],
     },
     null,
     2
@@ -380,21 +600,12 @@ function makeDescription(markdown) {
     .slice(0, 140);
 }
 
-async function main() {
-  const dryRun = process.env.AGENT_DRY_RUN === "true" || process.argv.includes("--dry-run");
-  const posts = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
-  const category = chooseCategory(posts);
-  const topic = chooseTopic(category, posts);
+async function generatePost({ category, topic, posts, dryRun }) {
   const keyword = `${topic} ${category.replace("#", "")} 실무`;
 
   console.log(`[agent] category=${category}`);
   console.log(`[agent] topic=${topic}`);
   console.log(`[agent] keyword=${keyword}`);
-
-  if (dryRun && !process.env.OPENAI_API_KEY) {
-    console.log("[agent] dry run without OPENAI_API_KEY: plan only");
-    return;
-  }
 
   const searchResults = await searchSources(keyword);
   console.log(`[agent] search results=${searchResults.length}`);
@@ -412,7 +623,7 @@ async function main() {
 
   if (posts.some((post) => post.slug === slug)) {
     console.log(`[agent] post already exists: ${slug}`);
-    return;
+    return null;
   }
 
   const tags = [
@@ -421,6 +632,8 @@ async function main() {
   ];
   const uniqueTags = [...new Set(tags)].slice(0, 6);
   const body = String(generated.markdownBody || "").trim();
+  const downloadedImages = dryRun ? [] : await downloadPostImages(articles, slug);
+  const bodyWithImages = placeImagesInBody(body, downloadedImages);
   const sources = articles
     .map((article) => `- [${article.title.replace(/\]/g, "\\]")}](${article.url})`)
     .join("\n");
@@ -429,7 +642,7 @@ async function main() {
     "",
     "---",
     "",
-    body,
+    bodyWithImages,
     "",
     "---",
     "",
@@ -440,17 +653,9 @@ async function main() {
   ].join("\n");
 
   const date = todayIso();
-  const description = String(generated.description || makeDescription(body)).trim().slice(0, 160);
+  const description = String(generated.description || makeDescription(bodyWithImages)).trim().slice(0, 160);
   const readingMinutes = Math.max(1, Math.ceil(markdown.split(/\s+/).length / 220));
-
-  if (dryRun) {
-    console.log("[agent] dry run generated post:");
-    console.log(JSON.stringify({ slug, title, description, date, tags: uniqueTags }, null, 2));
-    return;
-  }
-
-  await writeFile(contentPath, markdown, "utf8");
-  posts.unshift({
+  const metadata = {
     slug,
     title,
     description,
@@ -461,11 +666,55 @@ async function main() {
     contentPath: `/posts/${slug}.md`,
     generatedBy: "agent",
     sourceTopic: topic,
-  });
-  posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-  await writeFile(MANIFEST_PATH, `${JSON.stringify(posts, null, 2)}\n`, "utf8");
+    imageCount: downloadedImages.length,
+  };
 
+  if (dryRun) {
+    console.log("[agent] dry run generated post:");
+    console.log(JSON.stringify(metadata, null, 2));
+    return metadata;
+  }
+
+  await mkdir(POSTS_DIR, { recursive: true });
+  await writeFile(contentPath, markdown, "utf8");
   console.log(`[agent] created ${contentPath}`);
+  return metadata;
+}
+
+async function main() {
+  const dryRun = process.env.AGENT_DRY_RUN === "true" || process.argv.includes("--dry-run");
+  const postCount = getPostCount();
+  const posts = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
+  const workingPosts = [...posts];
+  const usedTopics = new Set();
+
+  console.log(`[agent] post count=${postCount}`);
+
+  for (let index = 0; index < postCount; index += 1) {
+    const category = chooseCategory(workingPosts, index);
+    const topic = chooseTopic(category, workingPosts, usedTopics, index);
+    usedTopics.add(topic);
+
+    if (dryRun && !process.env.OPENAI_API_KEY) {
+      console.log(`[agent] plan ${index + 1}/${postCount}: ${category} - ${topic}`);
+      continue;
+    }
+
+    const metadata = await generatePost({ category, topic, posts: workingPosts, dryRun });
+    if (metadata) {
+      workingPosts.unshift(metadata);
+    }
+
+    if (index < postCount - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 700));
+    }
+  }
+
+  if (dryRun) return;
+
+  workingPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+  await writeFile(MANIFEST_PATH, `${JSON.stringify(workingPosts, null, 2)}\n`, "utf8");
+  console.log(`[agent] finished created=${workingPosts.length - posts.length}`);
 }
 
 main().catch((error) => {
