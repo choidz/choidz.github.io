@@ -5,90 +5,96 @@ import { formatDate, getAllTags, getPostUrl, sortPosts } from "../lib/posts.js";
 const postModules = import.meta.glob("../content/blog/*.md", { eager: true });
 const posts = sortPosts(Object.values(postModules));
 const tags = getAllTags(posts);
-const latestPosts = posts.slice(0, 4);
+const categories = [
+  { label: "Engineering", filter: "" },
+  { label: "DevOps", filter: "devops" },
+  { label: "Linux", filter: "linux" },
+  { label: "Monitoring", filter: "monitoring" },
+];
+
+function getPostRaw(post) {
+  if (typeof post.rawContent === "function") return post.rawContent();
+  return post.rawContent ?? post.body ?? "";
+}
+
+function getPostImage(post) {
+  const raw = getPostRaw(post);
+  const localImage = raw.match(/!\[[^\]]*\]\((\/images\/posts\/[^)\s]+)\)/);
+  return post.frontmatter.image ?? localImage?.[1] ?? "";
+}
+
+function getCategory(post) {
+  return post.frontmatter.tags?.[0] ?? "Engineering";
+}
 ---
 
 <BaseLayout
-  title="CHOI.DEV | 기술 블로그"
-  description="개발, DevOps, 데이터, 운영 경험을 실무 관점으로 정리하는 최성현의 기술 블로그입니다."
-  showSearch={true}
+  title="CHOI.DEV | Tech Notes"
+  description="개발, DevOps, 운영 경험을 실무 관점으로 정리하는 기술 블로그입니다."
+  showSearch={false}
 >
-  <main class="page-shell">
-    <div class="layout-grid">
-      <section class="post-column" aria-labelledby="post-list-title">
-        <div class="post-list-heading">
-          <h1 id="post-list-title">모든 글</h1>
-          <p id="search-result" class="search-result" hidden></p>
+  <main class="toss-home toss-home--articles-only">
+    <section class="toss-topbar" aria-label="글 분류">
+      <nav class="toss-tabs">
+        {categories.map((category, index) => (
+          <button class={index === 0 ? "active" : ""} type="button" data-tag-filter={category.filter}>
+            {category.label}
+          </button>
+        ))}
+      </nav>
+    </section>
+
+    <section id="all-articles" class="toss-main-grid toss-main-grid--single">
+      <div class="toss-article-column">
+        <div class="toss-section-heading">
+          <div>
+            <h1>전체 아티클</h1>
+            <p>운영, 자동화, Linux, 모니터링 실무 기록을 모았습니다.</p>
+          </div>
+          <p id="search-result" hidden></p>
         </div>
 
-        <div class="post-list">
+        <label class="toss-search">
+          <span class="sr-only">글 검색</span>
+          <svg aria-hidden="true" viewBox="0 0 16 16">
+            <path d="M11.25 11.25L14 14" />
+            <circle cx="7.5" cy="7.5" r="4.75" />
+          </svg>
+          <input id="post-search" type="search" placeholder="키워드로 글 검색" />
+        </label>
+
+        <div class="toss-article-list">
           {posts.map((post) => (
             <article
-              class="post-card"
+              class="post-card toss-article-card"
               data-title={post.frontmatter.title.toLowerCase()}
               data-description={post.frontmatter.description.toLowerCase()}
               data-tags={(post.frontmatter.tags ?? []).join(" ").toLowerCase()}
             >
               <a href={getPostUrl(post.frontmatter.slug)}>
-                <div class="post-meta">
-                  <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
-                  <span aria-hidden="true">•</span>
-                  <span>{post.frontmatter.readingMinutes}분 분량</span>
-                </div>
-                <div>
+                <div class="toss-card-copy">
+                  <div class="post-meta">
+                    <span>{getCategory(post)}</span>
+                    <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
+                    <span>{post.frontmatter.readingMinutes}분 읽기</span>
+                  </div>
                   <h2>{post.frontmatter.title}</h2>
                   <p>{post.frontmatter.description}</p>
                 </div>
-                <div class="post-tags">
-                  {(post.frontmatter.tags ?? []).map((tag) => <span>{tag}</span>)}
-                </div>
-                <div class="post-card-footer">
-                  <span>{post.frontmatter.readingMinutes}분 분량</span>
-                  <strong>계속 읽기 →</strong>
+
+                <div class="toss-card-media">
+                  {getPostImage(post) ? (
+                    <img src={getPostImage(post)} alt="" loading="lazy" />
+                  ) : (
+                    <div class="toss-image-fallback">{getCategory(post)}</div>
+                  )}
                 </div>
               </a>
             </article>
           ))}
         </div>
-      </section>
-
-      <aside class="sidebar">
-        <section class="sidebar-card">
-          <div class="sidebar-card-header">
-            <h2>최신 등록 글</h2>
-          </div>
-          <ol class="latest-list">
-            {latestPosts.map((post, index) => (
-              <li>
-                <span class="latest-index">{index + 1}</span>
-                <div>
-                  <a href={getPostUrl(post.frontmatter.slug)}>{post.frontmatter.title}</a>
-                  <p>{formatDate(post.frontmatter.date)}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        <section class="sidebar-card">
-          <div class="sidebar-card-header">
-            <h2>태그</h2>
-          </div>
-          <div class="tag-cloud">
-            <button type="button" data-tag-filter="">전체</button>
-            {tags.map((tag) => (
-              <button type="button" data-tag-filter={tag.toLowerCase()}>{tag}</button>
-            ))}
-          </div>
-        </section>
-
-        <section class="community-card">
-          <h2>개발자로서의 여정을 기록하고 있어요</h2>
-          <p>최신 글은 블로그에서 확인해 주세요. 꾸준히 업데이트하며 성장 과정을 공유합니다.</p>
-          <a href="/">블로그 최신 글 보기</a>
-        </section>
-      </aside>
-    </div>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -119,7 +125,7 @@ const latestPosts = posts.slice(0, 4);
         const hasFilter = query || activeTag;
         result.hidden = !hasFilter;
         result.textContent = hasFilter
-          ? `${query ? `"${query}" ` : ""}${activeTag ? `${activeTag} ` : ""}검색 결과 (${visible}건)`
+          ? `${query ? `"${query}" ` : ""}${activeTag ? `${activeTag} ` : ""}검색 결과 ${visible}건`
           : "";
       }
     }
@@ -128,7 +134,9 @@ const latestPosts = posts.slice(0, 4);
     for (const button of tagButtons) {
       button.addEventListener("click", () => {
         activeTag = button.dataset.tagFilter || "";
-        for (const item of tagButtons) item.classList.toggle("active", item === button);
+        for (const item of tagButtons) {
+          item.classList.toggle("active", item.dataset.tagFilter === activeTag);
+        }
         applyFilters();
       });
     }
