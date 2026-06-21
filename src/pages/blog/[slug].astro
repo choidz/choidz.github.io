@@ -8,22 +8,15 @@ export async function getStaticPaths() {
 
   return posts.map((post) => ({
     params: { slug: post.frontmatter.slug },
-    props: { post, posts },
+    props: { post },
   }));
 }
 
-const { post, posts } = Astro.props;
+const { post } = Astro.props;
 const { Content } = post;
-const relatedPosts = posts
-  .filter((item) => item.frontmatter.slug !== post.frontmatter.slug)
-  .filter((item) =>
-    (item.frontmatter.tags ?? []).some((tag) =>
-      (post.frontmatter.tags ?? []).includes(tag)
-    )
-  )
-  .slice(0, 3);
-
 const canonical = getPostUrl(post.frontmatter.slug);
+const tags = post.frontmatter.tags ?? [];
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -51,53 +44,33 @@ const jsonLd = {
   type="article"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  <main class="article-page-shell">
-    <div class="article-topbar">
-      <a class="back-link" href="/">← 글 목록으로 돌아가기</a>
-    </div>
 
-    <div class="article-layout-grid">
-      <div class="article-main">
-        <article class="article-card">
-          <header class="article-header">
-            <div class="post-meta">
-              <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
-              <span aria-hidden="true">•</span>
-              <span>{post.frontmatter.readingMinutes}분 분량</span>
-            </div>
-            <h1>{post.frontmatter.title}</h1>
-            <p>{post.frontmatter.description}</p>
-            <div class="post-tags">
-              {(post.frontmatter.tags ?? []).map((tag) => <span>{tag}</span>)}
-            </div>
-          </header>
+  <main class="article-page-shell article-page-shell--focus">
+    <article class="article-focus">
+      <a class="back-link article-back-link" href="/">글 목록으로 돌아가기</a>
 
-          <div class="prose">
-            <Content />
+      <header class="article-header article-header--focus">
+        <div class="article-kicker">
+          <span>Tech Notes</span>
+          <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
+          <span>{post.frontmatter.readingMinutes}분 읽기</span>
+        </div>
+
+        <h1>{post.frontmatter.title}</h1>
+        <p>{post.frontmatter.description}</p>
+
+        {tags.length > 0 && (
+          <div class="post-tags article-tags">
+            {tags.map((tag) => <span>{tag}</span>)}
           </div>
-        </article>
-      </div>
+        )}
+      </header>
 
-      {relatedPosts.length > 0 && (
-        <aside class="article-sidebar">
-          <section class="sidebar-card sticky-card">
-            <div class="sidebar-card-header">
-              <h2>관련 글</h2>
-            </div>
-            <div class="related-list">
-              {relatedPosts.map((related) => (
-                <a href={getPostUrl(related.frontmatter.slug)}>
-                  <strong>{related.frontmatter.title}</strong>
-                  <p>{related.frontmatter.description}</p>
-                  <div class="post-tags">
-                    {(related.frontmatter.tags ?? []).slice(0, 2).map((tag) => <span>{tag}</span>)}
-                  </div>
-                </a>
-              ))}
-            </div>
-          </section>
-        </aside>
-      )}
-    </div>
+      <div class="article-divider" aria-hidden="true"></div>
+
+      <div class="prose prose--focus">
+        <Content />
+      </div>
+    </article>
   </main>
 </BaseLayout>
