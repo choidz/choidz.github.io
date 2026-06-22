@@ -1,5 +1,83 @@
 [
   {
+    "slug": "kibana를-활용한-효과적인-운영-대시보드-구성-방법",
+    "title": "Kibana를 활용한 효과적인 운영 대시보드 구성 방법",
+    "description": "Kibana를 통해 운영 대시보드를 효과적으로 구성하는 방법과 실무 팁을 소개합니다.",
+    "date": "2026-06-22",
+    "tags": [
+      "#ElasticSearch",
+      "#Kibana",
+      "#DevOps",
+      "#대시보드",
+      "#데이터분석"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/kibana를-활용한-효과적인-운영-대시보드-구성-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Kibana 운영 대시보드",
+    "imageCount": 2
+  },
+  {
+    "slug": "효율적인-개발-블로그-글감-관리-방법",
+    "title": "효율적인 개발 블로그 글감 관리 방법",
+    "description": "개발 블로그를 운영하는 데 있어 글감 관리의 중요성과 실무적인 접근 방법을 소개합니다.",
+    "date": "2026-06-22",
+    "tags": [
+      "#Other",
+      "#블로그운영",
+      "#개발자블로그",
+      "#콘텐츠관리",
+      "#작문기술",
+      "#효율성"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/효율적인-개발-블로그-글감-관리-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "개발 블로그 글감 관리",
+    "imageCount": 0
+  },
+  {
+    "slug": "운영-환경-장애-회고-작성법-효과적인-대응을-위한-가이드",
+    "title": "운영 환경 장애 회고 작성법: 효과적인 대응을 위한 가이드",
+    "description": "운영 환경에서 발생한 장애를 효과적으로 회고하는 방법을 소개합니다. 실무 체크리스트와 흔한 실수를 통해 장애 대응을 개선해보세요.",
+    "date": "2026-06-22",
+    "tags": [
+      "#DevOps",
+      "#장애회고",
+      "#운영팀",
+      "#시스템장애",
+      "#장애대응매뉴얼"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/운영-환경-장애-회고-작성법-효과적인-대응을-위한-가이드.md",
+    "generatedBy": "agent",
+    "sourceTopic": "운영 환경 장애 회고 작성법",
+    "imageCount": 2
+  },
+  {
+    "slug": "웹-접근성-기본-점검-모든-사용자를-위한-웹사이트-만들기",
+    "title": "웹 접근성 기본 점검: 모든 사용자를 위한 웹사이트 만들기",
+    "description": "웹 접근성의 중요성과 기본 점검 방법을 통해 모든 사용자가 쉽게 접근할 수 있는 웹사이트를 만드는 방법을 알아보세요.",
+    "date": "2026-06-22",
+    "tags": [
+      "#Frontend",
+      "#웹접근성",
+      "#UX",
+      "#웹디자인",
+      "#프론트엔드",
+      "#개발팁"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/웹-접근성-기본-점검-모든-사용자를-위한-웹사이트-만들기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "웹 접근성 기본 점검",
+    "imageCount": 0
+  },
+  {
     "slug": "elasticsearch-jvm-메모리-튜닝-가이드",
     "title": "Elasticsearch JVM 메모리 튜닝 가이드",
     "description": "Elasticsearch의 JVM 메모리 튜닝 방법과 최적화 포인트를 실무 관점에서 정리한 가이드입니다.",
