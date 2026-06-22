@@ -18,10 +18,10 @@ const MAX_IMAGE_CANDIDATES = 16;
 const MIN_SOURCE_ARTICLES = 3;
 const MIN_BODY_CHARS = 1600;
 const MIN_H2_COUNT = 3;
-const NAVER_SEARCH_RESULTS = 20;
+const NAVER_SEARCH_RESULTS = 30;
 const VELOG_SEARCH_RESULTS = 10;
 const MAX_SOURCE_ARTICLES = 10;
-const MAX_ATTEMPTS_PER_POST = 20;
+const MAX_ATTEMPTS_PER_POST = 8;
 const REJECT_IMAGE_PATTERN =
   /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite/i;
 const UA =
@@ -422,9 +422,10 @@ function scoreImageCandidate(image, topic = "", category = "", body = "") {
   const sourceScore = similarityScore(topicTokens, sourceTokens).shared * 2;
   const hasUsefulAlt = String(image.alt || "").trim().length >= 3;
   const hasUsefulContext = String(image.contextText || "").trim().length >= 10;
+  const hasSourceMatch = sourceScore > 0;
 
   if (!hasUsefulAlt && !hasUsefulContext) return 0;
-  if (directScore === 0 && bodyScore < 2) return 0;
+  if (directScore === 0 && bodyScore < 2 && !hasSourceMatch) return 0;
 
   return directScore * 10 + bodyScore * 3 + sourceScore + (hasUsefulAlt ? 2 : 0);
 }
@@ -753,6 +754,13 @@ async function synthesizePost({ topic, category, articles }) {
         "이미지가 내용과 직접 관련 없으면 자리표시자를 쓰지 말 것",
         "출처 링크 목록은 작성하지 말 것. 스크립트가 별도로 붙인다.",
       ],
+      hardRequirements: [
+        "markdownBody must be at least 2200 Korean characters before references.",
+        "markdownBody must include at least 4 H2 sections using ## headings.",
+        "Do not include an H1 heading in markdownBody.",
+        "Use both {{IMAGE_0}} and {{IMAGE_1}} only where the surrounding paragraph is directly relevant to the image.",
+        "Prefer practical operational examples, checklists, and failure cases over generic explanations.",
+      ],
       references: articles.map((article) => ({
         title: article.title,
         url: article.url,
@@ -788,7 +796,7 @@ async function synthesizePost({ topic, category, articles }) {
         { role: "user", content: user },
       ],
       response_format: { type: "json_object" },
-      max_tokens: Number(process.env.LLM_MAX_TOKENS || 6000),
+      max_tokens: Number(process.env.LLM_MAX_TOKENS || 8000),
       temperature: Number(process.env.LLM_TEMPERATURE || 0.45),
     }),
   });
