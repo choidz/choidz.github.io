@@ -1,5 +1,43 @@
 [
   {
+    "slug": "elasticsearch에서-슬로우-쿼리-분석하기",
+    "title": "Elasticsearch에서 슬로우 쿼리 분석하기",
+    "description": "Elasticsearch의 슬로우 쿼리를 분석하는 방법과 개선 방안을 실무 중심으로 정리했습니다.",
+    "date": "2026-06-22",
+    "tags": [
+      "#ElasticSearch",
+      "#DevOps",
+      "#쿼리최적화",
+      "#성능분석",
+      "#데이터베이스"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/elasticsearch에서-슬로우-쿼리-분석하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Elasticsearch slow query 분석",
+    "imageCount": 2
+  },
+  {
+    "slug": "zabbix-템플릿-관리-모니터링-최적화를-위한-실무-가이드",
+    "title": "Zabbix 템플릿 관리: 모니터링 최적화를 위한 실무 가이드",
+    "description": "Zabbix 템플릿을 효과적으로 관리하고 활용하는 방법을 실무 예시와 함께 소개합니다. 모니터링 효율성을 높이기 위한 팁과 체크리스트도 포함되어 있습니다.",
+    "date": "2026-06-22",
+    "tags": [
+      "#Zabbix",
+      "#DevOps",
+      "#모니터링",
+      "#IT인프라",
+      "#오픈소스"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/zabbix-템플릿-관리-모니터링-최적화를-위한-실무-가이드.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Zabbix 템플릿 관리",
+    "imageCount": 2
+  },
+  {
     "slug": "효과적인-기술-문서-리뷰-방법-실무에서의-체크리스트와-팁",
     "title": "효과적인 기술 문서 리뷰 방법: 실무에서의 체크리스트와 팁",
     "description": "기술 문서 리뷰를 통해 문서 품질을 높이고, 팀의 효율성을 극대화하는 방법을 알아봅니다. 실무에서 유용한 체크리스트와 팁을 제공합니다.",
