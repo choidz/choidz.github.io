@@ -1215,13 +1215,6 @@ img {
   font-size: 13px;
 }
 
-.article-divider {
-  width: 100%;
-  height: 1px;
-  margin-bottom: clamp(32px, 5vw, 52px);
-  background: linear-gradient(90deg, var(--brand-accent), rgba(226, 77, 42, 0.08));
-}
-
 .prose--focus {
   width: min(860px, 100%);
   margin: 0;
