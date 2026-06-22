@@ -107,6 +107,85 @@ function slugify(text) {
     .slice(0, 90);
 }
 
+const SIMILARITY_STOP_WORDS = new Set([
+  "가이드",
+  "정리",
+  "실무",
+  "전략",
+  "기본",
+  "점검",
+  "운영",
+  "활용",
+  "방법",
+  "소개",
+  "완벽",
+  "위한",
+  "에서",
+  "으로",
+  "그리고",
+  "하기",
+  "만들기",
+  "guide",
+  "basic",
+  "tips",
+  "strategy",
+  "overview",
+  "the",
+  "and",
+  "for",
+  "with",
+]);
+
+function normalizeForSimilarity(text) {
+  return String(text || "")
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/ci\s*\/\s*cd|cicd/g, "cicd")
+    .replace(/github\s+actions/g, "githubactions")
+    .replace(/[^\p{Script=Hangul}a-z0-9]+/gu, " ")
+    .trim();
+}
+
+function similarityTokens(...values) {
+  return new Set(
+    values
+      .flatMap((value) => normalizeForSimilarity(value).split(/\s+/))
+      .map((token) => token.replace(/하기$/, ""))
+      .filter((token) => token.length > 1 && !SIMILARITY_STOP_WORDS.has(token))
+  );
+}
+
+function similarityScore(left, right) {
+  if (!left.size || !right.size) return { shared: 0, ratio: 0 };
+
+  let shared = 0;
+  for (const token of left) {
+    if (right.has(token)) shared += 1;
+  }
+
+  return { shared, ratio: shared / Math.min(left.size, right.size) };
+}
+
+function findSimilarPost({ topic = "", title = "", slug = "" }, posts) {
+  const targetTokens = similarityTokens(topic, title, slug);
+
+  for (const post of posts) {
+    const postTokens = similarityTokens(
+      post.title,
+      post.slug,
+      post.sourceTopic,
+      ...(Array.isArray(post.tags) ? post.tags : [])
+    );
+    const { shared, ratio } = similarityScore(targetTokens, postTokens);
+
+    if ((shared >= 3 && ratio >= 0.6) || (shared >= 4 && ratio >= 0.45)) {
+      return post;
+    }
+  }
+
+  return null;
+}
+
 function todayIso() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -142,15 +221,18 @@ function chooseCategory(posts, index = 0) {
 
 function chooseTopic(category, posts, usedTopics = new Set(), index = 0) {
   const requested = (process.env.AGENT_TOPIC || "").trim();
-  if (requested && index === 0) return requested;
+  if (requested && index === 0) {
+    const duplicate = findSimilarPost({ topic: requested }, posts);
+    if (!duplicate) return requested;
+    console.log(`[agent] requested topic already covered: ${duplicate.slug}`);
+  }
 
-  const existingTitles = new Set(posts.map((post) => post.title));
   const topics = TOPIC_BANK[category] || TOPIC_BANK["#DevOps"];
   const offset = (dayOfYear() + index) % topics.length;
 
   for (let i = 0; i < topics.length; i += 1) {
     const topic = topics[(offset + i) % topics.length];
-    if (!usedTopics.has(topic) && ![...existingTitles].some((title) => title.includes(topic))) {
+    if (!usedTopics.has(topic) && !findSimilarPost({ topic }, posts)) {
       return topic;
     }
   }
@@ -623,6 +705,12 @@ async function generatePost({ category, topic, posts, dryRun }) {
 
   if (posts.some((post) => post.slug === slug)) {
     console.log(`[agent] post already exists: ${slug}`);
+    return null;
+  }
+
+  const similarPost = findSimilarPost({ topic, title, slug }, posts);
+  if (similarPost) {
+    console.log(`[agent] similar post already exists: ${similarPost.slug}`);
     return null;
   }
 
