@@ -1,25 +1,5 @@
 [
   {
-    "slug": "효율적인-기술-문서-리뷰-방법-실무에서의-체크리스트",
-    "title": "효율적인 기술 문서 리뷰 방법: 실무에서의 체크리스트",
-    "description": "기술 문서 리뷰는 협업의 핵심입니다. 효과적인 리뷰 방법과 실무에서 유용한 체크리스트를 소개합니다.",
-    "date": "2026-06-22",
-    "tags": [
-      "#Other",
-      "#기술문서",
-      "#문서화",
-      "#개발자협업",
-      "#DevOps",
-      "#기술공유"
-    ],
-    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 3,
-    "contentPath": "/posts/효율적인-기술-문서-리뷰-방법-실무에서의-체크리스트.md",
-    "generatedBy": "agent",
-    "sourceTopic": "기술 문서 리뷰 방법",
-    "imageCount": 2
-  },
-  {
     "slug": "zabbix-모니터링-항목-설계-효율적인-인프라-관리의-시작",
     "title": "Zabbix 모니터링 항목 설계: 효율적인 인프라 관리의 시작",
     "description": "Zabbix를 활용한 모니터링 항목 설계 방법과 실무 팁을 소개합니다. 효율적인 인프라 관리를 위한 체크리스트와 흔한 실수를 함께 살펴보세요.",

@@ -23,7 +23,7 @@ const MAX_SOURCE_ARTICLES = 5;
 const MIN_REQUIRED_SOURCE_ARTICLES = 4;
 const MAX_ATTEMPTS_PER_POST = 4;
 const REJECT_IMAGE_PATTERN =
-  /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite/i;
+  /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite|웨비나|교육|세미나|강의|이벤트|패키지|공유|할인|프로모션|신청/i;
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
