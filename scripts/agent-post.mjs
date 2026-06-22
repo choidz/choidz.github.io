@@ -15,13 +15,13 @@ const MAX_POST_COUNT = 2;
 const MAX_IMAGES_PER_POST = 2;
 const MIN_IMAGES_PER_POST = 2;
 const MAX_IMAGE_CANDIDATES = 16;
-const MIN_SOURCE_ARTICLES = 3;
 const MIN_BODY_CHARS = 1600;
 const MIN_H2_COUNT = 3;
-const NAVER_SEARCH_RESULTS = 30;
-const VELOG_SEARCH_RESULTS = 10;
-const MAX_SOURCE_ARTICLES = 10;
-const MAX_ATTEMPTS_PER_POST = 8;
+const NAVER_SEARCH_RESULTS = 8;
+const VELOG_SEARCH_RESULTS = 4;
+const MAX_SOURCE_ARTICLES = 5;
+const MIN_REQUIRED_SOURCE_ARTICLES = 5;
+const MAX_ATTEMPTS_PER_POST = 4;
 const REJECT_IMAGE_PATTERN =
   /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite/i;
 const UA =
@@ -796,7 +796,7 @@ async function synthesizePost({ topic, category, articles }) {
         { role: "user", content: user },
       ],
       response_format: { type: "json_object" },
-      max_tokens: Number(process.env.LLM_MAX_TOKENS || 8000),
+      max_tokens: Number(process.env.LLM_MAX_TOKENS || 6500),
       temperature: Number(process.env.LLM_TEMPERATURE || 0.45),
     }),
   });
@@ -887,9 +887,9 @@ async function generatePost({ category, topic, posts, dryRun }) {
   const articles = await fetchSourceArticles(searchResults);
   console.log(`[agent] fetched articles=${articles.length}`);
 
-  if (articles.length < MIN_SOURCE_ARTICLES) {
+  if (articles.length < MIN_REQUIRED_SOURCE_ARTICLES) {
     console.warn(
-      `[warn] skipped topic because source articles are insufficient: ${articles.length}/${MIN_SOURCE_ARTICLES}`
+      `[warn] skipped topic because source articles are insufficient: ${articles.length}/${MIN_REQUIRED_SOURCE_ARTICLES}`
     );
     return null;
   }
