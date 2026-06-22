@@ -93,6 +93,12 @@ function getCategory(post) {
             </article>
           ))}
         </div>
+
+        <nav class="toss-pagination" aria-label="아티클 페이지" hidden>
+          <button type="button" data-page-prev>이전</button>
+          <div class="toss-page-numbers" data-page-numbers></div>
+          <button type="button" data-page-next>다음</button>
+        </nav>
       </div>
     </section>
   </main>
@@ -102,13 +108,17 @@ function getCategory(post) {
     const result = document.querySelector("#search-result");
     const cards = Array.from(document.querySelectorAll(".post-card"));
     const tagButtons = Array.from(document.querySelectorAll("[data-tag-filter]"));
+    const pagination = document.querySelector(".toss-pagination");
+    const pageNumbers = document.querySelector("[data-page-numbers]");
+    const prevButton = document.querySelector("[data-page-prev]");
+    const nextButton = document.querySelector("[data-page-next]");
+    const pageSize = 15;
     let activeTag = "";
+    let currentPage = 1;
 
-    function applyFilters() {
+    function matchingCards() {
       const query = (searchInput?.value || "").trim().toLowerCase();
-      let visible = 0;
-
-      for (const card of cards) {
+      return cards.filter((card) => {
         const haystack = [
           card.dataset.title,
           card.dataset.description,
@@ -116,29 +126,89 @@ function getCategory(post) {
         ].join(" ");
         const matchesQuery = !query || haystack.includes(query);
         const matchesTag = !activeTag || (card.dataset.tags || "").includes(activeTag);
-        const shouldShow = matchesQuery && matchesTag;
-        card.hidden = !shouldShow;
-        if (shouldShow) visible += 1;
-      }
+        return matchesQuery && matchesTag;
+      });
+    }
 
-      if (result) {
-        const hasFilter = query || activeTag;
-        result.hidden = !hasFilter;
-        result.textContent = hasFilter
-          ? `${query ? `"${query}" ` : ""}${activeTag ? `${activeTag} ` : ""}검색 결과 ${visible}건`
-          : "";
+    function renderPagination(totalPages) {
+      if (!pagination || !pageNumbers || !prevButton || !nextButton) return;
+
+      pagination.hidden = totalPages <= 1;
+      pageNumbers.replaceChildren();
+      if (totalPages <= 1) return;
+
+      prevButton.disabled = currentPage <= 1;
+      nextButton.disabled = currentPage >= totalPages;
+
+      for (let page = 1; page <= totalPages; page += 1) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = String(page);
+        button.dataset.pageNumber = String(page);
+        button.setAttribute("aria-label", `${page}페이지`);
+        button.classList.toggle("active", page === currentPage);
+        button.addEventListener("click", () => {
+          currentPage = page;
+          applyFilters({ keepScroll: false });
+        });
+        pageNumbers.append(button);
       }
     }
 
-    searchInput?.addEventListener("input", applyFilters);
+    function applyFilters({ keepScroll = true } = {}) {
+      const query = (searchInput?.value || "").trim().toLowerCase();
+      const filtered = matchingCards();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+      currentPage = Math.min(currentPage, totalPages);
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+      const visibleSet = new Set(filtered.slice(start, end));
+
+      for (const card of cards) {
+        card.hidden = !visibleSet.has(card);
+      }
+
+      renderPagination(totalPages);
+
+      if (result) {
+        const hasFilter = query || activeTag;
+        const pageLabel = totalPages > 1 ? ` · ${currentPage}/${totalPages}페이지` : "";
+        result.hidden = false;
+        result.textContent = hasFilter
+          ? `${query ? `"${query}" ` : ""}${activeTag ? `${activeTag} ` : ""}검색 결과 ${filtered.length}건${pageLabel}`
+          : `전체 ${filtered.length}개 글${pageLabel}`;
+      }
+
+      if (!keepScroll) {
+        document.querySelector("#all-articles")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    searchInput?.addEventListener("input", () => {
+      currentPage = 1;
+      applyFilters();
+    });
     for (const button of tagButtons) {
       button.addEventListener("click", () => {
         activeTag = button.dataset.tagFilter || "";
+        currentPage = 1;
         for (const item of tagButtons) {
           item.classList.toggle("active", item.dataset.tagFilter === activeTag);
         }
         applyFilters();
       });
     }
+
+    prevButton?.addEventListener("click", () => {
+      currentPage = Math.max(1, currentPage - 1);
+      applyFilters({ keepScroll: false });
+    });
+
+    nextButton?.addEventListener("click", () => {
+      currentPage += 1;
+      applyFilters({ keepScroll: false });
+    });
+
+    applyFilters();
   </script>
 </BaseLayout>
