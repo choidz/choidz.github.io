@@ -1,5 +1,44 @@
 [
   {
+    "slug": "효과적인-기술-문서-리뷰-방법-실무에서의-체크리스트와-팁",
+    "title": "효과적인 기술 문서 리뷰 방법: 실무에서의 체크리스트와 팁",
+    "description": "기술 문서 리뷰를 통해 문서 품질을 높이고, 팀의 효율성을 극대화하는 방법을 알아봅니다. 실무에서 유용한 체크리스트와 팁을 제공합니다.",
+    "date": "2026-06-22",
+    "tags": [
+      "#Other",
+      "#Documentation",
+      "#CodeReview",
+      "#DevOps",
+      "#Collaboration",
+      "#BestPractices"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/효과적인-기술-문서-리뷰-방법-실무에서의-체크리스트와-팁.md",
+    "generatedBy": "agent",
+    "sourceTopic": "기술 문서 리뷰 방법",
+    "imageCount": 2
+  },
+  {
+    "slug": "서버-디스크-사용량-점검-효율적인-관리-방법",
+    "title": "서버 디스크 사용량 점검: 효율적인 관리 방법",
+    "description": "서버의 디스크 사용량을 점검하고 관리하는 방법에 대해 알아보세요. 실무에서 유용한 팁과 체크리스트를 제공합니다.",
+    "date": "2026-06-22",
+    "tags": [
+      "#Linux",
+      "#DevOps",
+      "#서버관리",
+      "#디스크관리",
+      "#시스템모니터링"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/서버-디스크-사용량-점검-효율적인-관리-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "서버 디스크 사용량 점검",
+    "imageCount": 2
+  },
+  {
     "slug": "zabbix-모니터링-항목-설계-효율적인-인프라-관리의-시작",
     "title": "Zabbix 모니터링 항목 설계: 효율적인 인프라 관리의 시작",
     "description": "Zabbix를 활용한 모니터링 항목 설계 방법과 실무 팁을 소개합니다. 효율적인 인프라 관리를 위한 체크리스트와 흔한 실수를 함께 살펴보세요.",
