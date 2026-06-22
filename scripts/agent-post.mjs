@@ -18,6 +18,10 @@ const MAX_IMAGE_CANDIDATES = 16;
 const MIN_SOURCE_ARTICLES = 3;
 const MIN_BODY_CHARS = 1600;
 const MIN_H2_COUNT = 3;
+const NAVER_SEARCH_RESULTS = 20;
+const VELOG_SEARCH_RESULTS = 10;
+const MAX_SOURCE_ARTICLES = 10;
+const MAX_ATTEMPTS_PER_POST = 20;
 const REJECT_IMAGE_PATTERN =
   /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite/i;
 const UA =
@@ -552,7 +556,7 @@ function placeImagesInBody(markdownBody, images) {
   return output.join("\n\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
-async function searchNaverBlog(keyword, maxResults = 6) {
+async function searchNaverBlog(keyword, maxResults = NAVER_SEARCH_RESULTS) {
   const url = `https://search.naver.com/search.naver?where=blog&query=${encodeURIComponent(
     keyword
   )}&sm=tab_opt&nso=so:r,p:1y`;
@@ -580,7 +584,7 @@ async function searchNaverBlog(keyword, maxResults = 6) {
   return results;
 }
 
-async function searchVelog(keyword, maxResults = 4) {
+async function searchVelog(keyword, maxResults = VELOG_SEARCH_RESULTS) {
   const query = `
     query SearchPosts($keyword: String!, $offset: Int, $limit: Int) {
       searchPosts(keyword: $keyword, offset: $offset, limit: $limit) {
@@ -622,8 +626,8 @@ async function searchVelog(keyword, maxResults = 4) {
 
 async function searchSources(keyword) {
   const [naver, velog] = await Promise.allSettled([
-    searchNaverBlog(keyword, 6),
-    searchVelog(keyword, 4),
+    searchNaverBlog(keyword, NAVER_SEARCH_RESULTS),
+    searchVelog(keyword, VELOG_SEARCH_RESULTS),
   ]);
 
   const combined = [
@@ -691,13 +695,13 @@ async function fetchArticle(url) {
 async function fetchSourceArticles(results) {
   const articles = [];
   for (const result of results) {
-    if (articles.length >= 4) break;
+    if (articles.length >= MAX_SOURCE_ARTICLES) break;
     try {
       const article = await fetchArticle(result.url);
       if (article.content_md.length > 500) {
         articles.push(article);
       }
-      await new Promise((resolve) => setTimeout(resolve, 400));
+      await new Promise((resolve) => setTimeout(resolve, 250));
     } catch (error) {
       console.warn(`[warn] fetch failed: ${result.url} (${error.message})`);
     }
@@ -984,7 +988,7 @@ async function main() {
   const posts = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
   const workingPosts = [...posts];
   const usedTopics = new Set();
-  const maxAttempts = postCount * 5;
+  const maxAttempts = postCount * MAX_ATTEMPTS_PER_POST;
   let created = 0;
 
   console.log(`[agent] post count=${postCount}`);
@@ -1011,6 +1015,12 @@ async function main() {
   }
 
   if (dryRun) return;
+
+  if (created < postCount) {
+    throw new Error(
+      `Only created ${created}/${postCount} posts after ${maxAttempts} attempts. Need more usable source articles or images.`
+    );
+  }
 
   workingPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
   await writeFile(MANIFEST_PATH, `${JSON.stringify(workingPosts, null, 2)}\n`, "utf8");
