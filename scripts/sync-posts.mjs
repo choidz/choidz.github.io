@@ -26,7 +26,7 @@ async function main() {
   await rm(outputDir, { recursive: true, force: true });
   await mkdir(outputDir, { recursive: true });
 
-  for (const post of manifest) {
+  for (const [index, post] of manifest.entries()) {
     const sourcePath = path.join(sourceDir, `${post.slug}.md`);
     const rawMarkdown = await readFile(sourcePath, "utf8");
     const body = stripLeadingTitle(rawMarkdown);
@@ -38,6 +38,7 @@ async function main() {
       `title: ${frontmatterString(post.title)}`,
       `description: ${frontmatterString(post.description)}`,
       `date: ${frontmatterString(post.date)}`,
+      `order: ${Number(post.order ?? index)}`,
       `tags: ${JSON.stringify(tags)}`,
       `readingMinutes: ${Number(post.readingMinutes ?? 1)}`,
       `draft: false`,

@@ -1,7 +1,10 @@
 export function sortPosts(posts) {
-  return [...posts].sort(
-    (a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date)
-  );
+  return [...posts].sort((a, b) => {
+    const dateDiff = new Date(b.frontmatter.date) - new Date(a.frontmatter.date);
+    if (dateDiff !== 0) return dateDiff;
+
+    return (a.frontmatter.order ?? 999999) - (b.frontmatter.order ?? 999999);
+  });
 }
 
 export function getAllTags(posts) {
