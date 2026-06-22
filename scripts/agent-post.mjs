@@ -27,10 +27,41 @@ const REJECT_IMAGE_PATTERN =
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
+const openAiUsage = {
+  calls: 0,
+  promptTokens: 0,
+  completionTokens: 0,
+  totalTokens: 0,
+  summaryLogged: false,
+};
+
 const turndown = new TurndownService({
   headingStyle: "atx",
   codeBlockStyle: "fenced",
 });
+
+function recordOpenAiUsage(usage = {}) {
+  const promptTokens = Number(usage.prompt_tokens || 0);
+  const completionTokens = Number(usage.completion_tokens || 0);
+  const totalTokens = Number(usage.total_tokens || promptTokens + completionTokens);
+
+  openAiUsage.calls += 1;
+  openAiUsage.promptTokens += promptTokens;
+  openAiUsage.completionTokens += completionTokens;
+  openAiUsage.totalTokens += totalTokens;
+
+  console.log(
+    `[agent] openai usage call=${openAiUsage.calls} prompt=${promptTokens} completion=${completionTokens} total=${totalTokens}`
+  );
+}
+
+function logOpenAiUsageSummary() {
+  if (openAiUsage.summaryLogged) return;
+  openAiUsage.summaryLogged = true;
+  console.log(
+    `[agent] openai usage summary calls=${openAiUsage.calls} prompt=${openAiUsage.promptTokens} completion=${openAiUsage.completionTokens} total=${openAiUsage.totalTokens}`
+  );
+}
 
 const TOPIC_BANK = {
   "#DevOps": [
@@ -852,6 +883,7 @@ async function synthesizePost({ topic, category, articles }) {
   }
 
   const data = await response.json();
+  recordOpenAiUsage(data.usage);
   const content = data.choices?.[0]?.message?.content;
   if (!content) throw new Error("OpenAI returned empty content");
   return extractJson(content);
@@ -1101,6 +1133,8 @@ async function main() {
     }
   }
 
+  logOpenAiUsageSummary();
+
   if (dryRun) return;
 
   if (created < postCount) {
@@ -1115,6 +1149,7 @@ async function main() {
 }
 
 main().catch((error) => {
+  logOpenAiUsageSummary();
   console.error(error);
   process.exitCode = 1;
 });
