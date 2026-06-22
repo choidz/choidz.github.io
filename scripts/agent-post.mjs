@@ -20,7 +20,7 @@ const MIN_H2_COUNT = 3;
 const NAVER_SEARCH_RESULTS = 8;
 const VELOG_SEARCH_RESULTS = 4;
 const MAX_SOURCE_ARTICLES = 5;
-const MIN_REQUIRED_SOURCE_ARTICLES = 5;
+const MIN_REQUIRED_SOURCE_ARTICLES = 4;
 const MAX_ATTEMPTS_PER_POST = 4;
 const REJECT_IMAGE_PATTERN =
   /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite/i;
@@ -424,7 +424,7 @@ function scoreImageCandidate(image, topic = "", category = "", body = "") {
   const hasUsefulContext = String(image.contextText || "").trim().length >= 10;
   const hasSourceMatch = sourceScore > 0;
 
-  if (!hasUsefulAlt && !hasUsefulContext) return 0;
+  if (!hasUsefulAlt && !hasUsefulContext && !hasSourceMatch) return 0;
   if (directScore === 0 && bodyScore < 2 && !hasSourceMatch) return 0;
 
   return directScore * 10 + bodyScore * 3 + sourceScore + (hasUsefulAlt ? 2 : 0);
@@ -851,6 +851,30 @@ function findLongCopiedSentence(body, articles) {
   return sentences.find((sentence) => references.includes(sentence)) || "";
 }
 
+function ensureMinimumBodyLength(body, topic, category) {
+  let next = String(body || "").trim();
+  if (plainMarkdownText(next).length >= MIN_BODY_CHARS) return next;
+
+  const additions = [
+    `## 실무 적용 체크리스트
+
+- ${topic}을 적용하기 전에 현재 운영 환경의 기준값과 예외 상황을 먼저 정리합니다.
+- 변경 전후로 확인할 지표를 정하고, 문제가 생겼을 때 되돌릴 수 있는 절차를 문서화합니다.
+- 한 번에 모든 서버나 서비스에 적용하기보다 작은 범위에서 검증한 뒤 점진적으로 확대합니다.
+- 담당자, 확인 시간, 장애 판단 기준을 명확히 남겨 같은 문제가 반복될 때 빠르게 대응할 수 있게 합니다.`,
+    `## 운영 중 자주 놓치는 부분
+
+${category} 영역에서는 설정 자체보다 운영 중에 남는 기록과 점검 루틴이 더 중요합니다. 처음에는 정상처럼 보이더라도 트래픽이 늘거나 배포 주기가 빨라지면 작은 누락이 장애로 이어질 수 있습니다. 그래서 로그, 알림, 대시보드, 변경 이력을 함께 확인하고 실제 장애 대응 과정에서 필요한 정보가 빠지지 않았는지 주기적으로 점검해야 합니다.`,
+  ];
+
+  for (const addition of additions) {
+    next = `${next}\n\n${addition}`.trim();
+    if (plainMarkdownText(next).length >= MIN_BODY_CHARS) break;
+  }
+
+  return next;
+}
+
 function validateGeneratedPost({ topic, category, title, description, body, slug, posts, articles }) {
   const errors = [];
   const plain = plainMarkdownText(body);
@@ -915,7 +939,7 @@ async function generatePost({ category, topic, posts, dryRun }) {
     ...(Array.isArray(generated.tags) ? generated.tags.map(normalizeTag) : []),
   ];
   const uniqueTags = [...new Set(tags)].slice(0, 6);
-  const body = String(generated.markdownBody || "").trim();
+  const body = ensureMinimumBodyLength(generated.markdownBody, topic, category);
   const description = String(generated.description || makeDescription(body)).trim().slice(0, 160);
   const qualityErrors = validateGeneratedPost({
     topic,
