@@ -13,6 +13,9 @@ const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const DEFAULT_POST_COUNT = 5;
 const MAX_POST_COUNT = 5;
 const MAX_IMAGES_PER_POST = 2;
+const MAX_IMAGE_CANDIDATES = 16;
+const REJECT_IMAGE_PATTERN =
+  /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite/i;
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
@@ -296,6 +299,12 @@ function imageExtension(contentType, url) {
   return match ? match[1].replace("jpeg", "jpg").toLowerCase() : "jpg";
 }
 
+function isRejectedImage(src, alt = "") {
+  if (!src) return true;
+  if (/\.(svg|ico)(?:$|\?)/i.test(src)) return true;
+  return REJECT_IMAGE_PATTERN.test(`${src} ${alt}`);
+}
+
 function collectImageUrls($, container, baseUrl, sourceUrl) {
   const candidates = [];
   const seen = new Set();
@@ -303,13 +312,11 @@ function collectImageUrls($, container, baseUrl, sourceUrl) {
   const add = (src, alt = "") => {
     const absolute = makeAbsoluteUrl(src, baseUrl);
     if (!absolute || seen.has(absolute)) return;
-    if (/\.(svg|ico)(?:$|\?)/i.test(absolute)) return;
-    if (/profile|avatar|emoji|icon|logo|banner|comment/i.test(absolute)) return;
+    if (isRejectedImage(absolute, alt)) return;
     seen.add(absolute);
     candidates.push({ url: absolute, alt: alt.trim(), sourceUrl });
   };
 
-  add($("meta[property='og:image']").attr("content") || "");
   container.find("img").each((_, element) => {
     const image = $(element);
     add(
@@ -325,7 +332,18 @@ function collectImageUrls($, container, baseUrl, sourceUrl) {
   return candidates.slice(0, 8);
 }
 
-function getImageCandidates(articles) {
+function scoreImageCandidate(image, topic = "", category = "") {
+  const topicTokens = similarityTokens(topic, category.replace("#", ""));
+  const imageTokens = similarityTokens(image.alt, image.url);
+  const sourceTokens = similarityTokens(image.sourceTitle);
+  const imageScore = similarityScore(topicTokens, imageTokens).shared * 8;
+  const sourceScore = similarityScore(topicTokens, sourceTokens).shared * 2;
+  const hasUsefulAlt = String(image.alt || "").trim().length >= 3;
+
+  return imageScore + sourceScore + (hasUsefulAlt ? 2 : -1);
+}
+
+function getImageCandidates(articles, topic = "", category = "") {
   return articles
     .flatMap((article) =>
       (article.images || []).map((image) => ({
@@ -333,13 +351,20 @@ function getImageCandidates(articles) {
         sourceTitle: article.title,
       }))
     )
-    .slice(0, MAX_IMAGES_PER_POST)
+    .filter((image) => !isRejectedImage(image.url, image.alt))
+    .map((image) => ({
+      ...image,
+      score: scoreImageCandidate(image, topic, category),
+    }))
+    .filter((image) => image.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, MAX_IMAGE_CANDIDATES)
     .map((image, index) => ({ ...image, index }));
 }
 
-async function downloadPostImages(articles, slug) {
+async function downloadPostImages(articles, slug, topic = "", category = "") {
   const downloaded = [];
-  const candidates = getImageCandidates(articles);
+  const candidates = getImageCandidates(articles, topic, category);
   const seen = new Set();
 
   await mkdir(IMAGES_DIR, { recursive: true });
@@ -596,7 +621,7 @@ async function synthesizePost({ topic, category, articles }) {
   if (!apiKey) {
     throw new Error("OPENAI_API_KEY is required");
   }
-  const imageCandidates = getImageCandidates(articles);
+  const imageCandidates = getImageCandidates(articles, topic, category);
 
   const system = `너는 한국어 개발 블로그 글을 쓰는 기술 에디터다.
 반드시 참고 자료를 직접 복사하지 말고, 내용을 종합해서 새로운 글로 작성한다.
@@ -632,6 +657,7 @@ async function synthesizePost({ topic, category, articles }) {
       imageCandidates: imageCandidates.map((image, index) => ({
         placeholder: `{{IMAGE_${image.index}}}`,
         alt: image.alt || "참고 이미지",
+        imageUrl: image.url,
         sourceTitle: image.sourceTitle,
         sourceUrl: image.sourceUrl,
       })),
@@ -720,7 +746,7 @@ async function generatePost({ category, topic, posts, dryRun }) {
   ];
   const uniqueTags = [...new Set(tags)].slice(0, 6);
   const body = String(generated.markdownBody || "").trim();
-  const downloadedImages = dryRun ? [] : await downloadPostImages(articles, slug);
+  const downloadedImages = dryRun ? [] : await downloadPostImages(articles, slug, topic, category);
   const bodyWithImages = placeImagesInBody(body, downloadedImages);
   const sources = articles
     .map((article) => `- [${article.title.replace(/\]/g, "\\]")}](${article.url})`)

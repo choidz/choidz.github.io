@@ -36,7 +36,7 @@
     "contentPath": "/posts/zabbix-agent-운영-효과적인-서버-모니터링을-위한-가이드.md",
     "generatedBy": "agent",
     "sourceTopic": "Zabbix Agent 운영",
-    "imageCount": 1
+    "imageCount": 0
   },
   {
     "slug": "grafana-대시보드-설계-실무에서의-효과적인-모니터링-전략",
@@ -55,7 +55,7 @@
     "contentPath": "/posts/grafana-대시보드-설계-실무에서의-효과적인-모니터링-전략.md",
     "generatedBy": "agent",
     "sourceTopic": "Grafana 대시보드 설계",
-    "imageCount": 1
+    "imageCount": 0
   },
   {
     "slug": "웹-접근성-기본-점검-누구나-쉽게-접근할-수-있는-웹사이트-만들기",
