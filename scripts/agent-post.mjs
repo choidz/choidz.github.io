@@ -272,7 +272,41 @@ async function httpGetBytes(url) {
   const bytes = Buffer.from(await response.arrayBuffer());
   if (bytes.length < 4096) throw new Error("Image is too small");
   if (bytes.length > 8 * 1024 * 1024) throw new Error("Image is too large");
+  const dimensions = getImageDimensions(bytes, contentType);
+  if (dimensions) {
+    const ratio = dimensions.width / dimensions.height;
+    if (dimensions.width < 320 || dimensions.height < 160) {
+      throw new Error(`Image dimensions are too small: ${dimensions.width}x${dimensions.height}`);
+    }
+    if (ratio > 4 || ratio < 0.2) {
+      throw new Error(`Image aspect ratio looks like an ad banner: ${dimensions.width}x${dimensions.height}`);
+    }
+  }
   return { bytes, contentType };
+}
+
+function getImageDimensions(bytes, contentType) {
+  if (contentType.includes("png") && bytes.length >= 24) {
+    return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
+  }
+
+  if ((contentType.includes("jpeg") || contentType.includes("jpg")) && bytes.length >= 4) {
+    let offset = 2;
+    while (offset + 9 < bytes.length) {
+      if (bytes[offset] !== 0xff) break;
+      const marker = bytes[offset + 1];
+      const length = bytes.readUInt16BE(offset + 2);
+      if (marker >= 0xc0 && marker <= 0xc3) {
+        return {
+          height: bytes.readUInt16BE(offset + 5),
+          width: bytes.readUInt16BE(offset + 7),
+        };
+      }
+      offset += 2 + length;
+    }
+  }
+
+  return null;
 }
 
 function getPostCount() {
@@ -305,16 +339,41 @@ function isRejectedImage(src, alt = "") {
   return REJECT_IMAGE_PATTERN.test(`${src} ${alt}`);
 }
 
+function compactText(text, limit = 500) {
+  return String(text || "").replace(/\s+/g, " ").trim().slice(0, limit);
+}
+
+function imageContextText($, image) {
+  const figure = image.closest("figure");
+  const parent = image.parent();
+  const block = image.closest("p, li, section, article, figure");
+  const context = [
+    image.attr("alt") || "",
+    image.attr("title") || "",
+    figure.find("figcaption").text(),
+    parent.text(),
+    block.prev().text(),
+    block.next().text(),
+  ];
+
+  return compactText(context.join(" "));
+}
+
 function collectImageUrls($, container, baseUrl, sourceUrl) {
   const candidates = [];
   const seen = new Set();
 
-  const add = (src, alt = "") => {
+  const add = (src, alt = "", contextText = "") => {
     const absolute = makeAbsoluteUrl(src, baseUrl);
     if (!absolute || seen.has(absolute)) return;
-    if (isRejectedImage(absolute, alt)) return;
+    if (isRejectedImage(absolute, `${alt} ${contextText}`)) return;
     seen.add(absolute);
-    candidates.push({ url: absolute, alt: alt.trim(), sourceUrl });
+    candidates.push({
+      url: absolute,
+      alt: compactText(alt, 120),
+      contextText,
+      sourceUrl,
+    });
   };
 
   container.find("img").each((_, element) => {
@@ -325,25 +384,32 @@ function collectImageUrls($, container, baseUrl, sourceUrl) {
         image.attr("data-original") ||
         image.attr("src") ||
         "",
-      image.attr("alt") || ""
+      image.attr("alt") || "",
+      imageContextText($, image)
     );
   });
 
-  return candidates.slice(0, 8);
+  return candidates.slice(0, 24);
 }
 
-function scoreImageCandidate(image, topic = "", category = "") {
+function scoreImageCandidate(image, topic = "", category = "", body = "") {
   const topicTokens = similarityTokens(topic, category.replace("#", ""));
-  const imageTokens = similarityTokens(image.alt, image.url);
+  const bodyTokens = similarityTokens(body);
+  const imageTokens = similarityTokens(image.alt, image.contextText, image.url);
   const sourceTokens = similarityTokens(image.sourceTitle);
-  const imageScore = similarityScore(topicTokens, imageTokens).shared * 8;
+  const directScore = similarityScore(topicTokens, imageTokens).shared;
+  const bodyScore = similarityScore(bodyTokens, imageTokens).shared;
   const sourceScore = similarityScore(topicTokens, sourceTokens).shared * 2;
   const hasUsefulAlt = String(image.alt || "").trim().length >= 3;
+  const hasUsefulContext = String(image.contextText || "").trim().length >= 10;
 
-  return imageScore + sourceScore + (hasUsefulAlt ? 2 : -1);
+  if (!hasUsefulAlt && !hasUsefulContext) return 0;
+  if (directScore === 0 && bodyScore < 2) return 0;
+
+  return directScore * 10 + bodyScore * 3 + sourceScore + (hasUsefulAlt ? 2 : 0);
 }
 
-function getImageCandidates(articles, topic = "", category = "") {
+function getImageCandidates(articles, topic = "", category = "", body = "") {
   return articles
     .flatMap((article) =>
       (article.images || []).map((image) => ({
@@ -354,7 +420,7 @@ function getImageCandidates(articles, topic = "", category = "") {
     .filter((image) => !isRejectedImage(image.url, image.alt))
     .map((image) => ({
       ...image,
-      score: scoreImageCandidate(image, topic, category),
+      score: scoreImageCandidate(image, topic, category, body),
     }))
     .filter((image) => image.score > 0)
     .sort((a, b) => b.score - a.score)
@@ -362,9 +428,9 @@ function getImageCandidates(articles, topic = "", category = "") {
     .map((image, index) => ({ ...image, index }));
 }
 
-async function downloadPostImages(articles, slug, topic = "", category = "") {
+async function downloadPostImages(articles, slug, topic = "", category = "", body = "") {
   const downloaded = [];
-  const candidates = getImageCandidates(articles, topic, category);
+  const candidates = getImageCandidates(articles, topic, category, body);
   const seen = new Set();
 
   await mkdir(IMAGES_DIR, { recursive: true });
@@ -746,7 +812,9 @@ async function generatePost({ category, topic, posts, dryRun }) {
   ];
   const uniqueTags = [...new Set(tags)].slice(0, 6);
   const body = String(generated.markdownBody || "").trim();
-  const downloadedImages = dryRun ? [] : await downloadPostImages(articles, slug, topic, category);
+  const downloadedImages = dryRun
+    ? []
+    : await downloadPostImages(articles, slug, topic, category, body);
   const bodyWithImages = placeImagesInBody(body, downloadedImages);
   const sources = articles
     .map((article) => `- [${article.title.replace(/\]/g, "\\]")}](${article.url})`)
