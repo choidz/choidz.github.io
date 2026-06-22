@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-06-22T08:43:44.259Z",
+  "model": "gpt-4o-mini",
+  "usage": {
+    "calls": 2,
+    "promptTokens": 32361,
+    "completionTokens": 1966,
+    "totalTokens": 34327
+  },
+  "dryRun": true,
+  "created": 2,
+  "requested": 2,
+  "attempts": 8
+}
