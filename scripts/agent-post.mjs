@@ -7,6 +7,8 @@ import TurndownService from "turndown";
 const SITE_URL = "https://choidz.github.io";
 const POSTS_DIR = path.join(process.cwd(), "public", "posts");
 const IMAGES_DIR = path.join(process.cwd(), "public", "images", "posts");
+const AGENT_USAGE_DIR = path.join(process.cwd(), "public", "agent-usage");
+const AGENT_USAGE_PATH = path.join(AGENT_USAGE_DIR, "latest.json");
 const MANIFEST_PATH = path.join(POSTS_DIR, "index.json");
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
@@ -60,6 +62,29 @@ function logOpenAiUsageSummary() {
   openAiUsage.summaryLogged = true;
   console.log(
     `[agent] openai usage summary calls=${openAiUsage.calls} prompt=${openAiUsage.promptTokens} completion=${openAiUsage.completionTokens} total=${openAiUsage.totalTokens}`
+  );
+}
+
+async function writeOpenAiUsageReport(extra = {}) {
+  await mkdir(AGENT_USAGE_DIR, { recursive: true });
+  await writeFile(
+    AGENT_USAGE_PATH,
+    `${JSON.stringify(
+      {
+        generatedAt: new Date().toISOString(),
+        model: OPENAI_MODEL,
+        usage: {
+          calls: openAiUsage.calls,
+          promptTokens: openAiUsage.promptTokens,
+          completionTokens: openAiUsage.completionTokens,
+          totalTokens: openAiUsage.totalTokens,
+        },
+        ...extra,
+      },
+      null,
+      2
+    )}\n`,
+    "utf8"
   );
 }
 
@@ -1134,6 +1159,12 @@ async function main() {
   }
 
   logOpenAiUsageSummary();
+  await writeOpenAiUsageReport({
+    dryRun,
+    created,
+    requested: postCount,
+    attempts: maxAttempts,
+  });
 
   if (dryRun) return;
 
@@ -1148,8 +1179,11 @@ async function main() {
   console.log(`[agent] finished created=${created} attempts=${maxAttempts}`);
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
   logOpenAiUsageSummary();
+  await writeOpenAiUsageReport({ error: error.message }).catch((reportError) => {
+    console.warn(`[warn] failed to write openai usage report: ${reportError.message}`);
+  });
   console.error(error);
   process.exitCode = 1;
 });

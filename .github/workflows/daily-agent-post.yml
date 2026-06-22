@@ -65,13 +65,21 @@ jobs:
           AGENT_DRY_RUN: ${{ inputs.dry_run }}
         run: npm run agent:post
 
+      - name: Upload agent usage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-usage
+          path: public/agent-usage/latest.json
+          if-no-files-found: ignore
+
       - name: Commit generated post
         if: ${{ inputs.dry_run != 'true' }}
         id: commit
         run: |
           git config user.name "github-actions-bot"
           git config user.email "support+actions@github.com"
-          git add public/posts public/images/posts
+          git add public/posts public/images/posts public/agent-usage
           if git diff --staged --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No generated post changes"
