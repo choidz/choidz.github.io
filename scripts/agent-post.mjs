@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import TurndownService from "turndown";
@@ -13,6 +13,7 @@ const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const DEFAULT_POST_COUNT = 2;
 const MAX_POST_COUNT = 2;
 const MAX_IMAGES_PER_POST = 2;
+const MIN_IMAGES_PER_POST = 2;
 const MAX_IMAGE_CANDIDATES = 16;
 const MIN_SOURCE_ARTICLES = 3;
 const MIN_BODY_CHARS = 1600;
@@ -482,6 +483,17 @@ async function downloadPostImages(articles, slug, topic = "", category = "", bod
   return downloaded;
 }
 
+async function cleanupDownloadedImages(images) {
+  for (const image of images) {
+    if (!image.path?.startsWith("/images/posts/")) continue;
+    try {
+      await unlink(path.join(IMAGES_DIR, path.basename(image.path)));
+    } catch (error) {
+      console.warn(`[warn] image cleanup failed: ${image.path} (${error.message})`);
+    }
+  }
+}
+
 function imageMarkdown(image, index) {
   const alt = image.alt.replace(/[[\]]/g, "").trim() || `참고 이미지 ${index + 1}`;
   const source = image.sourceUrl ? `\n\n<small>이미지 출처: ${image.sourceUrl}</small>` : "";
@@ -911,6 +923,14 @@ async function generatePost({ category, topic, posts, dryRun }) {
   const downloadedImages = dryRun
     ? []
     : await downloadPostImages(articles, slug, topic, category, body);
+  if (!dryRun && downloadedImages.length < MIN_IMAGES_PER_POST) {
+    await cleanupDownloadedImages(downloadedImages);
+    console.warn(
+      `[warn] skipped generated post because it only has ${downloadedImages.length}/${MIN_IMAGES_PER_POST} images`
+    );
+    return null;
+  }
+
   const bodyWithImages = placeImagesInBody(body, downloadedImages);
   const sources = articles
     .map((article) => `- [${article.title.replace(/\]/g, "\\]")}](${article.url})`)
