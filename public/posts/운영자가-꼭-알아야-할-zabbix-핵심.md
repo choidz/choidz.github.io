@@ -137,7 +137,9 @@
 
 **메모리 사용자 파라미터**
 
+```bash
 UserParameter=memory.usage.percentage, free -m | awk 'NR==2{printf "%.2f", $3*100/$2}'
+```
 
 > zabbix_agentd.conf에 추가 → 에이전트 재시작
 
@@ -178,7 +180,12 @@ UserParameter=memory.usage.percentage, free -m | awk 'NR==2{printf "%.2f", $3*10
 
 **2) SSH 접속 & 기본 준비**
 
-chmod 400 mykey.pem ssh -i mykey.pem ec2-user@<EC2_PUBLIC_IP> sudo dnf update -y sudo dnf install -y vim git wget curl net-tools lsof
+```bash
+chmod 400 mykey.pem
+ssh -i mykey.pem ec2-user@<EC2_PUBLIC_IP>
+sudo dnf update -y
+sudo dnf install -y vim git wget curl net-tools lsof
+```
 
 **기본 경로**
 

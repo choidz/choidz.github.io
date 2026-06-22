@@ -125,33 +125,47 @@ CLI 환경에서 클러스터 상태를 빠르게 확인할 때 유용합니다.
 
 **(1) 클러스터 상태 확인**
 
+```http
 GET _cat/health?v
+```
 
 ---
 
 **(2) 노드 상태 확인**
 
+```http
 GET _cat/nodes?v
+```
 
 - CPU, Heap, Disk, 역할, 마스터 여부 등 확인 가능
 - 특정 컬럼만 보기:
-- GET _cat/nodes?h=ip,heap.percent,disk.avail,role
+
+```http
+GET _cat/nodes?h=ip,heap.percent,disk.avail,role
+```
 
 ---
 
 **(3) 인덱스 상태 확인**
 
+```http
 GET _cat/indices?v
+```
 
 - 인덱스별 상태, 문서 수, 용량 등 확인
 - 예시:
-- GET _cat/indices | grep yellow
+
+```http
+GET _cat/indices | grep yellow
+```
 
 ---
 
 **(4) 샤드 상태 확인**
 
+```http
 GET _cat/shards?v
+```
 
 - 샤드 상태 및 Unassigned shard 확인
 - 노드 이탈 시 NODE_LEFT 발생

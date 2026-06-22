@@ -62,7 +62,9 @@ mysqld --defaults-file="C:\Program Files\MySQL\MySQL Server 5.7\my.ini" --skip-g
 
 정상 로그 예:
 
+```text
 [Warning] option --skip-grant-tables used [Note] mysqld: ready for connections
+```
 
 👉 **이 CMD 창은 닫지 말고 그대로 두세요!**
 
@@ -141,7 +143,7 @@ DBeaver에서 MySQL 연결 시 다음 메시지가 뜨는 경우가 많습니다
 
 압축을 풀면 다음 파일이 있습니다:
 
-mysql-connector-j-XXX.jar
+`mysql-connector-j-XXX.jar`
 
 (여기서 XXX는 버전 번호)
 

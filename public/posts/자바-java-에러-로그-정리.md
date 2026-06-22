@@ -20,7 +20,9 @@ NullPointerException, OutOfMemoryError, SQLException …
 
 **1\. NullPointerException**
 
+```text
 java.lang.NullPointerException: Cannot invoke "String.length()" because "username" is null
+```
 
 **뜻** : null 객체에 메서드를 호출했을 때 발생
 
@@ -32,7 +34,9 @@ java.lang.NullPointerException: Cannot invoke "String.length()" because "usernam
 
 **2\. OutOfMemoryError**
 
+```text
 java.lang.OutOfMemoryError: Java heap space
+```
 
 **뜻** : JVM 힙 메모리 부족
 
@@ -44,7 +48,9 @@ java.lang.OutOfMemoryError: Java heap space
 
 **3\. StackOverflowError**
 
+```text
 java.lang.StackOverflowError
+```
 
 **뜻** : 재귀 호출 무한 반복
 
@@ -56,7 +62,9 @@ java.lang.StackOverflowError
 
 **4\. SQLException**
 
+```text
 java.sql.SQLException: Cannot open connection
+```
 
 **뜻** : DB 연결 실패
 
@@ -68,7 +76,9 @@ java.sql.SQLException: Cannot open connection
 
 **5\. TimeoutException**
 
+```text
 java.util.concurrent.TimeoutException: Request timed out
+```
 
 **뜻** : 응답 지연으로 타임아웃 발생
 
@@ -80,7 +90,9 @@ java.util.concurrent.TimeoutException: Request timed out
 
 **6\. ClassNotFoundException**
 
+```text
 java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+```
 
 **뜻** : 클래스 파일을 찾지 못함 (보통 JAR 누락)
 
@@ -92,7 +104,9 @@ java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
 
 **7\. NoSuchMethodError**
 
+```text
 java.lang.NoSuchMethodError: org.springframework.web.context.ContextLoaderListener.<init>(...)
+```
 
 **뜻** : 라이브러리 버전 차이로 메서드 존재 안 함
 
@@ -104,7 +118,9 @@ java.lang.NoSuchMethodError: org.springframework.web.context.ContextLoaderListen
 
 **8\. NoClassDefFoundError**
 
+```text
 java.lang.NoClassDefFoundError: com/example/MyService
+```
 
 **뜻** : 컴파일 시엔 있었지만 실행 중 JVM이 클래스 로딩 실패
 
@@ -116,7 +132,9 @@ java.lang.NoClassDefFoundError: com/example/MyService
 
 **9\. IllegalArgumentException**
 
+```text
 java.lang.IllegalArgumentException: Parameter 'id' cannot be null
+```
 
 **뜻** : 잘못된 인자 전달
 
@@ -128,7 +146,9 @@ java.lang.IllegalArgumentException: Parameter 'id' cannot be null
 
 **10\. NumberFormatException**
 
+```text
 java.lang.NumberFormatException: For input string: "abc"
+```
 
 **뜻** : 문자열 → 숫자 변환 실패
 
@@ -140,7 +160,9 @@ java.lang.NumberFormatException: For input string: "abc"
 
 **11\. IOException**
 
+```text
 java.io.IOException: Connection reset by peer
+```
 
 **뜻** : 파일 or 네트워크 입출력 중 예외 발생
 
@@ -152,7 +174,9 @@ java.io.IOException: Connection reset by peer
 
 **12\. FileNotFoundException**
 
+```text
 java.io.FileNotFoundException: /data/config/app.properties (No such file or directory)
+```
 
 **뜻** : 지정한 파일이 존재하지 않음
 
@@ -164,7 +188,9 @@ java.io.FileNotFoundException: /data/config/app.properties (No such file or dire
 
 **13\. ArithmeticException**
 
+```text
 java.lang.ArithmeticException: / by zero
+```
 
 **뜻** : 수학 연산 오류 (0으로 나눔 등)
 
@@ -176,7 +202,9 @@ java.lang.ArithmeticException: / by zero
 
 **14\. ArrayIndexOutOfBoundsException**
 
+```text
 java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5
+```
 
 **뜻** : 배열 인덱스 초과
 
@@ -188,7 +216,9 @@ java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5
 
 **15\. ConcurrentModificationException**
 
+```text
 java.util.ConcurrentModificationException
+```
 
 **뜻** : 컬렉션 순회 중 변경 발생
 
@@ -200,7 +230,9 @@ java.util.ConcurrentModificationException
 
 **16\. UnsupportedOperationException**
 
+```text
 java.lang.UnsupportedOperationException
+```
 
 **뜻** : 불변 컬렉션에 수정 연산 수행
 
@@ -212,7 +244,9 @@ java.lang.UnsupportedOperationException
 
 **17\. InvocationTargetException**
 
+```text
 java.lang.reflect.InvocationTargetException
+```
 
 **뜻** : 리플렉션으로 호출된 메서드 내부에서 예외 발생
 
@@ -224,7 +258,9 @@ java.lang.reflect.InvocationTargetException
 
 **18\. IllegalStateException**
 
+```text
 java.lang.IllegalStateException: Cannot call sendRedirect() after response has been committed
+```
 
 **뜻** : 잘못된 시점에 메서드 호출
 
@@ -238,21 +274,21 @@ java.lang.IllegalStateException: Cannot call sendRedirect() after response has b
 
 **1단계: 서버 레벨 점검**
 
-- CPU / 메모리 → top, free -m
-- 디스크 용량 → df -h
-- 네트워크 → ping, telnet
-- 시스템 로그 → /var/log/messages, /var/log/syslog
+- CPU / 메모리 → `top`, `free -m`
+- 디스크 용량 → `df -h`
+- 네트워크 → `ping`, `telnet`
+- 시스템 로그 → `/var/log/messages`, `/var/log/syslog`
 
 **2단계: 애플리케이션 레벨 점검**
 
-- 프로세스 상태 → ps -ef | grep java
-- 포트 점검 → netstat -tulnp | grep 8080
-- 로그 분석 → grep ERROR app.log | tail -n 50
+- 프로세스 상태 → `ps -ef | grep java`
+- 포트 점검 → `netstat -tulnp | grep 8080`
+- 로그 분석 → `grep ERROR app.log | tail -n 50`
 - 패턴 탐색 → 특정 시간대 집중 발생 여부
 
 **3단계: 코드 레벨 점검**
 
-- 스택트레이스 분석 → at com.myapp.service.UserService.java:45
+- 스택트레이스 분석 → `at com.myapp.service.UserService.java:45`
 - Request ID 기반으로 같은 트랜잭션 묶기
 - 오류 유형별로 근거 정리 후 개발자 전달
 
@@ -269,7 +305,9 @@ java.lang.IllegalStateException: Cannot call sendRedirect() after response has b
 1. 서버 점검 → 정상
 2. 로그 확인 →
 
+```text
 ERROR ... SQLException: Cannot open connection
+```
 
 1. DB 포트 접근 불가 확인
 

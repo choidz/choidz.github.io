@@ -20,59 +20,80 @@ CAT API는 클러스터의 상태를 **CLI에서 빠르고 간단하게 확인**
 
 **✅ 1️⃣ 클러스터 상태 확인**
 
+```http
 GET _cat/health?v
+```
 
 **출력 예시**
 
+```text
 epoch timestamp cluster status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent 1728493920 12:12:01 my-cluster green 3 3 45 22 0 0 0 0 - 100.0%
+```
 
 **설명**
 
 - 클러스터 전체의 상태를 확인하는 기본 명령어
-- status 컬럼 중요:
-- 🟢 green / 🟡 yellow / 🔴 red
+- `status` 컬럼이 중요합니다. 상태는 `green`, `yellow`, `red`로 표시됩니다.
 
 ---
 
 **✅ 2️⃣ 노드별 상태 확인**
 
+```http
 GET _cat/nodes?v
+```
 
 **출력 예시**
 
+```text
 ip heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name 192.168.20.5 45 70 8 0.14 0.11 0.12 mdi * es-master01
+```
 
 **설명**
 
 - 노드별 **CPU, 메모리, 디스크, 역할** 을 한눈에 파악
 - 자주 쓰는 커스텀 예시 👇
-- GET _cat/nodes?h=ip,name,heap.percent,ram.percent,disk.avail,master
+
+```http
+GET _cat/nodes?h=ip,name,heap.percent,ram.percent,disk.avail,master
+```
 
 ---
 
 **✅ 3️⃣ 인덱스 목록 및 상태 확인**
 
+```http
 GET _cat/indices?v
+```
 
 **출력 예시**
 
+```text
 health status index uuid pri rep docs.count store.size pri.store.size green open ipack_db 9xkfJ6s1RfKLDHsgvG32kQ 5 1 250000 1.2gb 600mb yellow open ipack_log_2025 JH8dksKxKf7kLHDjU90pAq 1 1 150000 850.3mb 850mb
+```
 
 **설명**
 
 - 인덱스별 문서 수, 용량, 상태, 샤드 개수를 확인
 - 특정 인덱스만 확인할 때:
-- GET _cat/indices/ipack_*
+
+```http
+GET _cat/indices/ipack_*
+```
 
 ---
 
 **✅ 4️⃣ 샤드 상태 점검**
 
+```http
 GET _cat/shards?v
+```
 
 **출력 예시**
 
+```text
 index shard prirep state docs store ip node ipack_db 0 p STARTED 5000 60mb 192.168.20.5 es-node01 ipack_db 0 r STARTED 5000 60mb 192.168.20.6 es-node02
+```
 
 **설명**
 
@@ -83,11 +104,15 @@ index shard prirep state docs store ip node ipack_db 0 p STARTED 5000 60mb 192.1
 
 **✅ 5️⃣ 클러스터 노드 역할 보기**
 
+```http
 GET _cat/nodes?h=name,ip,node.role,master
+```
 
 **출력 예시**
 
+```text
 name ip node.role master es-master01 192.168.20.5 m * es-data01 192.168.20.6 di - es-ingest01 192.168.20.7 i -
+```
 
 **설명**
 
@@ -97,7 +122,9 @@ name ip node.role master es-master01 192.168.20.5 m * es-data01 192.168.20.6 di 
 
 **✅ 6️⃣ 인덱스 크기 TOP 5**
 
+```http
 GET _cat/indices?v | sort -k8 -hr | head -n 5
+```
 
 **설명**
 
@@ -108,7 +135,9 @@ GET _cat/indices?v | sort -k8 -hr | head -n 5
 
 **✅ 7️⃣ 문서 수가 많은 인덱스 TOP 5**
 
+```http
 GET _cat/indices?v | sort -k7 -nr | head -n 5
+```
 
 **설명**
 
@@ -119,11 +148,15 @@ GET _cat/indices?v | sort -k7 -nr | head -n 5
 
 **✅ 8️⃣ Unassigned 샤드 확인**
 
+```http
 GET _cat/shards | grep UNASSIGNED
+```
 
 **출력 예시**
 
+```text
 ipack_log_2025 0 p UNASSIGNED
+```
 
 **설명**
 
@@ -134,11 +167,15 @@ ipack_log_2025 0 p UNASSIGNED
 
 **✅ 9️⃣ 스냅샷 저장소 목록 확인**
 
+```http
 GET _cat/repositories?v
+```
 
 **출력 예시**
 
+```text
 id type settings backup_s3 s3 { "bucket": "es-backup" } fs_backup fs { "location": "/mnt/backup" }
+```
 
 **설명**
 
@@ -148,11 +185,15 @@ id type settings backup_s3 s3 { "bucket": "es-backup" } fs_backup fs { "location
 
 **✅ 🔟 클러스터 마스터 노드 확인**
 
+```http
 GET _cat/master?v
+```
 
 **출력 예시**
 
+```text
 id host ip node kD8HdksJ3T6hKD1jS9a es-master01 192.168.20.5 es-master01
+```
 
 **설명**
 
