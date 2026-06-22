@@ -1276,13 +1276,13 @@ img {
 .prose--focus ul,
 .prose--focus ol {
   margin-top: 22px;
-  padding-left: 0;
-  list-style-position: inside;
+  padding-left: 28px;
+  list-style-position: outside;
 }
 
 .prose--focus li {
   margin-top: 10px;
-  padding-left: 4px;
+  padding-left: 2px;
   color: #303846;
 }
 

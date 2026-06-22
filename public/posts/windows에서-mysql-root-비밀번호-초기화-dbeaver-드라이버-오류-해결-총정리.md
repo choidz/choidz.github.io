@@ -26,7 +26,7 @@ MySQL을 사용하다 보면 가장 흔하게 발생하는 두 가지 문제가 
 
 ```
 net stop MySQL57
-``` 
+```
 
 ※ 서비스 이름이 다른 경우
 
@@ -38,7 +38,7 @@ net stop MySQL57
 
 ```
 taskkill /F /IM mysqld.exe
-``` 
+```
 
 mysqld가 살아 있으면 my.ini 로딩 오류가 발생할 수 있습니다.
 
@@ -58,11 +58,11 @@ cd "C:\Program Files\MySQL\MySQL Server 5.7\bin"
 
 ```
 mysqld --defaults-file="C:\Program Files\MySQL\MySQL Server 5.7\my.ini" --skip-grant-tables --console
-``` 
+```
 
 정상 로그 예:
 
-[Warning] option --skip-grant-tables used [Note] mysqld: ready for connections 
+[Warning] option --skip-grant-tables used [Note] mysqld: ready for connections
 
 👉 **이 CMD 창은 닫지 말고 그대로 두세요!**
 
@@ -75,7 +75,7 @@ mysqld --defaults-file="C:\Program Files\MySQL\MySQL Server 5.7\my.ini" --skip-g
 ```
 cd "C:\Program Files\MySQL\MySQL Server 5.7\bin"
 mysql -u root
-``` 
+```
 
 skip-grant 모드라 비밀번호 없이 바로 접속됩니다.
 
@@ -109,7 +109,7 @@ net start MySQL57
 
 ```
 mysql -u root -p
-``` 
+```
 
 비밀번호 입력 후 정상 접속되면 **성공! 🎉**
 
@@ -141,7 +141,7 @@ DBeaver에서 MySQL 연결 시 다음 메시지가 뜨는 경우가 많습니다
 
 압축을 풀면 다음 파일이 있습니다:
 
-mysql-connector-j-XXX.jar 
+mysql-connector-j-XXX.jar
 
 (여기서 XXX는 버전 번호)
 
@@ -149,17 +149,12 @@ mysql-connector-j-XXX.jar
 
 **✅ 2) DBeaver에 드라이버 수동 등록**
 
-  1. DBeaver 실행
-
-  2. MySQL 연결 화면에서 **Edit Driver Settings** 클릭
-
-  3. **Libraries 탭** 선택
-
-  4. **Add File** 클릭
-
-  5. 아까 다운로드한 mysql-connector-j-XXX.jar 추가
-
-  6. 저장 후 다시 접속 시도
+1. DBeaver 실행
+2. MySQL 연결 화면에서 **Edit Driver Settings** 클릭
+3. **Libraries 탭** 선택
+4. **Add File** 클릭
+5. 아까 다운로드한 mysql-connector-j-XXX.jar 추가
+6. 저장 후 다시 접속 시도
 
 👉 자동 다운로드 실패 문제 100% 해결!
 

@@ -30,7 +30,7 @@ RabbitMQ 장애를 여러 번 겪다 보면 공통점이 보입니다. 대부분
 
 **확인 방법**
 
-ps -ef | grep java systemctl status consumer-service 
+ps -ef | grep java systemctl status consumer-service
 
 **대응 방법**
 

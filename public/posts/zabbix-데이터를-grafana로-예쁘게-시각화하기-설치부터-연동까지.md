@@ -14,15 +14,11 @@
 
 **🎯 Grafana의 주요 특징:**
 
-  * **다양한 시각화 옵션****\- Time chart, Table, Gauge Chart, History Table 등 원하는 형태로 데이터를 표현할 수 있습니다.**
-
-  * **동적 대시보드****\- 한번 만든 위젯을 재사용하거나 템플릿으로 저장해 여러 대시보드에서 활용 가능합니다.**
-
-  * **강력한 쿼리 기능****\- ad-hoc 쿼리와 dynamic drilldown으로 수집된 데이터를 깊이 있게 분석할 수 있습니다.**
-
-  * **알림 기능****\- 중요 메트릭에 대해 시각적 알람을 설정하고, Slack, PagerDuty 등으로 자동 알림을 받을 수 있습니다.**
-
-  * **다중 데이터 소스 지원****\- 여러 데이터 소스의 데이터를 합산하거나 비교 분석할 수 있습니다.**
+- **다양한 시각화 옵션****\- Time chart, Table, Gauge Chart, History Table 등 원하는 형태로 데이터를 표현할 수 있습니다.**
+- **동적 대시보드****\- 한번 만든 위젯을 재사용하거나 템플릿으로 저장해 여러 대시보드에서 활용 가능합니다.**
+- **강력한 쿼리 기능****\- ad-hoc 쿼리와 dynamic drilldown으로 수집된 데이터를 깊이 있게 분석할 수 있습니다.**
+- **알림 기능****\- 중요 메트릭에 대해 시각적 알람을 설정하고, Slack, PagerDuty 등으로 자동 알림을 받을 수 있습니다.**
+- **다중 데이터 소스 지원****\- 여러 데이터 소스의 데이터를 합산하거나 비교 분석할 수 있습니다.**
 
 **이제 실제로 Grafana를 설치하고 Zabbix와 연동해보겠습니다.**
 
@@ -42,11 +38,9 @@
 
 **각 패키지의 역할을 간단히 설명하자면:**
 
-  * **software-properties-common****\- 소프트웨어 저장소를 쉽게 관리해주는 도구입니다. Grafana의 공식 APT 저장소를 시스템에 추가할 때 필요합니다.**
-
-  * **curl****\- 인터넷에서 파일을 다운로드할 때 사용합니다. Grafana의 GPG 키를 받아올 때 필요하죠.**
-
-  * **gnupg2****\- GPG 키를 관리하고 검증하는 도구예요. 다운로드한 패키지가 정말 Grafana 공식에서 만든 게 맞는지 확인하는 데 사용됩니다.**
+- **software-properties-common****\- 소프트웨어 저장소를 쉽게 관리해주는 도구입니다. Grafana의 공식 APT 저장소를 시스템에 추가할 때 필요합니다.**
+- **curl****\- 인터넷에서 파일을 다운로드할 때 사용합니다. Grafana의 GPG 키를 받아올 때 필요하죠.**
+- **gnupg2****\- GPG 키를 관리하고 검증하는 도구예요. 다운로드한 패키지가 정말 Grafana 공식에서 만든 게 맞는지 확인하는 데 사용됩니다.**
 
 **3단계: GPG 키 추가 및 저장소 등록**
 
@@ -70,9 +64,8 @@
 
 **처음 접속하면 로그인 화면이 나타납니다. 기본 계정 정보는 다음과 같습니다.**
 
-  * **ID:****admin**
-
-  * **패스워드:****admin**
+- **ID:****admin**
+- **패스워드:****admin**
 
 **Grafana 로그인 화면**
 
@@ -90,13 +83,10 @@
 
 **플러그인 활성화 단계:**
 
-  1. **Grafana 웹 인터페이스에서 좌측 메뉴의****Administration**
-
-  2. **Plugins and data****→****Plugins**
-
-  3. **검색창에 "zabbix"를 입력해서 Zabbix 플러그인을 찾습니다.**
-
-  4. **플러그인을 클릭하고****Enable****버튼을 눌러 활성화합니다.**
+1. **Grafana 웹 인터페이스에서 좌측 메뉴의****Administration**
+2. **Plugins and data****→****Plugins**
+3. **검색창에 "zabbix"를 입력해서 Zabbix 플러그인을 찾습니다.**
+4. **플러그인을 클릭하고****Enable****버튼을 눌러 활성화합니다.**
 
 ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjY4/MDAxNzYzOTk4MDU5NTk5.G-9csWJ1FZPrNx-wYGshYyRrfNYpBgAqO4T3_CkmEfYg.ivrdS2TL3orLQXjhBC3zt5p-v2qCRsy_qNDp8UqlOXcg.PNG/img_001_7c7e813d.png?type=w800)
 
@@ -112,13 +102,10 @@
 
 **데이터 소스 추가 절차:**
 
-  1. **Grafana 웹 인터페이스 좌측 메뉴에서****Connections**
-
-  2. **Data sources**
-
-  3. **Add data source****버튼을 클릭합니다.**
-
-  4. **데이터 소스 목록에서 "zabbix"를 검색해서 선택합니다.**
+1. **Grafana 웹 인터페이스 좌측 메뉴에서****Connections**
+2. **Data sources**
+3. **Add data source****버튼을 클릭합니다.**
+4. **데이터 소스 목록에서 "zabbix"를 검색해서 선택합니다.**
 
 ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfMjA1/MDAxNzYzOTk4MDY0MTU4.8QilyvyHMHRIk86m1a8FXlHLFa4PoUYqSuFJZ25ip_4g.vHbzdnJ-id4Ja5bPRyVzRGkqq7-hXBlDKEOidBkkDOMg.PNG/img_002_f3e00d4c.png?type=w800)
 
@@ -132,11 +119,9 @@
 
 **필수 입력 항목:**
 
-  * **URL****\- Zabbix 서버의 웹 인터페이스 주소 (예: http://zabbix-server-ip/zabbix)**
-
-  * **Username****\- Zabbix 관리자 계정 (기본값: Admin)**
-
-  * **Password****\- Zabbix 관리자 비밀번호**
+- **URL****\- Zabbix 서버의 웹 인터페이스 주소 (예: http://zabbix-server-ip/zabbix)**
+- **Username****\- Zabbix 관리자 계정 (기본값: Admin)**
+- **Password****\- Zabbix 관리자 비밀번호**
 
 **모든 정보를 입력한 후****Save & test****버튼을 클릭합니다. 연결이 성공하면 "Data source is working" 메시지가 표시됩니다.**
 
@@ -156,17 +141,12 @@
 
 **Grafana 커뮤니티에서는 다양한 대시보드 템플릿을 무료로 제공합니다. 이를 활용하면 시간을 절약할 수 있어요.**
 
-  1. **Grafana Dashboards**
-
-  2. **검색창에 "zabbix"를 입력해서 원하는 대시보드를 찾습니다.**
-
-  3. **마음에 드는 대시보드를 선택하고****Dashboard ID****를 복사합니다.**
-
-  4. **Grafana 웹 인터페이스에서****Dashboards****→****New****→****Import**
-
-  5. **복사한 Dashboard ID를 입력하고****Load**
-
-  6. **데이터 소스를 선택하고****Import**
+1. **Grafana Dashboards**
+2. **검색창에 "zabbix"를 입력해서 원하는 대시보드를 찾습니다.**
+3. **마음에 드는 대시보드를 선택하고****Dashboard ID****를 복사합니다.**
+4. **Grafana 웹 인터페이스에서****Dashboards****→****New****→****Import**
+5. **복사한 Dashboard ID를 입력하고****Load**
+6. **데이터 소스를 선택하고****Import**
 
 ![](https://mblogthumb-phinf.pstatic.net/MjAyNTExMjVfNTcg/MDAxNzYzOTk4MDc3MTg4.ZwR2mmAGUHLG6XaD7RSP94zqknDTxx6XhTY6PPuAtWcg.c9pbenVuWcaBkz4n2rIcYHurDqpmKZI-zYj4lcN6s5wg.PNG/img_005_14fc00bd.png?type=w800)
 

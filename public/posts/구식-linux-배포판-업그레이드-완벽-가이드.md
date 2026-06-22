@@ -20,21 +20,14 @@
 
 백업 대상은 다음을 포함해야 합니다:
 
-  * /home : 사용자 파일 및 개인 설정
-
-  * /etc : 서비스·네트워크·시스템 설정
-
-  * /var/www : 웹 서비스 파일
-
-  * DB 데이터
-
-  * MySQL/MariaDB → mysqldump
-
-  * PostgreSQL → pg_dumpall
-
-  * /usr/local, /opt : 수동 설치 프로그램 및 커스텀 스크립트
-
-  * 설치된 패키지 목록
+- /home : 사용자 파일 및 개인 설정
+- /etc : 서비스·네트워크·시스템 설정
+- /var/www : 웹 서비스 파일
+- DB 데이터
+- MySQL/MariaDB → mysqldump
+- PostgreSQL → pg_dumpall
+- /usr/local, /opt : 수동 설치 프로그램 및 커스텀 스크립트
+- 설치된 패키지 목록
 
 **✔ 2) 디스크 용량 확보**
 
@@ -58,13 +51,13 @@ sudo rsync -aAXv --delete \
   /home/ /mnt/backup/home/
 
 sudo rsync -aAXv /etc/ /mnt/backup/etc/
-``` 
+```
 
 **📌 MySQL/MariaDB 전체 백업**
 
 ```
 mysqldump -u root -p --all-databases > /mnt/backup/all-databases.sql
-``` 
+```
 
 **📌 설치된 패키지 목록 저장**
 
@@ -72,7 +65,7 @@ Ubuntu/Debian:
 
 ```
 dpkg --get-selections > package-list.txt
-``` 
+```
 
 RHEL/Fedora 계열:
 
@@ -97,13 +90,13 @@ sudo apt update
 sudo apt upgrade
 sudo apt full-upgrade
 sudo apt autoremove
-``` 
+```
 
 **✔ 업그레이드 실행**
 
 ```
 sudo do-release-upgrade
-``` 
+```
 
 중간에 패키지를 유지할지/교체할지 물어보는 단계가 있으며, 완료 후 재부팅하면 종료됩니다.
 
@@ -120,7 +113,7 @@ sudo apt update
 sudo apt upgrade
 sudo apt --without-new-packages upgrade
 sudo apt full-upgrade
-``` 
+```
 
 **✔ 2단계: APT 소스 수정**
 
@@ -129,7 +122,7 @@ sudo apt full-upgrade
 ```
 sudo nano /etc/apt/sources.list
 sudo nano /etc/apt/sources.list.d/*.list
-``` 
+```
 
 예: buster → bullseye, bullseye → bookworm
 
@@ -137,7 +130,7 @@ Bookworm 이후는 non-free-firmware 추가 필요:
 
 ```
 deb https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
-``` 
+```
 
 **✔ 3단계: 패키지 새 버전 업데이트**
 
@@ -146,7 +139,7 @@ sudo apt clean
 sudo apt update
 sudo apt upgrade
 sudo apt full-upgrade
-``` 
+```
 
 **✔ 4단계: 정리 & 재부팅**
 
@@ -166,7 +159,7 @@ Fedora는 DNF 기반의 매우 깔끔한 업그레이드 시스템을 갖추고 
 ```
 sudo dnf upgrade --refresh
 sudo reboot
-``` 
+```
 
 **✔ 2) 새 릴리스 패키지 다운로드**
 
@@ -174,13 +167,13 @@ sudo reboot
 
 ```
 sudo dnf system-upgrade download --releasever=40
-``` 
+```
 
 **✔ 3) 업그레이드 시작**
 
 ```
 sudo dnf system-upgrade reboot
-``` 
+```
 
 **✔ SELinux 레이블 재적용 필요할 수 있음**
 
@@ -211,15 +204,11 @@ ELevate(Leapp 기반)라는 업그레이드 도구는 존재하나
 
 **절차 요약:**
 
-  1. 전체 데이터 백업
-
-  2. 새 버전 OS 클린 설치
-
-  3. 사용자 계정/서비스 재생성
-
-  4. 웹 데이터·DB 복원
-
-  5. DNS/서비스 설정 다시 반영
+1. 전체 데이터 백업
+2. 새 버전 OS 클린 설치
+3. 사용자 계정/서비스 재생성
+4. 웹 데이터·DB 복원
+5. DNS/서비스 설정 다시 반영
 
 ---
 
@@ -229,12 +218,9 @@ ELevate(Leapp 기반)라는 업그레이드 도구는 존재하나
 
 **충분한 사전 백업과 계획만 있으면 안전하게 진행** 할 수 있습니다.
 
-  * Ubuntu → do-release-upgrade
-
-  * Debian → sources.list 변경 후 full-upgrade
-
-  * Fedora → system-upgrade
-
-  * RHEL 계열 → 재설치가 가장 확실
+- Ubuntu → do-release-upgrade
+- Debian → sources.list 변경 후 full-upgrade
+- Fedora → system-upgrade
+- RHEL 계열 → 재설치가 가장 확실
 
 [원문 보기](https://blog.naver.com/choidz_/224077763587?fromRss=true&trackingCode=rss)

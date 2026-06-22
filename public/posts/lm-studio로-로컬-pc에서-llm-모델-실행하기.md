@@ -62,19 +62,13 @@ LM Studio의 첫 화면에는 Google 검색 바처럼 긴 검색창이 있습니
 
 'Select a model' 버튼을 클릭하여 다운로드 완료한 모델들을 확인하고 선택할 수 있습니다. 모델 로드 후 상태창에서 다양한 성능 지표를 확인할 수 있습니다:
 
-  * **time to first token** : 첫 번째 토큰 생성까지 걸린 시간
-
-  * **gen time** : 전체 텍스트 생성에 걸린 총시간
-
-  * **speed** : 초당 생성된 토큰의 수
-
-  * **stop reason** : 텍스트 생성이 멈춘 이유
-
-  * **gpu layers** : GPU에서 처리된 모델 레이어의 수
-
-  * **cpu threads** : 사용된 CPU 스레드의 수
-
-  * **token count** : 생성된 토큰 수와 최대 허용 토큰 수의 비율
+- **time to first token** : 첫 번째 토큰 생성까지 걸린 시간
+- **gen time** : 전체 텍스트 생성에 걸린 총시간
+- **speed** : 초당 생성된 토큰의 수
+- **stop reason** : 텍스트 생성이 멈춘 이유
+- **gpu layers** : GPU에서 처리된 모델 레이어의 수
+- **cpu threads** : 사용된 CPU 스레드의 수
+- **token count** : 생성된 토큰 수와 최대 허용 토큰 수의 비율
 
 오른쪽 상단의 톱니바퀴 설정 아이콘을 클릭하면 System Prompt와 Temperature 등 모델을 미세조정할 수 있습니다.
 

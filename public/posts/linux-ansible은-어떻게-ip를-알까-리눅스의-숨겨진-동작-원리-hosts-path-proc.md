@@ -7,9 +7,9 @@
 **​**
 
 > **나는 Ansible 인벤토리에 node1이라고만 적고**
-> 
+>
 > **IP를 적은 적이 없는데,**
-> 
+>
 > **도대체 어떻게 접속이 되는 거지?**
 
 **​**
@@ -36,13 +36,12 @@
 
 ```
 # /etc/nsswitch.conf 내용 중 hosts: files dns
-``` 
+```
 
 **이 한 줄이 핵심입니다.**
 
-  * **files:****/etc/hosts 파일을 제일 먼저 봐라!**
-
-  * **dns:****거기에 없으면 그때 DNS 서버에 물어봐라!**
+- **files:****/etc/hosts 파일을 제일 먼저 봐라!**
+- **dns:****거기에 없으면 그때 DNS 서버에 물어봐라!**
 
 **​**
 
@@ -62,17 +61,15 @@
 
 ```
 zabbix_agentd: command not found
-``` 
+```
 
 **분명히 설치했는데 왜 없다고 할까요?**
 
 **리눅스는 우리가 명령어를 칠 때, 미리 약속된 폴더들(PATH)만 뒤져봅니다.**
 
-  * **/usr/bin**
-
-  * **/usr/local/bin**
-
-  * **... 등등**
+- **/usr/bin**
+- **/usr/local/bin**
+- **... 등등**
 
 **제가 설치한 경로는 /home/std11/apps/zabbix/sbin 이었으니, 리눅스는 당연히 모르는 겁니다. 그래서****./zabbix_agentd****처럼 "현재 위치에 있다"고 콕 집어줘야 실행이 됩니다.**
 
@@ -98,9 +95,8 @@ zabbix_agentd: command not found
 
 **커널(Kernel)이 메모리에 있는 시스템 정보를****마치 파일인 것처럼(Illusion)****보여주는 겁니다.**
 
-  * **/proc/meminfo: 메모리 정보**
-
-  * **/proc/cpuinfo: CPU 정보**
+- **/proc/meminfo: 메모리 정보**
+- **/proc/cpuinfo: CPU 정보**
 
 **​**
 
@@ -118,7 +114,7 @@ zabbix_agentd: command not found
 
 ```
 #!/bin/bash echo "Hello"
-``` 
+```
 
 **Ansible Playbook을 짤 때 스크립트 파일 확장자가 없어도, 첫 줄에 #!/bin/bash나 #!/usr/bin/python만 있으면 리눅스가 알아서 해당 언어로 실행해 줍니다.**
 
@@ -150,13 +146,10 @@ zabbix_agentd: command not found
 
 **​**
 
-  * **/etc/hosts & nsswitch:****IP 없이 이름으로 찾아가는 네비게이션**
-
-  * **PATH:****명령어의 위치를 찾는 지도**
-
-  * **/proc:****시스템 정보를 파일처럼 보여주는 창문**
-
-  * **Shared Lib:****실행할 때 코드를 빌려오는 도서관**
+- **/etc/hosts & nsswitch:****IP 없이 이름으로 찾아가는 네비게이션**
+- **PATH:****명령어의 위치를 찾는 지도**
+- **/proc:****시스템 정보를 파일처럼 보여주는 창문**
+- **Shared Lib:****실행할 때 코드를 빌려오는 도서관**
 
 **​**
 

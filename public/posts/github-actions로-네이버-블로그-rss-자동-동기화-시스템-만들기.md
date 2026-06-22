@@ -18,9 +18,8 @@
 
 이렇게 하면
 
-  * 네이버 블로그의 **유입(SEO, 구독자)** 도 유지하면서
-
-  * GitHub 블로그의 **깔끔한 디자인 + 버전 관리 + 정적 배포** 기능을 같이 쓸 수 있습니다.
+- 네이버 블로그의 **유입(SEO, 구독자)** 도 유지하면서
+- GitHub 블로그의 **깔끔한 디자인 + 버전 관리 + 정적 배포** 기능을 같이 쓸 수 있습니다.
 
 ---
 
@@ -90,39 +89,29 @@ choidz.github.io 자동 배포 🎉
 
 **✅ 장점 요약**
 
-  * **하나의 글로 두 블로그를 동시에 운영** → 네이버에 글만 올려도 GitHub 블로그 자동 반영
-
-  * **버전 관리 및 백업 자동화** → 모든 글이 Markdown 파일로 저장되고 Git 기록에 남음
-
-  * **자동 배포로 관리 부담 덜기** → 별도의 명령 없이 GitHub Actions가 자동으로 사이트 업데이트
-
-  * **두 플랫폼의 장점 모두 활용** → 네이버 유입 + 깔끔한 GitHub 블로그 UI
+- **하나의 글로 두 블로그를 동시에 운영** → 네이버에 글만 올려도 GitHub 블로그 자동 반영
+- **버전 관리 및 백업 자동화** → 모든 글이 Markdown 파일로 저장되고 Git 기록에 남음
+- **자동 배포로 관리 부담 덜기** → 별도의 명령 없이 GitHub Actions가 자동으로 사이트 업데이트
+- **두 플랫폼의 장점 모두 활용** → 네이버 유입 + 깔끔한 GitHub 블로그 UI
 
 ---
 
 **🧭 수동 실행 방법**
 
-  1. GitHub 저장소 → **Actions** → “Auto Post from Naver Blog” 선택
-
-  2. **Run workflow** 클릭
-
-  3. 성공 시 master와 gh-pages가 최신 글로 동기화
-
-  4. 실패 시 Python 단계(Run auto_post.py)나 Git Sync 단계 로그 확인
+1. GitHub 저장소 → **Actions** → “Auto Post from Naver Blog” 선택
+2. **Run workflow** 클릭
+3. 성공 시 master와 gh-pages가 최신 글로 동기화
+4. 실패 시 Python 단계(Run auto_post.py)나 Git Sync 단계 로그 확인
 
 ---
 
 **📘 실제 동작 예시**
 
-  1. 네이버 블로그에 새 글을 작성하면 RSS에 반영됨
-
-  2. GitHub Actions가 새 글 감지 → Markdown 파일 생성
-
-  3. auto-post 브랜치에 커밋 후 master로 posts 폴더만 동기화
-
-  4. npm run deploy 실행 → 정적 사이트 자동 업데이트
-
-  5. **choidz.github.io** 에 자동 반영 🎉
+1. 네이버 블로그에 새 글을 작성하면 RSS에 반영됨
+2. GitHub Actions가 새 글 감지 → Markdown 파일 생성
+3. auto-post 브랜치에 커밋 후 master로 posts 폴더만 동기화
+4. npm run deploy 실행 → 정적 사이트 자동 업데이트
+5. **choidz.github.io** 에 자동 반영 🎉
 
 ---
 
@@ -131,7 +120,7 @@ choidz.github.io 자동 배포 🎉
 이 시스템을 쓰면
 
 > **“하나의 콘텐츠 = 두 개의 플랫폼”**
-> 
+>
 > 을 완성할 수 있습니다.
 
 👉 네이버에서는 독자와 소통하고,

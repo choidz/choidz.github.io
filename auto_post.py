@@ -473,7 +473,43 @@ def html_to_markdown(html: str, tables: list[str], code_blocks: list[str]) -> st
 
     # ✅ 여분의 개행 정리 (4줄 이상만 압축)
     md_text = re.sub(r"\n{4,}", "\n\n", md_text).strip()
+    md_text = normalize_markdown_lists(md_text)
     return md_text
+
+
+def normalize_markdown_lists(markdown: str) -> str:
+    lines = markdown.splitlines()
+    normalized = []
+    in_fence = False
+
+    def is_fence(line: str) -> bool:
+        return bool(re.match(r"^\s*(```|~~~)", line))
+
+    def is_list_item(line: str) -> bool:
+        return bool(re.match(r"^([-*+]\s+|\d+\.\s+)", line))
+
+    for index, original_line in enumerate(lines):
+        line = re.sub(r"[ \t]+$", "", original_line)
+        if is_fence(line):
+            in_fence = not in_fence
+
+        if not in_fence:
+            next_line = lines[index + 1] if index + 1 < len(lines) else ""
+            previous = normalized[-1] if normalized else ""
+            line = re.sub(r"^ {1,3}[*+]\s+", "- ", line)
+            line = re.sub(r"^ {1,3}-\s+", "- ", line)
+            line = re.sub(r"^ {1,3}(\d+\.)\s+", r"\1 ", line)
+
+            if (
+                line.strip() == ""
+                and is_list_item(previous)
+                and re.match(r"^ {0,3}([-*+]\s+|\d+\.\s+)", next_line)
+            ):
+                continue
+
+        normalized.append(line)
+
+    return "\n".join(normalized).strip()
 
 
 # ✅ RSS 순회

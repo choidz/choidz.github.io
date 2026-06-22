@@ -2,7 +2,7 @@
 
 ---
 
-RabbitMQ를 처음 접하면 가장 헷갈리는 게 바로 **용어** 입니다. Queue, Exchange, Consumer, ACK 같은 단어들이 한 번에 쏟아지다 보니 
+RabbitMQ를 처음 접하면 가장 헷갈리는 게 바로 **용어** 입니다. Queue, Exchange, Consumer, ACK 같은 단어들이 한 번에 쏟아지다 보니
 
 “대충 알 것 같긴 한데 정확히 설명하라면 막히는” 상황이 자주 생깁니다.
 
