@@ -645,21 +645,9 @@ async function fetchArticle(url) {
     $("meta[property='og:title']").attr("content") ||
     $("title").text() ||
     "Untitled";
-  const ogImage = $("meta[property='og:image']").attr("content") || "";
 
   container.find("script, style, iframe, noscript").remove();
   const images = collectImageUrls($, container, targetUrl, url);
-  if (ogImage && !isRejectedImage(ogImage, title)) {
-    const absoluteOgImage = makeAbsoluteUrl(ogImage, targetUrl);
-    if (absoluteOgImage && !images.some((image) => image.url === absoluteOgImage)) {
-      images.unshift({
-        url: absoluteOgImage,
-        alt: compactText(title, 120),
-        contextText: compactText(title),
-        sourceUrl: url,
-      });
-    }
-  }
   const markdown = turndown.turndown(container.html() || "");
   const cleaned = markdown
     .replace(/\n{4,}/g, "\n\n")
