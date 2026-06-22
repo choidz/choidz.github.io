@@ -17,10 +17,10 @@ const MIN_IMAGES_PER_POST = 2;
 const MAX_IMAGE_CANDIDATES = 16;
 const MIN_BODY_CHARS = 1600;
 const MIN_H2_COUNT = 3;
-const NAVER_SEARCH_RESULTS = 8;
-const VELOG_SEARCH_RESULTS = 4;
+const TISTORY_SEARCH_RESULTS = 8;
+const VELOG_SEARCH_RESULTS = 8;
+const NAVER_SEARCH_RESULTS = 4;
 const MAX_SOURCE_ARTICLES = 5;
-const MIN_REQUIRED_SOURCE_ARTICLES = 4;
 const MAX_ATTEMPTS_PER_POST = 4;
 const REJECT_IMAGE_PATTERN =
   /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite|웨비나|교육|세미나|강의|이벤트|패키지|공유|할인|프로모션|신청/i;
@@ -383,6 +383,13 @@ function collectImageUrls($, container, baseUrl, sourceUrl) {
   const candidates = [];
   const seen = new Set();
 
+  const bestFromSrcset = (srcset = "") =>
+    String(srcset)
+      .split(",")
+      .map((part) => part.trim().split(/\s+/)[0])
+      .filter(Boolean)
+      .at(-1) || "";
+
   const add = (src, alt = "", contextText = "") => {
     const absolute = makeAbsoluteUrl(src, baseUrl);
     if (!absolute || seen.has(absolute)) return;
@@ -402,6 +409,8 @@ function collectImageUrls($, container, baseUrl, sourceUrl) {
       image.attr("data-lazy-src") ||
         image.attr("data-src") ||
         image.attr("data-original") ||
+        bestFromSrcset(image.attr("srcset")) ||
+        bestFromSrcset(image.attr("data-srcset")) ||
         image.attr("src") ||
         "",
       image.attr("alt") || "",
@@ -585,6 +594,34 @@ async function searchNaverBlog(keyword, maxResults = NAVER_SEARCH_RESULTS) {
   return results;
 }
 
+async function searchTistory(keyword, maxResults = TISTORY_SEARCH_RESULTS) {
+  const url = `https://search.naver.com/search.naver?where=web&query=${encodeURIComponent(
+    `${keyword} site:tistory.com`
+  )}`;
+  const html = await httpGet(url);
+  const $ = cheerio.load(html);
+  const results = [];
+  const seen = new Set();
+
+  $("a[href*='tistory.com']").each((_, element) => {
+    if (results.length >= maxResults) return false;
+    const link = $(element).attr("href") || "";
+    const title = compactText($(element).text(), 120);
+    if (!/https?:\/\/[^/]+\.tistory\.com\/.+/i.test(link) || seen.has(link)) return;
+    if (!title || title.length < 4) return;
+
+    seen.add(link);
+    results.push({
+      title,
+      url: link,
+      snippet: "",
+      source: "tistory",
+    });
+  });
+
+  return results;
+}
+
 async function searchVelog(keyword, maxResults = VELOG_SEARCH_RESULTS) {
   const query = `
     query SearchPosts($keyword: String!, $offset: Int, $limit: Int) {
@@ -626,14 +663,16 @@ async function searchVelog(keyword, maxResults = VELOG_SEARCH_RESULTS) {
 }
 
 async function searchSources(keyword) {
-  const [naver, velog] = await Promise.allSettled([
-    searchNaverBlog(keyword, NAVER_SEARCH_RESULTS),
+  const [tistory, velog, naver] = await Promise.allSettled([
+    searchTistory(keyword, TISTORY_SEARCH_RESULTS),
     searchVelog(keyword, VELOG_SEARCH_RESULTS),
+    searchNaverBlog(keyword, NAVER_SEARCH_RESULTS),
   ]);
 
   const combined = [
-    ...(naver.status === "fulfilled" ? naver.value : []),
+    ...(tistory.status === "fulfilled" ? tistory.value : []),
     ...(velog.status === "fulfilled" ? velog.value : []),
+    ...(naver.status === "fulfilled" ? naver.value : []),
   ];
 
   const seen = new Set();
@@ -693,21 +732,27 @@ async function fetchArticle(url) {
   };
 }
 
-async function fetchSourceArticles(results) {
+async function fetchSourceArticles(results, topic = "", category = "") {
   const articles = [];
+  const fallbackArticles = [];
   for (const result of results) {
     if (articles.length >= MAX_SOURCE_ARTICLES) break;
     try {
-      const article = await fetchArticle(result.url);
+      const article = { ...(await fetchArticle(result.url)), source: result.source };
       if (article.content_md.length > 500) {
-        articles.push(article);
+        const hasImageCandidate = getImageCandidates([article], topic, category).length >= 1;
+        if (hasImageCandidate) {
+          articles.push(article);
+        } else if (fallbackArticles.length < MAX_SOURCE_ARTICLES) {
+          fallbackArticles.push(article);
+        }
       }
       await new Promise((resolve) => setTimeout(resolve, 250));
     } catch (error) {
       console.warn(`[warn] fetch failed: ${result.url} (${error.message})`);
     }
   }
-  return articles;
+  return articles.length ? articles : fallbackArticles.slice(0, MAX_SOURCE_ARTICLES);
 }
 
 function extractJson(text) {
@@ -908,12 +953,22 @@ async function generatePost({ category, topic, posts, dryRun }) {
 
   const searchResults = await searchSources(keyword);
   console.log(`[agent] search results=${searchResults.length}`);
-  const articles = await fetchSourceArticles(searchResults);
+  const articles = await fetchSourceArticles(searchResults, topic, category);
   console.log(`[agent] fetched articles=${articles.length}`);
 
-  if (articles.length < MIN_REQUIRED_SOURCE_ARTICLES) {
+  const initialImageCandidates = getImageCandidates(articles, topic, category);
+  console.log(`[agent] usable image candidates before generation=${initialImageCandidates.length}`);
+
+  if (!articles.length) {
     console.warn(
-      `[warn] skipped topic because source articles are insufficient: ${articles.length}/${MIN_REQUIRED_SOURCE_ARTICLES}`
+      "[warn] skipped topic because no usable source article was fetched"
+    );
+    return null;
+  }
+
+  if (initialImageCandidates.length < MIN_IMAGES_PER_POST) {
+    console.warn(
+      `[warn] skipped topic because source articles only have ${initialImageCandidates.length}/${MIN_IMAGES_PER_POST} usable image candidates`
     );
     return null;
   }
