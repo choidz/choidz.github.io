@@ -14,7 +14,21 @@
 
 **📘 Elasticsearch vs RDBMS 비교**
 
----
+| 개념 | Elasticsearch | MSSQL (RDBMS) |
+| --- | --- | --- |
+| Cluster | 여러 노드의 집합. 하나의 검색 시스템처럼 동작 | SQL Server 클러스터 (AlwaysOn 등) |
+| Node | 클러스터를 구성하는 서버 (마스터, 데이터, 코디네이팅, 인제스트) | DB 인스턴스 |
+| Index | 논리적 데이터베이스 공간 | Database (예: IPACK_DB) |
+| Document | JSON 형식의 단일 데이터 객체 | 테이블의 Row |
+| Field | 문서의 속성 (JSON key) | Column |
+| Mapping | 문서 구조 정의 (필드 타입, 분석기 등) | 스키마 정의 |
+| Shard | 인덱스를 물리적으로 나눈 단위 | Partition |
+| Replica | 샤드 복제본 (Failover + 부하 분산) | AlwaysOn Replica / Mirroring |
+| SQL | Elasticsearch DSL (JSON 기반) | SELECT, INSERT, UPDATE, DELETE |
+| Transaction | 없음 (검색 중심 구조) | 있음 (ACID 보장) |
+| Join | 제한적 (Nested, Parent-Child 관계만) | 자유로운 JOIN 가능 |
+| Stored Procedure | 없음 | 지원 |
+| Indexing 구조 | Inverted Index (역색인) | B-Tree / Hash 인덱스 |
 
 **🧩 1. 클러스터와 노드 구조**
 
@@ -25,7 +39,12 @@
 
 **⚙️ 노드(Node) 역할**
 
----
+| 역할 | 설명 |
+| --- | --- |
+| 마스터 노드 | 클러스터 관리 (인덱스 생성, 노드 추가/삭제 등) |
+| 데이터 노드 | 실제 문서 저장 및 검색 수행 |
+| 코디네이팅 노드 | 클라이언트 요청을 각 노드에 분배 |
+| 인제스트 노드 | 색인 전 데이터 전처리 및 변환 수행 |
 
 **🗃️ 2. 인덱스 (Index)**
 
@@ -182,11 +201,23 @@ GET _cat/shards?v
 
 **⚠️ 1. 알람(Threshold) 기반 주요 지표**
 
----
+| 지표 | 설명 | 임계치 |
+| --- | --- | --- |
+| CPU Usage | 노드 CPU 사용률 | 50% 이상 지속 시 주의 |
+| Disk Usage | 디스크 사용량 | 70% 이상 시 경고 |
+| Load Average | 시스템 부하량 | 지속 증가 시 성능 저하 |
+| JVM Heap Usage | 힙 메모리 사용률 | 85% 이상 시 GC 과다 발생 |
+| Rejected Threads | 요청 처리 거부 수 | 1 이상 시 과부하 가능성 |
 
 **🔍 2. 원인 분석용 지표**
 
----
+| 지표 | 설명 |
+| --- | --- |
+| Memory Usage | 전체 시스템 메모리 사용률 |
+| GC Rate / Duration | GC 발생 주기 및 시간 |
+| Disk I/O | 디스크 읽기/쓰기 지연 |
+| Latency | 색인 및 검색 요청 응답 지연 |
+| Throughput (Rate) | 색인 및 검색 요청 유입량 |
 
 **🧠 용어 보충: GC (Garbage Collection)**
 
@@ -198,7 +229,13 @@ GET _cat/shards?v
 
 **✅ 마무리 요약**
 
----
+| 항목 | 핵심 요약 |
+| --- | --- |
+| Cluster/Node | Elasticsearch 전체 시스템 구성 단위 |
+| Index/Shard/Replica | 데이터 저장 및 분산 구조 |
+| Mapping | 스키마 정의 (필드 타입, 분석기 등) |
+| CAT API | 상태 모니터링용 CLI 명령어 |
+| 모니터링 지표 | CPU, Heap, Disk, GC 등 주기적 점검 필수 |
 
 > 💡 **Tip**
 >

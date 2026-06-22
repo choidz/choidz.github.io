@@ -198,7 +198,20 @@ application.yml에 RabbitMQ 연결 정보와 Queue, Exchange, Routing Key를 설
 
 **6단계: Controller 클래스**
 
----
+```java
+@RestController
+@Slf4j
+@RequiredArgsConstructor
+public class MessageController {
+    private final MessageService messageService;
+
+    @PostMapping("/send/message")
+    public ResponseEntity<String> sendMessage(@RequestBody MessageDto messageDto) {
+        messageService.sendMessage(messageDto);
+        return ResponseEntity.ok("Message sent to RabbitMQ!");
+    }
+}
+```
 
 **🚀 고급: 여러 Queue와 Exchange 관리**
 

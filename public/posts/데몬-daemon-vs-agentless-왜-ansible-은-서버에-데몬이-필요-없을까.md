@@ -58,7 +58,13 @@ Ansible은 아래와 같은 방식을 사용합니다:
 
 **📊 Agent 기반 vs Ansible 방식 — 비교 요약**
 
----
+| 항목 | Agent 기반 (Puppet/Chef 등) | Ansible (Agentless) |
+| --- | --- | --- |
+| 서버 준비 | 각 서버에 Agent 설치 필요 | 설치 불필요 |
+| 실행 방식 | 서버가 주기적으로 Master에 접속 (Pull) | Master가 서버에 접속해 작업 후 종료 (Push) |
+| 유지·운영 비용 | Agent 설치·업데이트, 장애 대응 필요 | SSH/WinRM만으로 간편 운영 |
+| 서버 추가/제거 | Agent 설치/제거 필요 | IP + 인증 정보만으로 간편 |
+| 장애 위험 | Agent 데몬 문제 발생 가능 | SSH 연결만 되면 안정적 |
 
 **🧑‍💻 실제 운영 예시 (Master 1대 + Agent 서버 3대)**
 

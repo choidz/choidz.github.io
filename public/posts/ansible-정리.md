@@ -28,7 +28,14 @@ DevOps 환경에서 빠질 수 없는 자동화 도구, **Ansible**!
 
 **🧩 2. Ansible 구성요소**
 
----
+| 구성요소 | 설명 |
+| --- | --- |
+| Inventory | 제어할 호스트(서버) 목록 |
+| Playbook | YAML로 작성된 자동화 시나리오 |
+| Module | 실제 작업(패키지 설치, 파일 복사 등)을 수행 |
+| Task | Playbook 내의 단일 작업 |
+| Handler | 특정 조건 시 실행되는 트리거 |
+| Role | Playbook을 구조적으로 묶은 단위 |
 
 **🌐 3. Inventory (인벤토리)**
 
@@ -200,15 +207,34 @@ roles:
 
 **📘 11. 인벤토리 패턴 (Pattern)**
 
----
+| 패턴 | 설명 |
+| --- | --- |
+| all | 모든 호스트 |
+| host1:host2 | 여러 호스트 지정 |
+| webservers:dbservers | 여러 그룹 지정 |
+| webservers:!atlanta | 특정 그룹 제외 |
+| webservers:&staging | 공통 포함 그룹 |
 
 **⚙️ 12. 실행 전략 (Strategy)**
 
----
+| 전략 | 설명 |
+| --- | --- |
+| linear | 기본값, 순차 실행 |
+| free | 병렬 실행 가능 |
+| serial | 지정된 개수씩 실행 |
+| rolling update | 점진적 업데이트 |
 
 **🏁 마무리 요약**
 
----
+| 항목 | 핵심 요약 |
+| --- | --- |
+| Ansible 특징 | Agentless, YAML, Push 방식 |
+| Inventory | 제어할 서버 목록 |
+| Playbook | 자동화 시나리오 정의 |
+| Module | 실제 작업 수행 단위 |
+| Variable | 값 재사용 및 동적 처리 |
+| Condition / Loop | 조건, 반복 지원 |
+| Role | 구조화 및 재사용성 강화 |
 
 > 💬 **TIP** :
 >

@@ -296,7 +296,16 @@ java.lang.IllegalStateException: Cannot call sendRedirect() after response has b
 
 **🧭 요약 표**
 
----
+| 구분 | 대표 에러 | 주요 원인 | 운영자 대응 | 개발자 포인트 |
+| --- | --- | --- | --- | --- |
+| null 관련 | NullPointer | null 참조 | 입력/DB 확인 | NPE 위치 전달 |
+| 메모리 | OutOfMemory | JVM 부족 | Heap Dump | 누수 점검 |
+| DB | SQLException | 연결 실패 | DB 상태 확인 | 커넥션 점검 |
+| 파일/입출력 | IOException | 파일/네트워크 | 경로/권한 점검 | 접근 로직 확인 |
+| 클래스 로딩 | ClassNotFound / NoClassDef | 라이브러리 충돌 | JAR 무결성 확인 | 빌드 환경 점검 |
+| 데이터 형식 | NumberFormat / IllegalArgument | 잘못된 입력 | 요청값 검증 | 파라미터 검증 |
+| 로직 | ArrayIndex / Arithmetic / IllegalState | 코드 오류 | 로그 확보 | 로직 수정 |
+| 동시성 | ConcurrentModification | 동시 수정 | 재현 로그 | 동기화 필요 |
 
 **🚀 예시 시나리오**
 

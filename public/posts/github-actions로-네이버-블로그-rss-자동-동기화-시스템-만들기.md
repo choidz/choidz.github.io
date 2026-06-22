@@ -85,7 +85,11 @@ choidz.github.io 자동 배포 🎉
 
 **🧰 환경 변수 / 시크릿**
 
----
+| 이름 | 설명 |
+| --- | --- |
+| NAVER_RSS_URL | 네이버 블로그 RSS 주소 |
+| GIT_USER_NAME, GIT_USER_EMAIL | 자동 커밋 시 작성자 정보 |
+| GITHUB_TOKEN | Actions에서 push/deploy 시 인증용 토큰 |
 
 **✅ 장점 요약**
 
