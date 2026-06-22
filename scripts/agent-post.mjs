@@ -402,9 +402,10 @@ function scoreImageCandidate(image, topic = "", category = "", body = "") {
   const sourceScore = similarityScore(topicTokens, sourceTokens).shared * 2;
   const hasUsefulAlt = String(image.alt || "").trim().length >= 3;
   const hasUsefulContext = String(image.contextText || "").trim().length >= 10;
+  const hasSourceMatch = sourceScore > 0;
 
-  if (!hasUsefulAlt && !hasUsefulContext) return 0;
-  if (directScore === 0 && bodyScore < 2) return 0;
+  if (!hasUsefulAlt && !hasUsefulContext && !hasSourceMatch) return 0;
+  if (directScore === 0 && bodyScore < 2 && !hasSourceMatch) return 0;
 
   return directScore * 10 + bodyScore * 3 + sourceScore + (hasUsefulAlt ? 2 : 0);
 }
@@ -432,6 +433,12 @@ async function downloadPostImages(articles, slug, topic = "", category = "", bod
   const downloaded = [];
   const candidates = getImageCandidates(articles, topic, category, body);
   const seen = new Set();
+  console.log(
+    `[agent] image candidates=${candidates.length} raw=${articles.reduce(
+      (sum, article) => sum + (article.images?.length || 0),
+      0
+    )}`
+  );
 
   await mkdir(IMAGES_DIR, { recursive: true });
 
@@ -457,6 +464,7 @@ async function downloadPostImages(articles, slug, topic = "", category = "", bod
     }
   }
 
+  console.log(`[agent] downloaded images=${downloaded.length}`);
   return downloaded;
 }
 
@@ -637,9 +645,21 @@ async function fetchArticle(url) {
     $("meta[property='og:title']").attr("content") ||
     $("title").text() ||
     "Untitled";
+  const ogImage = $("meta[property='og:image']").attr("content") || "";
 
   container.find("script, style, iframe, noscript").remove();
   const images = collectImageUrls($, container, targetUrl, url);
+  if (ogImage && !isRejectedImage(ogImage, title)) {
+    const absoluteOgImage = makeAbsoluteUrl(ogImage, targetUrl);
+    if (absoluteOgImage && !images.some((image) => image.url === absoluteOgImage)) {
+      images.unshift({
+        url: absoluteOgImage,
+        alt: compactText(title, 120),
+        contextText: compactText(title),
+        sourceUrl: url,
+      });
+    }
+  }
   const markdown = turndown.turndown(container.html() || "");
   const cleaned = markdown
     .replace(/\n{4,}/g, "\n\n")
