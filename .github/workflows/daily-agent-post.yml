@@ -14,9 +14,9 @@ on:
         required: false
         type: string
       post_count:
-        description: "Number of posts to generate, max 5"
+        description: "Number of posts to generate, max 2"
         required: false
-        default: "5"
+        default: "2"
         type: string
       dry_run:
         description: "Plan/generate without committing"

@@ -10,10 +10,13 @@ const IMAGES_DIR = path.join(process.cwd(), "public", "images", "posts");
 const MANIFEST_PATH = path.join(POSTS_DIR, "index.json");
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
-const DEFAULT_POST_COUNT = 5;
-const MAX_POST_COUNT = 5;
+const DEFAULT_POST_COUNT = 2;
+const MAX_POST_COUNT = 2;
 const MAX_IMAGES_PER_POST = 2;
 const MAX_IMAGE_CANDIDATES = 16;
+const MIN_SOURCE_ARTICLES = 3;
+const MIN_BODY_CHARS = 1600;
+const MIN_H2_COUNT = 3;
 const REJECT_IMAGE_PATTERN =
   /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite/i;
 const UA =
@@ -171,8 +174,20 @@ function similarityScore(left, right) {
 
 function findSimilarPost({ topic = "", title = "", slug = "" }, posts) {
   const targetTokens = similarityTokens(topic, title, slug);
+  const targetText = normalizeForSimilarity(`${topic} ${title} ${slug}`);
 
   for (const post of posts) {
+    const postText = normalizeForSimilarity(
+      `${post.title || ""} ${post.slug || ""} ${post.sourceTopic || ""}`
+    );
+    if (
+      targetText.length >= 10 &&
+      postText.length >= 10 &&
+      (targetText.includes(postText) || postText.includes(targetText))
+    ) {
+      return post;
+    }
+
     const postTokens = similarityTokens(
       post.title,
       post.slug,
@@ -181,7 +196,7 @@ function findSimilarPost({ topic = "", title = "", slug = "" }, posts) {
     );
     const { shared, ratio } = similarityScore(targetTokens, postTokens);
 
-    if ((shared >= 3 && ratio >= 0.6) || (shared >= 4 && ratio >= 0.45)) {
+    if ((shared >= 2 && ratio >= 0.7) || (shared >= 3 && ratio >= 0.5) || shared >= 4) {
       return post;
     }
   }
@@ -402,10 +417,9 @@ function scoreImageCandidate(image, topic = "", category = "", body = "") {
   const sourceScore = similarityScore(topicTokens, sourceTokens).shared * 2;
   const hasUsefulAlt = String(image.alt || "").trim().length >= 3;
   const hasUsefulContext = String(image.contextText || "").trim().length >= 10;
-  const hasSourceMatch = sourceScore > 0;
 
-  if (!hasUsefulAlt && !hasUsefulContext && !hasSourceMatch) return 0;
-  if (directScore === 0 && bodyScore < 2 && !hasSourceMatch) return 0;
+  if (!hasUsefulAlt && !hasUsefulContext) return 0;
+  if (directScore === 0 && bodyScore < 2) return 0;
 
   return directScore * 10 + bodyScore * 3 + sourceScore + (hasUsefulAlt ? 2 : 0);
 }
@@ -782,6 +796,61 @@ function makeDescription(markdown) {
     .slice(0, 140);
 }
 
+function plainMarkdownText(markdown) {
+  return String(markdown || "")
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[#>*_`~|-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function hasRepeatedParagraph(markdown) {
+  const seen = new Set();
+  for (const block of String(markdown || "").split(/\n{2,}/)) {
+    const normalized = normalizeForSimilarity(block);
+    if (normalized.length < 80) continue;
+    if (seen.has(normalized)) return true;
+    seen.add(normalized);
+  }
+  return false;
+}
+
+function findLongCopiedSentence(body, articles) {
+  const references = articles.map((article) => plainMarkdownText(article.content_md)).join(" ");
+  const sentences = plainMarkdownText(body)
+    .split(/[.!?。！？\n]/)
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length >= 120);
+
+  return sentences.find((sentence) => references.includes(sentence)) || "";
+}
+
+function validateGeneratedPost({ topic, category, title, description, body, slug, posts, articles }) {
+  const errors = [];
+  const plain = plainMarkdownText(body);
+  const h2Count = (body.match(/^##\s+/gm) || []).length;
+
+  if (title.length < 12 || title.length > 90) errors.push("title length is out of range");
+  if (description.length < 50 || description.length > 160) {
+    errors.push("description length is out of range");
+  }
+  if (plain.length < MIN_BODY_CHARS) errors.push(`body is too short: ${plain.length}`);
+  if (h2Count < MIN_H2_COUNT) errors.push(`not enough sections: ${h2Count}`);
+  if (/^#\s+/m.test(body)) errors.push("body contains an H1 heading");
+  if (/\{\{IMAGE_\d+\}\}/.test(body) && !getImageCandidates(articles, topic, category, body).length) {
+    errors.push("body contains image placeholders but no image candidates exist");
+  }
+  if (hasRepeatedParagraph(body)) errors.push("body has repeated paragraphs");
+  if (findLongCopiedSentence(body, articles)) errors.push("body appears to copy a source sentence");
+  if (findSimilarPost({ title, slug }, posts)) {
+    errors.push("generated title is too similar to an existing post");
+  }
+
+  return errors;
+}
+
 async function generatePost({ category, topic, posts, dryRun }) {
   const keyword = `${topic} ${category.replace("#", "")} 실무`;
 
@@ -794,8 +863,11 @@ async function generatePost({ category, topic, posts, dryRun }) {
   const articles = await fetchSourceArticles(searchResults);
   console.log(`[agent] fetched articles=${articles.length}`);
 
-  if (articles.length < 2) {
-    throw new Error("Not enough source articles to synthesize a reliable post");
+  if (articles.length < MIN_SOURCE_ARTICLES) {
+    console.warn(
+      `[warn] skipped topic because source articles are insufficient: ${articles.length}/${MIN_SOURCE_ARTICLES}`
+    );
+    return null;
   }
 
   const generated = await synthesizePost({ topic, category, articles });
@@ -820,6 +892,22 @@ async function generatePost({ category, topic, posts, dryRun }) {
   ];
   const uniqueTags = [...new Set(tags)].slice(0, 6);
   const body = String(generated.markdownBody || "").trim();
+  const description = String(generated.description || makeDescription(body)).trim().slice(0, 160);
+  const qualityErrors = validateGeneratedPost({
+    topic,
+    category,
+    title,
+    description,
+    body,
+    slug,
+    posts,
+    articles,
+  });
+  if (qualityErrors.length) {
+    console.warn(`[warn] skipped generated post by quality gate: ${qualityErrors.join("; ")}`);
+    return null;
+  }
+
   const downloadedImages = dryRun
     ? []
     : await downloadPostImages(articles, slug, topic, category, body);
@@ -843,7 +931,6 @@ async function generatePost({ category, topic, posts, dryRun }) {
   ].join("\n");
 
   const date = todayIso();
-  const description = String(generated.description || makeDescription(bodyWithImages)).trim().slice(0, 160);
   const readingMinutes = Math.max(1, Math.ceil(markdown.split(/\s+/).length / 220));
   const metadata = {
     slug,
