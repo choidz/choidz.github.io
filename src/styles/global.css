@@ -1120,20 +1120,20 @@ img {
 }
 
 .article-page-shell--focus {
-  width: min(100%, 100vw);
-  padding: 0 0 96px;
+  width: min(1152px, calc(100% - 32px));
+  padding: 0 0 80px;
 }
 
 .article-focus {
-  width: min(920px, calc(100% - 40px));
+  width: 100%;
   margin: 0 auto;
-  padding-top: clamp(56px, 9vw, 104px);
+  padding-top: clamp(28px, 5vw, 56px);
 }
 
 .article-back-link {
   display: inline-flex;
   align-items: center;
-  margin-bottom: clamp(42px, 7vw, 72px);
+  margin-bottom: clamp(22px, 3vw, 36px);
   color: #6b7280;
   font-size: 15px;
   font-weight: 700;
@@ -1155,7 +1155,7 @@ img {
 
 .article-header--focus {
   gap: 0;
-  margin-bottom: clamp(34px, 6vw, 56px);
+  margin-bottom: clamp(24px, 4vw, 40px);
 }
 
 .article-kicker {
@@ -1187,9 +1187,9 @@ img {
 }
 
 .article-header--focus h1 {
-  max-width: 920px;
+  max-width: 960px;
   color: #111827;
-  font-size: clamp(42px, 7.4vw, 68px);
+  font-size: clamp(34px, 5.2vw, 52px);
   font-weight: 850;
   line-height: 1.08;
   word-break: keep-all;
@@ -1197,15 +1197,15 @@ img {
 }
 
 .article-header--focus p {
-  max-width: 720px;
-  margin-top: 24px;
+  max-width: 760px;
+  margin-top: 18px;
   color: #5b6472;
-  font-size: clamp(18px, 2.2vw, 22px);
+  font-size: clamp(17px, 1.8vw, 20px);
   line-height: 1.68;
 }
 
 .article-tags {
-  margin-top: 28px;
+  margin-top: 22px;
 }
 
 .article-tags span {
@@ -1218,13 +1218,13 @@ img {
 .article-divider {
   width: 100%;
   height: 1px;
-  margin-bottom: clamp(42px, 7vw, 72px);
+  margin-bottom: clamp(32px, 5vw, 52px);
   background: linear-gradient(90deg, var(--brand-accent), rgba(226, 77, 42, 0.08));
 }
 
 .prose--focus {
-  width: min(780px, 100%);
-  margin: 0 auto;
+  width: min(860px, 100%);
+  margin: 0;
   color: #242b35;
   font-size: clamp(18px, 1.4vw, 20px);
   line-height: 2;
@@ -1584,12 +1584,12 @@ img {
   }
 
   .article-focus {
-    width: min(100% - 28px, 920px);
-    padding-top: 42px;
+    width: 100%;
+    padding-top: 28px;
   }
 
   .article-back-link {
-    margin-bottom: 36px;
+    margin-bottom: 24px;
   }
 
   .article-kicker {
@@ -1598,7 +1598,7 @@ img {
   }
 
   .article-header--focus h1 {
-    font-size: clamp(34px, 10.5vw, 42px);
+    font-size: clamp(30px, 9.5vw, 38px);
     line-height: 1.14;
   }
 
