@@ -20,25 +20,6 @@
     "imageCount": 1
   },
   {
-    "slug": "github-actions로-ci-cd-배포-자동화하기",
-    "title": "GitHub Actions로 CI/CD 배포 자동화하기",
-    "description": "GitHub Actions를 활용한 CI/CD 배포 자동화 방법과 실무 예제를 소개합니다.",
-    "date": "2026-06-21",
-    "tags": [
-      "#DevOps",
-      "#GitHubActions",
-      "#CI/CD",
-      "#자동화",
-      "#배포"
-    ],
-    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
-    "readingMinutes": 3,
-    "contentPath": "/posts/github-actions로-ci-cd-배포-자동화하기.md",
-    "generatedBy": "agent",
-    "sourceTopic": "GitHub Actions 배포 자동화",
-    "imageCount": 1
-  },
-  {
     "slug": "zabbix-agent-운영-효과적인-서버-모니터링을-위한-가이드",
     "title": "Zabbix Agent 운영: 효과적인 서버 모니터링을 위한 가이드",
     "description": "Zabbix Agent를 활용한 서버 모니터링의 중요성과 운영 팁을 소개합니다. 실무에서 유용한 체크리스트와 흔한 실수를 통해 효율적인 관리 방법을 알아보세요.",
