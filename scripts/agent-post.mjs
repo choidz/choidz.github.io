@@ -1134,10 +1134,12 @@ async function main() {
   const usedTopics = new Set();
   const maxAttempts = postCount * MAX_ATTEMPTS_PER_POST;
   let created = 0;
+  let attemptsUsed = 0;
 
   console.log(`[agent] post count=${postCount}`);
 
   for (let attempt = 0; attempt < maxAttempts && created < postCount; attempt += 1) {
+    attemptsUsed = attempt + 1;
     const category = chooseCategory(workingPosts, attempt);
     const topic = chooseTopic(category, workingPosts, usedTopics, attempt);
     usedTopics.add(topic);
@@ -1163,7 +1165,8 @@ async function main() {
     dryRun,
     created,
     requested: postCount,
-    attempts: maxAttempts,
+    attempts: attemptsUsed,
+    maxAttempts,
   });
 
   if (dryRun) return;
