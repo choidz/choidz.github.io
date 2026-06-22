@@ -984,25 +984,28 @@ async function main() {
   const posts = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
   const workingPosts = [...posts];
   const usedTopics = new Set();
+  const maxAttempts = postCount * 5;
+  let created = 0;
 
   console.log(`[agent] post count=${postCount}`);
 
-  for (let index = 0; index < postCount; index += 1) {
-    const category = chooseCategory(workingPosts, index);
-    const topic = chooseTopic(category, workingPosts, usedTopics, index);
+  for (let attempt = 0; attempt < maxAttempts && created < postCount; attempt += 1) {
+    const category = chooseCategory(workingPosts, attempt);
+    const topic = chooseTopic(category, workingPosts, usedTopics, attempt);
     usedTopics.add(topic);
 
     if (dryRun && !process.env.OPENAI_API_KEY) {
-      console.log(`[agent] plan ${index + 1}/${postCount}: ${category} - ${topic}`);
+      console.log(`[agent] plan ${attempt + 1}/${maxAttempts}: ${category} - ${topic}`);
       continue;
     }
 
     const metadata = await generatePost({ category, topic, posts: workingPosts, dryRun });
     if (metadata) {
       workingPosts.unshift(metadata);
+      created += 1;
     }
 
-    if (index < postCount - 1) {
+    if (attempt < maxAttempts - 1 && created < postCount) {
       await new Promise((resolve) => setTimeout(resolve, 700));
     }
   }
@@ -1011,7 +1014,7 @@ async function main() {
 
   workingPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
   await writeFile(MANIFEST_PATH, `${JSON.stringify(workingPosts, null, 2)}\n`, "utf8");
-  console.log(`[agent] finished created=${workingPosts.length - posts.length}`);
+  console.log(`[agent] finished created=${created} attempts=${maxAttempts}`);
 }
 
 main().catch((error) => {
