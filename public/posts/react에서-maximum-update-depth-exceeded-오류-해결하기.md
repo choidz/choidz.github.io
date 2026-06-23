@@ -58,15 +58,7 @@ console.log('Current state:', this.state);
 - [ ] 상태 흐름이 명확한가?
 - [ ] useCallback과 useMemo를 적절히 사용하고 있는가?
 
-![post-thumbnail](/images/posts/react에서-maximum-update-depth-exceeded-오류-해결하기-00-1cfe0b91.png)
-
-<small>이미지 출처: https://velog.io/@taekkim/Git-한글-깨짐-해결-원인</small>
-
 이와 같은 방법으로 'Maximum update depth exceeded' 오류를 해결할 수 있습니다. 상태 관리와 렌더링 흐름을 면밀히 점검하여 이러한 오류가 발생하지 않도록 주의하시기 바랍니다.
-
-![참고 이미지](/images/posts/react에서-maximum-update-depth-exceeded-오류-해결하기-01-a93e5124.png)
-
-<small>이미지 출처: https://velog.io/@jujini31/사용자-경험을-생각한-지도-개발-NAVER-지도-API-V3-마커폴리라인</small>
 
 ## 실무 적용 체크리스트
 
@@ -85,6 +77,3 @@ console.log('Current state:', this.state);
 
 - [오류 정리](https://psj8532.tistory.com/16)
 - [React Maximum Update Depth Exceeded 해결 방법 총정리 (무한 렌더링 원인 분석)](https://voidfunction-e.tistory.com/entry/React-Maximum-Update-Depth-Exceeded-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95-%EC%B4%9D%EC%A0%95%EB%A6%AC-%EB%AC%B4%ED%95%9C-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%9B%90%EC%9D%B8-%EB%B6%84%EC%84%9D)
-- [Git 한글 깨짐 해결 + 원인](https://velog.io/@taekkim/Git-한글-깨짐-해결-원인)
-- [사용자 경험을 생각한 지도 개발: NAVER 지도 API V3 마커/폴리라인](https://velog.io/@jujini31/사용자-경험을-생각한-지도-개발-NAVER-지도-API-V3-마커폴리라인)
-- [[TS\] Cannot find module 오류 해결하기](https://velog.io/@jsi06138/TS-Cannot-find-module-오류-해결하기)

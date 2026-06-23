@@ -25,7 +25,7 @@ const NAVER_SEARCH_RESULTS = 0;
 const MAX_SOURCE_ARTICLES = 5;
 const MAX_ATTEMPTS_PER_POST = 4;
 const REJECT_IMAGE_PATTERN =
-  /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|post-thumbnail|thumbnail|spinner|loading|blank|sprite|웨비나|교육|세미나|강의|이벤트|패키지|공유|할인|프로모션|신청/i;
+  /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|post-thumbnail|thumbnail|spinner|loading|blank|sprite|training|course|certified|trainer|webinar|seminar|lecture|웨비나|교육|세미나|강의|이벤트|패키지|공유|할인|프로모션|신청/i;
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
@@ -241,6 +241,10 @@ const RELEVANCE_GENERIC_TOKENS = new Set([
   "guide",
   "how",
   "why",
+  "training",
+  "course",
+  "certified",
+  "trainer",
 ]);
 
 function normalizeForSimilarity(text) {
@@ -285,8 +289,14 @@ function sourceRelevanceScore(article, topic = "", category = "") {
   const topicTokens = relevanceTokens(topic, category.replace("#", ""));
   if (!topicTokens.size) return 0;
 
-  const sourceTokens = relevanceTokens(article.title, article.content_md, article.snippet);
-  return similarityScore(topicTokens, sourceTokens).shared;
+  const titleTokens = relevanceTokens(article.title);
+  const bodyTokens = relevanceTokens(article.content_md, article.snippet);
+  const titleShared = similarityScore(topicTokens, titleTokens).shared;
+  const bodyShared = similarityScore(topicTokens, bodyTokens).shared;
+
+  if (titleShared >= 2) return titleShared * 2 + bodyShared;
+  if (bodyShared >= 3) return bodyShared;
+  return 0;
 }
 
 function isSourceRelevant(article, topic = "", category = "") {
