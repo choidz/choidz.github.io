@@ -15,8 +15,8 @@ const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const DEFAULT_POST_COUNT = 2;
 const MAX_POST_COUNT = 2;
 const MAX_IMAGES_PER_POST = 2;
-const MIN_IMAGES_PER_POST = 2;
 const MAX_IMAGE_CANDIDATES = 16;
+const MIN_IMAGE_PLACEMENT_SCORE = 12;
 const MIN_BODY_CHARS = 1600;
 const MIN_H2_COUNT = 3;
 const TISTORY_SEARCH_RESULTS = 8;
@@ -614,6 +614,10 @@ async function downloadPostImages(articles, slug, topic = "", category = "", bod
       downloaded.push({
         index: image.index,
         alt: image.alt || "참고 이미지",
+        contextText: image.contextText || "",
+        sourceTitle: image.sourceTitle || "",
+        sourceRelevance: image.sourceRelevance || 0,
+        score: image.score || 0,
         path: `/images/posts/${filename}`,
         sourceUrl: image.sourceUrl,
       });
@@ -643,56 +647,91 @@ function imageMarkdown(image, index) {
   return `![${alt}](${image.path})${source}`;
 }
 
-function placeImagesInBody(markdownBody, images) {
-  let body = markdownBody;
-  let used = 0;
-  const imageByIndex = new Map(images.map((image) => [image.index, image]));
+function imagePlacementScore(image, block, topic = "", category = "") {
+  const imageTokens = relevanceTokens(image.alt, image.contextText, image.sourceTitle);
+  const blockTokens = relevanceTokens(block);
+  const topicTokens = relevanceTokens(topic, category.replace("#", ""));
+  const blockImageShared = similarityScore(blockTokens, imageTokens).shared;
+  const blockTopicShared = similarityScore(blockTokens, topicTokens).shared;
+  const imageTopicShared = similarityScore(imageTokens, topicTokens).shared;
+  const sourceRelevance = Number(image.sourceRelevance || 0);
 
-  for (let index = 0; index < MAX_IMAGES_PER_POST; index += 1) {
-    const placeholder = `{{IMAGE_${index}}}`;
-    const image = imageByIndex.get(index);
-    if (body.includes(placeholder) && image) {
-      body = body.replace(placeholder, imageMarkdown(image, index));
-      used += 1;
-    }
-  }
+  if (!imageTokens.size || !blockTokens.size || !topicTokens.size) return 0;
+  if (sourceRelevance <= 0) return 0;
+  if (blockImageShared < 1 || blockTopicShared < 1) return 0;
 
-  body = body.replace(/\{\{IMAGE_\d+\}\}/g, "").replace(/\n{3,}/g, "\n\n").trim();
-  if (used || !images.length) return body;
+  return (
+    blockImageShared * 8 +
+    blockTopicShared * 3 +
+    imageTopicShared * 4 +
+    sourceRelevance * 2
+  );
+}
+
+function canPlaceImageAfterBlock(block) {
+  const text = String(block || "").trim();
+  if (text.length < 80) return false;
+  if (/^#/.test(text)) return false;
+  if (/```/.test(text)) return false;
+  if (/!\[[^\]]*\]\([^)]+\)/.test(text)) return false;
+  if (text.includes("참고한 자료")) return false;
+  return true;
+}
+
+function placeImagesInBody(markdownBody, images, topic = "", category = "") {
+  const body = String(markdownBody || "")
+    .replace(/\{\{IMAGE_\d+\}\}/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+  if (!images.length) return { body, usedImages: [] };
 
   const blocks = body.split(/\n{2,}/);
-  const output = [];
-  let inserted = 0;
+  const placements = [];
+  const usedBlockIndexes = new Set();
+  const usedImages = new Set();
 
-  for (let i = 0; i < blocks.length; i += 1) {
-    output.push(blocks[i]);
-    const next = blocks[i + 1] || "";
-    const currentLooksUseful =
-      /^##\s+/.test(blocks[i]) ||
-      (!/^#/.test(blocks[i]) && blocks[i].length > 120 && !blocks[i].startsWith("```"));
-    const nextIsNotHeading = !/^##\s+/.test(next);
+  for (const image of images) {
+    let best = { blockIndex: -1, score: 0 };
 
-    if (
-      inserted < images.length &&
-      i > 1 &&
-      currentLooksUseful &&
-      nextIsNotHeading &&
-      !blocks[i].includes("참고한 자료")
-    ) {
-      output.push(imageMarkdown(images[inserted], inserted));
-      inserted += 1;
-      i += 1;
-      if (i < blocks.length) output.push(blocks[i]);
+    for (let blockIndex = 0; blockIndex < blocks.length; blockIndex += 1) {
+      if (usedBlockIndexes.has(blockIndex)) continue;
+      if (!canPlaceImageAfterBlock(blocks[blockIndex])) continue;
+
+      const score = imagePlacementScore(image, blocks[blockIndex], topic, category);
+      if (score > best.score) {
+        best = { blockIndex, score };
+      }
+    }
+
+    if (best.score >= MIN_IMAGE_PLACEMENT_SCORE) {
+      placements.push({ image, blockIndex: best.blockIndex, score: best.score });
+      usedBlockIndexes.add(best.blockIndex);
+      usedImages.add(image.path);
+    } else {
+      console.log(
+        `[agent] skipped image placement path=${image.path} score=${best.score} source=${image.sourceUrl || ""}`
+      );
     }
   }
 
-  while (inserted < images.length && output.length > 3) {
-    const insertAt = Math.max(2, output.length - 2);
-    output.splice(insertAt, 0, imageMarkdown(images[inserted], inserted));
-    inserted += 1;
+  if (!placements.length) return { body, usedImages: [] };
+
+  placements.sort((a, b) => a.blockIndex - b.blockIndex);
+  const byBlock = new Map(placements.map((placement) => [placement.blockIndex, placement]));
+  const output = [];
+
+  for (let index = 0; index < blocks.length; index += 1) {
+    output.push(blocks[index]);
+    const placement = byBlock.get(index);
+    if (placement) {
+      output.push(imageMarkdown(placement.image, output.length));
+    }
   }
 
-  return output.join("\n\n").replace(/\n{3,}/g, "\n\n").trim();
+  return {
+    body: output.join("\n\n").replace(/\n{3,}/g, "\n\n").trim(),
+    usedImages: images.filter((image) => usedImages.has(image.path)),
+  };
 }
 
 async function searchNaverBlog(keyword, maxResults = NAVER_SEARCH_RESULTS) {
@@ -905,7 +944,6 @@ async function synthesizePost({ topic, category, articles }) {
   if (!apiKey) {
     throw new Error("OPENAI_API_KEY is required");
   }
-  const imageCandidates = getImageCandidates(articles, topic, category);
 
   const system = `너는 한국어 개발 블로그에 오류 해결 글을 쓰는 기술 에디터다.
 반드시 참고 자료를 직접 복사하지 말고, 내용을 종합해서 새로운 글로 작성한다.
@@ -922,15 +960,14 @@ async function synthesizePost({ topic, category, articles }) {
         title: "오류명 또는 증상이 드러나는 SEO용 한국어 제목",
         description: "검색 결과에 들어갈 80~150자 요약",
         tags: ["#DevOps 같은 해시태그 3~6개"],
-        markdownBody: "H1 제목 없이 Markdown 본문만 작성. 이미지가 어울리는 단락 사이에 {{IMAGE_0}}, {{IMAGE_1}} 자리표시자를 선택적으로 배치",
+        markdownBody: "H1 제목 없이 Markdown 본문만 작성. 이미지 자리표시자는 작성하지 말 것",
       },
       writingRules: [
         "참고 글 문장을 길게 그대로 복사하지 말 것",
         "본문은 1800자 이상",
         "문제 증상, 대표 원인, 확인 명령어, 해결 절차, 흔한 실수, 재발 방지 체크리스트 포함",
         "명령어, 설정 파일, 로그, 에러 메시지, HTTP/API 요청, 실행 결과 예시는 반드시 적절한 언어의 fenced code block으로 작성",
-        "이미지 자리표시자는 글의 흐름상 관련 있는 문단 뒤에만 넣고, 본문 맨 위에는 넣지 말 것",
-        "이미지가 내용과 직접 관련 없으면 자리표시자를 쓰지 말 것",
+        "이미지 자리표시자나 이미지 Markdown은 작성하지 말 것. 이미지는 스크립트가 별도로 검증해서 삽입한다.",
         "출처 링크 목록은 작성하지 말 것. 스크립트가 별도로 붙인다.",
       ],
       hardRequirements: [
@@ -940,7 +977,7 @@ async function synthesizePost({ topic, category, articles }) {
         "The first H2 section must explain the symptom or error message.",
         "At least one H2 section must explain causes and at least one H2 section must explain fixes.",
         "Include at least one realistic log, command, configuration, or terminal output code block.",
-        "Use both {{IMAGE_0}} and {{IMAGE_1}} only where the surrounding paragraph is directly relevant to the image.",
+        "Do not include image placeholders such as {{IMAGE_0}}.",
         "Prefer practical operational examples, checklists, and failure cases over generic explanations.",
       ],
       references: articles.map((article) => ({
@@ -948,18 +985,6 @@ async function synthesizePost({ topic, category, articles }) {
         url: article.url,
         excerpt: article.content_md,
       })),
-      imageCandidates: imageCandidates.map((image, index) => ({
-        placeholder: `{{IMAGE_${image.index}}}`,
-        alt: image.alt || "참고 이미지",
-        imageUrl: image.url,
-        sourceTitle: image.sourceTitle,
-        sourceUrl: image.sourceUrl,
-      })),
-      imageRules: [
-        "{{IMAGE_0}} 또는 {{IMAGE_1}} 형식만 사용",
-        "이미지 설명 alt나 참고 글 제목과 맞는 문맥에만 배치",
-        "같은 자리표시자를 두 번 쓰지 말 것",
-      ],
     },
     null,
     2
@@ -1082,9 +1107,6 @@ function validateGeneratedPost({ topic, category, title, description, body, slug
   if (plain.length < MIN_BODY_CHARS) errors.push(`body is too short: ${plain.length}`);
   if (h2Count < MIN_H2_COUNT) errors.push(`not enough sections: ${h2Count}`);
   if (/^#\s+/m.test(body)) errors.push("body contains an H1 heading");
-  if (/\{\{IMAGE_\d+\}\}/.test(body) && !getImageCandidates(articles, topic, category, body).length) {
-    errors.push("body contains image placeholders but no image candidates exist");
-  }
   if (hasRepeatedParagraph(body)) errors.push("body has repeated paragraphs");
   if (findLongCopiedSentence(body, articles)) errors.push("body appears to copy a source sentence");
   if (!hasTroubleshootingStructure(body)) {
@@ -1121,13 +1143,6 @@ async function generatePost({ category, topic, posts, dryRun }) {
   if (!articles.length) {
     console.warn(
       "[warn] skipped topic because no usable source article was fetched"
-    );
-    return null;
-  }
-
-  if (initialImageCandidates.length < MIN_IMAGES_PER_POST) {
-    console.warn(
-      `[warn] skipped topic because source articles only have ${initialImageCandidates.length}/${MIN_IMAGES_PER_POST} usable image candidates`
     );
     return null;
   }
@@ -1173,15 +1188,20 @@ async function generatePost({ category, topic, posts, dryRun }) {
   const downloadedImages = dryRun
     ? []
     : await downloadPostImages(articles, slug, topic, category, body);
-  if (!dryRun && downloadedImages.length < MIN_IMAGES_PER_POST) {
-    await cleanupDownloadedImages(downloadedImages);
-    console.warn(
-      `[warn] skipped generated post because it only has ${downloadedImages.length}/${MIN_IMAGES_PER_POST} images`
-    );
-    return null;
+  const { body: bodyWithImages, usedImages } = placeImagesInBody(
+    body,
+    downloadedImages,
+    topic,
+    category
+  );
+  const unusedImages = downloadedImages.filter(
+    (image) => !usedImages.some((used) => used.path === image.path)
+  );
+  if (!dryRun && unusedImages.length) {
+    await cleanupDownloadedImages(unusedImages);
   }
+  console.log(`[agent] placed images=${usedImages.length}`);
 
-  const bodyWithImages = placeImagesInBody(body, downloadedImages);
   const sources = articles
     .map((article) => `- [${article.title.replace(/\]/g, "\\]")}](${article.url})`)
     .join("\n");
@@ -1213,7 +1233,7 @@ async function generatePost({ category, topic, posts, dryRun }) {
     contentPath: `/posts/${slug}.md`,
     generatedBy: "agent",
     sourceTopic: topic,
-    imageCount: downloadedImages.length,
+    imageCount: usedImages.length,
   };
 
   if (dryRun) {
