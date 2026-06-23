@@ -21,7 +21,7 @@ const MIN_BODY_CHARS = 1600;
 const MIN_H2_COUNT = 3;
 const TISTORY_SEARCH_RESULTS = 8;
 const VELOG_SEARCH_RESULTS = 8;
-const NAVER_SEARCH_RESULTS = 4;
+const NAVER_SEARCH_RESULTS = 0;
 const MAX_SOURCE_ARTICLES = 5;
 const MAX_ATTEMPTS_PER_POST = 4;
 const REJECT_IMAGE_PATTERN =
@@ -66,97 +66,113 @@ function logOpenAiUsageSummary() {
 }
 
 async function writeOpenAiUsageReport(extra = {}) {
-  await mkdir(AGENT_USAGE_DIR, { recursive: true });
-  await writeFile(
-    AGENT_USAGE_PATH,
-    `${JSON.stringify(
-      {
-        generatedAt: new Date().toISOString(),
-        model: OPENAI_MODEL,
-        usage: {
-          calls: openAiUsage.calls,
-          promptTokens: openAiUsage.promptTokens,
-          completionTokens: openAiUsage.completionTokens,
-          totalTokens: openAiUsage.totalTokens,
+  try {
+    await mkdir(AGENT_USAGE_DIR, { recursive: true });
+    await writeFile(
+      AGENT_USAGE_PATH,
+      `${JSON.stringify(
+        {
+          generatedAt: new Date().toISOString(),
+          model: OPENAI_MODEL,
+          usage: {
+            calls: openAiUsage.calls,
+            promptTokens: openAiUsage.promptTokens,
+            completionTokens: openAiUsage.completionTokens,
+            totalTokens: openAiUsage.totalTokens,
+          },
+          ...extra,
         },
-        ...extra,
-      },
-      null,
-      2
-    )}\n`,
-    "utf8"
-  );
+        null,
+        2
+      )}\n`,
+      "utf8"
+    );
+  } catch (error) {
+    console.warn(`[warn] failed to write openai usage report: ${error.message}`);
+  }
 }
 
 const TOPIC_BANK = {
   "#DevOps": [
-    "Kubernetes 배포 전략",
-    "Docker 이미지 최적화",
-    "CI/CD 파이프라인 장애 대응",
-    "RabbitMQ 운영 장애 패턴",
-    "Kafka Consumer Lag 모니터링",
-    "Blue Green 배포 체크리스트",
-    "무중단 배포 롤백 전략",
-    "GitHub Actions 배포 자동화",
-    "컨테이너 로그 수집 전략",
-    "운영 환경 장애 회고 작성법",
-    "서비스 헬스체크 설계",
-    "배포 전 체크리스트 자동화",
+    "GitHub Actions permission denied 해결",
+    "GitHub Actions npm ci 캐시 오류 해결",
+    "Docker bind address already in use 해결",
+    "Docker no space left on device 해결",
+    "Docker container exited 137 원인과 해결",
+    "Kubernetes CrashLoopBackOff 원인과 해결",
+    "Kubernetes ImagePullBackOff 해결",
+    "Kubernetes Pending pod 원인 분석",
+    "Nginx 502 Bad Gateway 원인과 해결",
+    "CI/CD 배포 실패 롤백 체크리스트",
+    "RabbitMQ connection refused 해결",
+    "Kafka consumer lag 급증 원인과 해결",
   ],
   "#Linux": [
-    "Linux 로그 분석 명령어",
-    "Linux 파일 권한 실무",
-    "systemd 서비스 운영",
-    "서버 디스크 사용량 점검",
-    "Linux 네트워크 문제 추적",
-    "Linux 프로세스 점검 방법",
-    "crontab 운영 실수 방지",
-    "SSH 접속 장애 해결",
-    "서버 부하 평균 해석",
-    "로그 로테이션 설정",
+    "no space left on device 해결",
+    "permission denied 권한 오류 해결",
+    "systemctl failed to start 원인 분석",
+    "SSH permission denied publickey 해결",
+    "connection refused 원인과 확인 방법",
+    "too many open files 해결",
+    "cannot allocate memory 원인과 해결",
+    "disk usage 100 percent 원인 분석",
+    "crontab 실행 안됨 원인과 해결",
+    "logrotate 동작 안함 해결",
+    "port already in use 확인과 종료",
+    "server load average 높을 때 원인 분석",
   ],
   "#ElasticSearch": [
-    "Elasticsearch 인덱스 설계",
-    "Elasticsearch JVM 메모리 튜닝",
-    "Kibana 운영 대시보드",
-    "Elasticsearch slow query 분석",
-    "Elasticsearch 샤드 운영",
-    "Elasticsearch 매핑 설계",
-    "Elasticsearch 클러스터 상태 점검",
-    "Kibana Discover 실무 활용",
+    "Elasticsearch circuit_breaking_exception 해결",
+    "Elasticsearch heap memory 부족 해결",
+    "Elasticsearch cluster red status 해결",
+    "Elasticsearch unassigned shards 원인과 해결",
+    "Elasticsearch mapper_parsing_exception 해결",
+    "Elasticsearch search_phase_execution_exception 해결",
+    "Elasticsearch read_only_allow_delete 해제",
+    "Kibana server is not ready yet 해결",
+    "Kibana no data views found 해결",
+    "Elasticsearch slow query 원인 분석",
   ],
   "#Grafana": [
-    "Grafana 대시보드 설계",
-    "Grafana 알림 규칙 운영",
-    "Prometheus Grafana 연동",
-    "Grafana 변수 템플릿 활용",
-    "Grafana 패널 구성 원칙",
-    "운영 지표 시각화 기준",
+    "Grafana no data 표시 원인과 해결",
+    "Grafana datasource connection failed 해결",
+    "Grafana alert rule not firing 해결",
+    "Grafana panel query error 해결",
+    "Grafana time range 때문에 데이터 안보임 해결",
+    "Prometheus targets down 원인과 해결",
+    "Prometheus query timeout 해결",
+    "Grafana login failed 원인과 해결",
   ],
   "#Zabbix": [
-    "Zabbix 알림 튜닝",
-    "Zabbix Agent 운영",
-    "Zabbix 모니터링 항목 설계",
-    "Zabbix 템플릿 관리",
-    "Zabbix 장애 알림 피로도 줄이기",
-    "Zabbix와 Grafana 연동 운영",
+    "Zabbix agent is not available 해결",
+    "Zabbix unsupported item key 해결",
+    "Zabbix cannot connect to agent 해결",
+    "Zabbix active checks not working 해결",
+    "Zabbix trigger false positive 줄이는 방법",
+    "Zabbix low level discovery 안됨 해결",
+    "Zabbix server is not running 해결",
+    "Zabbix proxy no data 수집 안됨 해결",
   ],
   "#Frontend": [
-    "React 상태 관리 패턴",
-    "Next.js 정적 사이트 SEO",
-    "프론트엔드 성능 최적화",
-    "Astro 블로그 SEO",
-    "Markdown 기반 콘텐츠 관리",
-    "웹 접근성 기본 점검",
+    "npm err eresolve unable to resolve dependency tree 해결",
+    "npm err enoent package.json 없음 해결",
+    "vite dev server port already in use 해결",
+    "Next.js hydration failed 해결",
+    "Next.js module not found 해결",
+    "React maximum update depth exceeded 해결",
+    "Astro build failed 원인과 해결",
+    "CORS policy blocked 오류 해결",
   ],
   "#Other": [
-    "개발자 문서화 습관",
-    "Git 커밋 메시지 전략",
-    "개발 생산성 도구 자동화",
-    "개발 블로그 글감 관리",
-    "기술 문서 리뷰 방법",
-    "개인 프로젝트 릴리즈 노트",
-    "작업 로그를 지식 자산으로 바꾸기",
+    "Git non-fast-forward rejected 해결",
+    "Git merge conflict 해결 순서",
+    "Git detached HEAD 원인과 해결",
+    "Git authentication failed 해결",
+    "DBeaver public key retrieval is not allowed 해결",
+    "MySQL access denied for user 해결",
+    "Jenkins permission denied workspace 해결",
+    "Java OutOfMemoryError 원인과 해결",
+    "HTTP 504 gateway timeout 원인과 해결",
   ],
 };
 
@@ -719,16 +735,21 @@ async function searchVelog(keyword, maxResults = VELOG_SEARCH_RESULTS) {
 }
 
 async function searchSources(keyword) {
-  const [tistory, velog, naver] = await Promise.allSettled([
+  const searches = [
     searchTistory(keyword, TISTORY_SEARCH_RESULTS),
     searchVelog(keyword, VELOG_SEARCH_RESULTS),
-    searchNaverBlog(keyword, NAVER_SEARCH_RESULTS),
-  ]);
+  ];
+
+  if (NAVER_SEARCH_RESULTS > 0) {
+    searches.push(searchNaverBlog(keyword, NAVER_SEARCH_RESULTS));
+  }
+
+  const [tistory, velog, naver] = await Promise.allSettled(searches);
 
   const combined = [
     ...(tistory.status === "fulfilled" ? tistory.value : []),
     ...(velog.status === "fulfilled" ? velog.value : []),
-    ...(naver.status === "fulfilled" ? naver.value : []),
+    ...(naver?.status === "fulfilled" ? naver.value : []),
   ];
 
   const seen = new Set();
@@ -829,19 +850,19 @@ async function synthesizePost({ topic, category, articles }) {
   }
   const imageCandidates = getImageCandidates(articles, topic, category);
 
-  const system = `너는 한국어 개발 블로그 글을 쓰는 기술 에디터다.
+  const system = `너는 한국어 개발 블로그에 오류 해결 글을 쓰는 기술 에디터다.
 반드시 참고 자료를 직접 복사하지 말고, 내용을 종합해서 새로운 글로 작성한다.
 문체는 실무 개발자가 읽기 좋은 자연스러운 존댓말로 한다.
-과장된 마케팅 문구는 피하고, 개념-상황-실무 체크포인트-마무리 흐름으로 정리한다.
+과장된 마케팅 문구는 피하고, 증상-원인-확인 명령어-해결 절차-재발 방지 흐름으로 정리한다.
 응답은 JSON만 반환한다.`;
 
   const user = JSON.stringify(
     {
-      task: "기존 GitHub 기술 블로그에 올릴 새 글 작성",
+      task: "기존 GitHub 기술 블로그에 올릴 오류 해결형 새 글 작성",
       topic,
       requiredCategoryTag: category,
       outputSchema: {
-        title: "SEO에 적합한 한국어 제목",
+        title: "오류명 또는 증상이 드러나는 SEO용 한국어 제목",
         description: "검색 결과에 들어갈 80~150자 요약",
         tags: ["#DevOps 같은 해시태그 3~6개"],
         markdownBody: "H1 제목 없이 Markdown 본문만 작성. 이미지가 어울리는 단락 사이에 {{IMAGE_0}}, {{IMAGE_1}} 자리표시자를 선택적으로 배치",
@@ -849,7 +870,7 @@ async function synthesizePost({ topic, category, articles }) {
       writingRules: [
         "참고 글 문장을 길게 그대로 복사하지 말 것",
         "본문은 1800자 이상",
-        "실무 예시, 체크리스트, 흔한 실수, 마무리 요약 포함",
+        "문제 증상, 대표 원인, 확인 명령어, 해결 절차, 흔한 실수, 재발 방지 체크리스트 포함",
         "명령어, 설정 파일, 로그, 에러 메시지, HTTP/API 요청, 실행 결과 예시는 반드시 적절한 언어의 fenced code block으로 작성",
         "이미지 자리표시자는 글의 흐름상 관련 있는 문단 뒤에만 넣고, 본문 맨 위에는 넣지 말 것",
         "이미지가 내용과 직접 관련 없으면 자리표시자를 쓰지 말 것",
@@ -859,6 +880,9 @@ async function synthesizePost({ topic, category, articles }) {
         "markdownBody must be at least 2200 Korean characters before references.",
         "markdownBody must include at least 4 H2 sections using ## headings.",
         "Do not include an H1 heading in markdownBody.",
+        "The first H2 section must explain the symptom or error message.",
+        "At least one H2 section must explain causes and at least one H2 section must explain fixes.",
+        "Include at least one realistic log, command, configuration, or terminal output code block.",
         "Use both {{IMAGE_0}} and {{IMAGE_1}} only where the surrounding paragraph is directly relevant to the image.",
         "Prefer practical operational examples, checklists, and failure cases over generic explanations.",
       ],
@@ -953,6 +977,18 @@ function findLongCopiedSentence(body, articles) {
   return sentences.find((sentence) => references.includes(sentence)) || "";
 }
 
+function hasTroubleshootingStructure(body) {
+  const plain = plainMarkdownText(body);
+  const hasSymptom = /증상|에러|오류|로그|메시지|실패|failed|error|exception|denied|refused|timeout|not found|bad gateway/i.test(
+    plain
+  );
+  const hasCause = /원인|발생 이유|왜 발생|확인해야|점검|분석/i.test(plain);
+  const hasFix = /해결|조치|수정|재시작|설정|복구|우회|적용/i.test(plain);
+  const hasCodeBlock = /```[\s\S]+?```/.test(body);
+
+  return hasSymptom && hasCause && hasFix && hasCodeBlock;
+}
+
 function ensureMinimumBodyLength(body, topic, category) {
   let next = String(body || "").trim();
   if (plainMarkdownText(next).length >= MIN_BODY_CHARS) return next;
@@ -994,6 +1030,9 @@ function validateGeneratedPost({ topic, category, title, description, body, slug
   }
   if (hasRepeatedParagraph(body)) errors.push("body has repeated paragraphs");
   if (findLongCopiedSentence(body, articles)) errors.push("body appears to copy a source sentence");
+  if (!hasTroubleshootingStructure(body)) {
+    errors.push("body does not look like an error troubleshooting post");
+  }
   if (findSimilarPost({ title, slug }, posts)) {
     errors.push("generated title is too similar to an existing post");
   }
@@ -1001,8 +1040,14 @@ function validateGeneratedPost({ topic, category, title, description, body, slug
   return errors;
 }
 
+function makeSearchKeyword(topic) {
+  const normalized = String(topic || "").replace(/\s+/g, " ").trim();
+  const suffix = /해결/.test(normalized) ? "원인" : "해결 원인";
+  return `${normalized} ${suffix}`;
+}
+
 async function generatePost({ category, topic, posts, dryRun }) {
-  const keyword = `${topic} ${category.replace("#", "")} 실무`;
+  const keyword = makeSearchKeyword(topic);
 
   console.log(`[agent] category=${category}`);
   console.log(`[agent] topic=${topic}`);
