@@ -25,7 +25,7 @@ const NAVER_SEARCH_RESULTS = 0;
 const MAX_SOURCE_ARTICLES = 5;
 const MAX_ATTEMPTS_PER_POST = 4;
 const REJECT_IMAGE_PATTERN =
-  /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|spinner|loading|blank|sprite|웨비나|교육|세미나|강의|이벤트|패키지|공유|할인|프로모션|신청/i;
+  /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|post-thumbnail|thumbnail|spinner|loading|blank|sprite|웨비나|교육|세미나|강의|이벤트|패키지|공유|할인|프로모션|신청/i;
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
@@ -219,6 +219,30 @@ const SIMILARITY_STOP_WORDS = new Set([
   "with",
 ]);
 
+const RELEVANCE_GENERIC_TOKENS = new Set([
+  "해결",
+  "원인",
+  "오류",
+  "에러",
+  "문제",
+  "방법",
+  "분석",
+  "확인",
+  "실무",
+  "가이드",
+  "정리",
+  "troubleshooting",
+  "error",
+  "issue",
+  "problem",
+  "fix",
+  "solve",
+  "solution",
+  "guide",
+  "how",
+  "why",
+]);
+
 function normalizeForSimilarity(text) {
   return String(text || "")
     .normalize("NFKC")
@@ -247,6 +271,26 @@ function similarityScore(left, right) {
   }
 
   return { shared, ratio: shared / Math.min(left.size, right.size) };
+}
+
+function relevanceTokens(...values) {
+  const tokens = similarityTokens(...values);
+  for (const token of RELEVANCE_GENERIC_TOKENS) {
+    tokens.delete(token);
+  }
+  return tokens;
+}
+
+function sourceRelevanceScore(article, topic = "", category = "") {
+  const topicTokens = relevanceTokens(topic, category.replace("#", ""));
+  if (!topicTokens.size) return 0;
+
+  const sourceTokens = relevanceTokens(article.title, article.content_md, article.snippet);
+  return similarityScore(topicTokens, sourceTokens).shared;
+}
+
+function isSourceRelevant(article, topic = "", category = "") {
+  return sourceRelevanceScore(article, topic, category) > 0;
 }
 
 function findSimilarPost({ topic = "", title = "", slug = "" }, posts) {
@@ -498,6 +542,7 @@ function scoreImageCandidate(image, topic = "", category = "", body = "") {
   const bodyTokens = similarityTokens(body);
   const imageTokens = similarityTokens(image.alt, image.contextText, image.url);
   const sourceTokens = similarityTokens(image.sourceTitle);
+  const sourceRelevance = Number(image.sourceRelevance || 0);
   const directScore = similarityScore(topicTokens, imageTokens).shared;
   const bodyScore = similarityScore(bodyTokens, imageTokens).shared;
   const sourceScore = similarityScore(topicTokens, sourceTokens).shared * 2;
@@ -505,10 +550,11 @@ function scoreImageCandidate(image, topic = "", category = "", body = "") {
   const hasUsefulContext = String(image.contextText || "").trim().length >= 10;
   const hasSourceMatch = sourceScore > 0;
 
+  if (sourceRelevance <= 0) return 0;
   if (!hasUsefulAlt && !hasUsefulContext && !hasSourceMatch) return 0;
   if (directScore === 0 && bodyScore < 2 && !hasSourceMatch) return 0;
 
-  return directScore * 10 + bodyScore * 3 + sourceScore + (hasUsefulAlt ? 2 : 0);
+  return directScore * 10 + bodyScore * 3 + sourceScore + sourceRelevance * 5 + (hasUsefulAlt ? 2 : 0);
 }
 
 function getImageCandidates(articles, topic = "", category = "", body = "") {
@@ -517,6 +563,7 @@ function getImageCandidates(articles, topic = "", category = "", body = "") {
       (article.images || []).map((image) => ({
         ...image,
         sourceTitle: article.title,
+        sourceRelevance: sourceRelevanceScore(article, topic, category),
       }))
     )
     .filter((image) => !isRejectedImage(image.url, image.alt))
@@ -816,7 +863,7 @@ async function fetchSourceArticles(results, topic = "", category = "") {
     if (articles.length >= MAX_SOURCE_ARTICLES) break;
     try {
       const article = { ...(await fetchArticle(result.url)), source: result.source };
-      if (article.content_md.length > 500) {
+      if (article.content_md.length > 500 && isSourceRelevant(article, topic, category)) {
         const hasImageCandidate = getImageCandidates([article], topic, category).length >= 1;
         if (hasImageCandidate) {
           articles.push(article);

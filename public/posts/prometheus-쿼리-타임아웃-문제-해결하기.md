@@ -20,10 +20,6 @@ Error: context deadline exceeded
 ## 확인 명령어
 쿼리 타임아웃 문제를 확인하기 위해 다음과 같은 명령어를 사용할 수 있습니다:
 
-![post-thumbnail](/images/posts/prometheus-쿼리-타임아웃-문제-해결하기-00-1cfe0b91.png)
-
-<small>이미지 출처: https://velog.io/@taekkim/Git-한글-깨짐-해결-원인</small>
-
 1. **Prometheus 서버의 상태 확인**:
    ```bash
    kubectl get pods -n monitoring
@@ -45,10 +41,6 @@ Error: context deadline exceeded
    ```promql
    rate(http_requests_total[5m])
    ```
-
-![참고 이미지](/images/posts/prometheus-쿼리-타임아웃-문제-해결하기-01-a93e5124.png)
-
-<small>이미지 출처: https://velog.io/@jujini31/사용자-경험을-생각한-지도-개발-NAVER-지도-API-V3-마커폴리라인</small>
 
 2. **Prometheus 설정 변경**: `prometheus.yml` 파일에서 `query_timeout` 값을 늘립니다. 예를 들어, 30초에서 60초로 변경할 수 있습니다.
    ```yaml
@@ -104,6 +96,3 @@ Error: context deadline exceeded
 
 - [[IHOS 1기\] 6주차 - 운영, 튜닝](https://gylee815.tistory.com/35)
 - [관측성과 OpenTelemetry, Grafana, Loki, Tempo 알아보기](https://devstudy-record.tistory.com/100)
-- [Git 한글 깨짐 해결 + 원인](https://velog.io/@taekkim/Git-한글-깨짐-해결-원인)
-- [사용자 경험을 생각한 지도 개발: NAVER 지도 API V3 마커/폴리라인](https://velog.io/@jujini31/사용자-경험을-생각한-지도-개발-NAVER-지도-API-V3-마커폴리라인)
-- [[TS\] Cannot find module 오류 해결하기](https://velog.io/@jsi06138/TS-Cannot-find-module-오류-해결하기)

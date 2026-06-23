@@ -35,7 +35,7 @@
     "contentPath": "/posts/prometheus-쿼리-타임아웃-문제-해결하기.md",
     "generatedBy": "agent",
     "sourceTopic": "Prometheus query timeout 해결",
-    "imageCount": 2
+    "imageCount": 0
   },
   {
     "slug": "elasticsearch에서-슬로우-쿼리-분석하기",
