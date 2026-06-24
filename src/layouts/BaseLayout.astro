@@ -2,7 +2,7 @@
 import "../styles/global.css";
 
 const {
-  title = "choioki blog",
+  title = "최오키 개발블로그",
   description = "개발과 운영 경험을 기록하는 최성현의 기술 블로그입니다.",
   image = "/images/profile.jpeg",
   canonical = Astro.url.pathname,
@@ -44,7 +44,7 @@ const imageUrl = new URL(image, siteUrl).toString();
     <header class="site-header">
       <div class="site-header-inner">
         <a class="site-title" href="/">
-          <span>choioki blog</span>
+          <span>최오키 개발블로그</span>
         </a>
         {showSearch && (
           <div class="header-search">
