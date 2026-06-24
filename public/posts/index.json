@@ -1,5 +1,43 @@
 [
   {
+    "slug": "next-js-hydration-failed-서버와-클라이언트-렌더링-불일치-해결하기",
+    "title": "Next.js Hydration Failed: 서버와 클라이언트 렌더링 불일치 해결하기",
+    "description": "Next.js에서 발생하는 Hydration Failed 오류의 원인과 해결 방법을 실무 예시를 통해 알아봅니다.",
+    "date": "2026-06-24",
+    "tags": [
+      "#Frontend",
+      "#NextJS",
+      "#React",
+      "#WebDevelopment",
+      "#JavaScript"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/next-js-hydration-failed-서버와-클라이언트-렌더링-불일치-해결하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Next.js hydration failed 해결",
+    "imageCount": 1
+  },
+  {
+    "slug": "kubernetes에서-pending-상태의-pod-원인과-해결-방법",
+    "title": "Kubernetes에서 Pending 상태의 Pod 원인과 해결 방법",
+    "description": "Kubernetes에서 Pod가 Pending 상태로 남아 있는 원인을 분석하고, 이를 해결하기 위한 방법을 정리했습니다.",
+    "date": "2026-06-24",
+    "tags": [
+      "#DevOps",
+      "#Kubernetes",
+      "#Pod",
+      "#Pending",
+      "#클라우드"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/kubernetes에서-pending-상태의-pod-원인과-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Kubernetes Pending pod 원인 분석",
+    "imageCount": 0
+  },
+  {
     "slug": "vite-dev-server-포트-충돌-문제-해결하기",
     "title": "Vite Dev Server 포트 충돌 문제 해결하기",
     "description": "Vite Dev Server를 실행할 때 발생하는 포트 충돌 문제를 해결하는 방법을 소개합니다.",
