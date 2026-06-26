@@ -1,5 +1,43 @@
 [
   {
+    "slug": "docker-컨테이너-종료-코드-137의-원인과-해결-방법",
+    "title": "Docker 컨테이너 종료 코드 137의 원인과 해결 방법",
+    "description": "Docker에서 컨테이너가 종료될 때 발생하는 코드 137의 원인과 해결 방법을 알아보세요.",
+    "date": "2026-06-26",
+    "tags": [
+      "#DevOps",
+      "#Docker",
+      "#컨테이너",
+      "#오류해결",
+      "#트러블슈팅"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/docker-컨테이너-종료-코드-137의-원인과-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Docker container exited 137 원인과 해결",
+    "imageCount": 2
+  },
+  {
+    "slug": "permission-denied-오류-해결-가이드-원인과-해결-방법",
+    "title": "Permission Denied 오류 해결 가이드: 원인과 해결 방법",
+    "description": "리눅스 환경에서 발생하는 Permission Denied 오류의 원인과 해결 방법을 상세히 설명합니다. 실무에서 자주 마주치는 문제를 해결해보세요.",
+    "date": "2026-06-26",
+    "tags": [
+      "#Linux",
+      "#DevOps",
+      "#ErrorHandling",
+      "#Troubleshooting",
+      "#SystemAdmin"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/permission-denied-오류-해결-가이드-원인과-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "permission denied 권한 오류 해결",
+    "imageCount": 2
+  },
+  {
     "slug": "no-space-left-on-device-오류-해결-방법",
     "title": "no space left on device 오류 해결 방법",
     "description": "리눅스 환경에서 'no space left on device' 오류를 해결하는 방법을 단계별로 설명합니다. 디스크 용량 확인과 정리 방법을 포함합니다.",
