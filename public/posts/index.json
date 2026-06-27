@@ -1,5 +1,44 @@
 [
   {
+    "slug": "git-인증-실패-문제-해결하기-personal-access-token-사용법",
+    "title": "Git 인증 실패 문제 해결하기: Personal Access Token 사용법",
+    "description": "GitHub에서 발생하는 인증 실패 문제를 해결하기 위한 방법과 절차를 안내합니다. 개인 액세스 토큰을 이용한 인증 방법을 자세히 설명합니다.",
+    "date": "2026-06-27",
+    "tags": [
+      "#Other",
+      "#Git",
+      "#GitHub",
+      "#DevOps",
+      "#Authentication",
+      "#ErrorHandling"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/git-인증-실패-문제-해결하기-personal-access-token-사용법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Git authentication failed 해결",
+    "imageCount": 2
+  },
+  {
+    "slug": "prometheus-targets-down-문제의-원인과-해결-방법",
+    "title": "Prometheus Targets Down 문제의 원인과 해결 방법",
+    "description": "Prometheus에서 targets가 down 상태가 되는 원인과 이를 해결하기 위한 방법을 자세히 설명합니다.",
+    "date": "2026-06-27",
+    "tags": [
+      "#Grafana",
+      "#DevOps",
+      "#Prometheus",
+      "#모니터링",
+      "#오류해결"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/prometheus-targets-down-문제의-원인과-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Prometheus targets down 원인과 해결",
+    "imageCount": 2
+  },
+  {
     "slug": "docker-컨테이너-종료-코드-137의-원인과-해결-방법",
     "title": "Docker 컨테이너 종료 코드 137의 원인과 해결 방법",
     "description": "Docker에서 컨테이너가 종료될 때 발생하는 코드 137의 원인과 해결 방법을 알아보세요.",
