@@ -335,12 +335,18 @@ function findSimilarPost({ topic = "", title = "", slug = "" }, posts) {
   return null;
 }
 
+const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+
+function nowKstDate() {
+  return new Date(Date.now() + KST_OFFSET_MS);
+}
+
 function todayIso() {
-  return new Date().toISOString().slice(0, 10);
+  return nowKstDate().toISOString().slice(0, 10);
 }
 
 function dayOfYear() {
-  const now = new Date();
+  const now = nowKstDate();
   const start = new Date(Date.UTC(now.getUTCFullYear(), 0, 0));
   return Math.floor((now - start) / 86400000);
 }
@@ -1293,9 +1299,15 @@ async function main() {
 
   if (dryRun) return;
 
-  if (created < postCount) {
+  if (created === 0) {
     throw new Error(
-      `Only created ${created}/${postCount} posts after ${maxAttempts} attempts. Need more usable source articles or images.`
+      `Created 0/${postCount} posts after ${maxAttempts} attempts. Need more usable source articles or images.`
+    );
+  }
+
+  if (created < postCount) {
+    console.warn(
+      `[warn] only created ${created}/${postCount} posts after ${maxAttempts} attempts; publishing partial result`
     );
   }
 
