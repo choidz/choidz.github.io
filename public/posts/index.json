@@ -1,5 +1,25 @@
 [
   {
+    "slug": "git-머지-충돌-해결하는-방법과-절차",
+    "title": "Git 머지 충돌 해결하는 방법과 절차",
+    "description": "Git 머지 충돌이 발생했을 때의 증상과 원인, 해결 방법을 단계별로 정리하여 실무에서 유용하게 활용할 수 있도록 안내합니다.",
+    "date": "2026-07-02",
+    "tags": [
+      "#Other",
+      "#Git",
+      "#MergeConflict",
+      "#DevOps",
+      "#개발입문",
+      "#버전관리"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/git-머지-충돌-해결하는-방법과-절차.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Git merge conflict 해결 순서",
+    "imageCount": 2
+  },
+  {
     "slug": "connection-refused-에러-원인과-해결-방법",
     "title": "Connection Refused 에러: 원인과 해결 방법",
     "description": "Connection Refused 에러의 원인과 해결 방법을 알아보고, 재발 방지를 위한 체크리스트를 제공합니다.",
