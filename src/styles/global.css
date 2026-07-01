@@ -1344,14 +1344,14 @@ img {
 }
 
 .prose--focus img {
-  width: min(100vw - 40px, 980px);
-  max-width: none;
-  margin: clamp(38px, 7vw, 72px) 50% 10px;
+  width: 100%;
+  max-width: 100%;
+  margin: clamp(34px, 6vw, 56px) 0 10px;
   border: 0;
   border-radius: 0;
   background: #f3f4f6;
   box-shadow: 0 20px 48px rgba(17, 24, 39, 0.12);
-  transform: translateX(-50%);
+  transform: none;
 }
 
 .prose--focus small {
@@ -1645,7 +1645,6 @@ img {
   }
 
   .prose--focus img {
-    width: calc(100vw - 28px);
     margin-top: 34px;
   }
 
