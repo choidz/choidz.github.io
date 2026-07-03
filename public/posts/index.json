@@ -1,5 +1,44 @@
 [
   {
+    "slug": "git에서-detached-head-상태-발생-원인과-해결-방법",
+    "title": "Git에서 Detached HEAD 상태 발생 원인과 해결 방법",
+    "description": "Git에서 Detached HEAD 상태가 발생하는 원인과 이를 해결하는 방법을 알아보세요. 실무에서 자주 발생하는 문제를 쉽게 해결할 수 있습니다.",
+    "date": "2026-07-04",
+    "tags": [
+      "#Other",
+      "#Git",
+      "#개발",
+      "#버전관리",
+      "#소프트웨어개발",
+      "#개발자팁"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/git에서-detached-head-상태-발생-원인과-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Git detached HEAD 원인과 해결",
+    "imageCount": 1
+  },
+  {
+    "slug": "grafana-데이터소스-연결-실패-해결하기",
+    "title": "Grafana 데이터소스 연결 실패 해결하기",
+    "description": "Grafana에서 데이터소스 연결 실패 문제를 해결하는 방법을 알아보세요. 증상, 원인, 해결 절차를 단계별로 제공합니다.",
+    "date": "2026-07-04",
+    "tags": [
+      "#Grafana",
+      "#DevOps",
+      "#Monitoring",
+      "#Troubleshooting",
+      "#DataSource"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/grafana-데이터소스-연결-실패-해결하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Grafana datasource connection failed 해결",
+    "imageCount": 0
+  },
+  {
     "slug": "cannot-allocate-memory-오류의-원인과-해결-방법",
     "title": "cannot allocate memory 오류의 원인과 해결 방법",
     "description": "Linux 환경에서 'cannot allocate memory' 오류의 원인과 해결 방법을 정리한 글입니다.",
