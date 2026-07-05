@@ -1,5 +1,43 @@
 [
   {
+    "slug": "cors-정책에-의한-차단-오류-해결하기",
+    "title": "CORS 정책에 의한 차단 오류 해결하기",
+    "description": "CORS 정책으로 인해 발생하는 차단 오류를 이해하고, 이를 해결하는 방법을 단계별로 안내합니다.",
+    "date": "2026-07-06",
+    "tags": [
+      "#Frontend",
+      "#CORS",
+      "#WebDevelopment",
+      "#ErrorHandling",
+      "#JavaScript"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/cors-정책에-의한-차단-오류-해결하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "CORS policy blocked 오류 해결",
+    "imageCount": 2
+  },
+  {
+    "slug": "elasticsearch-unassigned-shards-문제-해결-가이드",
+    "title": "Elasticsearch Unassigned Shards 문제 해결 가이드",
+    "description": "Elasticsearch에서 발생하는 Unassigned Shards 문제의 원인과 해결 방법을 알아보세요.",
+    "date": "2026-07-06",
+    "tags": [
+      "#ElasticSearch",
+      "#DevOps",
+      "#Troubleshooting",
+      "#Database",
+      "#Performance"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/elasticsearch-unassigned-shards-문제-해결-가이드.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Elasticsearch unassigned shards 원인과 해결",
+    "imageCount": 0
+  },
+  {
     "slug": "elasticsearch-클러스터-상태가-red일-때의-해결-방법",
     "title": "Elasticsearch 클러스터 상태가 Red일 때의 해결 방법",
     "description": "Elasticsearch 클러스터의 상태가 Red로 표시되는 경우의 원인과 해결 방법을 정리했습니다.",
