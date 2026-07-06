@@ -1,5 +1,24 @@
 [
   {
+    "slug": "npm-err-enoent-package-json-파일이-없습니다-해결-방법",
+    "title": "npm ERR! ENOENT: package.json 파일이 없습니다 – 해결 방법",
+    "description": "npm 사용 중 package.json 파일이 없어 발생하는 ENOENT 오류를 해결하는 방법을 안내합니다.",
+    "date": "2026-07-07",
+    "tags": [
+      "#Frontend",
+      "#NodeJS",
+      "#npm",
+      "#JavaScript",
+      "#개발자팁"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/npm-err-enoent-package-json-파일이-없습니다-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "npm err enoent package.json 없음 해결",
+    "imageCount": 0
+  },
+  {
     "slug": "cors-정책에-의한-차단-오류-해결하기",
     "title": "CORS 정책에 의한 차단 오류 해결하기",
     "description": "CORS 정책으로 인해 발생하는 차단 오류를 이해하고, 이를 해결하는 방법을 단계별로 안내합니다.",
