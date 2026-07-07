@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { formatDate, getAllTags, getPostUrl, sortPosts } from "../lib/posts.js";
+import { formatDate, getAllTags, getPostImage, getPostUrl, sortPosts } from "../lib/posts.js";
 
 const postModules = import.meta.glob("../content/blog/*.md", { eager: true });
 const posts = sortPosts(Object.values(postModules));
@@ -11,17 +11,6 @@ const categories = [
   { label: "Linux", filter: "linux" },
   { label: "Monitoring", filter: "monitoring" },
 ];
-
-function getPostRaw(post) {
-  if (typeof post.rawContent === "function") return post.rawContent();
-  return post.rawContent ?? post.body ?? "";
-}
-
-function getPostImage(post) {
-  const raw = getPostRaw(post);
-  const localImage = raw.match(/!\[[^\]]*\]\((\/images\/posts\/[^)\s]+)\)/);
-  return post.frontmatter.image ?? localImage?.[1] ?? "";
-}
 
 function getCategory(post) {
   return post.frontmatter.tags?.[0] ?? "Engineering";
@@ -113,7 +102,8 @@ function getCategory(post) {
     const prevButton = document.querySelector("[data-page-prev]");
     const nextButton = document.querySelector("[data-page-next]");
     const pageSize = 15;
-    let activeTag = "";
+    const urlTag = new URLSearchParams(window.location.search).get("tag") || "";
+    let activeTag = urlTag.trim().toLowerCase();
     let currentPage = 1;
 
     function matchingCards() {
@@ -189,6 +179,7 @@ function getCategory(post) {
       applyFilters();
     });
     for (const button of tagButtons) {
+      button.classList.toggle("active", button.dataset.tagFilter === activeTag);
       button.addEventListener("click", () => {
         activeTag = button.dataset.tagFilter || "";
         currentPage = 1;

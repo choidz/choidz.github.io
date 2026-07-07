@@ -65,6 +65,10 @@ jobs:
           AGENT_DRY_RUN: ${{ inputs.dry_run }}
         run: npm run agent:post
 
+      - name: Validate generated post quality
+        if: ${{ inputs.dry_run != 'true' }}
+        run: npm run agent:validate
+
       - name: Upload agent usage report
         if: always()
         uses: actions/upload-artifact@v4

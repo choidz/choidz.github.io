@@ -24,6 +24,7 @@ const imageUrl = new URL(image, siteUrl).toString();
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href={new URL("/rss.xml", siteUrl).toString()} />
     <link rel="icon" href="/favicon.ico" />
     <meta name="theme-color" content="#0f172a" />
 

@@ -1252,11 +1252,106 @@ img {
   margin-top: 22px;
 }
 
-.article-tags span {
+.article-tags span,
+.article-tags a {
+  display: inline-flex;
+  border-radius: 999px;
   padding: 7px 13px;
   color: #4b5563;
   background: #f3f4f6;
   font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.article-tags a:hover {
+  color: #111827;
+  background: #e5e7eb;
+}
+
+.article-toc {
+  width: min(860px, 100%);
+  margin: 0 0 34px;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 18px 0;
+}
+
+.article-toc strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.article-toc ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-toc li.depth-3 {
+  padding-left: 18px;
+}
+
+.article-toc a {
+  color: #596273;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.article-toc a:hover {
+  color: #111827;
+}
+
+.article-related {
+  width: min(860px, 100%);
+  margin-top: clamp(56px, 8vw, 88px);
+  border-top: 1px solid #dce1e8;
+  padding-top: 26px;
+}
+
+.article-related h2 {
+  margin: 0 0 18px;
+  color: #111827;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.article-related > div {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid #edf0f4;
+}
+
+.article-related a {
+  display: grid;
+  gap: 6px;
+  border-bottom: 1px solid #edf0f4;
+  padding: 18px 0;
+}
+
+.article-related span,
+.article-related time {
+  color: #7b8493;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.article-related strong {
+  color: #111827;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.article-related a:hover strong {
+  text-decoration: underline;
+  text-decoration-color: #b8c0cc;
+  text-underline-offset: 4px;
 }
 
 .prose--focus {
@@ -1371,11 +1466,54 @@ img {
 }
 
 .prose--focus pre {
+  position: relative;
   margin: 34px 0;
   border-radius: 0;
   padding: 24px;
   background: #171b22;
   box-shadow: 0 18px 42px rgba(17, 24, 39, 0.14);
+}
+
+.code-copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: #e5e7eb;
+  background: rgba(17, 24, 39, 0.82);
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.code-copy-button:hover {
+  color: #fff;
+  background: rgba(55, 65, 81, 0.92);
+}
+
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 20;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid #d8dde5;
+  border-radius: 999px;
+  color: #111827;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.12);
+  font-size: 20px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.back-to-top:hover {
+  background: #f4f6f8;
 }
 
 .prose--focus pre code {

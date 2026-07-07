@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "agent:post": "node scripts/agent-post.mjs",
+    "agent:validate": "node scripts/validate-agent-posts.mjs",
     "sync:posts": "node scripts/sync-posts.mjs",
     "prestart": "npm run sync:posts",
     "start": "astro dev",

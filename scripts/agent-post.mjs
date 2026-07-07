@@ -1152,6 +1152,12 @@ async function generatePost({ category, topic, posts, dryRun }) {
     );
     return null;
   }
+  if (!dryRun && initialImageCandidates.length < MAX_IMAGES_PER_POST) {
+    console.warn(
+      `[warn] skipped topic because usable image candidates are below ${MAX_IMAGES_PER_POST}`
+    );
+    return null;
+  }
 
   const generated = await synthesizePost({ topic, category, articles });
   const title = String(generated.title || `${topic} 실무 정리`).trim();
@@ -1207,6 +1213,13 @@ async function generatePost({ category, topic, posts, dryRun }) {
     await cleanupDownloadedImages(unusedImages);
   }
   console.log(`[agent] placed images=${usedImages.length}`);
+  if (!dryRun && usedImages.length < MAX_IMAGES_PER_POST) {
+    await cleanupDownloadedImages(usedImages);
+    console.warn(
+      `[warn] skipped generated post because placed images are below ${MAX_IMAGES_PER_POST}`
+    );
+    return null;
+  }
 
   const sources = articles
     .map((article) => `- [${article.title.replace(/\]/g, "\\]")}](${article.url})`)
@@ -1214,11 +1227,7 @@ async function generatePost({ category, topic, posts, dryRun }) {
   const markdown = [
     `# ${title}`,
     "",
-    "---",
-    "",
     bodyWithImages,
-    "",
-    "---",
     "",
     "## 참고한 자료",
     "",
@@ -1263,6 +1272,7 @@ async function main() {
   const maxAttempts = postCount * MAX_ATTEMPTS_PER_POST;
   let created = 0;
   let attemptsUsed = 0;
+  const createdSlugs = [];
 
   console.log(`[agent] post count=${postCount}`);
 
@@ -1281,6 +1291,7 @@ async function main() {
     if (metadata) {
       workingPosts.unshift(metadata);
       created += 1;
+      createdSlugs.push(metadata.slug);
     }
 
     if (attempt < maxAttempts - 1 && created < postCount) {
@@ -1295,6 +1306,7 @@ async function main() {
     requested: postCount,
     attempts: attemptsUsed,
     maxAttempts,
+    createdSlugs,
   });
 
   if (dryRun) return;

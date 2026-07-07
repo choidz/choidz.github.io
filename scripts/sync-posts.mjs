@@ -40,6 +40,7 @@ async function main() {
       `date: ${frontmatterString(post.date)}`,
       `order: ${Number(post.order ?? index)}`,
       `tags: ${JSON.stringify(tags)}`,
+      ...(post.image ? [`image: ${frontmatterString(post.image)}`] : []),
       `readingMinutes: ${Number(post.readingMinutes ?? 1)}`,
       `draft: false`,
       "---",
