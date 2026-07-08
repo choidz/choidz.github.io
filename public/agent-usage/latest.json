@@ -1,15 +1,18 @@
 {
-  "generatedAt": "2026-07-06T17:51:52.697Z",
+  "generatedAt": "2026-07-08T16:50:14.252Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 4,
-    "promptTokens": 19863,
-    "completionTokens": 3973,
-    "totalTokens": 23836
+    "calls": 3,
+    "promptTokens": 21243,
+    "completionTokens": 3221,
+    "totalTokens": 24464
   },
   "dryRun": false,
   "created": 1,
   "requested": 2,
   "attempts": 8,
-  "maxAttempts": 8
+  "maxAttempts": 8,
+  "createdSlugs": [
+    "http-504-gateway-timeout-오류의-원인과-해결-방법"
+  ]
 }

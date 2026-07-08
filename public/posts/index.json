@@ -1,5 +1,25 @@
 [
   {
+    "slug": "http-504-gateway-timeout-오류의-원인과-해결-방법",
+    "title": "HTTP 504 Gateway Timeout 오류의 원인과 해결 방법",
+    "description": "HTTP 504 Gateway Timeout 오류의 원인과 해결 방법을 알아보세요. 이 글에서는 증상, 원인, 확인 명령어, 해결 절차 및 재발 방지 방법을 다룹니다.",
+    "date": "2026-07-09",
+    "tags": [
+      "#Other",
+      "#DevOps",
+      "#Nginx",
+      "#HTTP",
+      "#GatewayTimeout",
+      "#서버오류"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/http-504-gateway-timeout-오류의-원인과-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "HTTP 504 gateway timeout 원인과 해결",
+    "imageCount": 2
+  },
+  {
     "slug": "npm-err-enoent-package-json-파일이-없습니다-해결-방법",
     "title": "npm ERR! ENOENT: package.json 파일이 없습니다 – 해결 방법",
     "description": "npm 사용 중 package.json 파일이 없어 발생하는 ENOENT 오류를 해결하는 방법을 안내합니다.",
