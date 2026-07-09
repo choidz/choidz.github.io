@@ -1,5 +1,25 @@
 [
   {
+    "slug": "git-push-시-발생하는-non-fast-forward-오류-해결-방법",
+    "title": "Git push 시 발생하는 non-fast-forward 오류 해결 방법",
+    "description": "Git push를 시도할 때 발생하는 non-fast-forward 오류를 해결하는 방법을 단계별로 설명합니다.",
+    "date": "2026-07-10",
+    "tags": [
+      "#Other",
+      "#Git",
+      "#DevOps",
+      "#ErrorHandling",
+      "#SoftwareDevelopment",
+      "#VersionControl"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/git-push-시-발생하는-non-fast-forward-오류-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Git non-fast-forward rejected 해결",
+    "imageCount": 2
+  },
+  {
     "slug": "http-504-gateway-timeout-오류의-원인과-해결-방법",
     "title": "HTTP 504 Gateway Timeout 오류의 원인과 해결 방법",
     "description": "HTTP 504 Gateway Timeout 오류의 원인과 해결 방법을 알아보세요. 이 글에서는 증상, 원인, 확인 명령어, 해결 절차 및 재발 방지 방법을 다룹니다.",

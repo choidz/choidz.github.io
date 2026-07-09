@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-08T16:50:14.252Z",
+  "generatedAt": "2026-07-09T17:28:31.229Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 3,
-    "promptTokens": 21243,
-    "completionTokens": 3221,
-    "totalTokens": 24464
+    "calls": 2,
+    "promptTokens": 11723,
+    "completionTokens": 2234,
+    "totalTokens": 13957
   },
   "dryRun": false,
   "created": 1,
@@ -13,6 +13,6 @@
   "attempts": 8,
   "maxAttempts": 8,
   "createdSlugs": [
-    "http-504-gateway-timeout-오류의-원인과-해결-방법"
+    "git-push-시-발생하는-non-fast-forward-오류-해결-방법"
   ]
 }
