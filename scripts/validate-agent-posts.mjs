@@ -10,6 +10,8 @@ const MIN_IMAGES_PER_POST = 2;
 
 const ERROR_PATTERN =
   /오류|에러|해결|문제|실패|원인|failed|failure|error|exception|denied|refused|timeout|not found|crash|down|red|pending|enoent|cors|oom|memory|permission/i;
+const REJECT_PERSON_IMAGE_PATTERN =
+  /profile|avatar|portrait|selfie|face|person|people|human|baby|child|children|kid|kids|프로필|얼굴|인물|사람|아기|아이|어린이|유아|남자|여자|셀카|증명사진/i;
 
 function todayIsoKst() {
   return new Date(Date.now() + KST_OFFSET_MS).toISOString().slice(0, 10);
@@ -54,6 +56,9 @@ function validatePost(post, markdown, knownSlugs) {
   }
   if (/^---\s*$/m.test(markdown)) errors.push("contains standalone horizontal rule");
   if (/!\[[^\]]*\]\(https?:\/\//i.test(markdown)) errors.push("contains external hotlinked image");
+  if (REJECT_PERSON_IMAGE_PATTERN.test(markdown)) {
+    errors.push("contains person/profile related image text");
+  }
   if (localImages.length < MIN_IMAGES_PER_POST) {
     errors.push(`not enough local images: ${localImages.length}/${MIN_IMAGES_PER_POST}`);
   }

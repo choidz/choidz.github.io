@@ -4,9 +4,6 @@
 
 HTTP 504 Gateway Timeout 오류는 웹 서버가 요청을 처리하는 동안 응답을 제때 받지 못했을 때 발생합니다. 이 오류는 주로 프록시 서버가 업스트림 서버로부터 응답을 기다리다가 시간 초과가 발생했을 때 나타납니다. 사용자는 다음과 같은 메시지를 보게 됩니다:
 
-![프로필사진](/images/posts/http-504-gateway-timeout-오류의-원인과-해결-방법-01-f3c1ba34.jpg)
-
-<small>이미지 출처: https://devkuka.tistory.com/220</small>
 
 ```
 504 Gateway Timeout
@@ -80,9 +77,6 @@ upstream timed out (110: Connection timed out) while reading response header fro
 - 한 번에 모든 서버나 서비스에 적용하기보다 작은 범위에서 검증한 뒤 점진적으로 확대합니다.
 - 담당자, 확인 시간, 장애 판단 기준을 명확히 남겨 같은 문제가 반복될 때 빠르게 대응할 수 있게 합니다.
 
-![참고 이미지](/images/posts/http-504-gateway-timeout-오류의-원인과-해결-방법-00-391a9db8.png)
-
-<small>이미지 출처: https://shanael.tistory.com/434</small>
 
 ## 참고한 자료
 

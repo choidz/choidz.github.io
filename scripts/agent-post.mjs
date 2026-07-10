@@ -26,6 +26,10 @@ const MAX_SOURCE_ARTICLES = 5;
 const MAX_ATTEMPTS_PER_POST = 4;
 const REJECT_IMAGE_PATTERN =
   /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|post-thumbnail|thumbnail|spinner|loading|blank|sprite|training|course|certified|trainer|webinar|seminar|lecture|웨비나|교육|세미나|강의|이벤트|패키지|공유|할인|프로모션|신청/i;
+const REJECT_PERSON_IMAGE_PATTERN =
+  /profile|avatar|portrait|selfie|face|person|people|human|baby|child|children|kid|kids|프로필|얼굴|인물|사람|아기|아이|어린이|유아|남자|여자|셀카|증명사진/i;
+const TECHNICAL_IMAGE_PATTERN =
+  /error|exception|timeout|gateway|nginx|apache|server|http|api|log|terminal|console|shell|config|configuration|code|stack|trace|dashboard|grafana|prometheus|zabbix|kubernetes|docker|git|mysql|database|query|screenshot|capture|diagram|architecture|오류|에러|로그|터미널|콘솔|명령|설정|코드|서버|장애|대시보드|화면|캡처|스크린샷|구성|아키텍처|다이어그램|쿼리|타임아웃|게이트웨이|응답|프록시/i;
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
@@ -485,10 +489,15 @@ function imageExtension(contentType, url) {
   return match ? match[1].replace("jpeg", "jpg").toLowerCase() : "jpg";
 }
 
-function isRejectedImage(src, alt = "") {
+function isRejectedImage(src, alt = "", contextText = "", sourceTitle = "") {
   if (!src) return true;
   if (/\.(svg|ico)(?:$|\?)/i.test(src)) return true;
-  return REJECT_IMAGE_PATTERN.test(`${src} ${alt}`);
+  const text = `${src} ${alt} ${contextText} ${sourceTitle}`;
+  return REJECT_IMAGE_PATTERN.test(text) || REJECT_PERSON_IMAGE_PATTERN.test(text);
+}
+
+function hasTechnicalImageSignal(image) {
+  return TECHNICAL_IMAGE_PATTERN.test(`${image.alt || ""} ${image.contextText || ""} ${image.url || ""}`);
 }
 
 function compactText(text, limit = 500) {
@@ -582,7 +591,8 @@ function getImageCandidates(articles, topic = "", category = "", body = "") {
         sourceRelevance: sourceRelevanceScore(article, topic, category),
       }))
     )
-    .filter((image) => !isRejectedImage(image.url, image.alt))
+    .filter((image) => !isRejectedImage(image.url, image.alt, image.contextText, image.sourceTitle))
+    .filter((image) => hasTechnicalImageSignal(image))
     .map((image) => ({
       ...image,
       score: scoreImageCandidate(image, topic, category, body),
