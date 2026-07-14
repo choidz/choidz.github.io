@@ -33,6 +33,9 @@ jobs:
       - name: Build site
         env:
           PUBLIC_GA_MEASUREMENT_ID: ${{ vars.PUBLIC_GA_MEASUREMENT_ID }}
+          PUBLIC_GA_PROPERTY_ID: ${{ vars.PUBLIC_GA_PROPERTY_ID }}
+          PUBLIC_GOOGLE_CLIENT_ID: ${{ vars.PUBLIC_GOOGLE_CLIENT_ID }}
+          PUBLIC_ADMIN_API_URL: ${{ vars.PUBLIC_ADMIN_API_URL }}
           PUBLIC_CLARITY_PROJECT_ID: ${{ vars.PUBLIC_CLARITY_PROJECT_ID }}
         run: npm run build
 
