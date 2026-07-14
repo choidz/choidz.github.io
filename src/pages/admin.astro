@@ -53,14 +53,20 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
           <span>최근 28일 기준으로 꼭 볼 숫자만 모았습니다.</span>
         </div>
         <button type="button" data-admin-action>
-          {adminMode === "links" ? "Google Analytics 열기" : "통계 새로고침"}
+          {adminMode === "links"
+            ? "Google Analytics 열기"
+            : adminMode === "oauth"
+              ? "Google 권한 연결"
+              : "통계 새로고침"}
         </button>
       </section>
 
       <p class="admin-message" data-admin-message>
         {adminMode === "links"
           ? "아직 GA 자동조회 연결값이 없습니다. Google OAuth Client ID 또는 서버리스 API URL을 연결하면 로그인 직후 자동으로 조회됩니다."
-          : "로그인 후 자동으로 통계를 불러옵니다."}
+          : adminMode === "oauth"
+            ? "Google 권한 연결을 누르면 GA 권한 승인 후 이 화면에서 통계를 불러옵니다."
+            : "로그인 후 자동으로 통계를 불러옵니다."}
       </p>
 
       <section class="admin-metrics" aria-label="핵심 통계">
@@ -98,7 +104,9 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
                   <td colspan="3">
                     {adminMode === "links"
                       ? "자동조회 연결값이 필요합니다."
-                      : "통계를 불러오는 중입니다."}
+                      : adminMode === "oauth"
+                        ? "Google 권한 연결을 누르면 표시됩니다."
+                        : "통계를 불러오는 중입니다."}
                   </td>
                 </tr>
               </tbody>
@@ -124,7 +132,9 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
                   <td colspan="2">
                     {adminMode === "links"
                       ? "자동조회 연결값이 필요합니다."
-                      : "통계를 불러오는 중입니다."}
+                      : adminMode === "oauth"
+                        ? "Google 권한 연결을 누르면 표시됩니다."
+                        : "통계를 불러오는 중입니다."}
                   </td>
                 </tr>
               </tbody>
@@ -183,7 +193,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
     async function showAdmin({ autoLoad = true } = {}) {
       loginPanel?.setAttribute("hidden", "");
       content?.removeAttribute("hidden");
-      if (autoLoad) {
+      if (autoLoad && mode === "serverless") {
         await autoLoadReports();
       }
     }
@@ -389,6 +399,11 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
     async function autoLoadReports() {
       if (mode === "links") {
         setNeedsSetup();
+        return;
+      }
+
+      if (mode === "oauth") {
+        setMessage("Google 권한 연결을 누르면 GA 데이터를 불러옵니다.");
         return;
       }
 
