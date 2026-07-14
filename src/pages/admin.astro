@@ -59,22 +59,22 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
 
       <p class="admin-message" data-admin-message>
         {adminMode === "links"
-          ? "아직 자동 조회 연결 전입니다. 버튼을 누르면 Google Analytics로 이동합니다."
-          : "통계 새로고침을 누르면 데이터를 불러옵니다."}
+          ? "아직 GA 자동조회 연결값이 없습니다. Google OAuth Client ID 또는 서버리스 API URL을 연결하면 로그인 직후 자동으로 조회됩니다."
+          : "로그인 후 자동으로 통계를 불러옵니다."}
       </p>
 
       <section class="admin-metrics" aria-label="핵심 통계">
         <article>
           <span>현재 접속자</span>
-          <strong data-active-users>-</strong>
+          <strong data-active-users>{adminMode === "links" ? "연결 필요" : "-"}</strong>
         </article>
         <article>
           <span>28일 조회수</span>
-          <strong data-total-views>-</strong>
+          <strong data-total-views>{adminMode === "links" ? "연결 필요" : "-"}</strong>
         </article>
         <article>
           <span>28일 사용자</span>
-          <strong data-total-users>-</strong>
+          <strong data-total-users>{adminMode === "links" ? "연결 필요" : "-"}</strong>
         </article>
       </section>
 
@@ -94,7 +94,13 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
                 </tr>
               </thead>
               <tbody data-page-rows>
-                <tr><td colspan="3">연결 후 표시됩니다.</td></tr>
+                <tr>
+                  <td colspan="3">
+                    {adminMode === "links"
+                      ? "자동조회 연결값이 필요합니다."
+                      : "통계를 불러오는 중입니다."}
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -114,7 +120,13 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
                 </tr>
               </thead>
               <tbody data-realtime-rows>
-                <tr><td colspan="2">연결 후 표시됩니다.</td></tr>
+                <tr>
+                  <td colspan="2">
+                    {adminMode === "links"
+                      ? "자동조회 연결값이 필요합니다."
+                      : "통계를 불러오는 중입니다."}
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -164,13 +176,16 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
       return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
     }
 
-    function showAdmin() {
-      loginPanel?.setAttribute("hidden", "");
-      content?.removeAttribute("hidden");
-    }
-
     function isAuthConfigured() {
       return Boolean(expectedUsername && expectedPasswordHash);
+    }
+
+    async function showAdmin({ autoLoad = true } = {}) {
+      loginPanel?.setAttribute("hidden", "");
+      content?.removeAttribute("hidden");
+      if (autoLoad) {
+        await autoLoadReports();
+      }
     }
 
     async function handleLogin(event) {
@@ -192,7 +207,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
       }
 
       sessionStorage.setItem(authKey, expectedPasswordHash);
-      showAdmin();
+      await showAdmin();
     }
 
     function renderRows(target, rows, columns) {
@@ -218,6 +233,15 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
         }
         target.append(row);
       }
+    }
+
+    function setNeedsSetup() {
+      if (activeUsers) activeUsers.textContent = "연결 필요";
+      if (totalViews) totalViews.textContent = "연결 필요";
+      if (totalUsers) totalUsers.textContent = "연결 필요";
+      renderRows(pageRows, [["Google OAuth Client ID 또는 서버리스 API URL을 연결해야 자동조회됩니다.", "-", "-"]], 3);
+      renderRows(realtimeRows, [["Google Analytics에서 직접 확인할 수 있습니다.", "-"]], 2);
+      setMessage("현재는 GA 자동조회 연결값이 없어 이 화면에서 숫자를 직접 불러올 수 없습니다.", "warning");
     }
 
     function applySummaryPayload(payload) {
@@ -335,6 +359,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
     async function requestAnalyticsAccess() {
       if (mode === "links") {
         window.open(analyticsUrl, "_blank", "noopener,noreferrer");
+        setNeedsSetup();
         return;
       }
 
@@ -361,11 +386,28 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
       }).requestAccessToken();
     }
 
-    if (sessionStorage.getItem(authKey) === expectedPasswordHash && isAuthConfigured()) {
-      showAdmin();
+    async function autoLoadReports() {
+      if (mode === "links") {
+        setNeedsSetup();
+        return;
+      }
+
+      await requestAnalyticsAccess();
     }
 
-    loginForm?.addEventListener("submit", handleLogin);
+    if (sessionStorage.getItem(authKey) === expectedPasswordHash && isAuthConfigured()) {
+      showAdmin({ autoLoad: false });
+      autoLoadReports().catch((error) => {
+        setMessage(error.message || "통계를 불러오지 못했습니다.", "error");
+      });
+    }
+
+    loginForm?.addEventListener("submit", (event) => {
+      handleLogin(event).catch((error) => {
+        setLoginMessage(error.message || "로그인 처리 중 오류가 발생했습니다.", "error");
+      });
+    });
+
     actionButton?.addEventListener("click", async () => {
       try {
         await requestAnalyticsAccess();
