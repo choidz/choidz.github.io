@@ -167,6 +167,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
     const adminApiUrl = root?.dataset.adminApiUrl || "";
     const analyticsUrl = root?.dataset.analyticsUrl || "";
     const authKey = "choioki-admin-auth";
+    const gaTokenKey = "choioki-ga-access-token";
 
     function setLoginMessage(text, type = "info") {
       if (!loginMessage) return;
@@ -193,7 +194,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
     async function showAdmin({ autoLoad = true } = {}) {
       loginPanel?.setAttribute("hidden", "");
       content?.removeAttribute("hidden");
-      if (autoLoad && mode === "serverless") {
+      if (autoLoad && mode !== "links") {
         await autoLoadReports();
       }
     }
@@ -262,6 +263,33 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
       renderRows(pageRows, payload.pages?.rows || [], 3);
       renderRows(realtimeRows, payload.realtime?.rows || [], 2);
       setMessage("업데이트 완료", "success");
+    }
+
+    function getCachedGaToken() {
+      try {
+        const cached = JSON.parse(localStorage.getItem(gaTokenKey) || "null");
+        if (!cached?.accessToken || !cached?.expiresAt) return "";
+        if (Number(cached.expiresAt) <= Date.now() + 60000) {
+          localStorage.removeItem(gaTokenKey);
+          return "";
+        }
+        return cached.accessToken;
+      } catch {
+        localStorage.removeItem(gaTokenKey);
+        return "";
+      }
+    }
+
+    function cacheGaToken(accessToken, expiresIn) {
+      const safeExpiresIn = Number(expiresIn || 3600);
+      localStorage.setItem(gaTokenKey, JSON.stringify({
+        accessToken,
+        expiresAt: Date.now() + Math.max(60, safeExpiresIn - 60) * 1000,
+      }));
+    }
+
+    function clearCachedGaToken() {
+      localStorage.removeItem(gaTokenKey);
     }
 
     async function loadServerlessReports() {
@@ -388,8 +416,10 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
             return;
           }
           try {
+            cacheGaToken(response.access_token, response.expires_in);
             await loadOAuthReports(response.access_token);
           } catch (error) {
+            clearCachedGaToken();
             setMessage(error.message || "GA 데이터를 불러오지 못했습니다.", "error");
           }
         },
@@ -403,6 +433,15 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
       }
 
       if (mode === "oauth") {
+        const cachedToken = getCachedGaToken();
+        if (cachedToken) {
+          try {
+            await loadOAuthReports(cachedToken);
+            return;
+          } catch {
+            clearCachedGaToken();
+          }
+        }
         setMessage("Google 권한 연결을 누르면 GA 데이터를 불러옵니다.");
         return;
       }
