@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Analytics from "../components/Analytics.astro";
 
 const {
   title = "최오키 개발블로그",
@@ -39,6 +40,7 @@ const imageUrl = new URL(image, siteUrl).toString();
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+    <Analytics />
     <slot name="head" />
   </head>
   <body>
