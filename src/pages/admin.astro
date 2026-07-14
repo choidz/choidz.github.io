@@ -324,7 +324,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
       const realtime = await gaFetch(
         `properties/${propertyId}:runRealtimeReport`,
         {
-          dimensions: [{ name: "pagePath" }],
+          dimensions: [{ name: "unifiedScreenName" }],
           metrics: [{ name: "activeUsers" }],
           limit: 10,
           orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],

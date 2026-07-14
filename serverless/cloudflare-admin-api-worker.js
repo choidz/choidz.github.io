@@ -29,7 +29,7 @@ export default {
       const accessToken = await getAccessToken(env);
       const [realtime, pages] = await Promise.all([
         gaRequest(propertyId, "runRealtimeReport", {
-          dimensions: [{ name: "pagePath" }],
+          dimensions: [{ name: "unifiedScreenName" }],
           metrics: [{ name: "activeUsers" }],
           limit: 10,
           orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
