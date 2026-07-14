@@ -4,9 +4,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const gaPropertyId = import.meta.env.PUBLIC_GA_PROPERTY_ID || "514244650";
 const googleClientId = import.meta.env.PUBLIC_GOOGLE_CLIENT_ID || "";
 const adminApiUrl = import.meta.env.PUBLIC_ADMIN_API_URL || "";
+const adminUsername = import.meta.env.PUBLIC_ADMIN_USERNAME || "";
+const adminPasswordHash = import.meta.env.PUBLIC_ADMIN_PASSWORD_HASH || "";
+const adminMode = adminApiUrl ? "serverless" : googleClientId ? "oauth" : "links";
 const analyticsHomeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/reports/intelligenthome`;
 const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/realtime/pages?params=_u..nav%3Dmaui`;
-const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/reports/explorer?params=_u..nav%3Dmaui`;
 ---
 
 <BaseLayout
@@ -17,71 +19,92 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
   <meta slot="head" name="robots" content="noindex, nofollow" />
 
   <main
-    class="admin-shell"
+    class="admin-shell admin-shell--compact"
+    data-admin-mode={adminMode}
+    data-admin-username={adminUsername}
+    data-admin-password-hash={adminPasswordHash}
     data-ga-property-id={gaPropertyId}
     data-google-client-id={googleClientId}
     data-admin-api-url={adminApiUrl}
+    data-analytics-url={analyticsHomeUrl}
   >
-    <section class="admin-hero">
-      <div>
-        <p>Private analytics</p>
-        <h1>블로그 통계 관리자</h1>
-        <span>Google Analytics 권한이 있는 계정으로 로그인하면 이 페이지 안에서 실시간 접속자와 게시글별 조회수를 확인할 수 있습니다.</span>
-      </div>
-      <div class="admin-hero-actions">
-        <a href={realtimeUrl} target="_blank" rel="noreferrer">GA 실시간 열기</a>
-        <a href={pagesUrl} target="_blank" rel="noreferrer">게시글별 조회 열기</a>
-      </div>
+    <section class="admin-login" data-admin-login-panel>
+      <form data-admin-login-form>
+        <p>Admin</p>
+        <h1>관리자 로그인</h1>
+        <label>
+          <span>아이디</span>
+          <input name="username" autocomplete="username" required />
+        </label>
+        <label>
+          <span>비밀번호</span>
+          <input name="password" type="password" autocomplete="current-password" required />
+        </label>
+        <button type="submit">들어가기</button>
+        <small data-admin-login-message>아이디와 비밀번호를 입력하세요.</small>
+      </form>
     </section>
 
-    <section class="admin-status-grid" aria-label="Admin status">
-      <article>
-        <span>GA Property</span>
-        <strong>{gaPropertyId}</strong>
-        <p>이 속성의 데이터를 조회합니다.</p>
-      </article>
-      <article>
-        <span>OAuth</span>
-        <strong>{googleClientId ? "Ready" : "Setup needed"}</strong>
-        <p>{googleClientId ? "Google 로그인으로 직접 조회할 수 있습니다." : "PUBLIC_GOOGLE_CLIENT_ID 등록 후 직접 조회가 켜집니다."}</p>
-      </article>
-      <article>
-        <span>Serverless API</span>
-        <strong>{adminApiUrl ? "Connected" : "Optional"}</strong>
-        <p>{adminApiUrl ? "외부 서버리스 API URL이 설정되어 있습니다." : "Cloudflare/Vercel 백엔드를 붙일 수 있습니다."}</p>
-      </article>
-    </section>
-
-    <section class="admin-panel">
-      <div class="admin-panel-heading">
+    <div class="admin-content" data-admin-content hidden>
+      <section class="admin-summary">
         <div>
-          <h2>내 도메인에서 바로 보기</h2>
-          <p>Google OAuth Client ID가 설정되어 있으면 버튼 하나로 GA Data API를 읽습니다.</p>
+          <p>Admin</p>
+          <h1>블로그 통계</h1>
+          <span>최근 28일 기준으로 꼭 볼 숫자만 모았습니다.</span>
         </div>
-        <button type="button" data-admin-login>Google로 통계 조회</button>
-      </div>
+        <button type="button" data-admin-action>
+          {adminMode === "links" ? "Google Analytics 열기" : "통계 새로고침"}
+        </button>
+      </section>
+
       <p class="admin-message" data-admin-message>
-        아직 Google OAuth Client ID가 설정되지 않았습니다. 아래 직접 링크로 GA 화면을 볼 수 있고, OAuth 설정을 추가하면 이 페이지 안에서 표가 표시됩니다.
+        {adminMode === "links"
+          ? "아직 자동 조회 연결 전입니다. 버튼을 누르면 Google Analytics로 이동합니다."
+          : "통계 새로고침을 누르면 데이터를 불러옵니다."}
       </p>
 
-      <div class="admin-metrics">
+      <section class="admin-metrics" aria-label="핵심 통계">
         <article>
-          <span>Realtime active users</span>
+          <span>현재 접속자</span>
           <strong data-active-users>-</strong>
         </article>
         <article>
-          <span>Last 28 days views</span>
+          <span>28일 조회수</span>
           <strong data-total-views>-</strong>
         </article>
         <article>
-          <span>Last 28 days users</span>
+          <span>28일 사용자</span>
           <strong data-total-users>-</strong>
         </article>
-      </div>
+      </section>
 
-      <div class="admin-tables">
-        <section>
-          <h3>실시간 접속 페이지</h3>
+      <section class="admin-data-grid">
+        <article class="admin-panel">
+          <div class="admin-panel-heading">
+            <h2>인기 글</h2>
+            <a href={analyticsHomeUrl} target="_blank" rel="noreferrer">GA에서 자세히 보기</a>
+          </div>
+          <div class="admin-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>글</th>
+                  <th>조회수</th>
+                  <th>사용자</th>
+                </tr>
+              </thead>
+              <tbody data-page-rows>
+                <tr><td colspan="3">연결 후 표시됩니다.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="admin-panel">
+          <div class="admin-panel-heading">
+            <h2>실시간 페이지</h2>
+            <a href={realtimeUrl} target="_blank" rel="noreferrer">실시간 화면 열기</a>
+          </div>
           <div class="admin-table-wrap">
             <table>
               <thead>
@@ -91,46 +114,22 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
                 </tr>
               </thead>
               <tbody data-realtime-rows>
-                <tr><td colspan="2">로그인 후 표시됩니다.</td></tr>
+                <tr><td colspan="2">연결 후 표시됩니다.</td></tr>
               </tbody>
             </table>
           </div>
-        </section>
-
-        <section>
-          <h3>게시글별 조회수</h3>
-          <div class="admin-table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>페이지</th>
-                  <th>조회수</th>
-                  <th>사용자</th>
-                </tr>
-              </thead>
-              <tbody data-page-rows>
-                <tr><td colspan="3">로그인 후 표시됩니다.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-    </section>
-
-    <section class="admin-panel admin-panel--links">
-      <h2>바로가기</h2>
-      <div>
-        <a href={analyticsHomeUrl} target="_blank" rel="noreferrer">Google Analytics 홈</a>
-        <a href={realtimeUrl} target="_blank" rel="noreferrer">실시간 접속자</a>
-        <a href={pagesUrl} target="_blank" rel="noreferrer">페이지 및 화면</a>
-        <a href="https://search.google.com/search-console?resource_id=https%3A%2F%2Fchoidz.github.io%2F&hl=ko" target="_blank" rel="noreferrer">Search Console</a>
-      </div>
-    </section>
+        </article>
+      </section>
+    </div>
   </main>
 
   <script>
     const root = document.querySelector(".admin-shell");
-    const loginButton = document.querySelector("[data-admin-login]");
+    const loginPanel = document.querySelector("[data-admin-login-panel]");
+    const loginForm = document.querySelector("[data-admin-login-form]");
+    const loginMessage = document.querySelector("[data-admin-login-message]");
+    const content = document.querySelector("[data-admin-content]");
+    const actionButton = document.querySelector("[data-admin-action]");
     const message = document.querySelector("[data-admin-message]");
     const realtimeRows = document.querySelector("[data-realtime-rows]");
     const pageRows = document.querySelector("[data-page-rows]");
@@ -138,9 +137,20 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
     const totalViews = document.querySelector("[data-total-views]");
     const totalUsers = document.querySelector("[data-total-users]");
 
+    const mode = root?.dataset.adminMode || "links";
+    const expectedUsername = root?.dataset.adminUsername || "";
+    const expectedPasswordHash = root?.dataset.adminPasswordHash || "";
     const propertyId = root?.dataset.gaPropertyId || "";
     const clientId = root?.dataset.googleClientId || "";
     const adminApiUrl = root?.dataset.adminApiUrl || "";
+    const analyticsUrl = root?.dataset.analyticsUrl || "";
+    const authKey = "choioki-admin-auth";
+
+    function setLoginMessage(text, type = "info") {
+      if (!loginMessage) return;
+      loginMessage.textContent = text;
+      loginMessage.dataset.type = type;
+    }
 
     function setMessage(text, type = "info") {
       if (!message) return;
@@ -148,9 +158,47 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
       message.dataset.type = type;
     }
 
+    async function sha256(text) {
+      const bytes = new TextEncoder().encode(text);
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+    }
+
+    function showAdmin() {
+      loginPanel?.setAttribute("hidden", "");
+      content?.removeAttribute("hidden");
+    }
+
+    function isAuthConfigured() {
+      return Boolean(expectedUsername && expectedPasswordHash);
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+
+      if (!isAuthConfigured()) {
+        setLoginMessage("관리자 아이디/비밀번호가 아직 설정되지 않았습니다.", "error");
+        return;
+      }
+
+      const formData = new FormData(event.currentTarget);
+      const username = String(formData.get("username") || "").trim();
+      const password = String(formData.get("password") || "");
+      const passwordHash = await sha256(password);
+
+      if (username !== expectedUsername || passwordHash !== expectedPasswordHash) {
+        setLoginMessage("아이디 또는 비밀번호가 맞지 않습니다.", "error");
+        return;
+      }
+
+      sessionStorage.setItem(authKey, expectedPasswordHash);
+      showAdmin();
+    }
+
     function renderRows(target, rows, columns) {
       if (!target) return;
       target.replaceChildren();
+
       if (!rows.length) {
         const row = document.createElement("tr");
         const cell = document.createElement("td");
@@ -170,6 +218,30 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
         }
         target.append(row);
       }
+    }
+
+    function applySummaryPayload(payload) {
+      if (activeUsers) activeUsers.textContent = String(payload.realtime?.activeUsers ?? "-");
+      if (totalViews) totalViews.textContent = String(payload.pages?.views ?? "-");
+      if (totalUsers) totalUsers.textContent = String(payload.pages?.users ?? "-");
+
+      renderRows(pageRows, payload.pages?.rows || [], 3);
+      renderRows(realtimeRows, payload.realtime?.rows || [], 2);
+      setMessage("업데이트 완료", "success");
+    }
+
+    async function loadServerlessReports() {
+      setMessage("통계를 불러오는 중입니다...");
+      const baseUrl = adminApiUrl.replace(/\/$/, "");
+      const response = await fetch(`${baseUrl}/analytics/summary`, {
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || `Admin API request failed: ${response.status}`);
+      }
+      applySummaryPayload(await response.json());
     }
 
     function loadGoogleIdentityScript() {
@@ -212,32 +284,8 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
       return row.dimensionValues?.[index]?.value || "";
     }
 
-    function applySummaryPayload(payload) {
-      if (activeUsers) activeUsers.textContent = String(payload.realtime?.activeUsers ?? "-");
-      if (totalViews) totalViews.textContent = String(payload.pages?.views ?? "-");
-      if (totalUsers) totalUsers.textContent = String(payload.pages?.users ?? "-");
-
-      renderRows(realtimeRows, payload.realtime?.rows || [], 2);
-      renderRows(pageRows, payload.pages?.rows || [], 3);
-      setMessage("조회가 완료됐습니다.", "success");
-    }
-
-    async function loadServerlessReports() {
-      setMessage("서버리스 API에서 Google Analytics 데이터를 불러오는 중입니다...");
-      const baseUrl = adminApiUrl.replace(/\/$/, "");
-      const response = await fetch(`${baseUrl}/analytics/summary`, {
-        credentials: "include",
-        headers: { Accept: "application/json" },
-      });
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(text || `Admin API request failed: ${response.status}`);
-      }
-      applySummaryPayload(await response.json());
-    }
-
-    async function loadReports(accessToken) {
-      setMessage("Google Analytics 데이터를 불러오는 중입니다...");
+    async function loadOAuthReports(accessToken) {
+      setMessage("통계를 불러오는 중입니다...");
 
       const realtime = await gaFetch(
         `properties/${propertyId}:runRealtimeReport`,
@@ -254,7 +302,7 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
         `properties/${propertyId}:runReport`,
         {
           dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
-          dimensions: [{ name: "pagePath" }, { name: "pageTitle" }],
+          dimensions: [{ name: "pagePath" }],
           metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
           dimensionFilter: {
             filter: {
@@ -262,7 +310,7 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
               stringFilter: { matchType: "BEGINS_WITH", value: "/blog/" },
             },
           },
-          limit: 30,
+          limit: 15,
           orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
         },
         accessToken
@@ -271,44 +319,32 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
       const realtimeData = realtime.rows || [];
       const pageData = pages.rows || [];
 
-      const currentUsers = realtimeData.reduce((sum, row) => sum + Number(metric(row, 0)), 0);
-      const views = pageData.reduce((sum, row) => sum + Number(metric(row, 0)), 0);
-      const users = pageData.reduce((sum, row) => sum + Number(metric(row, 1)), 0);
-
-      if (activeUsers) activeUsers.textContent = String(currentUsers);
-      if (totalViews) totalViews.textContent = String(views);
-      if (totalUsers) totalUsers.textContent = String(users);
-
-      renderRows(
-        realtimeRows,
-        realtimeData.map((row) => [dimension(row, 0) || "/", metric(row, 0)]),
-        2
-      );
-      renderRows(
-        pageRows,
-        pageData.map((row) => [dimension(row, 0), metric(row, 0), metric(row, 1)]),
-        3
-      );
-      setMessage("조회가 완료됐습니다.", "success");
+      applySummaryPayload({
+        realtime: {
+          activeUsers: realtimeData.reduce((sum, row) => sum + Number(metric(row, 0)), 0),
+          rows: realtimeData.map((row) => [dimension(row, 0) || "/", metric(row, 0)]),
+        },
+        pages: {
+          views: pageData.reduce((sum, row) => sum + Number(metric(row, 0)), 0),
+          users: pageData.reduce((sum, row) => sum + Number(metric(row, 1)), 0),
+          rows: pageData.map((row) => [dimension(row, 0), metric(row, 0), metric(row, 1)]),
+        },
+      });
     }
 
     async function requestAnalyticsAccess() {
-      if (adminApiUrl) {
-        try {
-          await loadServerlessReports();
-        } catch (error) {
-          setMessage(error.message || "서버리스 API에서 데이터를 불러오지 못했습니다.", "error");
-        }
+      if (mode === "links") {
+        window.open(analyticsUrl, "_blank", "noopener,noreferrer");
         return;
       }
 
-      if (!clientId) {
-        setMessage("PUBLIC_GOOGLE_CLIENT_ID가 아직 설정되지 않았습니다. Google Cloud OAuth Client ID를 만든 뒤 GitHub Variables에 추가해야 합니다.", "warning");
+      if (mode === "serverless") {
+        await loadServerlessReports();
         return;
       }
 
       await loadGoogleIdentityScript();
-      const tokenClient = window.google.accounts.oauth2.initTokenClient({
+      window.google.accounts.oauth2.initTokenClient({
         client_id: clientId,
         scope: "https://www.googleapis.com/auth/analytics.readonly",
         callback: async (response) => {
@@ -317,19 +353,25 @@ const pagesUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyId}/
             return;
           }
           try {
-            await loadReports(response.access_token);
+            await loadOAuthReports(response.access_token);
           } catch (error) {
             setMessage(error.message || "GA 데이터를 불러오지 못했습니다.", "error");
           }
         },
-      });
-      tokenClient.requestAccessToken();
+      }).requestAccessToken();
     }
 
-    loginButton?.addEventListener("click", requestAnalyticsAccess);
-
-    if (clientId) {
-      setMessage("Google로 통계 조회를 누르면 이 페이지에서 GA 데이터를 불러옵니다.");
+    if (sessionStorage.getItem(authKey) === expectedPasswordHash && isAuthConfigured()) {
+      showAdmin();
     }
+
+    loginForm?.addEventListener("submit", handleLogin);
+    actionButton?.addEventListener("click", async () => {
+      try {
+        await requestAnalyticsAccess();
+      } catch (error) {
+        setMessage(error.message || "통계를 불러오지 못했습니다.", "error");
+      }
+    });
   </script>
 </BaseLayout>

@@ -10,6 +10,8 @@ Add these repository variables in GitHub:
 - `PUBLIC_GA_PROPERTY_ID`: GA4 property ID, for example `514244650`
 - `PUBLIC_GOOGLE_CLIENT_ID`: optional Google OAuth web client ID for `/admin`
 - `PUBLIC_ADMIN_API_URL`: optional serverless analytics API URL for `/admin`
+- `PUBLIC_ADMIN_USERNAME`: `/admin` login username
+- `PUBLIC_ADMIN_PASSWORD_HASH`: SHA-256 hash of the `/admin` login password
 - `PUBLIC_CLARITY_PROJECT_ID`: optional Microsoft Clarity project ID
 
 Path:
@@ -50,6 +52,16 @@ With OAuth setup, `/admin` can call the Google Analytics Data API directly and r
 If `PUBLIC_ADMIN_API_URL` is set, `/admin` calls the serverless backend first.
 The Cloudflare Worker example lives in `serverless/cloudflare-admin-api-worker.js`.
 Protect that Worker with Cloudflare Access before connecting it, otherwise the analytics API would be publicly callable.
+
+The `/admin` page also has a lightweight username/password gate.
+Because GitHub Pages is static hosting, this is only a browser-side entry screen, not server-side authentication.
+Use a long random password and store only its SHA-256 hash in `PUBLIC_ADMIN_PASSWORD_HASH`.
+
+Generate a password hash locally:
+
+```bash
+node -e "crypto.subtle.digest('SHA-256', new TextEncoder().encode('YOUR_PASSWORD')).then(b=>console.log([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')))"
+```
 
 Required Google Cloud setup for direct `/admin` reports:
 

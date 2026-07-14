@@ -1527,173 +1527,229 @@ img {
 }
 
 .admin-shell {
-  width: min(1120px, calc(100% - 40px));
+  width: min(1040px, calc(100% - 40px));
   margin-inline: auto;
   padding: 42px 0 88px;
 }
 
-.admin-hero {
+.admin-login[hidden],
+.admin-content[hidden] {
+  display: none;
+}
+
+.admin-login {
+  min-height: calc(100vh - 220px);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 28px;
-  align-items: end;
-  border-bottom: 1px solid #dce1e8;
-  padding-bottom: 32px;
+  place-items: center;
 }
 
-.admin-hero p {
-  margin: 0 0 10px;
-  color: var(--brand-accent);
-  font-size: 14px;
-  font-weight: 850;
-}
-
-.admin-hero h1 {
-  margin: 0;
-  color: #111827;
-  font-size: clamp(34px, 5vw, 52px);
-  line-height: 1.12;
-}
-
-.admin-hero span {
-  display: block;
-  max-width: 680px;
-  margin-top: 14px;
-  color: #596273;
-  font-size: 17px;
-  line-height: 1.7;
-}
-
-.admin-hero-actions,
-.admin-panel--links > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.admin-hero-actions a,
-.admin-panel--links a,
-.admin-panel-heading button {
-  display: inline-flex;
-  min-height: 42px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #d8dde5;
-  border-radius: 999px;
-  padding: 0 16px;
-  color: #111827;
-  background: #fff;
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.admin-hero-actions a:first-child,
-.admin-panel-heading button {
-  border-color: var(--brand-accent);
-  color: #fff;
-  background: var(--brand-accent);
-}
-
-.admin-hero-actions a:hover,
-.admin-panel--links a:hover,
-.admin-panel-heading button:hover {
-  border-color: #111827;
-}
-
-.admin-status-grid,
-.admin-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 24px;
-}
-
-.admin-status-grid article,
-.admin-metrics article,
-.admin-panel {
+.admin-login form {
+  width: min(420px, 100%);
   border: 1px solid #dce1e8;
   background: #fff;
+  padding: 28px;
 }
 
-.admin-status-grid article,
-.admin-metrics article {
-  padding: 18px;
-}
-
-.admin-status-grid span,
-.admin-metrics span {
-  display: block;
+.admin-login p {
+  margin: 0 0 8px;
   color: #7b8493;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 850;
   text-transform: uppercase;
 }
 
-.admin-status-grid strong,
-.admin-metrics strong {
-  display: block;
-  margin-top: 7px;
+.admin-login h1 {
+  margin: 0 0 22px;
   color: #111827;
-  font-size: 26px;
-  line-height: 1.15;
+  font-size: 30px;
+  line-height: 1.2;
 }
 
-.admin-status-grid p {
-  margin: 8px 0 0;
-  color: #596273;
+.admin-login label {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+  color: #303846;
   font-size: 14px;
+  font-weight: 800;
+}
+
+.admin-login input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #d8dde5;
+  border-radius: 0;
+  padding: 0 12px;
+  color: #111827;
+  background: #fff;
+  font: inherit;
+}
+
+.admin-login input:focus {
+  border-color: var(--brand-accent);
+  outline: 2px solid color-mix(in srgb, var(--brand-accent) 20%, transparent);
+  outline-offset: 2px;
+}
+
+.admin-login button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 18px;
+  border: 1px solid var(--brand-accent);
+  color: #fff;
+  background: var(--brand-accent);
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.admin-login small {
+  display: block;
+  margin-top: 12px;
+  color: #596273;
+  font-size: 13px;
   line-height: 1.5;
 }
 
-.admin-panel {
-  margin-top: 20px;
-  padding: 24px;
+.admin-login small[data-type="error"] {
+  color: var(--brand-rose);
 }
 
-.admin-panel-heading {
+.admin-summary {
   display: flex;
-  align-items: start;
+  align-items: end;
   justify-content: space-between;
-  gap: 18px;
+  gap: 24px;
+  border-bottom: 1px solid #dce1e8;
+  padding-bottom: 24px;
 }
 
-.admin-panel h2,
-.admin-panel h3 {
+.admin-summary p {
+  margin: 0 0 8px;
+  color: #7b8493;
+  font-size: 13px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.admin-summary h1 {
   margin: 0;
   color: #111827;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.15;
 }
 
-.admin-panel-heading p,
-.admin-message {
-  margin: 8px 0 0;
+.admin-summary span {
+  display: block;
+  margin-top: 10px;
   color: #596273;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.admin-summary button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--brand-accent);
+  border-radius: 999px;
+  padding: 0 16px;
+  color: #fff;
+  background: var(--brand-accent);
+  font-size: 14px;
+  font-weight: 850;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin-summary button:hover {
+  border-color: #111827;
 }
 
 .admin-message {
+  margin: 18px 0 0;
   border-left: 4px solid #d8dde5;
-  padding: 12px 0 12px 14px;
+  padding: 10px 0 10px 14px;
+  color: #596273;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .admin-message[data-type="success"] {
   border-color: var(--brand-accent);
 }
 
-.admin-message[data-type="warning"],
 .admin-message[data-type="error"] {
   border-color: var(--brand-rose);
 }
 
-.admin-tables {
+.admin-metrics {
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 18px;
-  margin-top: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
 }
 
-.admin-tables h3 {
-  margin-bottom: 10px;
-  font-size: 18px;
+.admin-metrics article,
+.admin-panel {
+  border: 1px solid #dce1e8;
+  background: #fff;
+}
+
+.admin-metrics article {
+  padding: 18px;
+}
+
+.admin-metrics span {
+  display: block;
+  color: #7b8493;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.admin-metrics strong {
+  display: block;
+  margin-top: 8px;
+  color: #111827;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.admin-data-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.admin-panel {
+  padding: 22px;
+}
+
+.admin-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.admin-panel-heading h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 20px;
+}
+
+.admin-panel-heading a {
+  color: #596273;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.admin-panel-heading a:hover {
+  color: var(--brand-accent);
 }
 
 .admin-table-wrap {
@@ -1725,10 +1781,6 @@ img {
 .admin-table-wrap td {
   color: #303846;
   word-break: break-all;
-}
-
-.admin-panel--links h2 {
-  margin-bottom: 16px;
 }
 
 .portfolio-hero,
