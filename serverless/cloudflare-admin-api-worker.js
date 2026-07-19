@@ -27,12 +27,16 @@ export default {
     try {
       const propertyId = requireEnv(env, "GA_PROPERTY_ID");
       const accessToken = await getAccessToken(env);
-      const [realtime, pages] = await Promise.all([
+      const [realtime, totals, pages] = await Promise.all([
         gaRequest(propertyId, "runRealtimeReport", {
           dimensions: [{ name: "unifiedScreenName" }],
-          metrics: [{ name: "activeUsers" }],
+          metrics: [{ name: "activeUsers" }, { name: "screenPageViews" }],
           limit: 10,
           orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
+        }, accessToken),
+        gaRequest(propertyId, "runReport", {
+          dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
+          metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
         }, accessToken),
         gaRequest(propertyId, "runReport", {
           dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
@@ -49,7 +53,7 @@ export default {
         }, accessToken),
       ]);
 
-      return json(toSummary(realtime, pages), 200, corsHeaders);
+      return json(toSummary(realtime, totals, pages), 200, corsHeaders);
     } catch (error) {
       return json({ error: error.message || "Admin analytics failed" }, 500, corsHeaders);
     }
@@ -185,17 +189,19 @@ function dimension(row, index) {
   return row.dimensionValues?.[index]?.value || "";
 }
 
-function toSummary(realtime, pages) {
+function toSummary(realtime, totals, pages) {
   const realtimeRows = realtime.rows || [];
+  const totalRows = totals.rows || [];
   const pageRows = pages.rows || [];
   return {
     realtime: {
       activeUsers: realtimeRows.reduce((sum, row) => sum + metric(row, 0), 0),
-      rows: realtimeRows.map((row) => [dimension(row, 0) || "/", String(metric(row, 0))]),
+      views: realtimeRows.reduce((sum, row) => sum + metric(row, 1), 0),
+      rows: realtimeRows.map((row) => [dimension(row, 0) || "/", String(metric(row, 0)), String(metric(row, 1))]),
     },
     pages: {
-      views: pageRows.reduce((sum, row) => sum + metric(row, 0), 0),
-      users: pageRows.reduce((sum, row) => sum + metric(row, 1), 0),
+      views: totalRows.reduce((sum, row) => sum + metric(row, 0), 0),
+      users: totalRows.reduce((sum, row) => sum + metric(row, 1), 0),
       rows: pageRows.map((row) => [dimension(row, 0), String(metric(row, 0)), String(metric(row, 1))]),
     },
   };

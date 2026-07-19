@@ -75,6 +75,10 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
           <strong data-active-users>{adminMode === "links" ? "연결 필요" : "-"}</strong>
         </article>
         <article>
+          <span>실시간 조회수</span>
+          <strong data-realtime-views>{adminMode === "links" ? "연결 필요" : "-"}</strong>
+        </article>
+        <article>
           <span>28일 조회수</span>
           <strong data-total-views>{adminMode === "links" ? "연결 필요" : "-"}</strong>
         </article>
@@ -125,11 +129,12 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
                 <tr>
                   <th>페이지</th>
                   <th>접속자</th>
+                  <th>조회수</th>
                 </tr>
               </thead>
               <tbody data-realtime-rows>
                 <tr>
-                  <td colspan="2">
+                  <td colspan="3">
                     {adminMode === "links"
                       ? "자동조회 연결값이 필요합니다."
                       : adminMode === "oauth"
@@ -156,6 +161,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
     const realtimeRows = document.querySelector("[data-realtime-rows]");
     const pageRows = document.querySelector("[data-page-rows]");
     const activeUsers = document.querySelector("[data-active-users]");
+    const realtimeViews = document.querySelector("[data-realtime-views]");
     const totalViews = document.querySelector("[data-total-views]");
     const totalUsers = document.querySelector("[data-total-users]");
 
@@ -248,20 +254,22 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
 
     function setNeedsSetup() {
       if (activeUsers) activeUsers.textContent = "연결 필요";
+      if (realtimeViews) realtimeViews.textContent = "연결 필요";
       if (totalViews) totalViews.textContent = "연결 필요";
       if (totalUsers) totalUsers.textContent = "연결 필요";
       renderRows(pageRows, [["Google OAuth Client ID 또는 서버리스 API URL을 연결해야 자동조회됩니다.", "-", "-"]], 3);
-      renderRows(realtimeRows, [["Google Analytics에서 직접 확인할 수 있습니다.", "-"]], 2);
+      renderRows(realtimeRows, [["Google Analytics에서 직접 확인할 수 있습니다.", "-", "-"]], 3);
       setMessage("현재는 GA 자동조회 연결값이 없어 이 화면에서 숫자를 직접 불러올 수 없습니다.", "warning");
     }
 
     function applySummaryPayload(payload) {
       if (activeUsers) activeUsers.textContent = String(payload.realtime?.activeUsers ?? "-");
+      if (realtimeViews) realtimeViews.textContent = String(payload.realtime?.views ?? "-");
       if (totalViews) totalViews.textContent = String(payload.pages?.views ?? "-");
       if (totalUsers) totalUsers.textContent = String(payload.pages?.users ?? "-");
 
       renderRows(pageRows, payload.pages?.rows || [], 3);
-      renderRows(realtimeRows, payload.realtime?.rows || [], 2);
+      renderRows(realtimeRows, payload.realtime?.rows || [], 3);
       setMessage("업데이트 완료", "success");
     }
 
@@ -349,46 +357,57 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
     async function loadOAuthReports(accessToken) {
       setMessage("통계를 불러오는 중입니다...");
 
-      const realtime = await gaFetch(
-        `properties/${propertyId}:runRealtimeReport`,
-        {
-          dimensions: [{ name: "unifiedScreenName" }],
-          metrics: [{ name: "activeUsers" }],
-          limit: 10,
-          orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
-        },
-        accessToken
-      );
-
-      const pages = await gaFetch(
-        `properties/${propertyId}:runReport`,
-        {
-          dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
-          dimensions: [{ name: "pagePath" }],
-          metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
-          dimensionFilter: {
-            filter: {
-              fieldName: "pagePath",
-              stringFilter: { matchType: "BEGINS_WITH", value: "/blog/" },
-            },
+      const [realtime, totals, pages] = await Promise.all([
+        gaFetch(
+          `properties/${propertyId}:runRealtimeReport`,
+          {
+            dimensions: [{ name: "unifiedScreenName" }],
+            metrics: [{ name: "activeUsers" }, { name: "screenPageViews" }],
+            limit: 10,
+            orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
           },
-          limit: 15,
-          orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
-        },
-        accessToken
-      );
+          accessToken
+        ),
+        gaFetch(
+          `properties/${propertyId}:runReport`,
+          {
+            dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
+            metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
+          },
+          accessToken
+        ),
+        gaFetch(
+          `properties/${propertyId}:runReport`,
+          {
+            dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
+            dimensions: [{ name: "pagePath" }],
+            metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
+            dimensionFilter: {
+              filter: {
+                fieldName: "pagePath",
+                stringFilter: { matchType: "BEGINS_WITH", value: "/blog/" },
+              },
+            },
+            limit: 15,
+            orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
+          },
+          accessToken
+        ),
+      ]);
 
       const realtimeData = realtime.rows || [];
+      const totalData = totals.rows || [];
       const pageData = pages.rows || [];
 
       applySummaryPayload({
         realtime: {
           activeUsers: realtimeData.reduce((sum, row) => sum + Number(metric(row, 0)), 0),
-          rows: realtimeData.map((row) => [dimension(row, 0) || "/", metric(row, 0)]),
+          views: realtimeData.reduce((sum, row) => sum + Number(metric(row, 1)), 0),
+          rows: realtimeData.map((row) => [dimension(row, 0) || "/", metric(row, 0), metric(row, 1)]),
         },
         pages: {
-          views: pageData.reduce((sum, row) => sum + Number(metric(row, 0)), 0),
-          users: pageData.reduce((sum, row) => sum + Number(metric(row, 1)), 0),
+          views: totalData.reduce((sum, row) => sum + Number(metric(row, 0)), 0),
+          users: totalData.reduce((sum, row) => sum + Number(metric(row, 1)), 0),
           rows: pageData.map((row) => [dimension(row, 0), metric(row, 0), metric(row, 1)]),
         },
       });
