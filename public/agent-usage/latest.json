@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-09T17:28:31.229Z",
+  "generatedAt": "2026-07-18T16:08:53.167Z",
   "model": "gpt-4o-mini",
   "usage": {
     "calls": 2,
-    "promptTokens": 11723,
-    "completionTokens": 2234,
-    "totalTokens": 13957
+    "promptTokens": 11575,
+    "completionTokens": 2206,
+    "totalTokens": 13781
   },
   "dryRun": false,
   "created": 1,
@@ -13,6 +13,6 @@
   "attempts": 8,
   "maxAttempts": 8,
   "createdSlugs": [
-    "git-push-시-발생하는-non-fast-forward-오류-해결-방법"
+    "npm-err-eresolve-unable-to-resolve-dependency-tree-오류-해결-방법"
   ]
 }
