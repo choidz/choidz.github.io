@@ -39,7 +39,7 @@ export default {
           metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
         }, accessToken),
         gaRequest(propertyId, "runReport", {
-          dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
+          dateRanges: [{ startDate: "2020-01-01", endDate: "today" }],
           dimensions: [{ name: "pagePath" }, { name: "pageTitle" }],
           metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
           dimensionFilter: {
@@ -48,7 +48,7 @@ export default {
               stringFilter: { matchType: "BEGINS_WITH", value: "/blog/" },
             },
           },
-          limit: 30,
+          limit: 50,
           orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
         }, accessToken),
       ]);

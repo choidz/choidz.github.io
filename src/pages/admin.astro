@@ -50,7 +50,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
         <div>
           <p>Admin</p>
           <h1>블로그 통계</h1>
-          <span>최근 28일 기준으로 꼭 볼 숫자만 모았습니다.</span>
+          <span>상단은 최근 28일, 페이지 표는 누적 기준입니다.</span>
         </div>
         <button type="button" data-admin-action>
           {adminMode === "links"
@@ -91,16 +91,16 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
       <section class="admin-data-grid">
         <article class="admin-panel">
           <div class="admin-panel-heading">
-            <h2>인기 글</h2>
+            <h2>페이지별 총 조회수</h2>
             <a href={analyticsHomeUrl} target="_blank" rel="noreferrer">GA에서 자세히 보기</a>
           </div>
           <div class="admin-table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>글</th>
-                  <th>조회수</th>
-                  <th>사용자</th>
+                  <th>페이지</th>
+                  <th>총 조회수</th>
+                  <th>총 사용자</th>
                 </tr>
               </thead>
               <tbody data-page-rows>
@@ -379,7 +379,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
         gaFetch(
           `properties/${propertyId}:runReport`,
           {
-            dateRanges: [{ startDate: "28daysAgo", endDate: "today" }],
+            dateRanges: [{ startDate: "2020-01-01", endDate: "today" }],
             dimensions: [{ name: "pagePath" }],
             metrics: [{ name: "screenPageViews" }, { name: "totalUsers" }],
             dimensionFilter: {
@@ -388,7 +388,7 @@ const realtimeUrl = `https://analytics.google.com/analytics/web/#/p${gaPropertyI
                 stringFilter: { matchType: "BEGINS_WITH", value: "/blog/" },
               },
             },
-            limit: 15,
+            limit: 50,
             orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
           },
           accessToken
