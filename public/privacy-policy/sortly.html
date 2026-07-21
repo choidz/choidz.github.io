@@ -21,7 +21,7 @@
         <p class="update-date">시행일 및 최종 업데이트: 2026년 7월 21일</p>
 
         <div class="highlight">
-            <strong>핵심 안내:</strong> 파일 정리와 로컬 분석은 기본적으로 사용자의 PC 안에서 처리됩니다. 외부 전송은 Microsoft Store 기능, 사용 통계, 업데이트 확인 또는 사용자가 동의한 클라우드 AI 기능에 필요한 범위에서만 발생합니다.
+            <strong>핵심 안내:</strong> 파일 정리와 로컬 분석은 기본적으로 사용자의 PC 안에서 처리됩니다. 외부 전송은 앱 화면 구성요소 로드, Microsoft Store 기능, 사용 통계, 업데이트 확인 또는 사용자가 동의한 클라우드 AI 기능에 필요한 범위에서 발생합니다.
         </div>
 
         <h2>1. 처리자 및 적용 범위</h2>
@@ -38,10 +38,11 @@
             <table>
                 <thead><tr><th>항목</th><th>목적</th><th>보관 및 삭제</th></tr></thead>
                 <tbody>
-                    <tr><td>파일명, 확장자, 크기, 날짜, 폴더 경로 및 지원 문서의 텍스트 일부</td><td>파일 탐색, 분류, 중복 검사, 미리보기, 로컬 AI 분석</td><td>기능 실행 중 로컬에서 처리하며, 앱이 원본 파일 내용을 별도 데이터베이스에 복제해 보관하지 않습니다.</td></tr>
+                    <tr><td>파일명, 확장자, 크기, 날짜, 폴더 경로 및 지원 문서의 텍스트 일부</td><td>파일 탐색, 분류, 중복 검사, 미리보기, 로컬 AI 분석 및 민감 파일 후보 탐지</td><td>기능 실행 중 로컬에서 처리합니다. 폴더 인사이트 결과는 파일 경로와 탐지 범주를 포함해 앱 메모리에 최대 약 10분간 캐시될 수 있으나, 앱이 원본 파일 내용을 별도 데이터베이스에 복제해 보관하지는 않습니다.</td></tr>
                     <tr><td>정리 규칙, 필터, 제외 폴더, 감시 폴더, 예약 작업, 자동화 설정</td><td>사용자가 요청한 정리·자동화 기능 제공</td><td>사용자가 앱에서 삭제하거나 앱 데이터를 제거할 때까지</td></tr>
                     <tr><td>파일 이동 기록, 작업 단위 기록, 통계 및 사용량</td><td>실행 취소, 앱 내부 한도 및 통계 표시</td><td>사용자가 기록을 삭제하거나 앱 데이터를 제거할 때까지</td></tr>
                     <tr><td>언어, 테마, AI 동의 여부, 통계 설정, 구독 상태 등 환경설정</td><td>설정 유지 및 기능 제공</td><td>설정 변경 또는 앱 데이터 제거 시까지</td></tr>
+                    <tr><td>오류 시각, 오류 메시지·스택, Store 상품·구매·라이선스 확인 상태 등 로컬 진단 로그</td><td>장애 진단 및 고객 지원</td><td>기기의 Sortly 앱 데이터 내 <code>logs/main.log</code>에 누적되며, 사용자가 로그 또는 앱 데이터를 삭제할 때까지 보관됩니다. 오류 내용에 따라 로컬 경로 등 기술 정보가 포함될 수 있습니다.</td></tr>
                 </tbody>
             </table>
         </div>
@@ -81,13 +82,16 @@
                 <tbody>
                     <tr><td>Microsoft</td><td>Store 설치·업데이트·결제·구독 및 라이선스 처리</td><td>Microsoft가 고지한 국가와 기간. Microsoft가 독립적으로 처리하는 정보에는 Microsoft 개인정보 처리방침이 적용됩니다.</td></tr>
                     <tr><td>Supabase, Inc.</td><td>사용 통계와 활성 Store 구독 상태의 전송·저장·관리</td><td>미국 및 선택된 프로젝트 리전·하위처리자 소재국. 통계는 최대 24개월 원칙, 구독 기록은 제4항의 기간</td></tr>
-                    <tr><td>Cloudflare, Inc.</td><td>선택형 AI 요청을 OpenAI로 전달하고 네트워크 보안·전송 제공</td><td>미국 및 글로벌 네트워크 처리 위치. 요청 본문은 운영자 데이터베이스에 저장하지 않으며, 네트워크·보안 로그는 Cloudflare 정책에 따름</td></tr>
+                    <tr><td>Cloudflare, Inc.</td><td>선택형 AI 요청 전달과 네트워크 보안·전송 제공</td><td>미국 및 글로벌 네트워크 처리 위치. AI 요청 본문은 운영자 데이터베이스에 저장하지 않으며, 네트워크·보안 로그는 Cloudflare 정책에 따름</td></tr>
                     <tr><td>OpenAI, L.L.C.</td><td>선택형 AI 분류와 규칙 해석</td><td>미국 등 OpenAI 처리 위치. 기본 남용 모니터링 로그는 최대 30일</td></tr>
-                    <tr><td>GitHub, Inc.</td><td>업데이트 버전 확인 파일과 본 방침 등 공개 웹페이지 제공</td><td>미국 및 GitHub 인프라 위치. 접속 로그는 GitHub 정책에 따름</td></tr>
+                    <tr><td>UNPKG CDN 및 그 인프라 제공자</td><td>앱 화면에 필요한 React 실행 파일 제공. 앱 실행 시 네트워크 요청이 발생할 수 있음</td><td>글로벌 CDN 처리 위치. IP 주소, 요청 시각, 사용자 에이전트 등 접속 로그의 처리는 해당 CDN 및 인프라 제공자 정책에 따름</td></tr>
+                    <tr><td>GitHub, Inc.</td><td>Store 설치본의 업데이트 버전 확인 파일, 비-Store 설치본의 업데이트 확인·다운로드, 본 방침 등 공개 웹페이지 제공</td><td>미국 및 GitHub 인프라 위치. 접속 로그는 GitHub 정책에 따름</td></tr>
                 </tbody>
             </table>
         </div>
         <p>위 서비스 이용 과정에서 IP 주소, 요청 시각, 사용자 에이전트 등 일반적인 네트워크 로그가 각 공급자의 보안·운영 목적으로 자동 처리될 수 있습니다. Sortly는 개인정보를 판매하거나 맞춤형 광고에 이용하지 않습니다.</p>
+        <p><strong>전송 시점·방법:</strong> 사용 통계는 해당 이벤트 발생 시, 구독 정보는 활성 Store 라이선스 확인 시, AI 정보는 사용자가 클라우드 AI 작업을 요청할 때, CDN·업데이트 정보는 앱 실행·업데이트 확인·웹페이지 접속 시 HTTPS 네트워크 요청으로 전송됩니다.</p>
+        <p><strong>거부 방법과 영향:</strong> 사용 통계는 앱 설정에서 끌 수 있고, 클라우드 AI는 동의하지 않거나 사용하지 않을 수 있습니다. 이 경우 해당 통계 전송 또는 AI 기능만 중단됩니다. 활성 구독 동기화를 차단하면 Pro 권한 확인·지원이 제한될 수 있고, CDN 또는 업데이트 서버 연결을 차단하면 앱 화면 로드나 업데이트 확인·다운로드가 정상 동작하지 않을 수 있습니다. Microsoft가 Store 거래 과정에서 직접 처리하는 정보는 Microsoft 계정과 Store 설정을 따릅니다.</p>
 
         <h2>7. 삭제와 권리 행사</h2>
         <ul>
@@ -108,7 +112,7 @@
 
         <div class="notice">
             <strong>외부 서비스 정책</strong>
-            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft 개인정보 처리방침</a> · <a href="https://supabase.com/privacy">Supabase 개인정보 처리방침</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare 개인정보 처리방침</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI 개인정보 처리방침</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub 개인정보 보호정책</a></p>
+            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft 개인정보 처리방침</a> · <a href="https://supabase.com/privacy">Supabase 개인정보 처리방침</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare 개인정보 처리방침</a> · <a href="https://unpkg.com/">UNPKG</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI 개인정보 처리방침</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub 개인정보 보호정책</a></p>
         </div>
 
         <div class="contact">

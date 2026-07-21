@@ -21,7 +21,7 @@
         <p class="update-date">Effective and last updated: July 21, 2026</p>
 
         <div class="highlight">
-            <strong>At a glance:</strong> File organization and local analysis normally take place on your PC. Data is transmitted only as needed for Microsoft Store functionality, usage analytics, update checks, or optional Cloud AI that you choose to enable.
+            <strong>At a glance:</strong> File organization and local analysis normally take place on your PC. Network transmissions occur to load app UI components and as needed for Microsoft Store functionality, usage analytics, update checks, or optional Cloud AI that you choose to enable.
         </div>
 
         <h2>1. Operator and Scope</h2>
@@ -38,10 +38,11 @@
             <table>
                 <thead><tr><th>Information</th><th>Purpose</th><th>Retention and deletion</th></tr></thead>
                 <tbody>
-                    <tr><td>File names, extensions, sizes, dates, folder paths, and snippets extracted from supported documents</td><td>File browsing, classification, duplicate scanning, previews, and local AI analysis</td><td>Processed locally while features run. The app does not create a separate database copy of original file contents.</td></tr>
+                    <tr><td>File names, extensions, sizes, dates, folder paths, and snippets extracted from supported documents</td><td>File browsing, classification, duplicate scanning, previews, local AI analysis, and detection of potentially sensitive files</td><td>Processed locally while features run. Folder Insights results, including file paths and detected categories, may be cached in app memory for about 10 minutes. The app does not create a separate database copy of original file contents.</td></tr>
                     <tr><td>Organization rules, filters, excluded folders, watched folders, schedules, and automation settings</td><td>Provide organization and automation requested by the user</td><td>Until deleted in the app or app data is removed</td></tr>
                     <tr><td>Move history, operation batches, local statistics, and usage counters</td><td>Undo, in-app limits, and statistics</td><td>Until the user deletes the records or removes app data</td></tr>
                     <tr><td>Language, theme, AI consent, analytics preference, subscription state, and other settings</td><td>Maintain settings and provide features</td><td>Until settings are changed or app data is removed</td></tr>
+                    <tr><td>Error time, error message or stack, and local diagnostics about Store product, purchase, and license checks</td><td>Troubleshooting and customer support</td><td>Appended to <code>logs/main.log</code> in the local Sortly app data until the user deletes the log or app data. Depending on the error, technical details such as a local path may appear.</td></tr>
                 </tbody>
             </table>
         </div>
@@ -81,13 +82,16 @@
                 <tbody>
                     <tr><td>Microsoft</td><td>Store installation, updates, payments, subscriptions, and license processing</td><td>Countries and periods disclosed by Microsoft. Microsoft acts independently for information it processes under its own privacy statement.</td></tr>
                     <tr><td>Supabase, Inc.</td><td>Transmission, storage, and administration of usage analytics and active Store subscription status</td><td>United States and the selected project region or subprocessor locations. Analytics normally up to 24 months; subscription records as described in Section 4.</td></tr>
-                    <tr><td>Cloudflare, Inc.</td><td>Relay optional AI requests to OpenAI and provide network security and transport</td><td>United States and global network locations. Request bodies are not stored in the operator's database; network and security logs follow Cloudflare's policies.</td></tr>
+                    <tr><td>Cloudflare, Inc.</td><td>Relay optional AI requests and provide network security and transport</td><td>United States and global network locations. AI request bodies are not stored in the operator's database; network and security logs follow Cloudflare's policies.</td></tr>
                     <tr><td>OpenAI, L.L.C.</td><td>Optional AI classification and rule interpretation</td><td>United States and other OpenAI processing locations. Default abuse-monitoring logs may be retained for up to 30 days.</td></tr>
-                    <tr><td>GitHub, Inc.</td><td>Host the update-version file and public web pages, including this policy</td><td>United States and GitHub infrastructure locations. Access logs follow GitHub's policies.</td></tr>
+                    <tr><td>UNPKG CDN and its infrastructure providers</td><td>Deliver React runtime files used by the app UI. A network request may occur when the app starts.</td><td>Global CDN processing locations. Handling of IP address, request time, user agent, and similar access logs follows the CDN and infrastructure providers' policies.</td></tr>
+                    <tr><td>GitHub, Inc.</td><td>Host the Store-build update manifest, check and download updates for non-Store builds, and host public web pages including this policy</td><td>United States and GitHub infrastructure locations. Access logs follow GitHub's policies.</td></tr>
                 </tbody>
             </table>
         </div>
         <p>IP address, request time, user agent, and similar network logs may be processed automatically by these providers for security and service operations. Sortly does not sell personal information or use it for targeted advertising.</p>
+        <p><strong>Timing and method:</strong> analytics is sent when an applicable event occurs; subscription data when an active Store license is checked; AI data when you request a Cloud AI operation; and CDN or update information when the app starts, checks for updates, downloads an update, or a public page is visited. These transfers use HTTPS network requests.</p>
+        <p><strong>How to refuse and consequences:</strong> you may disable usage analytics in App Settings and decline or stop using Cloud AI; doing so stops the corresponding analytics transfer or AI feature. Blocking active-subscription sync may limit Pro verification or support. Blocking the CDN or update servers may prevent the UI from loading correctly or prevent update checks and downloads. Information Microsoft processes directly during a Store transaction is controlled through your Microsoft account and Store settings.</p>
 
         <h2>7. Deletion and Your Rights</h2>
         <ul>
@@ -108,7 +112,7 @@
 
         <div class="notice">
             <strong>External service policies</strong>
-            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a> · <a href="https://supabase.com/privacy">Supabase Privacy Policy</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI Privacy Policy</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub General Privacy Statement</a></p>
+            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a> · <a href="https://supabase.com/privacy">Supabase Privacy Policy</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a> · <a href="https://unpkg.com/">UNPKG</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI Privacy Policy</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub General Privacy Statement</a></p>
         </div>
 
         <div class="contact">
