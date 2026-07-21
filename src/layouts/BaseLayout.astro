@@ -9,6 +9,7 @@ const {
   canonical = Astro.url.pathname,
   type = "website",
   showSearch = false,
+  hideHeader = false,
 } = Astro.props;
 
 const siteUrl = "https://choidz.github.io";
@@ -44,28 +45,30 @@ const imageUrl = new URL(image, siteUrl).toString();
     <slot name="head" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="site-header-inner">
-        <a class="site-title" href="/">
-          <span>최오키 개발블로그</span>
-        </a>
-        {showSearch && (
-          <div class="header-search">
-            <label>
-              <span class="sr-only">검색</span>
-              <svg aria-hidden="true" viewBox="0 0 16 16">
-                <path d="M11.25 11.25L14 14" />
-                <circle cx="7.5" cy="7.5" r="4.75" />
-              </svg>
-              <input id="post-search" type="search" placeholder="키워드로 글을 검색해 보세요" />
-            </label>
-          </div>
-        )}
-        <nav class="site-nav" aria-label="주요 메뉴">
-          <a class="active" href="/">블로그</a>
-        </nav>
-      </div>
-    </header>
+    {!hideHeader && (
+      <header class="site-header">
+        <div class="site-header-inner">
+          <a class="site-title" href="/">
+            <span>최오키 개발블로그</span>
+          </a>
+          {showSearch && (
+            <div class="header-search">
+              <label>
+                <span class="sr-only">검색</span>
+                <svg aria-hidden="true" viewBox="0 0 16 16">
+                  <path d="M11.25 11.25L14 14" />
+                  <circle cx="7.5" cy="7.5" r="4.75" />
+                </svg>
+                <input id="post-search" type="search" placeholder="키워드로 글을 검색해 보세요" />
+              </label>
+            </div>
+          )}
+          <nav class="site-nav" aria-label="주요 메뉴">
+            <a class="active" href="/">블로그</a>
+          </nav>
+        </div>
+      </header>
+    )}
     <slot />
   </body>
 </html>
