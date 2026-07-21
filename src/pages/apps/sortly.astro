@@ -176,9 +176,15 @@ const softwareSchema = {
               <li>정리 작업 한 번에 되돌리기</li>
             </ul>
           </div>
-          <div class="dual-shots">
-            <figure class="feature-shot"><img src={`${screenshots}/06-duplicates.png`} width="1120" height="820" loading="lazy" alt="내용이 같은 중복 파일을 그룹으로 표시한 화면" /></figure>
-            <figure class="feature-shot feature-shot-offset"><img src={`${screenshots}/11-undo.png`} width="1120" height="820" loading="lazy" alt="파일 정리 작업을 원래 위치로 되돌리는 화면" /></figure>
+          <div class="feature-gallery" aria-label="중복 파일 검사와 작업 되돌리기 화면">
+            <figure class="feature-shot">
+              <img src={`${screenshots}/06-duplicates.png`} width="1120" height="820" loading="lazy" alt="내용이 같은 중복 파일을 그룹으로 표시한 화면" />
+              <figcaption><span>01</span> 중복 파일 검사</figcaption>
+            </figure>
+            <figure class="feature-shot">
+              <img src={`${screenshots}/11-undo.png`} width="1120" height="820" loading="lazy" alt="파일 정리 작업을 원래 위치로 되돌리는 화면" />
+              <figcaption><span>02</span> 정리 작업 되돌리기</figcaption>
+            </figure>
           </div>
         </article>
 
@@ -363,7 +369,7 @@ const softwareSchema = {
   .feature-row { display: grid; grid-template-columns: .82fr 1.18fr; gap: clamp(50px, 8vw, 110px); align-items: center; padding-block: 118px; border-bottom: 1px solid #e1e9f3; }
   .feature-row-reverse { grid-template-columns: 1.18fr .82fr; }
   .feature-row-reverse .feature-copy { order: 2; }
-  .feature-row-reverse .feature-shot { order: 1; }
+  .feature-row-reverse > .feature-shot { order: 1; }
   .feature-copy h2 { font-size: clamp(38px, 4.2vw, 54px); }
   .feature-copy > p:not(.eyebrow) { margin: 24px 0 0; color: var(--muted); font-size: 17px; line-height: 1.85; word-break: keep-all; }
   .check-list { display: grid; gap: 12px; margin: 28px 0 0; padding: 0; list-style: none; }
@@ -372,10 +378,10 @@ const softwareSchema = {
   .check-list em { margin-left: 5px; border-radius: 999px; padding: 3px 7px; color: #fff; background: var(--blue); font-size: 10px; font-style: normal; letter-spacing: .04em; }
   .feature-shot { overflow: hidden; margin: 0; border: 1px solid #cfdae9; border-radius: 20px; background: #fff; box-shadow: 0 30px 70px rgba(31, 67, 118, .17); }
   .feature-shot img { display: block; width: 100%; height: auto; aspect-ratio: 1120 / 820; object-fit: contain; }
-  .dual-shots { position: relative; min-height: 540px; }
-  .dual-shots .feature-shot { position: absolute; width: 82%; }
-  .dual-shots .feature-shot:first-child { top: 0; left: 0; z-index: 2; }
-  .dual-shots .feature-shot-offset { right: 0; bottom: 0; z-index: 1; }
+  .feature-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .feature-gallery .feature-shot { border-radius: 16px; box-shadow: 0 22px 50px rgba(31, 67, 118, .13); }
+  .feature-gallery figcaption { display: flex; align-items: center; gap: 10px; border-top: 1px solid #e4ebf4; padding: 14px 16px; color: #26364e; font-size: 14px; font-weight: 820; }
+  .feature-gallery figcaption span { display: inline-grid; width: 28px; height: 28px; place-items: center; border-radius: 9px; color: var(--blue); background: #eaf3ff; font-size: 11px; }
   .safety-section { color: #fff; background: #0c1830; }
   .safety-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(60px, 10vw, 140px); padding-block: 124px; }
   .eyebrow.light { color: #72b0ff; }
@@ -430,9 +436,8 @@ const softwareSchema = {
     .floating-card-top { left: 6%; }
     .floating-card-bottom { right: 4%; }
     .feature-row, .feature-row-reverse { grid-template-columns: 1fr; }
-    .feature-row-reverse .feature-copy, .feature-row-reverse .feature-shot { order: initial; }
+    .feature-row-reverse .feature-copy, .feature-row-reverse > .feature-shot { order: initial; }
     .feature-copy { max-width: 720px; }
-    .dual-shots { min-height: 700px; }
     .safety-grid { grid-template-columns: 1fr; }
     .safety-copy { max-width: 660px; }
     .footer-inner { grid-template-columns: 1fr; text-align: center; }
@@ -463,7 +468,7 @@ const softwareSchema = {
     .workflow-grid li::after { display: none; }
     .feature-row { gap: 42px; padding-block: 82px; }
     .feature-copy h2, .section-heading h2, .safety-copy h2, .final-cta h2 { font-size: clamp(34px, 10vw, 44px); }
-    .dual-shots { min-height: 460px; }
+    .feature-gallery { grid-template-columns: 1fr; }
     .safety-grid { padding-block: 86px; }
     .safety-points { grid-template-columns: 1fr; }
     .safety-points article { min-height: auto; }
