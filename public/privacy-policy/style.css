@@ -63,6 +63,53 @@ p, li {
     margin-bottom: 12px;
 }
 
+a {
+    color: #2563eb;
+}
+
+.notice {
+    background: #fffaf0;
+    border: 1px solid #f6d98b;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin: 16px 0 24px;
+}
+
+table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th,
+td {
+    border: 1px solid #e2e8f0;
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    color: #2d3748;
+    background: #f7fafc;
+}
+
+td {
+    color: #4a5568;
+}
+
+.muted {
+    color: #718096;
+    font-size: 13px;
+}
+
 ul {
     padding-left: 24px;
     margin-bottom: 16px;
