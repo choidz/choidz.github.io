@@ -41,7 +41,7 @@
             <li>Local analysis and, with your consent, Cloud AI classification and natural-language rules</li>
         </ul>
         <p>Some features require a supported Windows version, file and folder permissions, Internet access, Microsoft Store services, or a valid Pro subscription.</p>
-        <p>The current app UI loads React runtime files from the UNPKG CDN at startup. If the Internet or CDN is unavailable and the required files are not cached, the app UI may not open correctly.</p>
+        <p>The React runtime required by the app UI is included in the app package, so ordinary local organization screens can open without a CDN connection.</p>
 
         <h2>3. Eligibility and License</h2>
         <ul>
@@ -73,7 +73,7 @@
             <li>You must have lawful authority to access and organize files and folders used with the app.</li>
             <li>Keep separate backups of important files and review previews, excluded folders, and conflict settings where available before running an operation.</li>
             <li>Undo depends on move history and the current file state. Complete restoration may be impossible if a file was moved or deleted again, a name conflict exists, the Recycle Bin was emptied, or another program changed the file. Choosing <strong>Replace existing file</strong> for an undo conflict may permanently delete the file already present at the restore location.</li>
-            <li><strong>Compression:</strong> matching files are placed into one ZIP. After checking only that the ZIP size is greater than zero, the app permanently deletes the originals without using the Recycle Bin. It does not separately verify that every archived item can be restored or provide built-in restoration of those originals. Do not use this on important files without a separate backup.</li>
+            <li><strong>Compression:</strong> matching files are placed into one ZIP, then each entry's name, size, and SHA-256 content hash is verified. Originals are moved to the Windows Recycle Bin only after all checks pass. Recovery may become impossible after the Recycle Bin is emptied, so keep a separate backup of important files.</li>
             <li><strong>Empty Recycle Bin:</strong> a manual run empties the entire Windows Recycle Bin, not only items moved there by Sortly, and cannot be undone. Automatic emptying that selects items by retention age is not currently supported.</li>
             <li>Automation and scheduled jobs can cause broad file changes. Review their scope and outcome carefully.</li>
             <li>Before using Cloud AI with confidential, sensitive, or third-party personal information, you must obtain all required authority and consent.</li>

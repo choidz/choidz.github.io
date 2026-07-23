@@ -21,7 +21,7 @@
         <p class="update-date">Effective and last updated: July 21, 2026</p>
 
         <div class="highlight">
-            <strong>At a glance:</strong> File organization and local analysis normally take place on your PC. Network transmissions occur to load app UI components and as needed for Microsoft Store functionality, usage analytics, update checks, or optional Cloud AI that you choose to enable.
+            <strong>At a glance:</strong> File organization and local analysis normally take place on your PC. Network transmissions occur as needed for Microsoft Store functionality, usage analytics you explicitly enable, update checks, or optional Cloud AI that you choose to enable.
         </div>
 
         <h2>1. Operator and Scope</h2>
@@ -48,7 +48,7 @@
         </div>
 
         <h2>3. Usage Analytics</h2>
-        <p>Product-improvement analytics may be enabled by default in Microsoft Store installations. You can stop future analytics transmission at any time under <strong>App Settings → Anonymous usage stats</strong>. Turning this off stops future analytics events but does not automatically erase previously collected records. You may request deletion using the contact information below.</p>
+        <p>Product-improvement analytics is off by default. It is transmitted from Microsoft Store installations only after you explicitly enable <strong>App Settings → Usage analytics (optional)</strong>, and you can turn it off again at any time. Turning it off stops future analytics events. You may request deletion of previously collected records using the contact information below.</p>
         <ul>
             <li><strong>Collected:</strong> random install and session IDs, event name, app version, operating system, language, plan, Store-build status, feature outcome, error type, count ranges, and interactions with update or purchase controls</li>
             <li><strong>Not collected:</strong> file names, folder paths, file or document contents, names, email addresses, or payment method information</li>
@@ -60,9 +60,9 @@
         <h2>4. Microsoft Store Subscription Status Sync</h2>
         <p>For paid-feature access, license verification, and subscription support, active Store subscription details may be sent to the operator's Supabase-based administration store. This processing is separate from the analytics preference and applies only to active paid subscriptions.</p>
         <ul>
-            <li><strong>Information:</strong> random install ID, app version, Microsoft Store subscription, product and SKU identifiers, purchase market, active/renewal/trial status, and start, expiration, cancellation, and last-modified timestamps</li>
+            <li><strong>Information:</strong> app-specific random publisher user ID, app version, Microsoft-verified Store subscription, product and SKU identifiers, purchase market, active/renewal/trial status, and start, expiration, cancellation, and last-modified timestamps</li>
             <li><strong>Not collected:</strong> Microsoft account email, user name, card number, or billing address</li>
-            <li><strong>Retention:</strong> for the period needed to provide the subscription and resolve disputes. Where statutory transaction-record duties apply, contract and payment-related records may be kept for five years and consumer complaint or dispute records for three years.</li>
+            <li><strong>Retention:</strong> up to five years from the latest renewal or modification for subscription support and dispute handling, after which records are automatically deleted. Records subject to a separate statutory duty may be isolated for the required period.</li>
         </ul>
 
         <h2>5. Optional Cloud AI</h2>
@@ -84,14 +84,13 @@
                     <tr><td>Supabase, Inc.</td><td>Transmission, storage, and administration of usage analytics and active Store subscription status</td><td>United States and the selected project region or subprocessor locations. Analytics normally up to 24 months; subscription records as described in Section 4.</td></tr>
                     <tr><td>Cloudflare, Inc.</td><td>Relay optional AI requests and provide network security and transport</td><td>United States and global network locations. AI request bodies are not stored in the operator's database; network and security logs follow Cloudflare's policies.</td></tr>
                     <tr><td>OpenAI, L.L.C.</td><td>Optional AI classification and rule interpretation</td><td>United States and other OpenAI processing locations. Default abuse-monitoring logs may be retained for up to 30 days.</td></tr>
-                    <tr><td>UNPKG CDN and its infrastructure providers</td><td>Deliver React runtime files used by the app UI. A network request may occur when the app starts.</td><td>Global CDN processing locations. Handling of IP address, request time, user agent, and similar access logs follows the CDN and infrastructure providers' policies.</td></tr>
                     <tr><td>GitHub, Inc.</td><td>Host the Store-build update manifest, check and download updates for non-Store builds, and host public web pages including this policy</td><td>United States and GitHub infrastructure locations. Access logs follow GitHub's policies.</td></tr>
                 </tbody>
             </table>
         </div>
         <p>IP address, request time, user agent, and similar network logs may be processed automatically by these providers for security and service operations. Sortly does not sell personal information or use it for targeted advertising.</p>
-        <p><strong>Timing and method:</strong> analytics is sent when an applicable event occurs; subscription data when an active Store license is checked; AI data when you request a Cloud AI operation; and CDN or update information when the app starts, checks for updates, downloads an update, or a public page is visited. These transfers use HTTPS network requests.</p>
-        <p><strong>How to refuse and consequences:</strong> you may disable usage analytics in App Settings and decline or stop using Cloud AI; doing so stops the corresponding analytics transfer or AI feature. Blocking active-subscription sync may limit Pro verification or support. Blocking the CDN or update servers may prevent the UI from loading correctly or prevent update checks and downloads. Information Microsoft processes directly during a Store transaction is controlled through your Microsoft account and Store settings.</p>
+        <p><strong>Timing and method:</strong> analytics is sent only after consent when an applicable event occurs; subscription data when an active Store license is checked; AI data when you request a Cloud AI operation; and update information when the app starts, checks for updates, downloads an update, or a public page is visited. These transfers use HTTPS network requests.</p>
+        <p><strong>How to refuse and consequences:</strong> you may decline analytics from the start or disable it in App Settings, and decline or stop using Cloud AI; doing so stops the corresponding analytics transfer or AI feature. Blocking active-subscription sync may limit subscription support. Blocking update servers may prevent update checks and downloads. Information Microsoft processes directly during a Store transaction is controlled through your Microsoft account and Store settings.</p>
 
         <h2>7. Deletion and Your Rights</h2>
         <ul>
@@ -112,7 +111,7 @@
 
         <div class="notice">
             <strong>External service policies</strong>
-            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a> · <a href="https://supabase.com/privacy">Supabase Privacy Policy</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a> · <a href="https://unpkg.com/">UNPKG</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI Privacy Policy</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub General Privacy Statement</a></p>
+            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a> · <a href="https://supabase.com/privacy">Supabase Privacy Policy</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI Privacy Policy</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub General Privacy Statement</a></p>
         </div>
 
         <div class="contact">

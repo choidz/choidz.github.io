@@ -21,7 +21,7 @@
         <p class="update-date">시행일 및 최종 업데이트: 2026년 7월 21일</p>
 
         <div class="highlight">
-            <strong>핵심 안내:</strong> 파일 정리와 로컬 분석은 기본적으로 사용자의 PC 안에서 처리됩니다. 외부 전송은 앱 화면 구성요소 로드, Microsoft Store 기능, 사용 통계, 업데이트 확인 또는 사용자가 동의한 클라우드 AI 기능에 필요한 범위에서 발생합니다.
+            <strong>핵심 안내:</strong> 파일 정리와 로컬 분석은 기본적으로 사용자의 PC 안에서 처리됩니다. 외부 전송은 Microsoft Store 기능, 사용자가 직접 동의한 사용 통계, 업데이트 확인 또는 사용자가 동의한 클라우드 AI 기능에 필요한 범위에서 발생합니다.
         </div>
 
         <h2>1. 처리자 및 적용 범위</h2>
@@ -48,7 +48,7 @@
         </div>
 
         <h2>3. 사용 통계</h2>
-        <p>Microsoft Store 설치본에서는 제품 개선을 위한 사용 통계가 기본적으로 활성화될 수 있습니다. 사용자는 <strong>앱 설정 → 익명 사용 통계</strong>에서 언제든 향후 전송을 끌 수 있습니다. 이 설정을 끄면 이후 통계 이벤트 전송은 중단되지만 이미 수집된 기록이 자동으로 삭제되지는 않으며, 삭제는 아래 문의처로 요청할 수 있습니다.</p>
+        <p>제품 개선을 위한 사용 통계는 기본적으로 꺼져 있습니다. Microsoft Store 설치본에서 사용자가 <strong>앱 설정 → 사용 통계 전송(선택)</strong>을 직접 켠 경우에만 전송되며, 언제든 다시 끌 수 있습니다. 이 설정을 끄면 이후 통계 이벤트 전송은 중단됩니다. 이미 수집된 기록의 삭제는 아래 문의처로 요청할 수 있습니다.</p>
         <ul>
             <li><strong>수집 항목:</strong> 무작위 설치 ID와 세션 ID, 이벤트명, 앱 버전, 운영체제, 언어, 플랜, Store 설치 여부, 기능 실행 결과, 오류 유형, 개수 구간, 업데이트·구매 버튼 상호작용</li>
             <li><strong>수집하지 않는 항목:</strong> 파일명, 폴더 경로, 파일·문서 내용, 이름, 이메일, 결제수단 정보</li>
@@ -60,9 +60,9 @@
         <h2>4. Microsoft Store 구독 상태 동기화</h2>
         <p>유료 기능 제공, 라이선스 상태 확인 및 구독 지원을 위해 활성 Store 구독 정보가 운영자의 Supabase 기반 관리 저장소로 전송될 수 있습니다. 이 처리는 사용 통계 설정과 별개이며, 활성 유료 구독자에게만 적용됩니다.</p>
         <ul>
-            <li><strong>항목:</strong> 무작위 설치 ID, 앱 버전, Microsoft Store 구독·상품·SKU 식별자, 구매 국가/지역, 활성·갱신·평가판 상태, 시작·만료·취소·최종 변경 시각</li>
+            <li><strong>항목:</strong> 앱 전용 무작위 게시자 사용자 ID, 앱 버전, Microsoft가 검증한 Store 구독·상품·SKU 식별자, 구매 국가/지역, 활성·갱신·평가판 상태, 시작·만료·취소·최종 변경 시각</li>
             <li><strong>수집하지 않는 항목:</strong> Microsoft 계정 이메일, 사용자 이름, 카드 번호, 청구지 주소</li>
-            <li><strong>보관:</strong> 구독 제공 및 분쟁 대응에 필요한 기간 동안 보관합니다. 관련 법령상 거래·계약 기록 보관 의무가 적용되는 경우 계약·결제 관련 기록은 5년, 소비자 불만·분쟁 기록은 3년간 보관할 수 있습니다.</li>
+            <li><strong>보관:</strong> 구독 제공 및 분쟁 대응을 위해 최종 갱신·변경일을 기준으로 최대 5년 보관한 뒤 자동 삭제합니다. 법령상 별도 보존 의무가 적용되는 기록은 해당 기간 동안 분리 보관할 수 있습니다.</li>
         </ul>
 
         <h2>5. 선택형 클라우드 AI</h2>
@@ -84,14 +84,13 @@
                     <tr><td>Supabase, Inc.</td><td>사용 통계와 활성 Store 구독 상태의 전송·저장·관리</td><td>미국 및 선택된 프로젝트 리전·하위처리자 소재국. 통계는 최대 24개월 원칙, 구독 기록은 제4항의 기간</td></tr>
                     <tr><td>Cloudflare, Inc.</td><td>선택형 AI 요청 전달과 네트워크 보안·전송 제공</td><td>미국 및 글로벌 네트워크 처리 위치. AI 요청 본문은 운영자 데이터베이스에 저장하지 않으며, 네트워크·보안 로그는 Cloudflare 정책에 따름</td></tr>
                     <tr><td>OpenAI, L.L.C.</td><td>선택형 AI 분류와 규칙 해석</td><td>미국 등 OpenAI 처리 위치. 기본 남용 모니터링 로그는 최대 30일</td></tr>
-                    <tr><td>UNPKG CDN 및 그 인프라 제공자</td><td>앱 화면에 필요한 React 실행 파일 제공. 앱 실행 시 네트워크 요청이 발생할 수 있음</td><td>글로벌 CDN 처리 위치. IP 주소, 요청 시각, 사용자 에이전트 등 접속 로그의 처리는 해당 CDN 및 인프라 제공자 정책에 따름</td></tr>
                     <tr><td>GitHub, Inc.</td><td>Store 설치본의 업데이트 버전 확인 파일, 비-Store 설치본의 업데이트 확인·다운로드, 본 방침 등 공개 웹페이지 제공</td><td>미국 및 GitHub 인프라 위치. 접속 로그는 GitHub 정책에 따름</td></tr>
                 </tbody>
             </table>
         </div>
         <p>위 서비스 이용 과정에서 IP 주소, 요청 시각, 사용자 에이전트 등 일반적인 네트워크 로그가 각 공급자의 보안·운영 목적으로 자동 처리될 수 있습니다. Sortly는 개인정보를 판매하거나 맞춤형 광고에 이용하지 않습니다.</p>
-        <p><strong>전송 시점·방법:</strong> 사용 통계는 해당 이벤트 발생 시, 구독 정보는 활성 Store 라이선스 확인 시, AI 정보는 사용자가 클라우드 AI 작업을 요청할 때, CDN·업데이트 정보는 앱 실행·업데이트 확인·웹페이지 접속 시 HTTPS 네트워크 요청으로 전송됩니다.</p>
-        <p><strong>거부 방법과 영향:</strong> 사용 통계는 앱 설정에서 끌 수 있고, 클라우드 AI는 동의하지 않거나 사용하지 않을 수 있습니다. 이 경우 해당 통계 전송 또는 AI 기능만 중단됩니다. 활성 구독 동기화를 차단하면 Pro 권한 확인·지원이 제한될 수 있고, CDN 또는 업데이트 서버 연결을 차단하면 앱 화면 로드나 업데이트 확인·다운로드가 정상 동작하지 않을 수 있습니다. Microsoft가 Store 거래 과정에서 직접 처리하는 정보는 Microsoft 계정과 Store 설정을 따릅니다.</p>
+        <p><strong>전송 시점·방법:</strong> 사용 통계는 사용자가 동의한 뒤 해당 이벤트가 발생할 때, 구독 정보는 활성 Store 라이선스 확인 시, AI 정보는 사용자가 클라우드 AI 작업을 요청할 때, 업데이트 정보는 앱 실행·업데이트 확인·웹페이지 접속 시 HTTPS 네트워크 요청으로 전송됩니다.</p>
+        <p><strong>거부 방법과 영향:</strong> 사용 통계는 처음부터 동의하지 않거나 앱 설정에서 끌 수 있고, 클라우드 AI는 동의하지 않거나 사용하지 않을 수 있습니다. 이 경우 해당 통계 전송 또는 AI 기능만 중단됩니다. 활성 구독 동기화를 차단하면 구독 지원이 제한될 수 있고, 업데이트 서버 연결을 차단하면 업데이트 확인·다운로드가 정상 동작하지 않을 수 있습니다. Microsoft가 Store 거래 과정에서 직접 처리하는 정보는 Microsoft 계정과 Store 설정을 따릅니다.</p>
 
         <h2>7. 삭제와 권리 행사</h2>
         <ul>
@@ -112,7 +111,7 @@
 
         <div class="notice">
             <strong>외부 서비스 정책</strong>
-            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft 개인정보 처리방침</a> · <a href="https://supabase.com/privacy">Supabase 개인정보 처리방침</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare 개인정보 처리방침</a> · <a href="https://unpkg.com/">UNPKG</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI 개인정보 처리방침</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub 개인정보 보호정책</a></p>
+            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft 개인정보 처리방침</a> · <a href="https://supabase.com/privacy">Supabase 개인정보 처리방침</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare 개인정보 처리방침</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI 개인정보 처리방침</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub 개인정보 보호정책</a></p>
         </div>
 
         <div class="contact">
