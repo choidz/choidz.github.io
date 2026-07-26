@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const supportEmail = "choidev98@gmail.com";
+---
+
+<BaseLayout
+  title="Sortly 고객지원 | Sortly Support"
+  description="Sortly 설치, 파일 정리, 되돌리기, Pro 구독과 AI 사용량에 대한 도움말과 문의 방법을 확인하세요."
+  canonical="/apps/sortly/support"
+>
+  <main class="support-page">
+    <section class="support-hero">
+      <a class="back-link" href="/apps/sortly">← Sortly</a>
+      <p class="eyebrow">HELP & SUPPORT</p>
+      <h1>Sortly 고객지원<br /><span>Sortly Support</span></h1>
+      <p>파일 정리, 되돌리기, Pro 구독과 사용량에 관한 빠른 해결 방법을 모았습니다.</p>
+      <p lang="en">Quick help for file organization, undo, Pro subscriptions, and usage limits.</p>
+      <div class="hero-actions">
+        <a class="primary" href={`mailto:${supportEmail}`}>이메일 문의 · Email support</a>
+        <a href="https://apps.microsoft.com/detail/9nvc2q1z7361" target="_blank" rel="noreferrer">Microsoft Store 열기</a>
+      </div>
+    </section>
+
+    <section class="support-grid" aria-label="자주 묻는 질문">
+      <article>
+        <span>01</span>
+        <h2>자동 정리가 실행되지 않아요</h2>
+        <p>메인 화면에서 자동 정리가 켜져 있는지 확인하세요. Pro에서는 자동화 관리에서 해당 폴더가 일시정지되어 있지 않은지도 확인할 수 있습니다.</p>
+        <h3 lang="en">Automatic organization is not running</h3>
+        <p lang="en">Check that automatic organization is on. With Pro, open Automation Management and make sure the folder is not paused.</p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h2>정리한 파일을 되돌리고 싶어요</h2>
+        <p>상단의 ‘되돌리기’를 열고 최근 정리 작업을 선택하면 해당 작업에서 이동한 파일을 원래 위치로 복원할 수 있습니다.</p>
+        <h3 lang="en">I want to undo a cleanup</h3>
+        <p lang="en">Open Undo from the top bar and select a recent cleanup to restore its files to their original locations.</p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h2>Pro 구독이 표시되지 않아요</h2>
+        <p>Sortly를 구매한 것과 같은 Microsoft 계정으로 Store에 로그인했는지 확인한 뒤 앱을 다시 시작하세요. 구독 관리는 앱 설정의 Microsoft 계정 링크에서 확인할 수 있습니다.</p>
+        <h3 lang="en">My Pro subscription is not recognized</h3>
+        <p lang="en">Sign in to Microsoft Store with the account used for purchase, then restart Sortly. You can manage the subscription from the Microsoft account link in Settings.</p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h2>AI 정리 사용량은 언제 초기화되나요?</h2>
+        <p>Free의 20개 체험은 설치 후 누적 기준이라 매달 초기화되지 않습니다. Pro의 월 1,000개는 기기 현지 시간 기준으로 매월 1일 0시에 초기화됩니다.</p>
+        <h3 lang="en">When does AI cleanup usage reset?</h3>
+        <p lang="en">The Free trial covers 20 files in total and does not reset monthly. Pro includes 1,000 files per month and resets at local midnight on the first day of each month.</p>
+      </article>
+    </section>
+
+    <section class="contact-card">
+      <div>
+        <p class="eyebrow">CONTACT</p>
+        <h2>문제가 계속되나요?<br /><span lang="en">Still need help?</span></h2>
+        <p>앱 버전, Windows 버전, 문제가 발생한 화면과 재현 방법을 함께 보내주시면 확인에 도움이 됩니다.</p>
+        <p lang="en">Include your app version, Windows version, the affected screen, and steps to reproduce the issue.</p>
+      </div>
+      <a class="primary" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+    </section>
+
+    <footer>
+      <a href="/apps/sortly">Sortly 한국어</a>
+      <a href="/apps/sortly/en">Sortly English</a>
+      <a href="/privacy-policy/sortly.html">개인정보 처리방침</a>
+      <a href="/privacy-policy/sortly-en.html">Privacy Policy</a>
+      <a href="/privacy-policy/sortly-terms.html">이용약관</a>
+      <a href="/privacy-policy/sortly-terms-en.html">Terms</a>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  :global(body) { background: #f4f8ff; }
+  .support-page { width: min(1080px, calc(100% - 36px)); margin: 0 auto; padding: 70px 0 44px; color: #14213a; }
+  .support-hero { border: 1px solid #d8e6f8; border-radius: 28px; padding: clamp(34px, 7vw, 72px); background: linear-gradient(145deg, #fff 30%, #eaf4ff); box-shadow: 0 28px 70px rgba(35, 92, 160, .12); }
+  .back-link { display: inline-flex; margin-bottom: 44px; color: #3f5f85; font-weight: 800; }
+  .eyebrow { margin: 0 0 14px; color: #1578f2; font-size: 12px; font-weight: 900; letter-spacing: .13em; }
+  h1 { margin: 0; font-size: clamp(42px, 7vw, 70px); line-height: 1.08; letter-spacing: -.055em; }
+  h1 span { color: #1578f2; }
+  .support-hero > p:not(.eyebrow) { max-width: 700px; margin: 24px 0 0; color: #52647d; font-size: 17px; line-height: 1.75; }
+  .support-hero > p[lang="en"] { margin-top: 6px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+  .hero-actions a, .primary { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; border: 1px solid #cbdcf1; border-radius: 13px; padding: 0 18px; color: #27415f; background: #fff; font-weight: 850; }
+  .hero-actions .primary, .primary { border-color: #1578f2; color: #fff; background: #1578f2; }
+  .support-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 22px; }
+  .support-grid article { border: 1px solid #dde8f5; border-radius: 22px; padding: 30px; background: #fff; }
+  .support-grid article > span { display: grid; width: 40px; height: 40px; place-items: center; border-radius: 12px; color: #1578f2; background: #e9f3ff; font-size: 12px; font-weight: 900; }
+  h2 { margin: 24px 0 0; font-size: 23px; letter-spacing: -.025em; }
+  h3 { margin: 26px 0 0; padding-top: 22px; border-top: 1px solid #e5edf6; color: #2e4c70; font-size: 17px; }
+  .support-grid p, .contact-card p { margin: 10px 0 0; color: #5c6d84; line-height: 1.75; }
+  .contact-card { display: flex; align-items: center; justify-content: space-between; gap: 36px; margin-top: 22px; border-radius: 24px; padding: 38px; color: #fff; background: #0d1c36; }
+  .contact-card .eyebrow { color: #78b7ff; }
+  .contact-card h2 { margin-top: 0; font-size: 30px; }
+  .contact-card p { color: #acbbcf; }
+  .contact-card .primary { flex: 0 0 auto; }
+  footer { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; padding: 34px 10px 0; color: #66768a; font-size: 13px; font-weight: 750; }
+  footer a:hover { color: #1578f2; }
+  @media (max-width: 760px) {
+    .support-page { padding-top: 24px; }
+    .support-grid { grid-template-columns: 1fr; }
+    .contact-card { align-items: flex-start; flex-direction: column; }
+    .contact-card .primary { width: 100%; }
+  }
+</style>
