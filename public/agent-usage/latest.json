@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-18T16:08:53.167Z",
+  "generatedAt": "2026-08-05T16:53:22.495Z",
   "model": "gpt-4o-mini",
   "usage": {
     "calls": 2,
-    "promptTokens": 11575,
-    "completionTokens": 2206,
-    "totalTokens": 13781
+    "promptTokens": 8919,
+    "completionTokens": 1889,
+    "totalTokens": 10808
   },
   "dryRun": false,
   "created": 1,
@@ -13,6 +13,6 @@
   "attempts": 8,
   "maxAttempts": 8,
   "createdSlugs": [
-    "npm-err-eresolve-unable-to-resolve-dependency-tree-오류-해결-방법"
+    "mysql-접속-오류-access-denied-for-user-문제-해결하기"
   ]
 }
