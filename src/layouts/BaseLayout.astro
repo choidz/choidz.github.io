@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import "../styles/devblog.css";
 import Analytics from "../components/Analytics.astro";
 
 const {
@@ -11,7 +10,6 @@ const {
   type = "website",
   showSearch = false,
   hideHeader = false,
-  pageClass = "",
 } = Astro.props;
 
 const siteUrl = "https://choidz.github.io";
@@ -46,12 +44,12 @@ const imageUrl = new URL(image, siteUrl).toString();
     <Analytics />
     <slot name="head" />
   </head>
-  <body class={pageClass}>
+  <body>
     {!hideHeader && (
       <header class="site-header">
         <div class="site-header-inner">
           <a class="site-title" href="/">
-            <span>CHOI.DEV</span>
+            <span>최오키 개발블로그</span>
           </a>
           {showSearch && (
             <div class="header-search">
@@ -66,10 +64,7 @@ const imageUrl = new URL(image, siteUrl).toString();
             </div>
           )}
           <nav class="site-nav" aria-label="주요 메뉴">
-            <a class="active" href="/">Home</a>
-            <a href="/#articles">Articles</a>
-            <a href="/portfolio">Projects</a>
-            <a class="site-nav-cta" href="https://github.com/choidz" target="_blank" rel="noreferrer">GitHub ↗</a>
+            <a class="active" href="/">블로그</a>
           </nav>
         </div>
       </header>
