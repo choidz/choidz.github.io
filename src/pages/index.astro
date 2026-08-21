@@ -1,205 +1,143 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { formatDate, getAllTags, getPostImage, getPostUrl, sortPosts } from "../lib/posts.js";
+import { formatDate, getAllTags, getPostUrl, sortPosts } from "../lib/posts.js";
 
 const postModules = import.meta.glob("../content/blog/*.md", { eager: true });
 const posts = sortPosts(Object.values(postModules));
 const tags = getAllTags(posts);
-const categories = [
-  { label: "Engineering", filter: "" },
-  { label: "DevOps", filter: "devops" },
-  { label: "Linux", filter: "linux" },
-  { label: "Monitoring", filter: "monitoring" },
-];
+
+function getPostRaw(post) {
+  if (typeof post.rawContent === "function") return post.rawContent();
+  return post.rawContent ?? post.body ?? "";
+}
+
+function getPostImage(post) {
+  const raw = getPostRaw(post);
+  const localImage = raw.match(/!\[[^\]]*\]\((\/images\/posts\/[^)\s]+)\)/);
+  return post.frontmatter.image ?? localImage?.[1] ?? "";
+}
 
 function getCategory(post) {
   return post.frontmatter.tags?.[0] ?? "Engineering";
 }
+
+const postsWithImages = posts.filter((post) => getPostImage(post));
+const featured = postsWithImages[0] ?? posts[0];
+const sidePosts = postsWithImages.filter((post) => post !== featured).slice(0, 2);
+const popularPosts = posts.filter((post) => post !== featured && !sidePosts.includes(post)).slice(0, 12);
+const visibleTags = tags.slice(0, 12);
 ---
 
-<BaseLayout
-  title="최오키 개발블로그"
-  description="개발, DevOps, 운영 경험을 실무 관점으로 정리하는 기술 블로그입니다."
-  showSearch={false}
->
-  <main class="toss-home toss-home--articles-only">
-    <section class="toss-topbar" aria-label="글 분류">
-      <nav class="toss-tabs">
-        {categories.map((category, index) => (
-          <button class={index === 0 ? "active" : ""} type="button" data-tag-filter={category.filter}>
-            {category.label}
-          </button>
+<BaseLayout title="CHOI.DEV | Engineering Blog" description="개발, DevOps, 운영 경험을 실무 관점으로 정리하는 기술 블로그입니다." pageClass="devblog-page">
+  <main class="devblog-home">
+    <section class="devblog-hero" aria-label="추천 아티클">
+      <a class="devblog-feature" href={getPostUrl(featured.frontmatter.slug)}>
+        <div class="devblog-feature-media">
+          {getPostImage(featured) ? <img src={getPostImage(featured)} alt="" /> : <div class="devblog-cover-fallback">CHOI.DEV</div>}
+        </div>
+        <div class="devblog-feature-shade"></div>
+        <div class="devblog-feature-copy">
+          <div class="devblog-tag-row">{(featured.frontmatter.tags ?? []).slice(0, 3).map((tag) => <span>{tag}</span>)}</div>
+          <h1>{featured.frontmatter.title}</h1>
+          <p><span aria-hidden="true">◷</span> {featured.frontmatter.readingMinutes}분 읽기</p>
+        </div>
+      </a>
+      <div class="devblog-hero-side">
+        {sidePosts.map((post) => (
+          <a class="devblog-mini-feature" href={getPostUrl(post.frontmatter.slug)}>
+            <img src={getPostImage(post)} alt="" /><div class="devblog-mini-shade"></div>
+            <div><span>{getCategory(post)}</span><h2>{post.frontmatter.title}</h2></div>
+          </a>
         ))}
-      </nav>
-    </section>
-
-    <section id="all-articles" class="toss-main-grid toss-main-grid--single">
-      <div class="toss-article-column">
-        <div class="toss-section-heading">
-          <div>
-            <h1>전체 아티클</h1>
-            <p>운영, 자동화, Linux, 모니터링 실무 기록을 모았습니다.</p>
-          </div>
-          <p id="search-result" hidden></p>
-        </div>
-
-        <label class="toss-search">
-          <span class="sr-only">글 검색</span>
-          <svg aria-hidden="true" viewBox="0 0 16 16">
-            <path d="M11.25 11.25L14 14" />
-            <circle cx="7.5" cy="7.5" r="4.75" />
-          </svg>
-          <input id="post-search" type="search" placeholder="키워드로 글 검색" />
-        </label>
-
-        <div class="toss-article-list">
-          {posts.map((post) => (
-            <article
-              class="post-card toss-article-card"
-              data-title={post.frontmatter.title.toLowerCase()}
-              data-description={post.frontmatter.description.toLowerCase()}
-              data-tags={(post.frontmatter.tags ?? []).join(" ").toLowerCase()}
-            >
-              <a href={getPostUrl(post.frontmatter.slug)}>
-                <div class="toss-card-copy">
-                  <div class="post-meta">
-                    <span>{getCategory(post)}</span>
-                    <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
-                    <span>{post.frontmatter.readingMinutes}분 읽기</span>
-                  </div>
-                  <h2>{post.frontmatter.title}</h2>
-                  <p>{post.frontmatter.description}</p>
-                </div>
-
-                <div class="toss-card-media">
-                  {getPostImage(post) ? (
-                    <img src={getPostImage(post)} alt="" loading="lazy" />
-                  ) : (
-                    <div class="toss-image-fallback">{getCategory(post)}</div>
-                  )}
-                </div>
-              </a>
-            </article>
-          ))}
-        </div>
-
-        <nav class="toss-pagination" aria-label="아티클 페이지" hidden>
-          <button type="button" data-page-prev>이전</button>
-          <div class="toss-page-numbers" data-page-numbers></div>
-          <button type="button" data-page-next>다음</button>
-        </nav>
       </div>
     </section>
+
+    <section class="devblog-discovery">
+      <div>
+        <h2><span aria-hidden="true">▣</span> Categories</h2>
+        <div class="devblog-chip-list">
+          <button class="active" type="button" data-tag-filter="">전체</button>
+          {visibleTags.map((tag) => <button type="button" data-tag-filter={tag.toLowerCase()}>{tag}</button>)}
+        </div>
+      </div>
+      <div>
+        <h2><span aria-hidden="true">✦</span> Follow CHOI.DEV</h2>
+        <div class="devblog-social-list">
+          <a href="https://github.com/choidz" target="_blank" rel="noreferrer"><strong>GitHub</strong><small>코드와 프로젝트 보기</small><b>↗</b></a>
+          <a href="/portfolio"><strong>Projects</strong><small>만든 것과 기록 보기</small><b>→</b></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="devblog-feed" id="articles">
+      <div class="devblog-feed-top">
+        <div class="devblog-feed-tabs"><strong>Latest</strong><span>Engineering</span><span>Notes</span></div>
+        <label class="devblog-search"><span aria-hidden="true">⌕</span><input id="post-search" type="search" placeholder="아티클 검색" /></label>
+        <strong>CHOI.DEV Journal</strong>
+      </div>
+      <div class="devblog-feed-grid">
+        <div class="devblog-feed-lead"><p>Latest story</p><h2>{featured.frontmatter.title}</h2><span>{formatDate(featured.frontmatter.date)} · {featured.frontmatter.readingMinutes}분</span></div>
+        <a class="devblog-feed-focus" href={getPostUrl(featured.frontmatter.slug)}>
+          {getPostImage(featured) && <img src={getPostImage(featured)} alt="" />}
+          <div><span>Featured</span><h2>{featured.frontmatter.title}</h2><p>{featured.frontmatter.description}</p></div>
+        </a>
+        <div class="devblog-feed-stack">
+          {popularPosts.slice(0, 3).map((post) => <a href={getPostUrl(post.frontmatter.slug)}><strong>{post.frontmatter.title}</strong><span>{formatDate(post.frontmatter.date)} · {post.frontmatter.readingMinutes}분</span></a>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="devblog-popular">
+      <div class="devblog-section-title"><h2><span aria-hidden="true">♨</span> Popular Articles</h2><p id="search-result" hidden></p></div>
+      <div class="devblog-card-grid">
+        {popularPosts.map((post, index) => (
+          <article class="devblog-card post-card" data-title={post.frontmatter.title.toLowerCase()} data-description={post.frontmatter.description.toLowerCase()} data-tags={(post.frontmatter.tags ?? []).join(" ").toLowerCase()}>
+            <a href={getPostUrl(post.frontmatter.slug)}>
+              <div class="devblog-card-media">
+                {getPostImage(post) ? <img src={getPostImage(post)} alt="" loading="lazy" /> : <div class={`devblog-card-art art-${index % 4}`}><span>{String(index + 1).padStart(2, "0")}</span><b>{getCategory(post)}</b></div>}
+              </div>
+              <div class="devblog-card-copy"><span>{getCategory(post)}</span><h3>{post.frontmatter.title}</h3><p>{post.frontmatter.description}</p><small>{formatDate(post.frontmatter.date)} · {post.frontmatter.readingMinutes}분 읽기</small></div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="devblog-newsletter">
+      <div><span aria-hidden="true">▰</span><h2>새로운 기술 기록을 확인하세요.</h2></div>
+      <p>운영, 자동화, Linux와 모니터링 경험을 꾸준히 정리합니다.</p>
+      <a href="https://github.com/choidz/choidz.github.io" target="_blank" rel="noreferrer"><span>GitHub에서 업데이트 보기</span><b>→</b></a>
+    </section>
   </main>
+
+  <footer class="devblog-footer">
+    <div><strong>CHOI.DEV</strong><p>Build, operate, learn, and write.</p></div>
+    <div><a href="#articles">Articles</a><a href="/portfolio">Projects</a><a href="https://github.com/choidz">GitHub</a></div>
+  </footer>
 
   <script>
     const searchInput = document.querySelector("#post-search");
     const result = document.querySelector("#search-result");
     const cards = Array.from(document.querySelectorAll(".post-card"));
     const tagButtons = Array.from(document.querySelectorAll("[data-tag-filter]"));
-    const pagination = document.querySelector(".toss-pagination");
-    const pageNumbers = document.querySelector("[data-page-numbers]");
-    const prevButton = document.querySelector("[data-page-prev]");
-    const nextButton = document.querySelector("[data-page-next]");
-    const pageSize = 15;
-    const urlTag = new URLSearchParams(window.location.search).get("tag") || "";
-    let activeTag = urlTag.trim().toLowerCase();
-    let currentPage = 1;
-
-    function matchingCards() {
+    let activeTag = "";
+    function applyFilters() {
       const query = (searchInput?.value || "").trim().toLowerCase();
-      return cards.filter((card) => {
-        const haystack = [
-          card.dataset.title,
-          card.dataset.description,
-          card.dataset.tags,
-        ].join(" ");
-        const matchesQuery = !query || haystack.includes(query);
-        const matchesTag = !activeTag || (card.dataset.tags || "").includes(activeTag);
-        return matchesQuery && matchesTag;
-      });
-    }
-
-    function renderPagination(totalPages) {
-      if (!pagination || !pageNumbers || !prevButton || !nextButton) return;
-
-      pagination.hidden = totalPages <= 1;
-      pageNumbers.replaceChildren();
-      if (totalPages <= 1) return;
-
-      prevButton.disabled = currentPage <= 1;
-      nextButton.disabled = currentPage >= totalPages;
-
-      for (let page = 1; page <= totalPages; page += 1) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = String(page);
-        button.dataset.pageNumber = String(page);
-        button.setAttribute("aria-label", `${page}페이지`);
-        button.classList.toggle("active", page === currentPage);
-        button.addEventListener("click", () => {
-          currentPage = page;
-          applyFilters({ keepScroll: false });
-        });
-        pageNumbers.append(button);
-      }
-    }
-
-    function applyFilters({ keepScroll = true } = {}) {
-      const query = (searchInput?.value || "").trim().toLowerCase();
-      const filtered = matchingCards();
-      const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-      currentPage = Math.min(currentPage, totalPages);
-      const start = (currentPage - 1) * pageSize;
-      const end = start + pageSize;
-      const visibleSet = new Set(filtered.slice(start, end));
-
+      let visible = 0;
       for (const card of cards) {
-        card.hidden = !visibleSet.has(card);
+        const haystack = [card.dataset.title, card.dataset.description, card.dataset.tags].join(" ");
+        const show = (!query || haystack.includes(query)) && (!activeTag || (card.dataset.tags || "").includes(activeTag));
+        card.hidden = !show;
+        if (show) visible += 1;
       }
-
-      renderPagination(totalPages);
-
-      if (result) {
-        const hasFilter = query || activeTag;
-        const pageLabel = totalPages > 1 ? ` · ${currentPage}/${totalPages}페이지` : "";
-        result.hidden = false;
-        result.textContent = hasFilter
-          ? `${query ? `"${query}" ` : ""}${activeTag ? `${activeTag} ` : ""}검색 결과 ${filtered.length}건${pageLabel}`
-          : `전체 ${filtered.length}개 글${pageLabel}`;
-      }
-
-      if (!keepScroll) {
-        document.querySelector("#all-articles")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      if (result) { result.hidden = !(query || activeTag); result.textContent = `${visible}개의 아티클`; }
     }
-
-    searchInput?.addEventListener("input", () => {
-      currentPage = 1;
+    searchInput?.addEventListener("input", applyFilters);
+    for (const button of tagButtons) button.addEventListener("click", () => {
+      activeTag = button.dataset.tagFilter || "";
+      for (const item of tagButtons) item.classList.toggle("active", item === button);
       applyFilters();
+      document.querySelector(".devblog-popular")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-    for (const button of tagButtons) {
-      button.classList.toggle("active", button.dataset.tagFilter === activeTag);
-      button.addEventListener("click", () => {
-        activeTag = button.dataset.tagFilter || "";
-        currentPage = 1;
-        for (const item of tagButtons) {
-          item.classList.toggle("active", item.dataset.tagFilter === activeTag);
-        }
-        applyFilters();
-      });
-    }
-
-    prevButton?.addEventListener("click", () => {
-      currentPage = Math.max(1, currentPage - 1);
-      applyFilters({ keepScroll: false });
-    });
-
-    nextButton?.addEventListener("click", () => {
-      currentPage += 1;
-      applyFilters({ keepScroll: false });
-    });
-
-    applyFilters();
   </script>
 </BaseLayout>
