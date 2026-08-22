@@ -1,183 +1,24 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import {
-  formatDate,
-  getPostImage,
-  getPostUrl,
-  getRelatedPosts,
-  sortPosts,
-} from "../../lib/posts.js";
-
-const relatedPostModules = import.meta.glob("../../content/blog/*.md", { eager: true });
-const allPosts = sortPosts(Object.values(relatedPostModules));
-
+import BlogSidebar from "../../components/BlogSidebar.astro";
+import { formatDate, getPostUrl, sortPosts } from "../../lib/posts.js";
+import "../../styles/korean-blog.css";
 export async function getStaticPaths() {
-  const pathPostModules = import.meta.glob("../../content/blog/*.md", { eager: true });
-  const pathPosts = sortPosts(Object.values(pathPostModules));
-
-  return pathPosts.map((post) => ({
-    params: { slug: post.frontmatter.slug },
-    props: { post },
-  }));
+  const modules = import.meta.glob("../../content/blog/*.md", { eager: true }); const posts = sortPosts(Object.values(modules));
+  return posts.map((post) => ({ params: { slug: post.frontmatter.slug }, props: { post, posts } }));
 }
-
-const { post } = Astro.props;
-const { Content } = post;
-const canonical = getPostUrl(post.frontmatter.slug);
-const tags = post.frontmatter.tags ?? [];
-const image = getPostImage(post);
-const imageUrl = image ? `https://choidz.github.io${image}` : undefined;
-const relatedPosts = getRelatedPosts(post, allPosts);
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  headline: post.frontmatter.title,
-  description: post.frontmatter.description,
-  datePublished: post.frontmatter.date,
-  dateModified: post.frontmatter.date,
-  inLanguage: "ko",
-  url: `https://choidz.github.io${canonical}`,
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": `https://choidz.github.io${canonical}`,
-  },
-  ...(imageUrl ? { image: [imageUrl] } : {}),
-  author: {
-    "@type": "Person",
-    name: "Choi Seonghyeon",
-  },
-  publisher: {
-    "@type": "Person",
-    name: "Choi Seonghyeon",
-  },
-};
+const { post, posts } = Astro.props; const { Content } = post; const canonical = getPostUrl(post.frontmatter.slug); const tags = post.frontmatter.tags ?? [];
+const jsonLd = { "@context":"https://schema.org", "@type":"BlogPosting", headline:post.frontmatter.title, description:post.frontmatter.description, datePublished:post.frontmatter.date, dateModified:post.frontmatter.date, inLanguage:"ko", url:`https://choidz.github.io${canonical}`, author:{ "@type":"Person", name:"Choi Seonghyeon" }, publisher:{ "@type":"Person", name:"Choi Seonghyeon" } };
 ---
-
-<BaseLayout
-  title={`${post.frontmatter.title} | 최오키 개발블로그`}
-  description={post.frontmatter.description}
-  canonical={canonical}
-  type="article"
-  image={image || undefined}
->
+<BaseLayout title={`${post.frontmatter.title} | CHOI.DEV`} description={post.frontmatter.description} canonical={canonical} type="article" pageClass="korean-blog-page">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-
-  <main class="article-page-shell article-page-shell--focus">
-    <article class="article-focus">
-      <a class="back-link article-back-link" href="/">글 목록으로 돌아가기</a>
-
-      <header class="article-header article-header--focus">
-        <div class="article-kicker">
-          <span>최오키 개발블로그</span>
-          <time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time>
-          <span>{post.frontmatter.readingMinutes}분 읽기</span>
-        </div>
-
-        <h1>{post.frontmatter.title}</h1>
-        <p>{post.frontmatter.description}</p>
-
-        {tags.length > 0 && (
-          <div class="post-tags article-tags">
-            {tags.map((tag) => (
-              <a href={`/?tag=${encodeURIComponent(String(tag).replace(/^#/, "").toLowerCase())}`}>
-                {tag}
-              </a>
-            ))}
-          </div>
-        )}
-      </header>
-
-      <nav class="article-toc" aria-label="Table of contents" data-article-toc hidden>
-        <strong>Contents</strong>
-        <ol data-article-toc-list></ol>
-      </nav>
-
-      <div class="prose prose--focus">
-        <Content />
-      </div>
-
-      {relatedPosts.length > 0 && (
-        <section class="article-related" aria-label="Related posts">
-          <h2>Related posts</h2>
-          <div>
-            {relatedPosts.map((relatedPost) => (
-              <a href={getPostUrl(relatedPost.frontmatter.slug)}>
-                <span>{relatedPost.frontmatter.tags?.[0] ?? "Engineering"}</span>
-                <strong>{relatedPost.frontmatter.title}</strong>
-                <time datetime={relatedPost.frontmatter.date}>{formatDate(relatedPost.frontmatter.date)}</time>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
+  <main class="kblog-shell kblog-article-shell">
+    <BlogSidebar posts={posts} activeSlug={post.frontmatter.slug} />
+    <article class="kblog-article">
+      <a class="kblog-back" href="/">← 전체 글로 돌아가기</a>
+      <header class="kblog-article-header"><div class="kblog-article-meta"><span>{tags[0] ?? "Engineering"}</span><time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time><b>{post.frontmatter.readingMinutes}분 읽기</b></div><h1>{post.frontmatter.title}</h1><p>{post.frontmatter.description}</p>{tags.length > 0 && <div class="kblog-article-tags">{tags.map((tag) => <span>#{tag}</span>)}</div>}</header>
+      <div class="kblog-prose"><Content /></div>
+      <footer class="kblog-article-footer"><strong>끝까지 읽어주셔서 감사합니다.</strong><p>잘못된 내용이나 궁금한 점은 GitHub에서 편하게 알려주세요.</p><a href="https://github.com/choidz/choidz.github.io" target="_blank" rel="noreferrer">GitHub에서 의견 남기기 ↗</a></footer>
     </article>
   </main>
-
-  <button class="back-to-top" type="button" data-back-to-top aria-label="Back to top" hidden>
-    &uarr;
-  </button>
-
-  <script>
-    const article = document.querySelector(".prose--focus");
-    const toc = document.querySelector("[data-article-toc]");
-    const tocList = document.querySelector("[data-article-toc-list]");
-    const headings = Array.from(article?.querySelectorAll("h2, h3") || []);
-
-    function slugifyHeading(text) {
-      return text
-        .trim()
-        .toLowerCase()
-        .replace(/[^\p{Script=Hangul}a-z0-9]+/gu, "-")
-        .replace(/^-+|-+$/g, "")
-        .slice(0, 80);
-    }
-
-    if (toc && tocList && headings.length >= 2) {
-      const seen = new Map();
-      for (const heading of headings) {
-        const baseId = heading.id || slugifyHeading(heading.textContent || "section") || "section";
-        const count = seen.get(baseId) || 0;
-        seen.set(baseId, count + 1);
-        heading.id = count ? `${baseId}-${count + 1}` : baseId;
-
-        const item = document.createElement("li");
-        item.className = heading.tagName.toLowerCase() === "h3" ? "depth-3" : "";
-        const link = document.createElement("a");
-        link.href = `#${heading.id}`;
-        link.textContent = heading.textContent || "";
-        item.append(link);
-        tocList.append(item);
-      }
-      toc.hidden = false;
-    }
-
-    for (const pre of article?.querySelectorAll("pre") || []) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "code-copy-button";
-      button.textContent = "Copy";
-      button.addEventListener("click", async () => {
-        const text = pre.textContent || "";
-        await navigator.clipboard?.writeText(text);
-        button.textContent = "Copied";
-        window.setTimeout(() => {
-          button.textContent = "Copy";
-        }, 1400);
-      });
-      pre.append(button);
-    }
-
-    const backToTop = document.querySelector("[data-back-to-top]");
-    if (backToTop) {
-      const toggleBackToTop = () => {
-        backToTop.hidden = window.scrollY < 700;
-      };
-      backToTop.addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-      window.addEventListener("scroll", toggleBackToTop, { passive: true });
-      toggleBackToTop();
-    }
-  </script>
 </BaseLayout>

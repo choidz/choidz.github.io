@@ -1,0 +1,27 @@
+---
+import { formatDate, getPostUrl } from "../lib/posts.js";
+const { posts = [], activeSlug = "" } = Astro.props;
+const counts = new Map();
+for (const post of posts) for (const tag of post.frontmatter.tags ?? []) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+const recentPosts = posts.filter((post) => post.frontmatter.slug !== activeSlug).slice(0, 5);
+---
+<aside class="kblog-sidebar" aria-label="블로그 사이드바">
+  <section class="kblog-profile">
+    <img src="/images/profile.jpeg" alt="최성현 프로필" />
+    <div><strong>최성현의 기술 기록</strong><p>운영과 개발 사이에서 직접 부딪히며 배운 내용을 기록합니다.</p></div>
+  </section>
+  <form class="kblog-search" action="/" method="get"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><label class="sr-only" for="kblog-search">블로그 검색</label><input id="kblog-search" name="q" type="search" placeholder="글 검색" /></form>
+  <section class="kblog-side-section">
+    <div class="kblog-side-title"><h2>카테고리</h2><span>{posts.length}</span></div>
+    <div class="kblog-categories">
+      {activeSlug ? <a class="active" href="/#articles">전체 글 <b>{posts.length}</b></a> : <button class="active" type="button" data-category="">전체 글 <b>{posts.length}</b></button>}
+      {categories.map(([tag, count]) => activeSlug ? <a href={`/?category=${encodeURIComponent(tag.toLowerCase())}#articles`}>{tag} <b>{count}</b></a> : <button type="button" data-category={tag.toLowerCase()}>{tag} <b>{count}</b></button>)}
+    </div>
+  </section>
+  <section class="kblog-side-section kblog-recent">
+    <div class="kblog-side-title"><h2>최근 글</h2><a href="/#articles">더보기</a></div>
+    <ol>{recentPosts.map((post, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><a href={getPostUrl(post.frontmatter.slug)}><strong>{post.frontmatter.title}</strong><time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time></a></li>)}</ol>
+  </section>
+  <footer class="kblog-side-footer">© CHOI.DEV<br />Built with Astro & GitHub Pages</footer>
+</aside>
