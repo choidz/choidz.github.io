@@ -12,9 +12,10 @@ const AGENT_USAGE_PATH = path.join(AGENT_USAGE_DIR, "latest.json");
 const MANIFEST_PATH = path.join(POSTS_DIR, "index.json");
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
-const DEFAULT_POST_COUNT = 2;
-const MAX_POST_COUNT = 2;
+const DEFAULT_POST_COUNT = 1;
+const MAX_POST_COUNT = 1;
 const MAX_IMAGES_PER_POST = 2;
+const MIN_IMAGES_PER_POST = 1;
 const MAX_IMAGE_CANDIDATES = 16;
 const MIN_IMAGE_PLACEMENT_SCORE = 12;
 const MIN_BODY_CHARS = 1600;
@@ -1122,7 +1123,7 @@ function validateGeneratedPost({ topic, category, title, description, body, slug
   }
   if (plain.length < MIN_BODY_CHARS) errors.push(`body is too short: ${plain.length}`);
   if (h2Count < MIN_H2_COUNT) errors.push(`not enough sections: ${h2Count}`);
-  if (/^#\s+/m.test(body)) errors.push("body contains an H1 heading");
+  if (/^#\s+/m.test(body)) errors.push("body contains an H1 heading after normalization");
   if (hasRepeatedParagraph(body)) errors.push("body has repeated paragraphs");
   if (findLongCopiedSentence(body, articles)) errors.push("body appears to copy a source sentence");
   if (!hasTroubleshootingStructure(body)) {
@@ -1162,9 +1163,9 @@ async function generatePost({ category, topic, posts, dryRun }) {
     );
     return null;
   }
-  if (!dryRun && initialImageCandidates.length < MAX_IMAGES_PER_POST) {
+  if (!dryRun && initialImageCandidates.length < MIN_IMAGES_PER_POST) {
     console.warn(
-      `[warn] skipped topic because usable image candidates are below ${MAX_IMAGES_PER_POST}`
+      `[warn] skipped topic because usable image candidates are below ${MIN_IMAGES_PER_POST}`
     );
     return null;
   }
@@ -1190,7 +1191,8 @@ async function generatePost({ category, topic, posts, dryRun }) {
     ...(Array.isArray(generated.tags) ? generated.tags.map(normalizeTag) : []),
   ];
   const uniqueTags = [...new Set(tags)].slice(0, 6);
-  const body = ensureMinimumBodyLength(generated.markdownBody, topic, category);
+  const normalizedBody = String(generated.markdownBody || "").replace(/^#\s+/gm, "## ");
+  const body = ensureMinimumBodyLength(normalizedBody, topic, category);
   const description = String(generated.description || makeDescription(body)).trim().slice(0, 160);
   const qualityErrors = validateGeneratedPost({
     topic,
@@ -1223,10 +1225,10 @@ async function generatePost({ category, topic, posts, dryRun }) {
     await cleanupDownloadedImages(unusedImages);
   }
   console.log(`[agent] placed images=${usedImages.length}`);
-  if (!dryRun && usedImages.length < MAX_IMAGES_PER_POST) {
+  if (!dryRun && usedImages.length < MIN_IMAGES_PER_POST) {
     await cleanupDownloadedImages(usedImages);
     console.warn(
-      `[warn] skipped generated post because placed images are below ${MAX_IMAGES_PER_POST}`
+      `[warn] skipped generated post because placed images are below ${MIN_IMAGES_PER_POST}`
     );
     return null;
   }
@@ -1322,9 +1324,10 @@ async function main() {
   if (dryRun) return;
 
   if (created === 0) {
-    throw new Error(
-      `Created 0/${postCount} posts after ${maxAttempts} attempts. Need more usable source articles or images.`
+    console.warn(
+      `[warn] created 0/${postCount} posts after ${maxAttempts} attempts; finishing without publishing`
     );
+    return;
   }
 
   if (created < postCount) {

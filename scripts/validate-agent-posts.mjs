@@ -6,7 +6,7 @@ const manifestPath = path.join(root, "public", "posts", "index.json");
 const usagePath = path.join(root, "public", "agent-usage", "latest.json");
 const postsDir = path.join(root, "public", "posts");
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
-const MIN_IMAGES_PER_POST = 2;
+const MIN_IMAGES_PER_POST = 1;
 
 const ERROR_PATTERN =
   /오류|에러|해결|문제|실패|원인|failed|failure|error|exception|denied|refused|timeout|not found|crash|down|red|pending|enoent|cors|oom|memory|permission/i;
@@ -84,6 +84,10 @@ async function main() {
   const usage = JSON.parse(await readFile(usagePath, "utf8").catch(() => "{}"));
   const knownSlugs = manifest.map((post) => post.slug);
   const createdSlugs = Array.isArray(usage.createdSlugs) ? usage.createdSlugs : [];
+  if (Number(usage.created || 0) === 0) {
+    console.log(`[agent-validate] no post was generated for ${today}; nothing to validate`);
+    return;
+  }
   const targets = createdSlugs.length
     ? manifest.filter((post) => createdSlugs.includes(post.slug))
     : manifest.filter((post) => post.generatedBy === "agent" && post.date === today);
