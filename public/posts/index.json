@@ -1,5 +1,24 @@
 [
   {
+    "slug": "postgresql-데드락-오류-해결-방법",
+    "title": "PostgreSQL 데드락 오류 해결 방법",
+    "description": "PostgreSQL에서 발생하는 데드락 오류를 진단하고 해결하는 방법을 알아보세요. 증상, 원인, 해결 절차를 상세히 설명합니다.",
+    "date": "2026-09-25",
+    "tags": [
+      "#Database",
+      "#PostgreSQL",
+      "#DevOps",
+      "#트랜잭션",
+      "#데드락"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/postgresql-데드락-오류-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "PostgreSQL deadlock detected 해결",
+    "imageCount": 1
+  },
+  {
     "slug": "elasticsearch에서-mapper-parsing-exception-오류-해결하기",
     "title": "Elasticsearch에서 mapper_parsing_exception 오류 해결하기",
     "description": "Elasticsearch에서 발생하는 mapper_parsing_exception 오류의 원인과 해결 방법을 자세히 알아보세요.",

@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-09-13T18:09:19.100Z",
+  "generatedAt": "2026-09-25T13:41:43.162Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 3,
-    "promptTokens": 17402,
-    "completionTokens": 3114,
-    "totalTokens": 20516
+    "calls": 1,
+    "promptTokens": 5880,
+    "completionTokens": 1268,
+    "totalTokens": 7148
   },
   "dryRun": false,
   "created": 1,
-  "requested": 2,
-  "attempts": 8,
-  "maxAttempts": 8,
+  "requested": 1,
+  "attempts": 2,
+  "maxAttempts": 4,
   "createdSlugs": [
-    "elasticsearch에서-mapper-parsing-exception-오류-해결하기"
+    "postgresql-데드락-오류-해결-방법"
   ]
 }
