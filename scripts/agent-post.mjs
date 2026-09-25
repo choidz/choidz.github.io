@@ -1303,7 +1303,11 @@ async function generatePost({ category, topic, posts, dryRun }) {
   const uniqueTags = [...new Set(tags)].slice(0, 6);
   const normalizedBody = String(generated.markdownBody || "").replace(/^#\s+/gm, "## ");
   const body = ensureMinimumBodyLength(normalizedBody, topic, category);
-  const description = String(generated.description || makeDescription(body)).trim().slice(0, 160);
+  const generatedDescription = String(generated.description || "").trim();
+  const description = (generatedDescription.length >= 50
+    ? generatedDescription
+    : makeDescription(body)
+  ).slice(0, 160);
   const qualityErrors = validateGeneratedPost({
     topic,
     category,
