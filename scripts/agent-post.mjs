@@ -1039,6 +1039,7 @@ async function synthesizePost({ topic, category, articles }) {
       hardRequirements: [
         "markdownBody must be at least 2200 Korean characters before references.",
         "markdownBody must include at least 4 H2 sections using ## headings.",
+        "Every H2 section must include at least 2 explanatory sentences and 80 Korean characters of prose outside code blocks and images.",
         "Do not include an H1 heading in markdownBody.",
         "The first H2 section must explain the symptom or error message.",
         "At least one H2 section must explain causes and at least one H2 section must explain fixes.",
@@ -1172,6 +1173,21 @@ function validateGeneratedPost({ topic, category, title, description, body, slug
   }
   if (plain.length < MIN_BODY_CHARS) errors.push(`body is too short: ${plain.length}`);
   if (h2Count < MIN_H2_COUNT) errors.push(`not enough sections: ${h2Count}`);
+  const shortSections = String(body || "")
+    .split(/^##\s+/gm)
+    .slice(1)
+    .map((section) => {
+      const [sectionTitle = "", ...sectionBody] = section.split(/\r?\n/);
+      return {
+        title: sectionTitle.trim(),
+        body: plainMarkdownText(sectionBody.join("\n")),
+      };
+    })
+    .filter((section) => section.title && section.body.length < 40)
+    .map((section) => section.title);
+  if (shortSections.length) {
+    errors.push(`empty or too-short sections: ${shortSections.join(", ")}`);
+  }
   if (/^#\s+/m.test(body)) errors.push("body contains an H1 heading after normalization");
   if (hasRepeatedParagraph(body)) errors.push("body has repeated paragraphs");
   if (findLongCopiedSentence(body, articles)) errors.push("body appears to copy a source sentence");
