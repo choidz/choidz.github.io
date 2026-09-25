@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-09-25T13:41:43.162Z",
+  "generatedAt": "2026-09-25T13:56:01.983Z",
   "model": "gpt-4o-mini",
   "usage": {
     "calls": 1,
-    "promptTokens": 5880,
-    "completionTokens": 1268,
-    "totalTokens": 7148
+    "promptTokens": 10892,
+    "completionTokens": 1140,
+    "totalTokens": 12032
   },
   "dryRun": false,
   "created": 1,
   "requested": 1,
-  "attempts": 2,
+  "attempts": 1,
   "maxAttempts": 4,
   "createdSlugs": [
-    "postgresql-데드락-오류-해결-방법"
+    "openai-api-429-rate-limit-오류-해결-가이드"
   ]
 }

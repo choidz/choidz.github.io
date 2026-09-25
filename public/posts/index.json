@@ -1,5 +1,24 @@
 [
   {
+    "slug": "openai-api-429-rate-limit-오류-해결-가이드",
+    "title": "OpenAI API 429 Rate Limit 오류 해결 가이드",
+    "description": "OpenAI API에서 발생하는 429 Rate Limit 오류의 증상, 원인, 해결 방법을 상세히 안내합니다.",
+    "date": "2026-09-25",
+    "tags": [
+      "#AI",
+      "#OpenAI",
+      "#API",
+      "#개발자",
+      "#오류해결"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/openai-api-429-rate-limit-오류-해결-가이드.md",
+    "generatedBy": "agent",
+    "sourceTopic": "OpenAI API 429 rate limit 오류 해결",
+    "imageCount": 2
+  },
+  {
     "slug": "postgresql-데드락-오류-해결-방법",
     "title": "PostgreSQL 데드락 오류 해결 방법",
     "description": "PostgreSQL에서 발생하는 데드락 오류를 진단하고 해결하는 방법을 알아보세요. 증상, 원인, 해결 절차를 상세히 설명합니다.",
