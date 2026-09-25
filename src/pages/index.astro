@@ -8,7 +8,7 @@ const posts = sortPosts(Object.values(postModules));
 function raw(post) { return typeof post.rawContent === "function" ? post.rawContent() : post.rawContent ?? post.body ?? ""; }
 function image(post) { return post.frontmatter.image ?? raw(post).match(/!\[[^\]]*\]\((\/images\/posts\/[^)\s]+)\)/)?.[1] ?? ""; }
 ---
-<BaseLayout title="CHOI.DEV | 최성현의 기술 블로그" description="운영, 자동화, Linux와 모니터링 경험을 기록하는 개발 블로그입니다." pageClass="korean-blog-page">
+<BaseLayout title="CHOI.DEV — Engineering Notes" description="운영, 자동화, Linux와 모니터링 경험을 기록하는 개발 블로그입니다." pageClass="korean-blog-page">
   <main class="kblog-shell">
     <BlogSidebar posts={posts} />
     <section class="kblog-main" id="articles">

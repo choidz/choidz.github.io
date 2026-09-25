@@ -48,7 +48,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>최오키 개발블로그</title>
+    <title>CHOI.DEV — Engineering Notes</title>
     <link>${siteUrl}</link>
     <description>개발, DevOps, 운영 경험을 실무 관점으로 정리하는 기술 블로그입니다.</description>
     <language>ko-KR</language>
