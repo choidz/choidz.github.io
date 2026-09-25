@@ -2,12 +2,13 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogSidebar from "../../components/BlogSidebar.astro";
 import { formatDate, getPostUrl, sortPosts } from "../../lib/posts.js";
+import { getPostCategories } from "../../lib/categories.js";
 import "../../styles/korean-blog.css";
 export async function getStaticPaths() {
   const modules = import.meta.glob("../../content/blog/*.md", { eager: true }); const posts = sortPosts(Object.values(modules));
   return posts.map((post) => ({ params: { slug: post.frontmatter.slug }, props: { post, posts } }));
 }
-const { post, posts } = Astro.props; const { Content } = post; const canonical = getPostUrl(post.frontmatter.slug); const tags = post.frontmatter.tags ?? [];
+const { post, posts } = Astro.props; const { Content } = post; const canonical = getPostUrl(post.frontmatter.slug); const tags = post.frontmatter.tags ?? []; const category = getPostCategories(post)[0] ?? "Engineering";
 const jsonLd = { "@context":"https://schema.org", "@type":"BlogPosting", headline:post.frontmatter.title, description:post.frontmatter.description, datePublished:post.frontmatter.date, dateModified:post.frontmatter.date, inLanguage:"ko", url:`https://choidz.github.io${canonical}`, author:{ "@type":"Person", name:"Choi Seonghyeon" }, publisher:{ "@type":"Person", name:"Choi Seonghyeon" } };
 ---
 <BaseLayout title={`${post.frontmatter.title} | CHOI.DEV`} description={post.frontmatter.description} canonical={canonical} type="article" pageClass="korean-blog-page">
@@ -16,7 +17,7 @@ const jsonLd = { "@context":"https://schema.org", "@type":"BlogPosting", headlin
     <BlogSidebar posts={posts} activeSlug={post.frontmatter.slug} />
     <article class="kblog-article">
       <a class="kblog-back" href="/">← 전체 글로 돌아가기</a>
-      <header class="kblog-article-header"><div class="kblog-article-meta"><span>{tags[0] ?? "Engineering"}</span><time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time><b>{post.frontmatter.readingMinutes}분 읽기</b></div><h1>{post.frontmatter.title}</h1><p>{post.frontmatter.description}</p>{tags.length > 0 && <div class="kblog-article-tags">{tags.map((tag) => <span>#{tag}</span>)}</div>}</header>
+      <header class="kblog-article-header"><div class="kblog-article-meta"><span>{category}</span><time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time></div><h1>{post.frontmatter.title}</h1><p>{post.frontmatter.description}</p>{tags.length > 0 && <div class="kblog-article-tags">{tags.map((tag) => <span>#{tag}</span>)}</div>}</header>
       <div class="kblog-prose"><Content /></div>
       <footer class="kblog-article-footer"><strong>끝까지 읽어주셔서 감사합니다.</strong><p>잘못된 내용이나 궁금한 점은 GitHub에서 편하게 알려주세요.</p><a href="https://github.com/choidz/choidz.github.io" target="_blank" rel="noreferrer">GitHub에서 의견 남기기 ↗</a></footer>
     </article>

@@ -1,9 +1,8 @@
 ---
 import { formatDate, getPostUrl } from "../lib/posts.js";
+import { getCategorySummary } from "../lib/categories.js";
 const { posts = [], activeSlug = "" } = Astro.props;
-const counts = new Map();
-for (const post of posts) for (const tag of post.frontmatter.tags ?? []) counts.set(tag, (counts.get(tag) ?? 0) + 1);
-const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+const categories = getCategorySummary(posts);
 const recentPosts = posts.filter((post) => post.frontmatter.slug !== activeSlug).slice(0, 5);
 ---
 <aside class="kblog-sidebar" aria-label="블로그 사이드바">

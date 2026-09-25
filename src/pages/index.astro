@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogSidebar from "../components/BlogSidebar.astro";
 import { formatDate, getPostUrl, sortPosts } from "../lib/posts.js";
+import { getPostCategories } from "../lib/categories.js";
 import "../styles/korean-blog.css";
 const postModules = import.meta.glob("../content/blog/*.md", { eager: true });
 const posts = sortPosts(Object.values(postModules));
@@ -15,8 +16,8 @@ function image(post) { return post.frontmatter.image ?? raw(post).match(/!\[[^\]
       <div class="kblog-list-head"><h2>전체 글</h2><p id="kblog-result">최신순으로 {posts.length}개의 글</p></div>
       <div class="kblog-post-list">
         {posts.map((post, index) => {
-          const thumb = image(post); const category = post.frontmatter.tags?.[0] ?? "Engineering";
-          return <article class="kblog-post" data-post data-tags={(post.frontmatter.tags ?? []).join(" ").toLowerCase()} data-search={`${post.frontmatter.title} ${post.frontmatter.description}`.toLowerCase()} data-index={index}>
+          const thumb = image(post); const postCategories = getPostCategories(post); const category = postCategories[0] ?? "Engineering";
+          return <article class="kblog-post" data-post data-tags={`${postCategories.join(" ")} ${(post.frontmatter.tags ?? []).join(" ")}`.toLowerCase()} data-search={`${post.frontmatter.title} ${post.frontmatter.description}`.toLowerCase()} data-index={index}>
             <a href={getPostUrl(post.frontmatter.slug)}><div class="kblog-post-copy"><div class="kblog-post-meta"><span>{category}</span><time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time></div><h3>{post.frontmatter.title}</h3><p>{post.frontmatter.description}</p><div class="kblog-post-tags">{(post.frontmatter.tags ?? []).slice(0, 3).map((tag) => <span>#{tag}</span>)}</div></div>{thumb && <img class="kblog-post-thumb" src={thumb} alt="" loading="lazy" />}</a>
           </article>;
         })}
