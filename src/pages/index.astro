@@ -17,7 +17,7 @@ function image(post) { return post.frontmatter.image ?? raw(post).match(/!\[[^\]
         {posts.map((post, index) => {
           const thumb = image(post); const category = post.frontmatter.tags?.[0] ?? "Engineering";
           return <article class="kblog-post" data-post data-tags={(post.frontmatter.tags ?? []).join(" ").toLowerCase()} data-search={`${post.frontmatter.title} ${post.frontmatter.description}`.toLowerCase()} data-index={index}>
-            <a href={getPostUrl(post.frontmatter.slug)}><div class="kblog-post-copy"><div class="kblog-post-meta"><span>{category}</span><time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time><b>{post.frontmatter.readingMinutes}분</b></div><h3>{post.frontmatter.title}</h3><p>{post.frontmatter.description}</p><div class="kblog-post-tags">{(post.frontmatter.tags ?? []).slice(0, 3).map((tag) => <span>#{tag}</span>)}</div></div>{thumb && <img class="kblog-post-thumb" src={thumb} alt="" loading="lazy" />}</a>
+            <a href={getPostUrl(post.frontmatter.slug)}><div class="kblog-post-copy"><div class="kblog-post-meta"><span>{category}</span><time datetime={post.frontmatter.date}>{formatDate(post.frontmatter.date)}</time></div><h3>{post.frontmatter.title}</h3><p>{post.frontmatter.description}</p><div class="kblog-post-tags">{(post.frontmatter.tags ?? []).slice(0, 3).map((tag) => <span>#{tag}</span>)}</div></div>{thumb && <img class="kblog-post-thumb" src={thumb} alt="" loading="lazy" />}</a>
           </article>;
         })}
       </div>
