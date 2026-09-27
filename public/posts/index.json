@@ -1,5 +1,24 @@
 [
   {
+    "slug": "expo-eas-빌드-실패-react-native-worklets-plugin-모듈을-찾을-수-없다는-오류-해결하기",
+    "title": "Expo EAS 빌드 실패: 'react-native-worklets/plugin' 모듈을 찾을 수 없다는 오류 해결하기",
+    "description": "Expo EAS 빌드에서 'react-native-worklets/plugin' 모듈을 찾을 수 없다는 오류를 해결하는 방법을 안내합니다.",
+    "date": "2026-09-27",
+    "tags": [
+      "#Mobile",
+      "#Expo",
+      "#ReactNative",
+      "#DevOps",
+      "#BuildError"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/expo-eas-빌드-실패-react-native-worklets-plugin-모듈을-찾을-수-없다는-오류-해결하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Expo EAS build failed 해결",
+    "imageCount": 1
+  },
+  {
     "slug": "rag-검색-결과가-비어있는-문제-해결하기",
     "title": "RAG 검색 결과가 비어있는 문제 해결하기",
     "description": "RAG 시스템에서 검색 결과가 비어 있는 문제를 해결하기 위한 증상, 원인, 확인 방법과 해결 절차를 정리했습니다.",

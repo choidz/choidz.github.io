@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-09-27T01:10:55.251Z",
+  "generatedAt": "2026-09-27T14:24:46.878Z",
   "model": "gpt-4o-mini",
   "usage": {
     "calls": 1,
-    "promptTokens": 10675,
-    "completionTokens": 959,
-    "totalTokens": 11634
+    "promptTokens": 3036,
+    "completionTokens": 1048,
+    "totalTokens": 4084
   },
   "dryRun": false,
   "created": 1,
   "requested": 1,
-  "attempts": 2,
+  "attempts": 4,
   "maxAttempts": 4,
   "createdSlugs": [
-    "rag-검색-결과가-비어있는-문제-해결하기"
+    "expo-eas-빌드-실패-react-native-worklets-plugin-모듈을-찾을-수-없다는-오류-해결하기"
   ]
 }
