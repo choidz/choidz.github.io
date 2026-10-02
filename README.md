@@ -26,7 +26,9 @@ npm run build
 
 ### Daily Agent Post
 
-`.github/workflows/daily-agent-post.yml`이 매일 08:00와 18:00 KST에 기존 글 카테고리 분포를 기준으로 주제를 고르고, 관련 글과 이미지를 크롤링한 뒤 OpenAI API로 새 기술 글을 생성합니다. 실행당 최대 1개만 생성하며, 출처·본문 구조·기술 이미지 품질 조건을 통과하지 못하면 해당 회차에는 게시하지 않습니다.
+`.github/workflows/daily-agent-post.yml`이 매일 08:00와 18:00 KST에 카테고리를 순환하며 주제를 고르고, 관련 글과 이미지를 크롤링한 뒤 OpenAI API로 새 기술 글을 생성합니다. 예약 실행은 회차당 1개를 생성하고, 수동 실행은 최대 2개까지 요청할 수 있습니다. 한 글당 최대 10개 주제를 시도하며 출처·본문 구조 품질 조건을 통과하지 못하면 해당 후보는 게시하지 않습니다.
+
+출처의 기술 이미지가 적합하면 본문에 사용하고, 이미지가 없거나 다운로드·배치 검사를 통과하지 못하면 주제와 카테고리로 만든 자체 SVG 기술 이미지를 대신 사용합니다. 자체 이미지는 인물이나 외부 저작물을 포함하지 않습니다. 모든 후보가 실패한 회차는 배포하지 않고 GitHub Actions에 경고를 남깁니다.
 
 자동 생성 주제는 DevOps, Linux, Database, Programming, Frontend, AI, Mobile, Error, ElasticSearch, Grafana, Zabbix 분류를 사용합니다. 사이트 사이드바도 같은 분류 체계로 기존 글을 묶어 표시합니다.
 

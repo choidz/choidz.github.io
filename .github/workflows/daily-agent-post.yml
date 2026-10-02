@@ -87,7 +87,7 @@ jobs:
           if [ "$created" = "0" ]; then
             git restore public/agent-usage/latest.json
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No post generated; skipping commit and deployment"
+            echo "::warning::No post generated after all source and quality attempts; skipping commit and deployment"
             exit 0
           fi
           git config user.name "github-actions-bot"

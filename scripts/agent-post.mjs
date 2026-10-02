@@ -13,7 +13,7 @@ const MANIFEST_PATH = path.join(POSTS_DIR, "index.json");
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
 const DEFAULT_POST_COUNT = 1;
-const MAX_POST_COUNT = 1;
+const MAX_POST_COUNT = 2;
 const MAX_IMAGES_PER_POST = 2;
 const MIN_IMAGES_PER_POST = 1;
 const MAX_IMAGE_CANDIDATES = 16;
@@ -24,7 +24,7 @@ const TISTORY_SEARCH_RESULTS = 8;
 const VELOG_SEARCH_RESULTS = 8;
 const NAVER_SEARCH_RESULTS = 0;
 const MAX_SOURCE_ARTICLES = 5;
-const MAX_ATTEMPTS_PER_POST = 4;
+const MAX_ATTEMPTS_PER_POST = 10;
 const REJECT_IMAGE_PATTERN =
   /advert|advertise|ads?|banner|logo|profile|avatar|emoji|icon|comment|sponsor|promo|coupon|qr|placeholder|post-thumbnail|thumbnail|spinner|loading|blank|sprite|training|course|certified|trainer|webinar|seminar|lecture|웨비나|교육|세미나|강의|이벤트|패키지|공유|할인|프로모션|신청/i;
 const REJECT_PERSON_IMAGE_PATTERN =
@@ -450,27 +450,17 @@ function dayOfYear() {
   return Math.floor((now - start) / 86400000);
 }
 
+function generationRunSeed() {
+  return Math.floor(Date.now() / (12 * 60 * 60 * 1000));
+}
+
 function chooseCategory(posts, index = 0) {
   const requestedRaw = (process.env.AGENT_CATEGORY || "").trim();
   const requested = requestedRaw ? normalizeTag(requestedRaw) : "";
   if (requested && TOPIC_BANK[requested]) return requested;
 
-  const counts = new Map();
-  for (const post of posts) {
-    for (const tag of post.tags || []) {
-      const normalized = normalizeTag(tag);
-      if (TOPIC_BANK[normalized]) {
-        counts.set(normalized, (counts.get(normalized) || 0) + 1);
-      }
-    }
-  }
-
-  const ranked = Object.keys(TOPIC_BANK)
-    .map((tag) => ({ tag, count: counts.get(tag) || 0 }))
-    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag))
-    .map((item) => item.tag);
-
-  return ranked[(dayOfYear() + index) % ranked.length] || "#DevOps";
+  const categories = Object.keys(TOPIC_BANK);
+  return categories[(generationRunSeed() + index) % categories.length] || "#DevOps";
 }
 
 function chooseTopic(category, posts, usedTopics = new Set(), index = 0) {
@@ -741,6 +731,102 @@ async function downloadPostImages(articles, slug, topic = "", category = "", bod
   return downloaded;
 }
 
+function escapeXml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function wrapSvgText(value, maxLength = 24, maxLines = 3) {
+  const words = String(value || "").trim().split(/\s+/).filter(Boolean);
+  const lines = [];
+  let current = "";
+
+  for (const word of words) {
+    const candidate = current ? `${current} ${word}` : word;
+    if (candidate.length <= maxLength || !current) {
+      current = candidate;
+      continue;
+    }
+    lines.push(current);
+    current = word;
+    if (lines.length >= maxLines - 1) break;
+  }
+
+  if (current && lines.length < maxLines) lines.push(current);
+  const joined = lines.join(" ");
+  if (joined.length < String(value || "").trim().length && lines.length) {
+    lines[lines.length - 1] = `${lines[lines.length - 1].slice(0, maxLength - 1)}…`;
+  }
+  return lines;
+}
+
+function categoryPalette(category) {
+  const palettes = {
+    "#Frontend": ["#2563eb", "#7c3aed"],
+    "#Programming": ["#0f766e", "#0891b2"],
+    "#AI": ["#7c3aed", "#db2777"],
+    "#Mobile": ["#ea580c", "#dc2626"],
+    "#Database": ["#0369a1", "#0f766e"],
+    "#Error": ["#dc2626", "#ea580c"],
+    "#DevOps": ["#059669", "#0369a1"],
+  };
+  return palettes[category] || ["#0f766e", "#2563eb"];
+}
+
+async function createTechnicalFallbackImage({ slug, title, topic, category }) {
+  await mkdir(IMAGES_DIR, { recursive: true });
+  const filename = `${slug}-00-generated.svg`;
+  const [startColor, endColor] = categoryPalette(category);
+  const titleLines = wrapSvgText(title || topic, 25, 3);
+  const tspans = titleLines
+    .map((line, index) => `<tspan x="88" dy="${index === 0 ? 0 : 62}">${escapeXml(line)}</tspan>`)
+    .join("");
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="${escapeXml(topic)} 기술 다이어그램">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="${startColor}"/>
+      <stop offset="1" stop-color="${endColor}"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#020617" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" rx="40" fill="url(#background)"/>
+  <circle cx="1070" cy="90" r="190" fill="#ffffff" opacity="0.08"/>
+  <circle cx="105" cy="590" r="240" fill="#ffffff" opacity="0.06"/>
+  <rect x="70" y="62" width="1060" height="506" rx="30" fill="#0f172a" opacity="0.9" filter="url(#shadow)"/>
+  <circle cx="116" cy="105" r="9" fill="#fb7185"/>
+  <circle cx="146" cy="105" r="9" fill="#fbbf24"/>
+  <circle cx="176" cy="105" r="9" fill="#34d399"/>
+  <text x="88" y="180" fill="#a7f3d0" font-size="24" font-family="ui-monospace, SFMono-Regular, Consolas, monospace">${escapeXml(category.replace("#", ""))} · TROUBLESHOOTING</text>
+  <text x="88" y="270" fill="#ffffff" font-size="48" font-weight="700" font-family="Pretendard, Noto Sans KR, Arial, sans-serif">${tspans}</text>
+  <g transform="translate(825 218)" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.88">
+    <rect x="0" y="0" width="220" height="150" rx="22"/>
+    <path d="M38 48l38 30-38 30M98 110h72"/>
+    <path d="M70 190h150M95 160v30M195 160v30" opacity="0.65"/>
+  </g>
+  <text x="88" y="520" fill="#cbd5e1" font-size="24" font-family="ui-monospace, SFMono-Regular, Consolas, monospace">CHOI.DEV / practical engineering notes</text>
+</svg>`;
+  await writeFile(path.join(IMAGES_DIR, filename), svg, "utf8");
+  console.log(`[agent] generated fallback image=${filename}`);
+  return {
+    index: 0,
+    alt: `${topic} 기술 다이어그램`,
+    contextText: `${topic} ${category}`,
+    sourceTitle: title || topic,
+    sourceRelevance: 1,
+    score: 100,
+    path: `/images/posts/${filename}`,
+    sourceUrl: "",
+    generatedFallback: true,
+  };
+}
+
 async function cleanupDownloadedImages(images) {
   for (const image of images) {
     if (!image.path?.startsWith("/images/posts/")) continue;
@@ -811,6 +897,13 @@ function placeImagesInBody(markdownBody, images, topic = "", category = "") {
       const score = imagePlacementScore(image, blocks[blockIndex], topic, category);
       if (score > best.score) {
         best = { blockIndex, score };
+      }
+    }
+
+    if (image.generatedFallback && best.score < MIN_IMAGE_PLACEMENT_SCORE) {
+      const fallbackBlockIndex = blocks.findIndex(canPlaceImageAfterBlock);
+      if (fallbackBlockIndex >= 0) {
+        best = { blockIndex: fallbackBlockIndex, score: MIN_IMAGE_PLACEMENT_SCORE };
       }
     }
 
@@ -1274,10 +1367,7 @@ async function generatePost({ category, topic, posts, dryRun }) {
     return null;
   }
   if (!dryRun && initialImageCandidates.length < MIN_IMAGES_PER_POST) {
-    console.warn(
-      `[warn] skipped topic because usable image candidates are below ${MIN_IMAGES_PER_POST}`
-    );
-    return null;
+    console.warn("[warn] no usable source image; a generated technical image will be used");
   }
 
   const generated = await synthesizePost({ topic, category, articles });
@@ -1326,17 +1416,37 @@ async function generatePost({ category, topic, posts, dryRun }) {
   const downloadedImages = dryRun
     ? []
     : await downloadPostImages(articles, slug, topic, category, body);
-  const { body: bodyWithImages, usedImages } = placeImagesInBody(
+  let { body: bodyWithImages, usedImages } = placeImagesInBody(
     body,
     downloadedImages,
     topic,
     category
   );
-  const unusedImages = downloadedImages.filter(
+  let unusedImages = downloadedImages.filter(
     (image) => !usedImages.some((used) => used.path === image.path)
   );
   if (!dryRun && unusedImages.length) {
     await cleanupDownloadedImages(unusedImages);
+  }
+
+  if (!dryRun && usedImages.length < MIN_IMAGES_PER_POST) {
+    await cleanupDownloadedImages(usedImages);
+    const fallbackImage = await createTechnicalFallbackImage({
+      slug,
+      title,
+      topic,
+      category,
+    });
+    ({ body: bodyWithImages, usedImages } = placeImagesInBody(
+      body,
+      [fallbackImage],
+      topic,
+      category
+    ));
+    unusedImages = [fallbackImage].filter(
+      (image) => !usedImages.some((used) => used.path === image.path)
+    );
+    if (unusedImages.length) await cleanupDownloadedImages(unusedImages);
   }
   console.log(`[agent] placed images=${usedImages.length}`);
   if (!dryRun && usedImages.length < MIN_IMAGES_PER_POST) {
