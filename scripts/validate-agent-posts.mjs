@@ -35,6 +35,7 @@ function findEmptySections(markdown) {
       const body = plainMarkdownText(rest.join("\n"));
       return { title: title.trim(), body };
     })
+    .filter((section) => section.title !== "참고한 자료")
     .filter((section) => section.title && section.body.length < 40)
     .map((section) => section.title);
 }
