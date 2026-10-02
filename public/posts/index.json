@@ -1,5 +1,44 @@
 [
   {
+    "slug": "embedding-dimension-mismatch-오류-해결-방법",
+    "title": "Embedding Dimension Mismatch 오류 해결 방법",
+    "description": "Embedding Dimension Mismatch 오류의 증상, 원인 및 해결 방법을 자세히 설명합니다. 실무에서 자주 발생하는 문제를 해결하는 데 도움이 될 것입니다.",
+    "date": "2026-10-02",
+    "tags": [
+      "#AI",
+      "#MachineLearning",
+      "#DeepLearning",
+      "#DataScience",
+      "#ErrorHandling"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/embedding-dimension-mismatch-오류-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "embedding dimension mismatch 오류 해결",
+    "imageCount": 1
+  },
+  {
+    "slug": "android-sdk-위치를-찾지-못할-때-해결하는-방법",
+    "title": "Android SDK 위치를 찾지 못할 때 해결하는 방법",
+    "description": "Android Studio에서 'SDK location not found' 오류가 발생할 때의 원인과 해결 방법을 정리했습니다.",
+    "date": "2026-10-02",
+    "tags": [
+      "#Mobile",
+      "#Android",
+      "#SDK",
+      "#개발",
+      "#안드로이드스튜디오",
+      "#오류해결"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/android-sdk-위치를-찾지-못할-때-해결하는-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Android SDK location not found 해결",
+    "imageCount": 2
+  },
+  {
     "slug": "tailwind-css-스타일-적용이-안-되는-문제-해결하기",
     "title": "Tailwind CSS 스타일 적용이 안 되는 문제 해결하기",
     "description": "증상 및 오류 메시지 Tailwind CSS를 사용할 때, 특정 조건에서 스타일이 적용되지 않는 경우가 발생합니다. 예를 들어, 동적으로 생성된 클래스 이름이 적용되지 않거나, 상태 state 나 속성 props 에 따라 클래스가 변경될 때 스타일이 ",

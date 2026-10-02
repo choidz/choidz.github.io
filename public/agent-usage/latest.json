@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-10-02T13:14:02.510Z",
+  "generatedAt": "2026-10-02T13:20:32.835Z",
   "model": "gpt-4o-mini",
   "usage": {
     "calls": 6,
-    "promptTokens": 34410,
-    "completionTokens": 6725,
-    "totalTokens": 41135
+    "promptTokens": 40137,
+    "completionTokens": 6270,
+    "totalTokens": 46407
   },
   "dryRun": false,
   "created": 2,
   "requested": 2,
-  "attempts": 8,
+  "attempts": 11,
   "maxAttempts": 20,
   "createdSlugs": [
-    "디스크-사용량-100-문제-해결-가이드",
-    "tailwind-css-스타일-적용이-안-되는-문제-해결하기"
+    "android-sdk-위치를-찾지-못할-때-해결하는-방법",
+    "embedding-dimension-mismatch-오류-해결-방법"
   ]
 }
