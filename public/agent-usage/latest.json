@@ -1,19 +1,18 @@
 {
-  "generatedAt": "2026-10-02T13:20:32.835Z",
+  "generatedAt": "2026-10-03T14:05:11.009Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 6,
-    "promptTokens": 40137,
-    "completionTokens": 6270,
-    "totalTokens": 46407
+    "calls": 2,
+    "promptTokens": 9471,
+    "completionTokens": 2375,
+    "totalTokens": 11846
   },
   "dryRun": false,
-  "created": 2,
-  "requested": 2,
-  "attempts": 11,
-  "maxAttempts": 20,
+  "created": 1,
+  "requested": 1,
+  "attempts": 9,
+  "maxAttempts": 10,
   "createdSlugs": [
-    "android-sdk-위치를-찾지-못할-때-해결하는-방법",
-    "embedding-dimension-mismatch-오류-해결-방법"
+    "ai-도구-호출-시-스키마-검증-오류-해결하기"
   ]
 }
