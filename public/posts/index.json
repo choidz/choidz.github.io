@@ -1,5 +1,25 @@
 [
   {
+    "slug": "c-cs0246-오류-타입-또는-네임스페이스를-찾을-수-없음-해결하기",
+    "title": "C# CS0246 오류: 타입 또는 네임스페이스를 찾을 수 없음 해결하기",
+    "description": "증상 및 오류 메시지 C 에서 개발 중에 'CS0246: The type or namespace name 'XXX' could not be found'라는 오류 메시지를 자주 접할 수 있습니다. 이 오류는 특정 타입이나 네임스페이스를 찾지 못했음을 의",
+    "date": "2026-10-04",
+    "tags": [
+      "#Programming",
+      "#CSharp",
+      "#오류해결",
+      "#프로그래밍",
+      "#개발자팁",
+      "#코딩"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/c-cs0246-오류-타입-또는-네임스페이스를-찾을-수-없음-해결하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "C# CS0246 type or namespace not found 해결",
+    "imageCount": 1
+  },
+  {
     "slug": "ai-도구-호출-시-스키마-검증-오류-해결하기",
     "title": "AI 도구 호출 시 스키마 검증 오류 해결하기",
     "description": "AI 도구 호출 시 발생할 수 있는 스키마 검증 오류의 증상, 원인 및 해결 방법을 정리했습니다.",
