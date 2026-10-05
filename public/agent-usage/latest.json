@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-10-04T14:30:40.030Z",
+  "generatedAt": "2026-10-05T01:44:17.708Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 2,
-    "promptTokens": 16234,
-    "completionTokens": 2018,
-    "totalTokens": 18252
+    "calls": 1,
+    "promptTokens": 13783,
+    "completionTokens": 1104,
+    "totalTokens": 14887
   },
   "dryRun": false,
   "created": 1,
   "requested": 1,
-  "attempts": 5,
+  "attempts": 3,
   "maxAttempts": 10,
   "createdSlugs": [
-    "c-cs0246-오류-타입-또는-네임스페이스를-찾을-수-없음-해결하기"
+    "typescript에서-cannot-find-module-오류-해결하기"
   ]
 }
