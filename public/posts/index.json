@@ -1,5 +1,24 @@
 [
   {
+    "slug": "net-restore-실패-원인과-해결-방법",
+    "title": ".NET Restore 실패 원인과 해결 방법",
+    "description": ".NET Restore 명령어 실행 시 발생할 수 있는 오류와 그 해결 방법을 정리했습니다. 다양한 원인과 단계별 해결 절차를 통해 문제를 해결해보세요.",
+    "date": "2026-10-07",
+    "tags": [
+      "#Programming",
+      "#DevOps",
+      "#CSharp",
+      "#DotNet",
+      "#ErrorHandling"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/net-restore-실패-원인과-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": ".NET restore 실패 해결",
+    "imageCount": 1
+  },
+  {
     "slug": "dns-resolution-failed-원인과-해결-방법",
     "title": "DNS Resolution Failed: 원인과 해결 방법",
     "description": "DNS resolution failed 오류의 증상, 원인, 해결 방법을 알아보세요. 실무에서 유용한 체크리스트와 명령어도 포함되어 있습니다.",
