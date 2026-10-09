@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-10-09T02:51:04.580Z",
+  "generatedAt": "2026-10-09T15:40:05.867Z",
   "model": "gpt-4o-mini",
   "usage": {
     "calls": 1,
-    "promptTokens": 3444,
-    "completionTokens": 1028,
-    "totalTokens": 4472
+    "promptTokens": 5780,
+    "completionTokens": 1154,
+    "totalTokens": 6934
   },
   "dryRun": false,
   "created": 1,
   "requested": 1,
-  "attempts": 3,
+  "attempts": 6,
   "maxAttempts": 10,
   "createdSlugs": [
-    "elasticsearch에서-read-only-allow-delete-해제하는-방법"
+    "javascript-메모리-누수의-원인과-해결-방법"
   ]
 }
