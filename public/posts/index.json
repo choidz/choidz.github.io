@@ -1,5 +1,24 @@
 [
   {
+    "slug": "elasticsearch에서-read-only-allow-delete-해제하는-방법",
+    "title": "Elasticsearch에서 read_only_allow_delete 해제하는 방법",
+    "description": "Elasticsearch의 read_only_allow_delete 설정을 해제하는 방법과 관련된 문제를 해결하는 절차를 안내합니다.",
+    "date": "2026-10-09",
+    "tags": [
+      "#ElasticSearch",
+      "#DevOps",
+      "#Database",
+      "#ErrorFix",
+      "#SystemAdmin"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/elasticsearch에서-read-only-allow-delete-해제하는-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Elasticsearch read_only_allow_delete 해제",
+    "imageCount": 1
+  },
+  {
     "slug": "net-restore-실패-원인과-해결-방법",
     "title": ".NET Restore 실패 원인과 해결 방법",
     "description": ".NET Restore 명령어 실행 시 발생할 수 있는 오류와 그 해결 방법을 정리했습니다. 다양한 원인과 단계별 해결 절차를 통해 문제를 해결해보세요.",
