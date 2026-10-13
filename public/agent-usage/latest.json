@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-09T15:40:05.867Z",
+  "generatedAt": "2026-10-13T03:26:12.603Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 1,
-    "promptTokens": 5780,
-    "completionTokens": 1154,
-    "totalTokens": 6934
+    "calls": 4,
+    "promptTokens": 33353,
+    "completionTokens": 3882,
+    "totalTokens": 37235
   },
   "dryRun": false,
   "created": 1,
@@ -13,6 +13,6 @@
   "attempts": 6,
   "maxAttempts": 10,
   "createdSlugs": [
-    "javascript-메모리-누수의-원인과-해결-방법"
+    "elasticsearch에서-heap-memory-부족-문제-해결하기"
   ]
 }

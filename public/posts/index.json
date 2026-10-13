@@ -1,5 +1,24 @@
 [
   {
+    "slug": "elasticsearch에서-heap-memory-부족-문제-해결하기",
+    "title": "Elasticsearch에서 Heap Memory 부족 문제 해결하기",
+    "description": "Elasticsearch의 Heap Memory 부족 문제를 진단하고 해결하는 방법을 알아보세요.",
+    "date": "2026-10-13",
+    "tags": [
+      "#ElasticSearch",
+      "#DevOps",
+      "#JVM",
+      "#메모리관리",
+      "#OutOfMemory"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 2,
+    "contentPath": "/posts/elasticsearch에서-heap-memory-부족-문제-해결하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Elasticsearch heap memory 부족 해결",
+    "imageCount": 1
+  },
+  {
     "slug": "javascript-메모리-누수의-원인과-해결-방법",
     "title": "JavaScript 메모리 누수의 원인과 해결 방법",
     "description": "JavaScript에서 발생할 수 있는 메모리 누수의 증상, 원인, 해결 방법을 정리했습니다.",
