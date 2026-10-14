@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-10-14T01:43:18.380Z",
+  "generatedAt": "2026-10-14T14:09:31.297Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 3,
-    "promptTokens": 15333,
-    "completionTokens": 3132,
-    "totalTokens": 18465
+    "calls": 1,
+    "promptTokens": 3508,
+    "completionTokens": 1148,
+    "totalTokens": 4656
   },
   "dryRun": false,
   "created": 1,
   "requested": 1,
-  "attempts": 8,
+  "attempts": 1,
   "maxAttempts": 10,
   "createdSlugs": [
-    "python에서-modulenotfounderror-해결하기-원인과-해결-방법"
+    "kafka-consumer-lag-급증-원인과-해결-방법"
   ]
 }
