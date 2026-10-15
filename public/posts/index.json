@@ -1,5 +1,24 @@
 [
   {
+    "slug": "kibana에서-no-data-views-found-오류-해결하기",
+    "title": "Kibana에서 'No data views found' 오류 해결하기",
+    "description": "Kibana에서 'No data views found' 오류가 발생하는 원인과 해결 방법을 상세히 설명합니다.",
+    "date": "2026-10-15",
+    "tags": [
+      "#ElasticSearch",
+      "#Kibana",
+      "#DevOps",
+      "#오류해결",
+      "#데이터시각화"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/kibana에서-no-data-views-found-오류-해결하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Kibana no data views found 해결",
+    "imageCount": 1
+  },
+  {
     "slug": "kafka-consumer-lag-급증-원인과-해결-방법",
     "title": "Kafka Consumer Lag 급증 원인과 해결 방법",
     "description": "Kafka Consumer Lag이 급증하는 원인과 이를 해결하기 위한 단계별 접근법을 안내합니다.",
