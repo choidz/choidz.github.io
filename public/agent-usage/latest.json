@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-10-16T01:04:33.424Z",
+  "generatedAt": "2026-10-16T13:37:40.006Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 2,
-    "promptTokens": 9872,
-    "completionTokens": 2199,
-    "totalTokens": 12071
+    "calls": 1,
+    "promptTokens": 10732,
+    "completionTokens": 1009,
+    "totalTokens": 11741
   },
   "dryRun": false,
   "created": 1,
   "requested": 1,
-  "attempts": 4,
+  "attempts": 3,
   "maxAttempts": 10,
   "createdSlugs": [
-    "node-js에서-발생하는-heap-out-of-memory-오류-해결하기"
+    "javascript-async-await-오류-처리-방법"
   ]
 }

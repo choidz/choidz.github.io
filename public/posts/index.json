@@ -1,5 +1,24 @@
 [
   {
+    "slug": "javascript-async-await-오류-처리-방법",
+    "title": "JavaScript async await 오류 처리 방법",
+    "description": "JavaScript의 async await 구문에서 발생할 수 있는 오류를 효과적으로 처리하는 방법을 알아봅니다.",
+    "date": "2026-10-16",
+    "tags": [
+      "#Programming",
+      "#JavaScript",
+      "#AsyncAwait",
+      "#ErrorHandling",
+      "#DevOps"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/javascript-async-await-오류-처리-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "JavaScript async await 오류 처리 방법",
+    "imageCount": 2
+  },
+  {
     "slug": "node-js에서-발생하는-heap-out-of-memory-오류-해결하기",
     "title": "Node.js에서 발생하는 Heap Out of Memory 오류 해결하기",
     "description": "Node.js에서 Heap Out of Memory 오류를 해결하는 방법과 예방 조치를 소개합니다.",
