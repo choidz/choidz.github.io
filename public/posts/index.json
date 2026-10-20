@@ -1,5 +1,25 @@
 [
   {
+    "slug": "java-outofmemoryerror-원인과-해결-방법",
+    "title": "Java OutOfMemoryError: 원인과 해결 방법",
+    "description": "Java에서 OutOfMemoryError가 발생하는 원인과 해결 방법을 알아보세요. 메모리 관리 및 최적화 전략을 통해 문제를 예방할 수 있습니다.",
+    "date": "2026-10-20",
+    "tags": [
+      "#Programming",
+      "#Java",
+      "#OutOfMemoryError",
+      "#GarbageCollection",
+      "#HeapMemory",
+      "#PerformanceOptimization"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/java-outofmemoryerror-원인과-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "Java OutOfMemoryError 원인과 해결",
+    "imageCount": 1
+  },
+  {
     "slug": "crontab이-실행되지-않는-문제와-해결-방법",
     "title": "crontab이 실행되지 않는 문제와 해결 방법",
     "description": "리눅스에서 crontab이 실행되지 않는 문제의 원인과 해결 방법을 단계별로 정리했습니다.",
