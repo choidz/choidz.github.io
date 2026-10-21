@@ -1,5 +1,24 @@
 [
   {
+    "slug": "logrotate가-동작하지-않을-때의-해결-방법",
+    "title": "logrotate가 동작하지 않을 때의 해결 방법",
+    "description": "logrotate가 정상적으로 작동하지 않을 경우의 증상과 원인, 해결 방법을 안내합니다.",
+    "date": "2026-10-21",
+    "tags": [
+      "#Linux",
+      "#DevOps",
+      "#logrotate",
+      "#서버관리",
+      "#운영체제"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/logrotate가-동작하지-않을-때의-해결-방법.md",
+    "generatedBy": "agent",
+    "sourceTopic": "logrotate 동작 안함 해결",
+    "imageCount": 1
+  },
+  {
     "slug": "java-outofmemoryerror-원인과-해결-방법",
     "title": "Java OutOfMemoryError: 원인과 해결 방법",
     "description": "Java에서 OutOfMemoryError가 발생하는 원인과 해결 방법을 알아보세요. 메모리 관리 및 최적화 전략을 통해 문제를 예방할 수 있습니다.",

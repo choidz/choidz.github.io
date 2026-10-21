@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-10-20T01:40:42.348Z",
+  "generatedAt": "2026-10-21T14:16:36.551Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 2,
-    "promptTokens": 9417,
-    "completionTokens": 2424,
-    "totalTokens": 11841
+    "calls": 4,
+    "promptTokens": 32191,
+    "completionTokens": 4818,
+    "totalTokens": 37009
   },
   "dryRun": false,
   "created": 1,
   "requested": 1,
-  "attempts": 7,
+  "attempts": 10,
   "maxAttempts": 10,
   "createdSlugs": [
-    "java-outofmemoryerror-원인과-해결-방법"
+    "logrotate가-동작하지-않을-때의-해결-방법"
   ]
 }
