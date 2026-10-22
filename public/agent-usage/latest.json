@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-10-21T14:16:36.551Z",
+  "generatedAt": "2026-10-22T14:13:11.347Z",
   "model": "gpt-4o-mini",
   "usage": {
-    "calls": 4,
-    "promptTokens": 32191,
-    "completionTokens": 4818,
-    "totalTokens": 37009
+    "calls": 1,
+    "promptTokens": 2637,
+    "completionTokens": 1101,
+    "totalTokens": 3738
   },
   "dryRun": false,
   "created": 1,
   "requested": 1,
-  "attempts": 10,
+  "attempts": 2,
   "maxAttempts": 10,
   "createdSlugs": [
-    "logrotate가-동작하지-않을-때의-해결-방법"
+    "fastapi에서-422-unprocessable-entity-오류-해결하기"
   ]
 }
