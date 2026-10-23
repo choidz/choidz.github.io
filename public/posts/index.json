@@ -1,5 +1,24 @@
 [
   {
+    "slug": "데이터베이스-커넥션-풀-고갈-문제-해결하기",
+    "title": "데이터베이스 커넥션 풀 고갈 문제 해결하기",
+    "description": "데이터베이스 커넥션 풀 고갈 문제의 원인과 해결 방법을 알아보세요. 실무에서 자주 발생하는 이슈를 효과적으로 다루는 방법을 정리했습니다.",
+    "date": "2026-10-23",
+    "tags": [
+      "#Database",
+      "#DevOps",
+      "#HikariCP",
+      "#SpringBoot",
+      "#Troubleshooting"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/데이터베이스-커넥션-풀-고갈-문제-해결하기.md",
+    "generatedBy": "agent",
+    "sourceTopic": "데이터베이스 커넥션 풀 고갈 해결",
+    "imageCount": 2
+  },
+  {
     "slug": "fastapi에서-422-unprocessable-entity-오류-해결하기",
     "title": "FastAPI에서 422 Unprocessable Entity 오류 해결하기",
     "description": "FastAPI에서 발생하는 422 Unprocessable Entity 오류의 원인과 해결 방법을 알아보세요.",
