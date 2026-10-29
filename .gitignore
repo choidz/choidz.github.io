@@ -51,4 +51,5 @@ VIEWS_SETUP.md
 .astro/
 src/content/blog/
 .agent-usage/
+review-drafts/
 docs/

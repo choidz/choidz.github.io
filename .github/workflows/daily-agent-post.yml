@@ -1,4 +1,4 @@
-name: Daily Agent Blog Post
+name: Daily Agent Blog Draft
 
 on:
   schedule:
@@ -16,34 +16,22 @@ on:
         required: false
         type: string
       post_count:
-        description: "Number of posts to generate"
+        description: "Number of drafts to generate, max 2"
         required: false
         default: "1"
         type: string
-      dry_run:
-        description: "Plan/generate without committing"
-        required: false
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 concurrency:
-  group: daily-agent-post
-  cancel-in-progress: true
+  group: daily-agent-draft
+  cancel-in-progress: false
 
 jobs:
-  generate:
+  draft:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    outputs:
-      changed: ${{ steps.commit.outputs.changed }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -57,69 +45,32 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate daily post
+      - name: Generate draft
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
           AGENT_CATEGORY: ${{ inputs.category }}
           AGENT_TOPIC: ${{ inputs.topic }}
           AGENT_POST_COUNT: ${{ inputs.post_count }}
-          AGENT_DRY_RUN: ${{ inputs.dry_run }}
         run: npm run agent:post
 
-      - name: Validate generated post quality
-        if: ${{ inputs.dry_run != 'true' }}
+      - name: Validate draft
         run: npm run agent:validate
 
-      - name: Upload agent usage report
+      - name: Package draft for review
+        run: node scripts/package-agent-drafts.mjs
+
+      - name: Upload draft for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-drafts
+          path: review-drafts/
+          if-no-files-found: ignore
+
+      - name: Upload usage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: agent-usage
           path: .agent-usage/latest.json
           if-no-files-found: ignore
-
-      - name: Commit generated post
-        if: ${{ inputs.dry_run != 'true' }}
-        id: commit
-        run: |
-          created="$(node -p 'require("./.agent-usage/latest.json").created || 0')"
-          if [ "$created" = "0" ]; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::No post generated after all source and quality attempts; skipping commit and deployment"
-            exit 0
-          fi
-          git config user.name "github-actions-bot"
-          git config user.email "support+actions@github.com"
-          git add public/posts public/images/posts
-          if git diff --staged --quiet; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No generated post changes"
-          else
-            git commit -m "Add daily agent blog post"
-            git push origin master
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Build site
-        if: ${{ steps.commit.outputs.changed == 'true' }}
-        run: npm run build
-
-      - name: Upload Pages artifact
-        if: ${{ steps.commit.outputs.changed == 'true' }}
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: generate
-    if: ${{ needs.generate.outputs.changed == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
