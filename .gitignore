@@ -50,4 +50,5 @@ VIEWS_SETUP.md
 .claude/
 .astro/
 src/content/blog/
+.agent-usage/
 docs/

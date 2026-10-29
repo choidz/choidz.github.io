@@ -76,23 +76,22 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: agent-usage
-          path: public/agent-usage/latest.json
+          path: .agent-usage/latest.json
           if-no-files-found: ignore
 
       - name: Commit generated post
         if: ${{ inputs.dry_run != 'true' }}
         id: commit
         run: |
-          created="$(node -p 'require("./public/agent-usage/latest.json").created || 0')"
+          created="$(node -p 'require("./.agent-usage/latest.json").created || 0')"
           if [ "$created" = "0" ]; then
-            git restore public/agent-usage/latest.json
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "::warning::No post generated after all source and quality attempts; skipping commit and deployment"
             exit 0
           fi
           git config user.name "github-actions-bot"
           git config user.email "support+actions@github.com"
-          git add public/posts public/images/posts public/agent-usage
+          git add public/posts public/images/posts
           if git diff --staged --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No generated post changes"
@@ -100,19 +99,6 @@ jobs:
             git commit -m "Add daily agent blog post"
             git push origin master
             echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Commit usage report
-        if: ${{ inputs.dry_run == 'true' }}
-        run: |
-          git config user.name "github-actions-bot"
-          git config user.email "support+actions@github.com"
-          git add public/agent-usage
-          if git diff --staged --quiet; then
-            echo "No usage report changes"
-          else
-            git commit -m "Record agent usage report"
-            git push origin master
           fi
 
       - name: Build site

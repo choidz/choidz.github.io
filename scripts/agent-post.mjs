@@ -7,7 +7,7 @@ import TurndownService from "turndown";
 const SITE_URL = "https://choidz.github.io";
 const POSTS_DIR = path.join(process.cwd(), "public", "posts");
 const IMAGES_DIR = path.join(process.cwd(), "public", "images", "posts");
-const AGENT_USAGE_DIR = path.join(process.cwd(), "public", "agent-usage");
+const AGENT_USAGE_DIR = path.join(process.cwd(), ".agent-usage");
 const AGENT_USAGE_PATH = path.join(AGENT_USAGE_DIR, "latest.json");
 const MANIFEST_PATH = path.join(POSTS_DIR, "index.json");
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
@@ -408,7 +408,7 @@ function findSimilarPost({ topic = "", title = "", slug = "" }, posts) {
 
   for (const post of posts) {
     const postText = normalizeForSimilarity(
-      `${post.title || ""} ${post.slug || ""} ${post.sourceTopic || ""}`
+      `${post.title || ""} ${post.slug || ""}`
     );
     if (
       targetText.length >= 10 &&
@@ -421,7 +421,6 @@ function findSimilarPost({ topic = "", title = "", slug = "" }, posts) {
     const postTokens = similarityTokens(
       post.title,
       post.slug,
-      post.sourceTopic,
       ...(Array.isArray(post.tags) ? post.tags : [])
     );
     const { shared, ratio } = similarityScore(targetTokens, postTokens);
@@ -1482,9 +1481,6 @@ async function generatePost({ category, topic, posts, dryRun }) {
     coverGradient: "from-emerald-500 via-teal-500 to-blue-500",
     readingMinutes,
     contentPath: `/posts/${slug}.md`,
-    generatedBy: "agent",
-    sourceTopic: topic,
-    imageCount: usedImages.length,
   };
 
   if (dryRun) {

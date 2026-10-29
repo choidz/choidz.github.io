@@ -3,7 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const manifestPath = path.join(root, "public", "posts", "index.json");
-const usagePath = path.join(root, "public", "agent-usage", "latest.json");
+const usagePath = path.join(root, ".agent-usage", "latest.json");
 const postsDir = path.join(root, "public", "posts");
 const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const MIN_IMAGES_PER_POST = 1;
@@ -46,7 +46,7 @@ function validatePost(post, markdown, knownSlugs) {
   const h2Count = (markdown.match(/^##\s+/gm) || []).length;
   const localImages = markdown.match(/!\[[^\]]*\]\(\/images\/posts\/[^)\s]+\)/g) || [];
 
-  if (!ERROR_PATTERN.test(`${post.title} ${post.description} ${post.sourceTopic || ""}`)) {
+  if (!ERROR_PATTERN.test(`${post.title} ${post.description}`)) {
     errors.push("title/description does not look like an error-solving post");
   }
   if (plain.length < 1400) errors.push(`body is too short: ${plain.length}`);
@@ -72,10 +72,6 @@ function validatePost(post, markdown, knownSlugs) {
   const duplicateCount = knownSlugs.filter((slug) => slug === post.slug).length;
   if (duplicateCount > 1) errors.push(`duplicate slug: ${post.slug}`);
 
-  if (Number(post.imageCount || 0) !== localImages.length) {
-    errors.push(`imageCount mismatch: metadata=${post.imageCount || 0}, markdown=${localImages.length}`);
-  }
-
   return errors;
 }
 
@@ -89,9 +85,7 @@ async function main() {
     console.log(`[agent-validate] no post was generated for ${today}; nothing to validate`);
     return;
   }
-  const targets = createdSlugs.length
-    ? manifest.filter((post) => createdSlugs.includes(post.slug))
-    : manifest.filter((post) => post.generatedBy === "agent" && post.date === today);
+  const targets = manifest.filter((post) => createdSlugs.includes(post.slug));
 
   if (!targets.length) {
     throw new Error(`No generated agent posts found for ${today}`);
