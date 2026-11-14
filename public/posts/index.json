@@ -1,5 +1,21 @@
 [
   {
+    "slug": "flutter에서-missingpluginexception-오류-해결하기",
+    "title": "Flutter에서 MissingPluginException 오류 해결하기",
+    "description": "Flutter 개발 중 MissingPluginException 오류가 발생할 때의 증상과 해결 방법을 알아보세요.",
+    "date": "2026-11-14",
+    "tags": [
+      "#Mobile",
+      "#Flutter",
+      "#오류해결",
+      "#개발팁",
+      "#iOS"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/flutter에서-missingpluginexception-오류-해결하기.md"
+  },
+  {
     "slug": "mysql-데드락-현상과-해결-방법",
     "title": "MySQL 데드락 현상과 해결 방법",
     "description": "MySQL에서 발생하는 데드락 현상의 원인과 해결 방법을 알아보세요. 효과적인 예방 조치와 재발 방지 전략을 제공합니다.",
