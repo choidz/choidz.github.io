@@ -352,6 +352,8 @@ function normalizeForSimilarity(text) {
     .toLowerCase()
     .replace(/ci\s*\/\s*cd|cicd/g, "cicd")
     .replace(/github\s+actions/g, "githubactions")
+    .replace(/es\s+모듈|esmodule/g, "es module")
+    .replace(/모듈/g, "module")
     .replace(/[^\p{Script=Hangul}a-z0-9]+/gu, " ")
     .trim();
 }
@@ -385,7 +387,7 @@ function relevanceTokens(...values) {
 }
 
 function sourceRelevanceScore(article, topic = "", category = "") {
-  const topicTokens = relevanceTokens(topic, category.replace("#", ""));
+  const topicTokens = relevanceTokens(topic);
   if (!topicTokens.size) return 0;
 
   const titleTokens = relevanceTokens(article.title);
@@ -394,7 +396,7 @@ function sourceRelevanceScore(article, topic = "", category = "") {
   const bodyShared = similarityScore(topicTokens, bodyTokens).shared;
 
   if (titleShared >= 2) return titleShared * 2 + bodyShared;
-  if (bodyShared >= 3) return bodyShared;
+  if (titleShared >= 1 && bodyShared >= 2) return titleShared + bodyShared;
   return 0;
 }
 
@@ -480,7 +482,7 @@ function chooseTopic(category, posts, usedTopics = new Set(), index = 0) {
     }
   }
 
-  return `${topics[offset]} 실무 정리 ${todayIso()}-${index + 1}`;
+  return null;
 }
 
 async function httpGet(url) {
@@ -1512,6 +1514,10 @@ async function main() {
     attemptsUsed = attempt + 1;
     const category = chooseCategory(workingPosts, attempt);
     const topic = chooseTopic(category, workingPosts, usedTopics, attempt);
+    if (!topic) {
+      console.log(`[agent] no unused topic remains in ${category}`);
+      continue;
+    }
     usedTopics.add(topic);
 
     if (dryRun && !process.env.OPENAI_API_KEY) {

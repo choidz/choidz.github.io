@@ -24,11 +24,11 @@ npm run build
 - `GIT_USER_NAME`
 - `GIT_USER_EMAIL`
 
-### Daily Agent Draft
+### Daily Agent Post
 
-`.github/workflows/daily-agent-post.yml`이 매일 08:00와 18:00 KST에 카테고리를 순환하며 주제를 고르고, 관련 글과 이미지를 크롤링한 뒤 OpenAI API로 검토용 초안을 생성합니다. 예약 실행은 회차당 1개를 생성하고, 수동 실행은 최대 2개까지 요청할 수 있습니다. 한 글당 최대 10개 주제를 시도하며 출처·본문 구조 품질 조건을 통과하지 못하면 해당 후보는 보관하지 않습니다.
+`.github/workflows/daily-agent-post.yml`이 매일 08:00와 18:00 KST에 카테고리를 순환하며 주제를 고르고, 관련 글과 이미지를 크롤링한 뒤 OpenAI API로 글을 생성합니다. 예약 실행은 회차당 1개를 생성하고, 수동 실행은 최대 2개까지 요청할 수 있습니다. 한 글당 최대 10개 주제를 시도하며 출처·본문 구조 품질 조건을 통과하지 못하면 게시하지 않습니다.
 
-초안은 GitHub Actions의 `blog-drafts` 아티팩트에서 내려받을 수 있습니다. 예약 작업은 저장소에 커밋하거나 사이트에 배포하지 않습니다. 글을 검토한 뒤 승인한 글과 이미지를 `public/posts`에 반영하고 `public/posts/index.json`에 해당 항목을 추가하여 `master`에 커밋하면 일반 배포 워크플로가 사이트를 갱신합니다.
+생성 및 검증에 성공하면 워크플로가 `public/posts`와 `public/posts/index.json`을 `master`에 커밋하고, 같은 실행에서 GitHub Pages에 배포합니다. 생성된 글이 없거나 검증·빌드가 실패하면 게시하지 않습니다. 결과와 사용량은 Actions 실행 기록에서 확인할 수 있습니다.
 
 출처의 기술 이미지가 적합하면 본문에 사용하고, 이미지가 없거나 다운로드·배치 검사를 통과하지 못하면 주제와 카테고리로 만든 자체 SVG 기술 이미지를 대신 사용합니다. 자체 이미지는 인물이나 외부 저작물을 포함하지 않습니다. 모든 후보가 실패한 회차는 초안을 만들지 않고 GitHub Actions에 기록을 남깁니다.
 
@@ -39,7 +39,7 @@ npm run build
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL` 선택 사항, 기본값은 `gpt-4o-mini`
 
-수동 실행할 때는 GitHub Actions의 **Daily Agent Blog Post** 워크플로에서 category/topic/post_count를 직접 넣을 수 있습니다.
+수동 실행할 때는 GitHub Actions의 **Daily Agent Blog Draft** 워크플로에서 category/topic/post_count를 직접 넣을 수 있습니다. `master`에서 실행해야 게시됩니다.
 
 로컬 dry-run:
 
