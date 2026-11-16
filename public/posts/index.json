@@ -1,5 +1,21 @@
 [
   {
+    "slug": "pydantic-validation-error-해결-방법",
+    "title": "Pydantic Validation Error 해결 방법",
+    "description": "Pydantic을 사용할 때 발생하는 Validation Error의 원인과 해결 방법을 알아보세요.",
+    "date": "2026-11-16",
+    "tags": [
+      "#Programming",
+      "#Pydantic",
+      "#FastAPI",
+      "#ValidationError",
+      "#Backend"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/pydantic-validation-error-해결-방법.md"
+  },
+  {
     "slug": "flutter에서-missingpluginexception-오류-해결하기",
     "title": "Flutter에서 MissingPluginException 오류 해결하기",
     "description": "Flutter 개발 중 MissingPluginException 오류가 발생할 때의 증상과 해결 방법을 알아보세요.",
