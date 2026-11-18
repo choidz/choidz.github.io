@@ -1,5 +1,21 @@
 [
   {
+    "slug": "vercel-ai-sdk-streamtext-응답-중단-문제-해결하기",
+    "title": "Vercel AI SDK streamText 응답 중단 문제 해결하기",
+    "description": "Vercel AI SDK의 streamText 사용 시 발생하는 응답 중단 문제를 해결하는 방법을 안내합니다.",
+    "date": "2026-11-19",
+    "tags": [
+      "#Frontend",
+      "#Vercel",
+      "#AI",
+      "#JavaScript",
+      "#SDK"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/vercel-ai-sdk-streamtext-응답-중단-문제-해결하기.md"
+  },
+  {
     "slug": "http-503-service-unavailable-오류-해결-가이드",
     "title": "HTTP 503 Service Unavailable 오류 해결 가이드",
     "description": "HTTP 503 오류는 서버가 일시적으로 요청을 처리할 수 없음을 나타냅니다. 이 글에서는 원인과 해결 방법을 자세히 설명합니다.",
