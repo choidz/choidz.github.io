@@ -18,10 +18,10 @@
 
         <h1>Privacy Policy</h1>
         <p class="app-name">Sortly - Smart File Organizer</p>
-        <p class="update-date">Effective and last updated: July 21, 2026</p>
+        <p class="update-date">Effective and last updated: November 19, 2026</p>
 
         <div class="highlight">
-            <strong>At a glance:</strong> File organization and local analysis normally take place on your PC. Network transmissions occur as needed for Microsoft Store functionality, usage analytics you explicitly enable, update checks, or optional Cloud AI that you choose to enable.
+            <strong>At a glance:</strong> File organization and local analysis normally take place on your PC. Network transmissions occur as needed for Microsoft Store subscription checks, update checks, optional Cloud AI, and inquiries you explicitly send.
         </div>
 
         <h2>1. Operator and Scope</h2>
@@ -41,24 +41,17 @@
                     <tr><td>File names, extensions, sizes, dates, folder paths, and snippets extracted from supported documents</td><td>File browsing, classification, duplicate scanning, previews, local AI analysis, and detection of potentially sensitive files</td><td>Processed locally while features run. Folder Insights results, including file paths and detected categories, may be cached in app memory for about 10 minutes. The app does not create a separate database copy of original file contents.</td></tr>
                     <tr><td>Organization rules, filters, excluded folders, watched folders, schedules, and automation settings</td><td>Provide organization and automation requested by the user</td><td>Until deleted in the app or app data is removed</td></tr>
                     <tr><td>Move history, operation batches, local statistics, and usage counters</td><td>Undo, in-app limits, and statistics</td><td>Until the user deletes the records or removes app data</td></tr>
-                    <tr><td>Language, theme, AI consent, analytics preference, subscription state, and other settings</td><td>Maintain settings and provide features</td><td>Until settings are changed or app data is removed</td></tr>
+                    <tr><td>Language, theme, AI consent, subscription state, and other settings</td><td>Maintain settings and provide features</td><td>Until settings are changed or app data is removed</td></tr>
                     <tr><td>Error time, error message or stack, and local diagnostics about Store product, purchase, and license checks</td><td>Troubleshooting and customer support</td><td>Appended to <code>logs/main.log</code> in the local Sortly app data until the user deletes the log or app data. Depending on the error, technical details such as a local path may appear.</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h2>3. Usage Analytics</h2>
-        <p>Product-improvement analytics is off by default. It is transmitted from Microsoft Store installations only after you explicitly enable <strong>App Settings → Usage analytics (optional)</strong>, and you can turn it off again at any time. Turning it off stops future analytics events. You may request deletion of previously collected records using the contact information below.</p>
-        <ul>
-            <li><strong>Collected:</strong> random install and session IDs, event name, app version, operating system, language, plan, Store-build status, feature outcome, error type, count ranges, and interactions with update or purchase controls</li>
-            <li><strong>Not collected:</strong> file names, folder paths, file or document contents, names, email addresses, or payment method information</li>
-            <li><strong>Purpose:</strong> understand active installations and feature trends, diagnose errors, and improve product and purchase flows</li>
-            <li><strong>Retention:</strong> normally up to 24 months from the event date, after which records are deleted or converted into aggregate data that no longer distinguishes a person or device</li>
-        </ul>
-        <p class="muted">The random install ID contains no name or email address, but it is a persistent identifier that links events from the same installation. For that reason, this policy does not describe it as fully anonymous information.</p>
+        <h2>3. Usage and Diagnostic Records from Older Versions</h2>
+        <p>Starting with Sortly 2.5.0, remote transmission of optional usage analytics and crash diagnostics stopped. The current app no longer shows those transmission switches in Settings. Records sent with consent by older versions may remain in the previous storage service; you can request access or deletion using the contact details below. File names, folder paths, and file contents were not included in those analytics events.</p>
 
         <h2>4. Microsoft Store Subscription Status Sync</h2>
-        <p>For paid-feature access, license verification, and subscription support, active Store subscription details may be sent to the operator's Supabase-based administration store. This processing is separate from the analytics preference and applies only to active paid subscriptions.</p>
+        <p>For paid-feature access, license verification, and subscription support, active Store subscription details may be sent to the operator's Supabase-based administration store. This applies only to active paid subscriptions.</p>
         <ul>
             <li><strong>Information:</strong> app-specific random publisher user ID, app version, Microsoft-verified Store subscription, product and SKU identifiers, purchase market, active/renewal/trial status, and start, expiration, cancellation, and last-modified timestamps</li>
             <li><strong>Not collected:</strong> Microsoft account email, user name, card number, or billing address</li>
@@ -75,43 +68,48 @@
         <p>Requests pass through Sortly's Cloudflare Worker to the OpenAI API. The Sortly operator has not implemented storage of request bodies in its own database. OpenAI API data is not used for model training by default, but abuse-monitoring logs may contain customer content and may be retained for up to 30 days. Exceptions may apply for legal requirements or account-specific data controls.</p>
         <p>You may refuse or stop using Cloud AI. Local organization remains available, but cloud classification and natural-language rule features may be unavailable or limited to local processing.</p>
 
-        <h2>6. External Services, Processing, and International Transfers</h2>
+        <h2>6. Inquiries You Send</h2>
+        <p>Starting with Sortly 2.5.1, when you press Send for feedback or a question, your message, selected attachments (up to three), app version, language, and any reply email you enter pass through Sortly's Cloudflare Worker to the operator's private Slack support channel. The app does not include an installation ID in new inquiries, and the Worker does not store inquiries in a separate database. Message and file retention in Slack follows the workspace settings.</p>
+        <p>Inquiries sent from older app versions used the previous Nopl/Supabase route; those records are handled separately. Nothing is sent as an inquiry until you press Send. Email the contact below to request access to or deletion of an old inquiry record or a new Slack inquiry.</p>
+
+        <h2>7. External Services, Processing, and International Transfers</h2>
         <div class="table-wrap">
             <table>
                 <thead><tr><th>Recipient/processor</th><th>Processing and purpose</th><th>Location and period</th></tr></thead>
                 <tbody>
                     <tr><td>Microsoft</td><td>Store installation, updates, payments, subscriptions, and license processing</td><td>Countries and periods disclosed by Microsoft. Microsoft acts independently for information it processes under its own privacy statement.</td></tr>
-                    <tr><td>Supabase, Inc.</td><td>Transmission, storage, and administration of usage analytics and active Store subscription status</td><td>United States and the selected project region or subprocessor locations. Analytics normally up to 24 months; subscription records as described in Section 4.</td></tr>
-                    <tr><td>Cloudflare, Inc.</td><td>Relay optional AI requests and provide network security and transport</td><td>United States and global network locations. AI request bodies are not stored in the operator's database; network and security logs follow Cloudflare's policies.</td></tr>
+                    <tr><td>Supabase, Inc.</td><td>Active Store subscription status and older app versions' usage analytics and inquiry records</td><td>United States and the selected project region or subprocessor locations. Subscription records follow Section 4; older records follow the policy in effect when collected and deletion requests.</td></tr>
+                    <tr><td>Cloudflare, Inc.</td><td>Relay optional AI requests and new inquiries; provide network security</td><td>United States and global network locations. Request bodies are not stored in a separate operator database; network and security logs follow Cloudflare's policies.</td></tr>
+                    <tr><td>Slack Technologies</td><td>Store the text, attachments, and reply email of inquiries you explicitly send in a private support channel</td><td>Slack processing locations and workspace retention settings apply.</td></tr>
                     <tr><td>OpenAI, L.L.C.</td><td>Optional AI classification and rule interpretation</td><td>United States and other OpenAI processing locations. Default abuse-monitoring logs may be retained for up to 30 days.</td></tr>
                     <tr><td>GitHub, Inc.</td><td>Host the Store-build update manifest, check and download updates for non-Store builds, and host public web pages including this policy</td><td>United States and GitHub infrastructure locations. Access logs follow GitHub's policies.</td></tr>
                 </tbody>
             </table>
         </div>
         <p>IP address, request time, user agent, and similar network logs may be processed automatically by these providers for security and service operations. Sortly does not sell personal information or use it for targeted advertising.</p>
-        <p><strong>Timing and method:</strong> analytics is sent only after consent when an applicable event occurs; subscription data when an active Store license is checked; AI data when you request a Cloud AI operation; and update information when the app starts, checks for updates, downloads an update, or a public page is visited. These transfers use HTTPS network requests.</p>
-        <p><strong>How to refuse and consequences:</strong> you may decline analytics from the start or disable it in App Settings, and decline or stop using Cloud AI; doing so stops the corresponding analytics transfer or AI feature. Blocking active-subscription sync may limit subscription support. Blocking update servers may prevent update checks and downloads. Information Microsoft processes directly during a Store transaction is controlled through your Microsoft account and Store settings.</p>
+        <p><strong>Timing and method:</strong> subscription data is sent when an active Store license is checked; AI data when you request a Cloud AI operation; an inquiry when you press Send; and update information when the app starts, checks for updates, downloads an update, or a public page is visited. These transfers use HTTPS. Remote usage analytics and crash diagnostics stopped in version 2.5.0.</p>
+        <p><strong>How to refuse and consequences:</strong> you may choose not to send an inquiry or use Cloud AI. In that case, only inquiry delivery or the corresponding AI feature is unavailable. Blocking active-subscription sync may limit subscription support. Blocking update servers may prevent update checks and downloads. Information Microsoft processes directly during a Store transaction is controlled through your Microsoft account and Store settings.</p>
 
-        <h2>7. Deletion and Your Rights</h2>
+        <h2>8. Deletion and Your Rights</h2>
         <ul>
             <li>You can delete or change rules, filters, excluded folders, move history, and related settings in the app.</li>
             <li>Depending on Windows settings, some local app data may remain after uninstall. It can be removed using Windows app-data management tools.</li>
-            <li>To request access, correction, deletion, or restriction of server-side analytics or subscription-sync records, email the address below. We may ask for part of an install ID or subscription identifier to locate the correct record.</li>
+            <li>To request access, correction, deletion, or restriction of older app analytics or inquiry records, subscription-sync records, or new Slack inquiries, email the address below. We may ask for inquiry time, reply email, or part of a subscription identifier to locate and verify the correct record.</li>
             <li>Information subject to a legal retention duty may be isolated and retained for that period before deletion.</li>
         </ul>
 
-        <h2>8. Security Measures</h2>
+        <h2>9. Security Measures</h2>
         <p>External communications use HTTPS. Server storage is protected through restricted access, administrator-only views, database row-level security, and separation of secret credentials. No method of Internet transmission or electronic storage can be guaranteed to be completely secure.</p>
 
-        <h2>9. Children's Privacy</h2>
+        <h2>10. Children's Privacy</h2>
         <p>Sortly is not designed for children under 14 and does not knowingly collect a child's personal information without authorization from a parent or legal guardian. Please contact us if you believe this has occurred.</p>
 
-        <h2>10. Changes to This Policy</h2>
+        <h2>11. Changes to This Policy</h2>
         <p>If data categories, purposes, external services, or retention criteria change materially, we will update the date on this page and, where appropriate, provide additional notice in the app or Microsoft Store listing.</p>
 
         <div class="notice">
             <strong>External service policies</strong>
-            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a> · <a href="https://supabase.com/privacy">Supabase Privacy Policy</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI Privacy Policy</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub General Privacy Statement</a></p>
+            <p><a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a> · <a href="https://supabase.com/privacy">Supabase Privacy Policy</a> · <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a> · <a href="https://slack.com/trust/privacy/privacy-policy">Slack Privacy Policy</a> · <a href="https://openai.com/policies/privacy-policy/">OpenAI Privacy Policy</a> · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub General Privacy Statement</a></p>
         </div>
 
         <div class="contact">
