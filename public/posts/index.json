@@ -1,5 +1,21 @@
 [
   {
+    "slug": "java-gc-overhead-limit-exceeded-오류-해결-방법",
+    "title": "Java GC overhead limit exceeded 오류 해결 방법",
+    "description": "Java에서 GC overhead limit exceeded 오류가 발생할 때의 원인과 해결 방법을 상세히 설명합니다.",
+    "date": "2026-11-21",
+    "tags": [
+      "#Programming",
+      "#Java",
+      "#GarbageCollection",
+      "#OutOfMemoryError",
+      "#JVM"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/java-gc-overhead-limit-exceeded-오류-해결-방법.md"
+  },
+  {
     "slug": "vercel-ai-sdk-streamtext-응답-중단-문제-해결하기",
     "title": "Vercel AI SDK streamText 응답 중단 문제 해결하기",
     "description": "Vercel AI SDK의 streamText 사용 시 발생하는 응답 중단 문제를 해결하는 방법을 안내합니다.",
