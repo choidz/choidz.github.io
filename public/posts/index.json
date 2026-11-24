@@ -1,5 +1,22 @@
 [
   {
+    "slug": "java-nullpointerexception-디버깅과-해결-방법",
+    "title": "Java NullPointerException 디버깅과 해결 방법",
+    "description": "Java에서 자주 발생하는 NullPointerException을 효과적으로 디버깅하고 해결하는 방법을 알아보세요.",
+    "date": "2026-11-24",
+    "tags": [
+      "#Programming",
+      "#Java",
+      "#NullPointerException",
+      "#디버깅",
+      "#프로그래밍",
+      "#개발자"
+    ],
+    "coverGradient": "from-emerald-500 via-teal-500 to-blue-500",
+    "readingMinutes": 3,
+    "contentPath": "/posts/java-nullpointerexception-디버깅과-해결-방법.md"
+  },
+  {
     "slug": "java-gc-overhead-limit-exceeded-오류-해결-방법",
     "title": "Java GC overhead limit exceeded 오류 해결 방법",
     "description": "Java에서 GC overhead limit exceeded 오류가 발생할 때의 원인과 해결 방법을 상세히 설명합니다.",
